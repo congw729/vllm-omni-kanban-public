@@ -1,40 +1,42 @@
 # Qwen3 Omni
 
 <p class="dashboard-intro">
-This page focuses on streaming multimodal responsiveness for Qwen3 Omni across all supported hardware targets.
+This page focuses on historical Qwen3 Omni nightly performance by full test configuration, including dataset, concurrency, prompt count, throughput, latency, and audio metrics.
 </p>
 
-<label class="time-range-control" for="time-range">
-  <span class="time-range-control__label">Time Window</span>
-  <select id="time-range" data-time-range>
-    <option value="1d">24h</option>
-    <option value="7d" selected>7 days</option>
-    <option value="30d">30 days</option>
-  </select>
-  <span class="time-range-control__hint">Switch the window for all Qwen3 Omni charts on this page.</span>
-</label>
+<section
+  class="omni-history-page"
+  data-omni-history-src="../../assets/charts/qwen3_omni_history.json"
+  markdown="1"
+>
 
-## Streaming Performance
+## Filters
 
-<div class="chart-grid chart-grid--single">
-<div class="chart-card">
-<h4>TTFT</h4>
-<div class="chart-frame" data-chart-base="../../assets/charts/qwen3_omni_ttft_ms"></div>
+<div class="omni-section">
+  <div class="omni-section__header">
+    <p>Search by model first, then narrow by test profile and runtime settings.</p>
+  </div>
+  <div class="omni-filter-bar" data-omni-history-filters></div>
 </div>
-<div class="chart-card">
-<h4>TPOT</h4>
-<div class="chart-frame" data-chart-base="../../assets/charts/qwen3_omni_tpot_ms"></div>
+
+<div class="omni-summary-grid" data-omni-history-summary></div>
+
+## Trend Charts
+
+<div class="omni-section">
+  <div class="omni-section__header">
+    <p>Each line represents one full configuration key over time.</p>
+  </div>
+  <div data-omni-history-charts></div>
 </div>
-<div class="chart-card">
-<h4>TTFP</h4>
-<div class="chart-frame" data-chart-base="../../assets/charts/qwen3_omni_ttfp_ms"></div>
+
+## History Table
+
+<div class="omni-section">
+  <div class="omni-section__header">
+    <p>Rows are grouped by run date (newest date first; expand/collapse each day). Within a day, newest run first.</p>
+  </div>
+  <div data-omni-history-table></div>
 </div>
-<div class="chart-card">
-<h4>RTF</h4>
-<div class="chart-frame" data-chart-base="../../assets/charts/qwen3_omni_real_time_factor"></div>
-</div>
-<div class="chart-card">
-<h4>Throughput</h4>
-<div class="chart-frame" data-chart-base="../../assets/charts/qwen3_omni_throughput_tokens_per_sec"></div>
-</div>
-</div>
+
+</section>

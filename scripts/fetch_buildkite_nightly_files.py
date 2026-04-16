@@ -3,7 +3,8 @@
 
 Keeps only basenames aligned with test-nightly perf uploads:
   - result_test_*.json, result_test_*.html
-  - benchmark_results_*.json, benchmark_results_*.html
+  - diffusion_result_*.json, diffusion_result_*.html (current CI prefix)
+  - benchmark_results_*.json, benchmark_results_*.html (legacy until CI renames uploads)
 
 Uses BUILDKITE_TOKEN or BUILDKITE_API_TOKEN (read_builds + read_artifacts scopes).
 
@@ -44,7 +45,11 @@ DEFAULT_PIPELINE = "vllm-omni"
 DEFAULT_NIGHTLY_MESSAGE_SUBSTRING = "Scheduled nightly build"
 LIST_BUILDS_PAGE_SIZE = 100
 RECENT_MATCHING_BUILDS_MAX = 5
-ALLOWED_BASENAME_PREFIXES = ("result_test_", "benchmark_results_")
+ALLOWED_BASENAME_PREFIXES = (
+    "result_test_",
+    "diffusion_result_",
+    "benchmark_results_",
+)
 ALLOWED_BASENAME_SUFFIXES = (".json", ".html")
 
 
@@ -337,7 +342,7 @@ def is_nightly_sync_artifact_basename(filename: str) -> bool:
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Download Buildkite nightly perf files (result_test_* / benchmark_results_*; .json and .html) "
+        description="Download Buildkite nightly perf files (result_test_* / diffusion_* / benchmark_results_*; .json and .html) "
         "for one build. Omit --build to auto-pick the latest main nightly (see --branch / --nightly-message-contains).",
     )
     env_org = os.environ.get("BUILDKITE_ORG", "").strip()
@@ -516,8 +521,8 @@ def main() -> None:
 
     if n_ok == 0:
         sys.stderr.write(
-            "No nightly sync files to download: nothing matched result_test_* / benchmark_results_* "
-            "with suffix .json or .html "
+            "No nightly sync files to download: nothing matched allowed prefixes "
+            f"{ALLOWED_BASENAME_PREFIXES} with suffix .json or .html "
             f"for build {build_no} (after artifact --state filter).\n"
             "Failed or partial runs sometimes upload only some steps' files; if perf steps did upload, "
             "they may use other filenames or artifact rows may not be in the default finished state.\n",
@@ -529,6 +534,23 @@ def main() -> None:
         sys.stderr.write(
             f"Hint: this build has {len(records)} total artifact row(s) from the API; check paths if expecting other names.\n",
         )
+        basenames: list[str] = []
+        seen: set[str] = set()
+        for rec in records:
+            path = rec.get("path")
+            if not path:
+                continue
+            fn = str(rec.get("filename") or PurePosixPath(str(path)).name)
+            if fn and fn not in seen:
+                seen.add(fn)
+                basenames.append(fn)
+        if basenames:
+            preview = basenames[:60]
+            sys.stderr.write(
+                f"Artifact basenames in this build (first {len(preview)} of {len(basenames)} unique; compare to allowed prefixes):\n",
+            )
+            for name in preview:
+                sys.stderr.write(f"  {name}\n")
         sys.exit(1)
 
     if args.write_resolved_to_github_output:

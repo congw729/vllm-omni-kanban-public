@@ -4,42 +4,42 @@
       "hardware_key": "NVIDIA-A100",
       "display_name": "NVIDIA A100",
       "pass_rate": 0.9451,
-      "latency_p99_ms": 687.584,
+      "latency_p99_ms": 537.584,
       "status": "healthy"
     },
     {
       "hardware_key": "NVIDIA-H100",
       "display_name": "NVIDIA H100",
-      "pass_rate": 0.9437,
-      "latency_p99_ms": 785.982,
+      "pass_rate": 0.946,
+      "latency_p99_ms": 592.314,
       "status": "healthy"
     },
     {
       "hardware_key": "NVIDIA-H20",
       "display_name": "NVIDIA H20",
       "pass_rate": 0.9305,
-      "latency_p99_ms": 666.384,
+      "latency_p99_ms": 516.384,
       "status": "healthy"
     },
     {
       "hardware_key": "AMD-MI300X",
       "display_name": "AMD MI300X",
       "pass_rate": 0.9445,
-      "latency_p99_ms": 511.602,
+      "latency_p99_ms": 361.602,
       "status": "healthy"
     },
     {
       "hardware_key": "Ascend-A2",
       "display_name": "Ascend NPU A2",
       "pass_rate": 0.9285,
-      "latency_p99_ms": 596.648,
+      "latency_p99_ms": 446.648,
       "status": "healthy"
     },
     {
       "hardware_key": "Ascend-A3",
       "display_name": "Ascend NPU A3",
       "pass_rate": 0.9407,
-      "latency_p99_ms": 534.918,
+      "latency_p99_ms": 384.918,
       "status": "healthy"
     }
   ]

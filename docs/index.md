@@ -1,3 +1,8 @@
+---
+hide:
+  - toc
+---
+
 # vLLM-Omni Kanban
 
 <div data-dashboard-home hidden></div>
@@ -53,6 +58,11 @@ This dashboard tracks one daily snapshot per model and hardware combination for 
   <a class="model-directory-card" href="models/qwen-image-edit/">
     <span class="model-directory-card__eyebrow">Image Editing</span>
     <strong>Qwen Image Edit</strong>
+    <span>E2E latency, peak memory</span>
+  </a>
+  <a class="model-directory-card" href="models/qwen-image-edit-2509/">
+    <span class="model-directory-card__eyebrow">Image Editing</span>
+    <strong>Qwen Image Edit 2509</strong>
     <span>E2E latency, peak memory</span>
   </a>
   <a class="model-directory-card" href="models/wan22/">

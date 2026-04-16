@@ -47,7 +47,7 @@
       "name": "NVIDIA H100",
       "type": "line",
       "data": [
-        47.15
+        24
       ],
       "smooth": true
     },

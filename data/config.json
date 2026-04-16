@@ -27,6 +27,15 @@
       },
       "alert_overrides": {}
     },
+    "Qwen-Image-edit-2509": {
+      "display_name": "Qwen Image Edit 2509",
+      "category": "image_editing",
+      "metrics": {
+        "required": ["pass_rate", "latency_p99_ms"],
+        "optional": ["e2e_latency_ms", "peak_memory_gb", "edit_quality_score", "generation_time_ms"]
+      },
+      "alert_overrides": {}
+    },
     "WAN2.2": {
       "display_name": "WAN 2.2",
       "category": "video_generation",
@@ -55,6 +64,337 @@
       "alert_overrides": {
         "latency_p99_ms_critical": 2000
       }
+    }
+  },
+  "kanban_pages": {
+    "qwen3_omni_history": {
+      "source_dir": "qwen3omni",
+      "filters": [
+        "model_id",
+        "test_name",
+        "dataset_name",
+        "endpoint_type",
+        "backend",
+        "tokenizer_id",
+        "max_concurrency",
+        "num_prompts"
+      ],
+      "table_columns": [
+        "date",
+        "test_name",
+        "dataset_name",
+        "max_concurrency",
+        "num_prompts",
+        "random_input_len",
+        "random_output_len",
+        "completed_requests",
+        "failed_requests",
+        "endpoint_type",
+        "backend",
+        "model_id",
+        "request_throughput",
+        "output_throughput",
+        "total_token_throughput",
+        "mean_ttft_ms",
+        "median_ttft_ms",
+        "p99_ttft_ms",
+        "mean_tpot_ms",
+        "median_tpot_ms",
+        "p99_tpot_ms",
+        "mean_itl_ms",
+        "median_itl_ms",
+        "p99_itl_ms",
+        "mean_e2el_ms",
+        "median_e2el_ms",
+        "p99_e2el_ms",
+        "mean_audio_rtf",
+        "median_audio_rtf",
+        "p99_audio_rtf",
+        "mean_audio_ttfp_ms",
+        "median_audio_ttfp_ms",
+        "p99_audio_ttfp_ms",
+        "mean_audio_duration_s",
+        "median_audio_duration_s",
+        "p99_audio_duration_s"
+      ],
+      "metric_groups": [
+        {
+          "id": "output_throughput",
+          "title": "Output Throughput",
+          "metrics": ["output_throughput"]
+        },
+        {
+          "id": "total_token_throughput",
+          "title": "Total Token Throughput",
+          "metrics": ["total_token_throughput"]
+        },
+        {
+          "id": "ttft",
+          "title": "TTFT",
+          "metrics": ["mean_ttft_ms"]
+        },
+        {
+          "id": "tpot",
+          "title": "TPOT",
+          "metrics": ["mean_tpot_ms"]
+        },
+        {
+          "id": "itl",
+          "title": "ITL",
+          "metrics": ["mean_itl_ms"]
+        },
+        {
+          "id": "e2el",
+          "title": "E2EL",
+          "metrics": ["mean_e2el_ms"]
+        },
+        {
+          "id": "audio_rtf",
+          "title": "Audio RTF",
+          "metrics": ["mean_audio_rtf"]
+        },
+        {
+          "id": "audio_ttfp",
+          "title": "Audio TTFP",
+          "metrics": ["mean_audio_ttfp_ms"]
+        },
+        {
+          "id": "audio_duration",
+          "title": "Audio Duration",
+          "metrics": ["mean_audio_duration_s"]
+        }
+      ]
+    },
+    "qwen3_tts_history": {
+      "source_dir": "qwen3tts",
+      "chart_point_per_day": true,
+      "dataset_names": ["random", "random-mm"],
+      "filters": [
+        "model_id",
+        "test_name",
+        "dataset_name",
+        "endpoint_type",
+        "backend",
+        "tokenizer_id",
+        "max_concurrency",
+        "num_prompts"
+      ],
+      "table_columns": [
+        "date",
+        "test_name",
+        "dataset_name",
+        "max_concurrency",
+        "num_prompts",
+        "random_input_len",
+        "random_output_len",
+        "completed_requests",
+        "failed_requests",
+        "endpoint_type",
+        "backend",
+        "model_id",
+        "request_throughput",
+        "total_token_throughput",
+        "mean_e2el_ms",
+        "median_e2el_ms",
+        "p99_e2el_ms",
+        "mean_audio_rtf",
+        "median_audio_rtf",
+        "p99_audio_rtf",
+        "mean_audio_ttfp_ms",
+        "median_audio_ttfp_ms",
+        "p99_audio_ttfp_ms",
+        "mean_audio_duration_s",
+        "median_audio_duration_s",
+        "p99_audio_duration_s"
+      ],
+      "metric_groups": [
+        {
+          "id": "total_token_throughput",
+          "title": "Total Token Throughput",
+          "metrics": ["total_token_throughput"]
+        },
+        {
+          "id": "e2el",
+          "title": "E2EL",
+          "metrics": ["mean_e2el_ms"]
+        },
+        {
+          "id": "audio_rtf",
+          "title": "Audio RTF",
+          "metrics": ["mean_audio_rtf"]
+        },
+        {
+          "id": "audio_ttfp",
+          "title": "Audio TTFP",
+          "metrics": ["mean_audio_ttfp_ms"]
+        },
+        {
+          "id": "audio_duration",
+          "title": "Audio Duration",
+          "metrics": ["mean_audio_duration_s"]
+        }
+      ]
+    },
+    "qwen_image_history": {
+      "source_dir": "qwen_image",
+      "chart_point_per_day": true,
+      "filters": [
+        "model_id",
+        "test_name",
+        "dataset_name",
+        "benchmark_name",
+        "backend",
+        "max_concurrency",
+        "num_prompts"
+      ],
+      "table_columns": [
+        "date",
+        "test_name",
+        "backend",
+        "model_id",
+        "benchmark_name",
+        "dataset_name",
+        "task",
+        "width",
+        "height",
+        "max_concurrency",
+        "num_prompts",
+        "completed_requests",
+        "failed_requests",
+        "e2e_latency_ms",
+        "e2e_latency_median_ms",
+        "e2e_latency_p99_ms",
+        "throughput_qps",
+        "peak_memory_gb",
+        "peak_memory_mb_mean",
+        "peak_memory_mb_median",
+        "peak_memory_mb_max"
+      ],
+      "metric_groups": [
+        {
+          "id": "e2e_latency",
+          "title": "E2E Latency",
+          "metrics": ["e2e_latency_ms"]
+        },
+        {
+          "id": "throughput",
+          "title": "Throughput (QPS)",
+          "metrics": ["throughput_qps"]
+        },
+        {
+          "id": "peak_memory",
+          "title": "Peak Memory",
+          "metrics": ["peak_memory_gb"]
+        }
+      ]
+    },
+    "qwen_image_edit_history": {
+      "source_dir": "qwen_image_edit",
+      "chart_point_per_day": true,
+      "p99_stage_columns_last": false,
+      "filters": [
+        "model_id",
+        "test_name",
+        "dataset_name",
+        "benchmark_name",
+        "backend",
+        "max_concurrency",
+        "num_prompts"
+      ],
+      "table_columns": [
+        "date",
+        "test_name",
+        "backend",
+        "model_id",
+        "benchmark_name",
+        "dataset_name",
+        "task",
+        "width",
+        "height",
+        "max_concurrency",
+        "num_prompts",
+        "completed_requests",
+        "failed_requests",
+        "e2e_latency_ms",
+        "e2e_latency_median_ms",
+        "e2e_latency_p99_ms",
+        "throughput_qps",
+        "peak_memory_gb",
+        "peak_memory_mb_mean",
+        "peak_memory_mb_median",
+        "peak_memory_mb_max"
+      ],
+      "metric_groups": [
+        {
+          "id": "e2e_latency",
+          "title": "E2E Latency",
+          "metrics": ["e2e_latency_ms"]
+        },
+        {
+          "id": "throughput",
+          "title": "Throughput (QPS)",
+          "metrics": ["throughput_qps"]
+        },
+        {
+          "id": "peak_memory",
+          "title": "Peak Memory",
+          "metrics": ["peak_memory_gb"]
+        }
+      ]
+    },
+    "qwen_image_edit_2509_history": {
+      "source_dir": "qwen_image_edit_2509",
+      "chart_point_per_day": true,
+      "p99_stage_columns_last": false,
+      "filters": [
+        "model_id",
+        "test_name",
+        "dataset_name",
+        "benchmark_name",
+        "backend",
+        "max_concurrency",
+        "num_prompts"
+      ],
+      "table_columns": [
+        "date",
+        "test_name",
+        "backend",
+        "model_id",
+        "benchmark_name",
+        "dataset_name",
+        "task",
+        "width",
+        "height",
+        "max_concurrency",
+        "num_prompts",
+        "completed_requests",
+        "failed_requests",
+        "e2e_latency_ms",
+        "e2e_latency_median_ms",
+        "e2e_latency_p99_ms",
+        "throughput_qps",
+        "peak_memory_gb",
+        "peak_memory_mb_mean",
+        "peak_memory_mb_median",
+        "peak_memory_mb_max"
+      ],
+      "metric_groups": [
+        {
+          "id": "e2e_latency",
+          "title": "E2E Latency",
+          "metrics": ["e2e_latency_ms"]
+        },
+        {
+          "id": "throughput",
+          "title": "Throughput (QPS)",
+          "metrics": ["throughput_qps"]
+        },
+        {
+          "id": "peak_memory",
+          "title": "Peak Memory",
+          "metrics": ["peak_memory_gb"]
+        }
+      ]
     }
   },
   "thresholds": {
