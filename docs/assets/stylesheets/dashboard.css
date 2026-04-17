@@ -437,6 +437,47 @@ body.dashboard-home .technical-rail__sublink--active {
   font-size: 1.15rem;
 }
 
+.omni-chart-range {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0 0 0.75rem;
+  padding: 0.28rem 0.35rem;
+  border: 1px solid var(--dashboard-border);
+  border-radius: 999px;
+  background: var(--dashboard-panel-bg);
+}
+
+.omni-chart-range__label {
+  color: var(--dashboard-muted);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0 0.3rem;
+}
+
+.omni-chart-range__btn {
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--dashboard-text);
+  border-radius: 999px;
+  padding: 0.2rem 0.52rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.omni-chart-range__btn:hover {
+  background: rgba(59, 130, 246, 0.1);
+}
+
+.omni-chart-range__btn--active {
+  border-color: rgba(59, 130, 246, 0.28);
+  background: rgba(59, 130, 246, 0.16);
+  color: #1d4ed8;
+}
+
 .omni-chart-grid {
   display: grid;
   gap: 1rem;

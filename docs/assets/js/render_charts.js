@@ -703,6 +703,7 @@ function humanizeField(field) {
     input_len: "INPUT LEN",
     output_len: "OUTPUT LEN",
     qps: "QPS",
+    benchmark_name: "Benchmark Params Name",
   };
   if (fixedLabels[field]) {
     return fixedLabels[field];
@@ -1043,6 +1044,24 @@ function baselineValueForMetric(items, metric) {
   return null;
 }
 
+function buildDailyIsoRange(startDay, endDay) {
+  if (!startDay || !endDay) {
+    return [];
+  }
+  const start = new Date(`${startDay}T00:00:00`);
+  const end = new Date(`${endDay}T00:00:00`);
+  if (Number.isNaN(start.getTime()) || Number.isNaN(end.getTime()) || start > end) {
+    return [];
+  }
+  const days = [];
+  const current = new Date(start);
+  while (current <= end) {
+    days.push(current.toISOString().slice(0, 10));
+    current.setDate(current.getDate() + 1);
+  }
+  return days;
+}
+
 function buildOmniMetricSeries(records, metric, groupFields, options) {
   const pointPerDay = options?.pointPerDay !== false;
   const grouped = groupRecords(records, groupFields);
@@ -1053,24 +1072,44 @@ function buildOmniMetricSeries(records, metric, groupFields, options) {
       rows = pickLatestPerCalendarDay(rows);
     }
     const baseVal = baselineValueForMetric(items, metric);
-    const points = rows
-      .sort((left, right) => left.sort_timestamp.localeCompare(right.sort_timestamp))
-      .map((item) => {
-        const day = recordCalendarDay(item);
-        // Use local midnight so dots sit on time-axis day ticks (ECharts places day ticks at 00:00).
-        const xVal = pointPerDay && day ? `${day}T00:00:00` : item.date;
+    const sortedRows = rows
+      .sort((left, right) => left.sort_timestamp.localeCompare(right.sort_timestamp));
+    const dayMap = new Map(sortedRows.map((item) => [recordCalendarDay(item), item]));
+    const dailyRange = pointPerDay && sortedRows.length > 1
+      ? buildDailyIsoRange(recordCalendarDay(sortedRows[0]), recordCalendarDay(sortedRows[sortedRows.length - 1]))
+      : [];
+    const points = (dailyRange.length ? dailyRange : sortedRows.map((item) => recordCalendarDay(item)))
+      .map((day) => {
+        const item = dayMap.get(day);
+        const isMissingDay = !item;
+        const xVal = pointPerDay && day ? `${day}T00:00:00` : item?.date;
+        const yVal = isMissingDay ? 0 : item[metric];
+        const isZeroPoint = isNumeric(yVal) && Number(yVal) === 0;
         return {
-          value: [xVal, item[metric]],
+          value: [xVal, yVal],
+          ...((isZeroPoint || isMissingDay)
+            ? {
+                symbol: "path://M-5,-5 L5,5 M5,-5 L-5,5",
+                symbolSize: 10,
+                itemStyle: {
+                  color: "#dc2626",
+                  borderColor: "#dc2626",
+                  borderWidth: 2,
+                },
+              }
+            : {}),
           meta: {
-            test_name: item.test_name,
-            dataset_name: item.dataset_name,
-            max_concurrency: item.max_concurrency,
-            num_prompts: item.num_prompts,
-            random_input_len: item.random_input_len,
-            random_output_len: item.random_output_len,
+            test_name: item?.test_name,
+            dataset_name: item?.dataset_name,
+            benchmark_name: item?.benchmark_name,
+            max_concurrency: item?.max_concurrency,
+            num_prompts: item?.num_prompts,
+            random_input_len: item?.random_input_len,
+            random_output_len: item?.random_output_len,
             metric,
-            source_file: item.source_file,
+            source_file: item?.source_file,
             baseline: baseVal,
+            missing_day: isMissingDay,
           },
         };
       });
@@ -1119,7 +1158,7 @@ function formatOmniHistoryTooltipHtml(params) {
   const lines = [
     `<strong>${escapeHtml(params.seriesName || "")}</strong>`,
     `Date: ${escapeHtml(formatOmniHistoryChartDate(params.data?.value?.[0]))}`,
-    `Value: ${formatMetricValue(val)}`,
+    `Value: ${meta.missing_day ? "No data (shown as 0)" : formatMetricValue(val)}`,
   ];
   if (isNumeric(bl)) {
     lines.push(`baseline: ${formatMetricValue(bl)}`);
@@ -1133,9 +1172,13 @@ function formatOmniHistoryTooltipHtml(params) {
     `Dataset: ${escapeHtml(meta.dataset_name || "--")}`,
     `Max concurrency: ${escapeHtml(String(meta.max_concurrency ?? "--"))}`,
     `Num prompts: ${escapeHtml(String(meta.num_prompts ?? "--"))}`,
-    `Random input len: ${escapeHtml(String(meta.random_input_len ?? "--"))}`,
-    `Random output len: ${escapeHtml(String(meta.random_output_len ?? "--"))}`,
   );
+  if (!meta.benchmark_name) {
+    lines.push(
+      `Random input len: ${escapeHtml(String(meta.random_input_len ?? "--"))}`,
+      `Random output len: ${escapeHtml(String(meta.random_output_len ?? "--"))}`,
+    );
+  }
   return lines.join("<br>");
 }
 
@@ -1370,11 +1413,77 @@ function renderOmniChartSection(section, metricGroup, records, groupFields, char
   setChart(chart, buildOmniChartOption(metricGroup, records, groupFields, chartPointPerDay));
 }
 
+function parseIsoDate(value) {
+  const ts = Date.parse(value || "");
+  return Number.isFinite(ts) ? ts : null;
+}
+
+function filterRecordsByRecentDays(records, days) {
+  if (!Number.isFinite(days) || days <= 0 || records.length === 0) {
+    return records;
+  }
+  const latestTs = records.reduce((maxTs, item) => {
+    const ts = parseIsoDate(item.sort_timestamp || item.date);
+    return ts !== null && ts > maxTs ? ts : maxTs;
+  }, -Infinity);
+  if (!Number.isFinite(latestTs)) {
+    return records;
+  }
+  const cutoff = latestTs - (days - 1) * 24 * 60 * 60 * 1000;
+  return records.filter((item) => {
+    const ts = parseIsoDate(item.sort_timestamp || item.date);
+    return ts !== null && ts >= cutoff;
+  });
+}
+
+function ensureOmniTrendRangeControl(root, onChange) {
+  const container = root.querySelector("[data-omni-history-charts]");
+  if (!container) {
+    return 7;
+  }
+  const current = Number(root.dataset.omniTrendDays || "7");
+  const activeDays = current === 30 ? 30 : 7;
+  root.dataset.omniTrendDays = String(activeDays);
+
+  let control = root.querySelector(".omni-chart-range");
+  if (!control) {
+    control = document.createElement("div");
+    control.className = "omni-chart-range";
+    control.innerHTML = `
+      <span class="omni-chart-range__label">Trend Window</span>
+      <button type="button" class="omni-chart-range__btn" data-omni-trend-days="7">7 days</button>
+      <button type="button" class="omni-chart-range__btn" data-omni-trend-days="30">30 days</button>
+    `;
+    container.before(control);
+    control.querySelectorAll("[data-omni-trend-days]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const days = Number(btn.dataset.omniTrendDays || "7");
+        if (days !== 7 && days !== 30) {
+          return;
+        }
+        if (Number(root.dataset.omniTrendDays || "7") === days) {
+          return;
+        }
+        root.dataset.omniTrendDays = String(days);
+        onChange();
+      });
+    });
+  }
+
+  control.querySelectorAll("[data-omni-trend-days]").forEach((btn) => {
+    const days = Number(btn.dataset.omniTrendDays || "7");
+    btn.classList.toggle("omni-chart-range__btn--active", days === activeDays);
+  });
+  return activeDays;
+}
+
 function renderOmniCharts(payload, records, root) {
   const container = root.querySelector("[data-omni-history-charts]");
   if (!container) {
     return;
   }
+  const selectedDays = ensureOmniTrendRangeControl(root, () => renderQwen3OmniHistory(payload, root));
+  const chartRecords = filterRecordsByRecentDays(records, selectedDays);
   const chartPointPerDay = payload.chart_point_per_day !== false;
   disposeChartsWithin(container);
   container.innerHTML = "";
@@ -1383,7 +1492,7 @@ function renderOmniCharts(payload, records, root) {
   primary.className = "omni-chart-grid";
   container.append(primary);
   payload.metric_groups.slice(0, OMNI_HISTORY_PRIMARY_CHART_COUNT).forEach((metricGroup) => {
-    renderOmniChartSection(primary, metricGroup, records, payload.group_fields, chartPointPerDay);
+    renderOmniChartSection(primary, metricGroup, chartRecords, payload.group_fields, chartPointPerDay);
   });
 
   if (payload.metric_groups.length > OMNI_HISTORY_PRIMARY_CHART_COUNT) {
@@ -1400,7 +1509,7 @@ function renderOmniCharts(payload, records, root) {
         return;
       }
       payload.metric_groups.slice(OMNI_HISTORY_PRIMARY_CHART_COUNT).forEach((metricGroup) => {
-        renderOmniChartSection(extra, metricGroup, records, payload.group_fields, chartPointPerDay);
+        renderOmniChartSection(extra, metricGroup, chartRecords, payload.group_fields, chartPointPerDay);
       });
       extraRendered = true;
     };
