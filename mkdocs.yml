@@ -3,6 +3,8 @@ site_description: Daily multimodal CI health dashboard for vLLM-omni
 theme:
   name: material
   custom_dir: docs/overrides
+  features:
+    - navigation.tabs
   palette:
     - scheme: default
       primary: blue grey
@@ -28,6 +30,7 @@ nav:
       - Qwen3 Omni: models/qwen3-omni.md
       - Qwen3 TTS: models/qwen3-tts.md
       - Qwen Image: models/qwen-image.md
+      - Qwen Image Layered: models/qwen-image-layered.md
       - Qwen Image Edit: models/qwen-image-edit.md
       - Qwen Image Edit 2509: models/qwen-image-edit-2509.md
       - WAN 2.2: models/wan22.md

@@ -237,6 +237,113 @@ function railNav() {
   return document.querySelector(".md-sidebar--secondary .md-nav--secondary");
 }
 
+function modelTopNavItems() {
+  return [
+    { slug: "qwen3-omni", label: "Qwen3 Omni" },
+    { slug: "qwen3-tts", label: "Qwen3 TTS" },
+    { slug: "qwen-image", label: "Qwen Image" },
+    { slug: "qwen-image-layered", label: "Qwen Image Layered" },
+    { slug: "qwen-image-edit", label: "Qwen Image Edit" },
+    { slug: "qwen-image-edit-2509", label: "Qwen Image Edit 2509" },
+    { slug: "wan22", label: "WAN 2.2" },
+  ];
+}
+
+function ensureModelsHoverDropdown() {
+  const tabs = document.querySelector(".md-tabs .md-tabs__list");
+  if (!tabs || document.querySelector(".models-hover-dropdown")) {
+    return;
+  }
+
+  const modelsTabItem = [...tabs.querySelectorAll(":scope > .md-tabs__item")]
+    .find((item) => {
+      const link = item.querySelector(":scope > .md-tabs__link");
+      if (!link) {
+        return false;
+      }
+      const href = link.getAttribute("href") || "";
+      const text = (link.textContent || "").trim().toLowerCase();
+      return href.includes("/models/") || text === "models";
+    });
+
+  if (!modelsTabItem) {
+    return;
+  }
+
+  const path = window.location.pathname || "";
+
+  const list = document.createElement("ul");
+  list.className = "models-hover-dropdown models-hover-dropdown--floating";
+
+  modelTopNavItems().forEach((item) => {
+    const subItem = document.createElement("li");
+    const subLink = document.createElement("a");
+    const href = `/models/${item.slug}/`;
+    const isActive = path.includes(`/models/${item.slug}/`);
+    subLink.className = `md-tabs__link${isActive ? " md-tabs__link--active" : ""}`;
+    subLink.href = href;
+    subLink.textContent = item.label;
+    subItem.append(subLink);
+    list.append(subItem);
+  });
+
+  modelsTabItem.classList.add("models-tab-parent");
+  document.body.append(list);
+
+  let hideTimer = null;
+
+  const clearHide = () => {
+    if (hideTimer) {
+      window.clearTimeout(hideTimer);
+      hideTimer = null;
+    }
+  };
+
+  const positionDropdown = () => {
+    const tabsHost = document.querySelector(".md-tabs .md-grid");
+    const hostRect = (tabsHost || tabs).getBoundingClientRect();
+    const rect = modelsTabItem.getBoundingClientRect();
+    list.style.left = `${Math.round(hostRect.left)}px`;
+    list.style.top = `${Math.round(rect.bottom + 2)}px`;
+    list.style.width = `${Math.round(hostRect.width)}px`;
+  };
+
+  const showDropdown = () => {
+    clearHide();
+    positionDropdown();
+    list.classList.add("models-hover-dropdown--open");
+    modelsTabItem.classList.add("models-tab-parent--open");
+  };
+
+  const hideDropdownSoon = () => {
+    clearHide();
+    hideTimer = window.setTimeout(() => {
+      list.classList.remove("models-hover-dropdown--open");
+      modelsTabItem.classList.remove("models-tab-parent--open");
+    }, 120);
+  };
+
+  modelsTabItem.addEventListener("mouseenter", showDropdown);
+  modelsTabItem.addEventListener("mouseleave", hideDropdownSoon);
+  modelsTabItem.addEventListener("focusin", showDropdown);
+  modelsTabItem.addEventListener("focusout", hideDropdownSoon);
+  list.addEventListener("mouseenter", showDropdown);
+  list.addEventListener("mouseleave", hideDropdownSoon);
+  list.addEventListener("focusin", showDropdown);
+  list.addEventListener("focusout", hideDropdownSoon);
+
+  window.addEventListener("scroll", () => {
+    if (list.classList.contains("models-hover-dropdown--open")) {
+      positionDropdown();
+    }
+  }, { passive: true });
+  window.addEventListener("resize", () => {
+    if (list.classList.contains("models-hover-dropdown--open")) {
+      positionDropdown();
+    }
+  });
+}
+
 function railLinkMap() {
   return new Map(
     [...document.querySelectorAll(".md-sidebar--secondary .md-nav--secondary .md-nav__link[href^='#']")]
@@ -592,6 +699,14 @@ function humanizeStageStatToken(stat) {
 }
 
 function humanizeField(field) {
+  const fixedLabels = {
+    input_len: "INPUT LEN",
+    output_len: "OUTPUT LEN",
+    qps: "QPS",
+  };
+  if (fixedLabels[field]) {
+    return fixedLabels[field];
+  }
   const qwenStage = field.match(/^stage_(mean|p50|p99)_(.+)$/i);
   if (qwenStage) {
     const rawStage = qwenStage[2]
@@ -1053,8 +1168,11 @@ function buildOmniChartOption(metricGroup, records, groupFields, chartPointPerDa
     const maxV = Math.max(...allY);
     const span = maxV - minV;
     const pad = span > 0 ? span * 0.08 : Math.max(1, Math.abs(maxV) * 0.08);
-    yMin = minV - pad;
+    yMin = 0;
     yMax = maxV + pad;
+    if (!Number.isFinite(yMax) || yMax <= 0) {
+      yMax = 1;
+    }
   }
   return {
     color: OMNI_LINE_SERIES_PALETTE,
@@ -1063,15 +1181,11 @@ function buildOmniChartOption(metricGroup, records, groupFields, chartPointPerDa
       trigger: "item",
       formatter: formatOmniHistoryTooltipHtml,
     },
-    legend: {
-      type: "scroll",
-      top: 0,
-      textStyle: { fontSize: 11 },
-    },
+    legend: { show: false },
     grid: {
       left: 56,
       right: hasBaseline ? 132 : 24,
-      top: 60,
+      top: 24,
       bottom: 24,
       containLabel: true,
     },
@@ -1350,6 +1464,7 @@ function observeColorScheme() {
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
+  ensureModelsHoverDropdown();
   ensureTechnicalRail();
   renderRailModelNodes();
   bindRangePicker();
