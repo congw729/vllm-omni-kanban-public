@@ -1,8 +1,8 @@
 const charts = new Map();
 let resizeBound = false;
 
-/** Metric groups in the main trend grid before "More charts" (through E2EL + Audio RTF). */
-const OMNI_HISTORY_PRIMARY_CHART_COUNT = 7;
+/** Metric groups in the main trend grid before "More charts" (through Audio TTFP; Audio Duration stays under More). */
+const OMNI_HISTORY_PRIMARY_CHART_COUNT = 8;
 
 function isDashboardHome() {
   return Boolean(document.querySelector("[data-dashboard-home]"));
@@ -62,7 +62,13 @@ const OMNI_LINE_SERIES_PALETTE = [
  */
 function applyOmniLineSeriesColors(seriesList) {
   const bl = omniBaselineChrome();
-  seriesList.forEach((s, i) => {
+  let linePaletteIndex = 0;
+  seriesList.forEach((s) => {
+    if (s.__omniBadMarkers) {
+      return;
+    }
+    const i = linePaletteIndex;
+    linePaletteIndex += 1;
     const c = OMNI_LINE_SERIES_PALETTE[i % OMNI_LINE_SERIES_PALETTE.length];
     s.color = c;
     s.lineStyle = { width: 2.5, ...(s.lineStyle || {}), color: c };
@@ -86,7 +92,7 @@ function applyOmniLineSeriesColors(seriesList) {
       s.clip = false;
       s.markLine = {
         ...ml,
-        // Avoid grid clipPath cutting off the baseline label at the right edge (see ECharts markLine + label).
+        // Avoid grid clipPath cutting off the baseline label at the left edge (see ECharts markLine + label).
         clip: false,
         lineStyle: {
           type: "dashed",
@@ -98,9 +104,9 @@ function applyOmniLineSeriesColors(seriesList) {
         label: {
           ...(ml.label || {}),
           show: false,
-          position: "end",
-          // Pull left from the plot edge so the full pill (incl. border) stays inside the canvas.
-          distance: [-22, 2 + i * 14],
+          position: "start",
+          // Nudge right from the line start so the pill sits inside the grid (see grid.left reserve).
+          distance: [10, 2 + i * 14],
           color: bl.labelFg,
           backgroundColor: bl.labelBg,
           borderColor: bl.labelBorder,
@@ -111,7 +117,6 @@ function applyOmniLineSeriesColors(seriesList) {
           fontWeight: 600,
           // Default truncate can hide digits; keep full "baseline …" string visible inside the pill.
           overflow: "none",
-          // confine:true was squeezing/clipping the box; rely on grid.right + distance instead.
           confine: false,
           formatter: labelFmt,
         },
@@ -704,6 +709,10 @@ function humanizeField(field) {
     output_len: "OUTPUT LEN",
     qps: "QPS",
     benchmark_name: "Benchmark Params Name",
+    // Distinct from "Num Prompts": many filenames use two ints (e.g. …_10_10_…) so values can match by coincidence.
+    max_concurrency: "Max concurrency (config)",
+    num_prompts: "Prompt count",
+    max_concurrent_requests: "Peak concurrent requests",
   };
   if (fixedLabels[field]) {
     return fixedLabels[field];
@@ -1004,6 +1013,38 @@ function formatOmniHistoryChartDate(value) {
   return `${y}-${mo}-${da}`;
 }
 
+/**
+ * Time axis can place two ticks on the same calendar day (e.g. min/max padding vs day boundary);
+ * hide the duplicate label when the tick instant changes but YYYY-MM-DD repeats vs the previous tick.
+ */
+function createOmniXAxisDateLabelFormatter() {
+  let prevMs = NaN;
+  let prevText = "";
+  return (value) => {
+    const text = formatOmniHistoryChartDate(value);
+    if (!text) {
+      return "";
+    }
+    let ms = NaN;
+    if (typeof value === "number" && Number.isFinite(value)) {
+      ms = value;
+    } else {
+      const s = String(value).trim();
+      const normalized = s.includes(" ") && !s.includes("T") ? s.replace(" ", "T") : s;
+      const parsed = Date.parse(normalized);
+      ms = Number.isFinite(parsed) ? parsed : NaN;
+    }
+    if (Number.isFinite(prevMs) && Number.isFinite(ms) && ms !== prevMs && text === prevText) {
+      return "";
+    }
+    if (Number.isFinite(ms)) {
+      prevMs = ms;
+    }
+    prevText = text;
+    return text;
+  };
+}
+
 function groupRecords(records, fields) {
   const grouped = new Map();
   records.forEach((record) => {
@@ -1044,6 +1085,13 @@ function baselineValueForMetric(items, metric) {
   return null;
 }
 
+function formatLocalIsoDate(d) {
+  const y = d.getFullYear();
+  const mo = String(d.getMonth() + 1).padStart(2, "0");
+  const da = String(d.getDate()).padStart(2, "0");
+  return `${y}-${mo}-${da}`;
+}
+
 function buildDailyIsoRange(startDay, endDay) {
   if (!startDay || !endDay) {
     return [];
@@ -1056,10 +1104,54 @@ function buildDailyIsoRange(startDay, endDay) {
   const days = [];
   const current = new Date(start);
   while (current <= end) {
-    days.push(current.toISOString().slice(0, 10));
+    days.push(formatLocalIsoDate(current));
     current.setDate(current.getDate() + 1);
   }
   return days;
+}
+
+/** Missing day or numeric metric exactly zero — treated as abnormal (cross), line y is bridged between neighbors. */
+function omniMetricDayIsBad(item, isMissingDay, rawY) {
+  if (isMissingDay) {
+    return true;
+  }
+  return isNumeric(rawY) && Number(rawY) === 0;
+}
+
+function bridgeOmniBadDayY(entries, index) {
+  const e = entries[index];
+  if (!e.isBad) {
+    return e.numY;
+  }
+  let prev = null;
+  for (let j = index - 1; j >= 0; j -= 1) {
+    if (!entries[j].isBad) {
+      prev = entries[j];
+      break;
+    }
+  }
+  let next = null;
+  for (let k = index + 1; k < entries.length; k += 1) {
+    if (!entries[k].isBad) {
+      next = entries[k];
+      break;
+    }
+  }
+  if (!prev && !next) {
+    return 0;
+  }
+  if (!prev) {
+    return next.numY;
+  }
+  if (!next) {
+    return prev.numY;
+  }
+  const denom = next.xMs - prev.xMs;
+  if (!Number.isFinite(denom) || denom === 0) {
+    return prev.numY;
+  }
+  const t = (e.xMs - prev.xMs) / denom;
+  return prev.numY + t * (next.numY - prev.numY);
 }
 
 function buildOmniMetricSeries(records, metric, groupFields, options) {
@@ -1078,41 +1170,79 @@ function buildOmniMetricSeries(records, metric, groupFields, options) {
     const dailyRange = pointPerDay && sortedRows.length > 1
       ? buildDailyIsoRange(recordCalendarDay(sortedRows[0]), recordCalendarDay(sortedRows[sortedRows.length - 1]))
       : [];
-    const points = (dailyRange.length ? dailyRange : sortedRows.map((item) => recordCalendarDay(item)))
-      .map((day) => {
-        const item = dayMap.get(day);
-        const isMissingDay = !item;
-        const xVal = pointPerDay && day ? `${day}T00:00:00` : item?.date;
-        const yVal = isMissingDay ? 0 : item[metric];
-        const isZeroPoint = isNumeric(yVal) && Number(yVal) === 0;
-        return {
-          value: [xVal, yVal],
-          ...((isZeroPoint || isMissingDay)
-            ? {
-                symbol: "path://M-5,-5 L5,5 M5,-5 L-5,5",
-                symbolSize: 10,
-                itemStyle: {
-                  color: "#dc2626",
-                  borderColor: "#dc2626",
-                  borderWidth: 2,
-                },
-              }
-            : {}),
-          meta: {
-            test_name: item?.test_name,
-            dataset_name: item?.dataset_name,
-            benchmark_name: item?.benchmark_name,
-            max_concurrency: item?.max_concurrency,
-            num_prompts: item?.num_prompts,
-            random_input_len: item?.random_input_len,
-            random_output_len: item?.random_output_len,
-            metric,
-            source_file: item?.source_file,
-            baseline: baseVal,
-            missing_day: isMissingDay,
+    const badScatterData = [];
+    const daySequence = dailyRange.length ? dailyRange : sortedRows.map((row) => recordCalendarDay(row));
+    const entries = daySequence.map((day) => {
+      const item = dayMap.get(day);
+      const isMissingDay = !item;
+      const xVal = pointPerDay && day ? `${day}T00:00:00` : item?.date;
+      let xMs = parseSeriesPointTime(xVal);
+      if (xMs == null && typeof day === "string" && /^\d{4}-\d{2}-\d{2}$/.test(day)) {
+        xMs = Date.parse(`${day}T12:00:00`);
+      }
+      if (xMs == null && item?.sort_timestamp) {
+        xMs = parseIsoDate(item.sort_timestamp);
+      }
+      const rawY = isMissingDay ? null : item[metric];
+      const isNumericY = isNumeric(rawY);
+      const numY = isNumericY ? Number(rawY) : null;
+      const isBad = omniMetricDayIsBad(item, isMissingDay, rawY);
+      return {
+        day,
+        xVal,
+        xMs: xMs != null && Number.isFinite(xMs) ? xMs : 0,
+        item,
+        isMissingDay,
+        rawY,
+        numY,
+        isBad,
+      };
+    });
+    entries.sort((a, b) => a.xMs - b.xMs);
+    const bridgedYs = entries.map((_, i) => bridgeOmniBadDayY(entries, i));
+    const points = entries.map((e, i) => {
+      const { item, isMissingDay, xVal, isBad } = e;
+      const lineY = bridgedYs[i];
+      const meta = {
+        test_name: item?.test_name,
+        dataset_name: item?.dataset_name,
+        benchmark_name: item?.benchmark_name,
+        max_concurrency: item?.max_concurrency,
+        num_prompts: item?.num_prompts,
+        random_input_len: item?.random_input_len,
+        random_output_len: item?.random_output_len,
+        metric,
+        source_file: item?.source_file,
+        baseline: baseVal,
+        missing_day: isMissingDay,
+        is_bad_day: isBad,
+        bridged_line_y: isBad ? lineY : null,
+        actual_metric_y: isMissingDay ? null : e.numY,
+      };
+      if (isBad && Number.isFinite(lineY)) {
+        badScatterData.push({
+          value: [xVal, lineY],
+          symbol: "path://M-5,-5 L5,5 M5,-5 L-5,5",
+          symbolSize: 10,
+          itemStyle: {
+            color: "#dc2626",
+            borderColor: "#dc2626",
+            borderWidth: 2,
           },
-        };
-      });
+          meta,
+        });
+      }
+      return {
+        value: [xVal, lineY],
+        ...(isBad
+          ? {
+              symbol: "none",
+              symbolSize: 0,
+            }
+          : {}),
+        meta,
+      };
+    });
     if (points.length > 0) {
       const n = points.length;
       const lineSeries = {
@@ -1135,13 +1265,22 @@ function buildOmniMetricSeries(records, metric, groupFields, options) {
           },
           label: {
             show: false,
-            position: "end",
+            position: "start",
             formatter: () => `baseline ${formatMetricValue(baseVal)}`,
           },
           data: [{ yAxis: baseVal }],
         };
       }
       series.push(lineSeries);
+      if (badScatterData.length > 0) {
+        series.push({
+          __omniBadMarkers: true,
+          name: lineSeries.name,
+          type: "scatter",
+          data: badScatterData,
+          z: 10,
+        });
+      }
     }
   });
   return series;
@@ -1158,8 +1297,17 @@ function formatOmniHistoryTooltipHtml(params) {
   const lines = [
     `<strong>${escapeHtml(params.seriesName || "")}</strong>`,
     `Date: ${escapeHtml(formatOmniHistoryChartDate(params.data?.value?.[0]))}`,
-    `Value: ${meta.missing_day ? "No data (shown as 0)" : formatMetricValue(val)}`,
   ];
+  if (meta.is_bad_day) {
+    lines.push(`Line (bridged): ${formatMetricValue(val)}`);
+    lines.push(
+      meta.missing_day
+        ? "No data this day; segment linearly connects the previous and next normal days."
+        : `Abnormal value (${formatMetricValue(meta.actual_metric_y)}); segment connects neighbors.`,
+    );
+  } else {
+    lines.push(`Value: ${formatMetricValue(val)}`);
+  }
   if (isNumeric(bl)) {
     lines.push(`baseline: ${formatMetricValue(bl)}`);
     const d = formatBaselineDeltaPct(val, bl);
@@ -1182,16 +1330,69 @@ function formatOmniHistoryTooltipHtml(params) {
   return lines.join("<br>");
 }
 
+function parseSeriesPointTime(xVal) {
+  if (xVal == null || xVal === "") {
+    return null;
+  }
+  if (typeof xVal === "number" && Number.isFinite(xVal)) {
+    return xVal;
+  }
+  const s = String(xVal).trim();
+  const normalized = s.includes(" ") && !s.includes("T") ? s.replace(" ", "T") : s;
+  const ts = Date.parse(normalized);
+  return Number.isFinite(ts) ? ts : null;
+}
+
+function timeExtentFromOmniSeries(seriesList) {
+  let minT = Infinity;
+  let maxT = -Infinity;
+  seriesList.forEach((s) => {
+    if (s.__omniBadMarkers) {
+      return;
+    }
+    (s.data || []).forEach((p) => {
+      const t = parseSeriesPointTime(p?.value?.[0]);
+      if (t !== null) {
+        minT = Math.min(minT, t);
+        maxT = Math.max(maxT, t);
+      }
+    });
+  });
+  if (!Number.isFinite(minT) || !Number.isFinite(maxT)) {
+    return null;
+  }
+  return { minT, maxT };
+}
+
 function buildOmniChartOption(metricGroup, records, groupFields, chartPointPerDay) {
   const opts = { pointPerDay: chartPointPerDay !== false };
   const series = applyOmniLineSeriesColors(
     metricGroup.metrics.flatMap((metric) => buildOmniMetricSeries(records, metric, groupFields, opts)),
   );
-  const maxPoints = series.reduce((maxCount, s) => Math.max(maxCount, s.data?.length || 0), 0);
-  const hasBaseline = series.some((s) => s.markLine);
+  const maxPoints = series.reduce((maxCount, s) => {
+    if (s.__omniBadMarkers) {
+      return maxCount;
+    }
+    return Math.max(maxCount, s.data?.length || 0);
+  }, 0);
+  const hasOmniBaseline = series.some((s) => s.markLine);
+  const extent = timeExtentFromOmniSeries(series);
+  let xAxisMin;
+  let xAxisMax;
+  if (extent) {
+    const span = Math.max(extent.maxT - extent.minT, 24 * 60 * 60 * 1000);
+    const padL = Math.min(span * 0.04, 36 * 60 * 60 * 1000);
+    // Extra room on the max-time side so the last day label (e.g. 2026-04-19) is not clipped at the plot edge.
+    const padR = padL + 10 * 60 * 60 * 1000;
+    xAxisMin = extent.minT - padL;
+    xAxisMax = extent.maxT + padR;
+  }
   const yValues = [];
   const baselineValues = [];
   series.forEach((s) => {
+    if (s.__omniBadMarkers) {
+      return;
+    }
     (s.data || []).forEach((p) => {
       const y = p?.value?.[1];
       if (isNumeric(y)) {
@@ -1226,21 +1427,25 @@ function buildOmniChartOption(metricGroup, records, groupFields, chartPointPerDa
     },
     legend: { show: false },
     grid: {
-      left: 56,
-      right: hasBaseline ? 132 : 24,
+      left: hasOmniBaseline ? 120 : 56,
+      right: 48,
       top: 24,
-      bottom: 24,
+      bottom: 56,
       containLabel: true,
     },
     xAxis: {
       type: "time",
+      ...(extent ? { min: xAxisMin, max: xAxisMax } : {}),
       minInterval: 24 * 60 * 60 * 1000,
       axisLabel: {
         show: maxPoints > 0,
-        hideOverlap: true,
-        formatter(value) {
-          return formatOmniHistoryChartDate(value);
-        },
+        rotate: 38,
+        align: "right",
+        margin: 14,
+        hideOverlap: false,
+        showMinLabel: true,
+        showMaxLabel: true,
+        formatter: createOmniXAxisDateLabelFormatter(),
       },
     },
     yAxis: {
@@ -1414,7 +1619,12 @@ function renderOmniChartSection(section, metricGroup, records, groupFields, char
 }
 
 function parseIsoDate(value) {
-  const ts = Date.parse(value || "");
+  if (value == null || value === "") {
+    return null;
+  }
+  const s = String(value).trim();
+  const normalized = s.includes(" ") && !s.includes("T") ? s.replace(" ", "T") : s;
+  const ts = Date.parse(normalized);
   return Number.isFinite(ts) ? ts : null;
 }
 

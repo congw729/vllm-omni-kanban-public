@@ -643,7 +643,7 @@ body.dashboard-home .technical-rail__sublink--active {
   padding: 0.8rem;
   background: var(--dashboard-panel-bg);
   color: var(--dashboard-text);
-  text-align: left;
+  text-align: center;
   border-bottom: 1px solid var(--dashboard-border);
 }
 
@@ -659,11 +659,12 @@ body.dashboard-home .technical-rail__sublink--active {
   padding: 0.72rem 0.8rem;
   border-bottom: 1px solid var(--dashboard-border);
   color: var(--dashboard-text);
-  vertical-align: top;
+  text-align: center;
+  vertical-align: middle;
 }
 
 .omni-history-table__cell--numeric {
-  text-align: right;
+  text-align: center;
   font-variant-numeric: tabular-nums;
 }
 

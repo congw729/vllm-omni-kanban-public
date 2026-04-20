@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import re
 import sys
 from collections import Counter
 from datetime import datetime
@@ -122,6 +123,11 @@ def chart_slug(value: str) -> str:
     return value.lower().replace(".", "").replace(" ", "_").replace("-", "_")
 
 
+def _strip_io_length_suffix_before_timestamp(name: str) -> str:
+    """Strip _in{digits}_out{digits} immediately before the trailing _YYYYMMDD-HHMMSS segment."""
+    return re.sub(r"_in\d+_out\d+(?=_\d{8}-\d{6}$)", "", name)
+
+
 def parse_result_test_filename(
     path: Path,
     dataset_allowlist: frozenset[str] | set[str] | None = None,
@@ -131,16 +137,26 @@ def parse_result_test_filename(
     prefix = "result_test_"
     if not stem.startswith(prefix):
         return None
-    parts = stem[len(prefix):].split("_")
+    middle = _strip_io_length_suffix_before_timestamp(stem[len(prefix) :])
+    parts = middle.split("_")
     if len(parts) < 5:
         return None
     timestamp = parts[-1]
     try:
         parsed_ts = datetime.strptime(timestamp, "%Y%m%d-%H%M%S")
         num_prompts = int(parts[-2])
-        max_concurrency = int(parts[-3])
     except ValueError:
         return None
+
+    mc_token = parts[-3]
+    try:
+        max_concurrency = int(mc_token)
+    except ValueError:
+        try:
+            float(mc_token)
+        except ValueError:
+            return None
+        max_concurrency = None
 
     dataset_name = parts[-4]
     test_name = "_".join(parts[:-4])
