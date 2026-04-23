@@ -1687,12 +1687,12 @@ function ensureOmniTrendRangeControl(root, onChange) {
   return activeDays;
 }
 
-function renderOmniCharts(payload, records, root) {
+function renderOmniCharts(payload, records, root, renderFn) {
   const container = root.querySelector("[data-omni-history-charts]");
   if (!container) {
     return;
   }
-  const selectedDays = ensureOmniTrendRangeControl(root, () => renderQwen3OmniHistory(payload, root));
+  const selectedDays = ensureOmniTrendRangeControl(root, () => renderFn(payload, root));
   const chartRecords = filterRecordsByRecentDays(records, selectedDays);
   const chartPointPerDay = payload.chart_point_per_day !== false;
   disposeChartsWithin(container);
@@ -1736,7 +1736,7 @@ function renderQwen3OmniHistory(payload, root) {
   renderOmniFilterBar(payload, filters, root);
   const filtered = sortRecordsByTimeDesc(filterRecords(payload.records, filters));
   renderOmniSummary(filtered, payload.group_fields, root);
-  renderOmniCharts(payload, filtered, root);
+  renderOmniCharts(payload, filtered, root, renderQwen3OmniHistory);
   renderOmniTable(payload, filtered, root);
 }
 
