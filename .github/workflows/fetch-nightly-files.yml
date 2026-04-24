@@ -4,7 +4,7 @@ name: Sync Buildkite nightly files
 on:
   schedule:
     # UTC — set after vllm-omni scheduled nightly usually finishes and artifacts exist (tune per pipeline).
-    - cron: "0 20 * * *"
+    - cron: "0 23 * * *"
   repository_dispatch:
     types: [buildkite_nightly_perf]
   workflow_dispatch:

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import re
 import sys
 from collections import Counter
 from datetime import datetime
@@ -21,6 +22,7 @@ CHARTS_DIR = ROOT / "docs" / "assets" / "charts"
 QWEN3_OMNI_HISTORY_PATH = CHARTS_DIR / "qwen3_omni_history.json"
 QWEN3_TTS_HISTORY_PATH = CHARTS_DIR / "qwen3_tts_history.json"
 QWEN_IMAGE_HISTORY_PATH = CHARTS_DIR / "qwen_image_history.json"
+QWEN_IMAGE_LAYERED_HISTORY_PATH = CHARTS_DIR / "qwen_image_layered_history.json"
 QWEN_IMAGE_EDIT_HISTORY_PATH = CHARTS_DIR / "qwen_image_edit_history.json"
 QWEN_IMAGE_EDIT_2509_HISTORY_PATH = CHARTS_DIR / "qwen_image_edit_2509_history.json"
 DEFAULT_RESULT_DATASETS = frozenset({"random", "random-mm"})
@@ -121,6 +123,11 @@ def chart_slug(value: str) -> str:
     return value.lower().replace(".", "").replace(" ", "_").replace("-", "_")
 
 
+def _strip_io_length_suffix_before_timestamp(name: str) -> str:
+    """Strip _in{digits}_out{digits} immediately before the trailing _YYYYMMDD-HHMMSS segment."""
+    return re.sub(r"_in\d+_out\d+(?=_\d{8}-\d{6}$)", "", name)
+
+
 def parse_result_test_filename(
     path: Path,
     dataset_allowlist: frozenset[str] | set[str] | None = None,
@@ -130,16 +137,26 @@ def parse_result_test_filename(
     prefix = "result_test_"
     if not stem.startswith(prefix):
         return None
-    parts = stem[len(prefix):].split("_")
+    middle = _strip_io_length_suffix_before_timestamp(stem[len(prefix) :])
+    parts = middle.split("_")
     if len(parts) < 5:
         return None
     timestamp = parts[-1]
     try:
         parsed_ts = datetime.strptime(timestamp, "%Y%m%d-%H%M%S")
         num_prompts = int(parts[-2])
-        max_concurrency = int(parts[-3])
     except ValueError:
         return None
+
+    mc_token = parts[-3]
+    try:
+        max_concurrency = int(mc_token)
+    except ValueError:
+        try:
+            float(mc_token)
+        except ValueError:
+            return None
+        max_concurrency = None
 
     dataset_name = parts[-4]
     test_name = "_".join(parts[:-4])
@@ -373,6 +390,24 @@ def _history_payload_from_records(
     group_fields: tuple[str, ...],
     records: list[dict[str, Any]],
 ) -> dict[str, Any]:
+    def _normalize_filter_fields(item: dict[str, Any]) -> dict[str, Any]:
+        normalized = dict(item)
+        if normalized.get("qps") in (None, ""):
+            normalized["qps"] = next(
+                (
+                    normalized.get(field)
+                    for field in ("request_throughput", "throughput_qps", "output_throughput")
+                    if normalized.get(field) not in (None, "")
+                ),
+                None,
+            )
+        if normalized.get("input_len") in (None, ""):
+            normalized["input_len"] = normalized.get("random_input_len")
+        if normalized.get("output_len") in (None, ""):
+            normalized["output_len"] = normalized.get("random_output_len")
+        return normalized
+
+    records = [_normalize_filter_fields(record) for record in records]
     page_config = config.get("kanban_pages", {}).get(page_key, {})
     groups: dict[tuple[Any, ...], list[dict[str, Any]]] = {}
     for record in records:
@@ -479,12 +514,14 @@ def build_qwen_image_family_history_payload(
                     stage_slug_set.add(k[len("stage_mean_") :])
         slugs: list[str] = sorted(stage_slug_set)
         # qwen-image-edit page: keep one pipeline family to avoid duplicate display labels after prefix trimming.
-        if page_key == "qwen_image_edit_history":
-            preferred = [s for s in slugs if "QwenImageEditPipeline_" in s]
-            slugs = preferred or [s for s in slugs if "QwenImageEditPlusPipeline_" not in s]
+        if page_key == "qwen_image_history":
+            slugs = [s for s in slugs if "QwenImagePipeline_" in s]
+        elif page_key == "qwen_image_layered_history":
+            slugs = [s for s in slugs if "QwenImageLayeredPipeline_" in s]
+        elif page_key == "qwen_image_edit_history":
+            slugs = [s for s in slugs if "QwenImageEditPipeline_" in s]
         elif page_key == "qwen_image_edit_2509_history":
-            preferred = [s for s in slugs if "QwenImageEditPlusPipeline_" in s]
-            slugs = preferred or [s for s in slugs if "QwenImageEditPipeline_" not in s]
+            slugs = [s for s in slugs if "QwenImageEditPlusPipeline_" in s]
         if page_config.get("p99_stage_columns_last", False):
             for slug in slugs:
                 dynamic.extend([f"stage_mean_{slug}", f"stage_p50_{slug}"])
@@ -509,7 +546,22 @@ def build_qwen_image_history_payload(config: dict[str, Any], source_dir: Path) -
         page_key="qwen_image_history",
         model_key="Qwen-image",
         fallback_display="Qwen Image",
-        test_name_filter=lambda name: "qwen_image_edit" not in name and "qwen_image" in name,
+        test_name_filter=lambda name: (
+            "qwen_image_edit" not in name
+            and "qwen_image_layered" not in name
+            and "qwen_image" in name
+        ),
+    )
+
+
+def build_qwen_image_layered_history_payload(config: dict[str, Any], source_dir: Path) -> dict[str, Any]:
+    return build_qwen_image_family_history_payload(
+        config,
+        source_dir,
+        page_key="qwen_image_layered_history",
+        model_key="Qwen-image-layered",
+        fallback_display="Qwen Image Layered",
+        test_name_filter=lambda name: "qwen_image_layered" in name,
     )
 
 
@@ -676,6 +728,8 @@ def main() -> int:
     save_json(QWEN3_TTS_HISTORY_PATH, build_qwen3_tts_history_payload(config, qwen3_tts_source_dir))
     qwen_image_source_dir = RESULTS_DIR / config.get("kanban_pages", {}).get("qwen_image_history", {}).get("source_dir", "qwen_image")
     save_json(QWEN_IMAGE_HISTORY_PATH, build_qwen_image_history_payload(config, qwen_image_source_dir))
+    qwen_image_layered_source_dir = RESULTS_DIR / config.get("kanban_pages", {}).get("qwen_image_layered_history", {}).get("source_dir", "qwen_image_layered")
+    save_json(QWEN_IMAGE_LAYERED_HISTORY_PATH, build_qwen_image_layered_history_payload(config, qwen_image_layered_source_dir))
     qwen_image_edit_source_dir = RESULTS_DIR / config.get("kanban_pages", {}).get("qwen_image_edit_history", {}).get("source_dir", "qwen_image_edit")
     save_json(QWEN_IMAGE_EDIT_HISTORY_PATH, build_qwen_image_edit_history_payload(config, qwen_image_edit_source_dir))
     qwen_image_edit_2509_source_dir = RESULTS_DIR / config.get("kanban_pages", {}).get("qwen_image_edit_2509_history", {}).get("source_dir", "qwen_image_edit_2509")

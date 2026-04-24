@@ -9,6 +9,7 @@ from scripts.generate_charts import (
     build_qwen3_omni_history_payload,
     load_qwen_image_benchmark_history,
     parse_qwen3_omni_filename,
+    parse_result_test_filename,
 )
 
 
@@ -23,6 +24,40 @@ def test_parse_qwen3_omni_filename_supports_expected_layout() -> None:
         "sort_timestamp": "2026-03-10T18:25:56",
         "date": "2026-03-10 18:25:56",
     }
+
+
+def test_parse_result_test_filename_strips_in_out_suffix_before_timestamp() -> None:
+    parsed = parse_result_test_filename(
+        Path("result_test_qwen3_omni_random_1_10_in100_out100_20260415-183805.json"),
+    )
+    assert parsed is not None
+    assert parsed["test_name"] == "qwen3_omni"
+    assert parsed["dataset_name"] == "random"
+    assert parsed["max_concurrency"] == 1
+    assert parsed["num_prompts"] == 10
+    assert parsed["timestamp_key"] == "20260415-183805"
+
+
+def test_parse_result_test_filename_strips_variable_in_out_lengths() -> None:
+    parsed = parse_result_test_filename(
+        Path("result_test_qwen3_omni_chunk_random_4_16_in2500_out900_20260415-192114.json"),
+    )
+    assert parsed is not None
+    assert parsed["test_name"] == "qwen3_omni_chunk"
+    assert parsed["max_concurrency"] == 4
+    assert parsed["num_prompts"] == 16
+
+
+def test_parse_result_test_filename_accepts_float_request_rate_token_for_random_mm() -> None:
+    parsed = parse_result_test_filename(
+        Path("result_test_qwen3_omni_random-mm_0.1_10_in100_out100_20260415-183805.json"),
+    )
+    assert parsed is not None
+    assert parsed["test_name"] == "qwen3_omni"
+    assert parsed["dataset_name"] == "random-mm"
+    assert parsed["max_concurrency"] is None
+    assert parsed["num_prompts"] == 10
+    assert parsed["timestamp_key"] == "20260415-183805"
 
 
 def test_qwen3_omni_history_groups_and_sorts_by_config_and_time(repo_root: Path, tmp_path: Path) -> None:
