@@ -822,11 +822,11 @@ function omniSetBadMarkerVisibility(chart, activeSeriesKey) {
   const badSet = chart.__omniBadSeriesIndexSet instanceof Set ? chart.__omniBadSeriesIndexSet : new Set();
   chart.setOption(
     {
-      series: list.map((s, i) => {
+      series: list.map((_, i) => {
         if (!badSet.has(i)) {
           return {};
         }
-        const markerKey = String(keyByIndex[i] || s.__omniSeriesKey || "");
+        const markerKey = String(keyByIndex[i] ?? "");
         const show = !activeSeriesKey || markerKey === String(activeSeriesKey);
         return {
           symbol: show ? OMNI_BAD_DAY_MARK_SYMBOL : "none",

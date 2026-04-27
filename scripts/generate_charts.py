@@ -394,10 +394,7 @@ def load_wan22_benchmark_history(source_dir: Path) -> list[dict[str, Any]]:
     for path in source_dir.rglob("diffusion_result*.json"):
         if not path.is_file():
             continue
-        name = path.name
-        if not name.startswith("diffusion_result"):
-            continue
-        if "wan22" not in name.casefold():
+        if "wan22" not in path.name.casefold():
             continue
         bench_paths.append(path)
     return _load_diffusion_benchmark_records(sorted(bench_paths, key=lambda p: str(p)))
