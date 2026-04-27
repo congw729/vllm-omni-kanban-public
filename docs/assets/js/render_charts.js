@@ -57,6 +57,15 @@ const OMNI_LINE_SERIES_PALETTE = [
   "#ea7ccc",
 ];
 
+/** Path and style for "bad / bridged" day markers (X); series-level so hover can show/hide without per-point itemStyle override. */
+const OMNI_BAD_DAY_MARK_SYMBOL = "path://M-5,-5 L5,5 M5,-5 L-5,5";
+const OMNI_BAD_DAY_MARK_SIZE = 10;
+const OMNI_BAD_DAY_MARK_ITEM_STYLE = {
+  color: "#dc2626",
+  borderColor: "#dc2626",
+  borderWidth: 2,
+};
+
 /**
  * Data lines use palette; baseline uses neutral slate (see omniBaselineChrome) for contrast.
  */
@@ -746,6 +755,12 @@ function disposeChartsWithin(root) {
         chart.__omniBaselineDispose();
         chart.__omniBaselineDispose = null;
       }
+      if (typeof chart.__omniBadMarkersDispose === "function") {
+        chart.__omniBadMarkersDispose();
+        chart.__omniBadMarkersDispose = null;
+      }
+      chart.__omniSeriesKeyByIndex = null;
+      chart.__omniBadSeriesIndexSet = null;
       chart.dispose();
       charts.delete(container);
     }
@@ -755,6 +770,11 @@ function disposeChartsWithin(root) {
 function omniOptionHasMarkLineSeries(option) {
   const s = option?.series;
   return Array.isArray(s) && s.some((x) => x?.markLine);
+}
+
+function omniOptionHasBadMarkerSeries(option) {
+  const s = option?.series;
+  return Array.isArray(s) && s.some((x) => x?.__omniBadMarkers);
 }
 
 /** ECharts does not drive markLine emphasis from parent line series; toggle opacity by events instead. */
@@ -792,6 +812,38 @@ function omniSetMarkLineVisibility(chart, activeSeriesIndex) {
   );
 }
 
+function omniSetBadMarkerVisibility(chart, activeSeriesKey) {
+  const opt = chart.getOption();
+  const list = opt.series;
+  if (!Array.isArray(list) || list.length === 0) {
+    return;
+  }
+  const keyByIndex = Array.isArray(chart.__omniSeriesKeyByIndex) ? chart.__omniSeriesKeyByIndex : [];
+  const badSet = chart.__omniBadSeriesIndexSet instanceof Set ? chart.__omniBadSeriesIndexSet : new Set();
+  chart.setOption(
+    {
+      series: list.map((s, i) => {
+        if (!badSet.has(i)) {
+          return {};
+        }
+        const markerKey = String(keyByIndex[i] || s.__omniSeriesKey || "");
+        const show = !activeSeriesKey || markerKey === String(activeSeriesKey);
+        return {
+          symbol: show ? OMNI_BAD_DAY_MARK_SYMBOL : "none",
+          symbolSize: show ? OMNI_BAD_DAY_MARK_SIZE : 0,
+          itemStyle: {
+            ...OMNI_BAD_DAY_MARK_ITEM_STYLE,
+            opacity: show ? 1 : 0,
+          },
+          silent: !show,
+        };
+      }),
+    },
+    false,
+  );
+}
+
+
 function wireOmniBaselineHover(chart) {
   if (typeof chart.__omniBaselineDispose === "function") {
     chart.__omniBaselineDispose();
@@ -822,6 +874,47 @@ function wireOmniBaselineHover(chart) {
   };
 }
 
+function wireOmniBadMarkersHover(chart) {
+  if (typeof chart.__omniBadMarkersDispose === "function") {
+    chart.__omniBadMarkersDispose();
+    chart.__omniBadMarkersDispose = null;
+  }
+  const showBySeries = (params) => {
+    let seriesKey = "";
+    if (typeof params?.seriesIndex === "number" && Array.isArray(chart.__omniSeriesKeyByIndex)) {
+      seriesKey = String(chart.__omniSeriesKeyByIndex[params.seriesIndex] || "");
+    }
+    if (!seriesKey && typeof params?.data?.meta?.series_key === "string") {
+      seriesKey = params.data.meta.series_key;
+    }
+    if (!seriesKey && params?.seriesName) {
+      const opt = chart.getOption();
+      const list = opt?.series;
+      const keys = chart.__omniSeriesKeyByIndex;
+      if (Array.isArray(list) && Array.isArray(keys)) {
+        const j = list.findIndex((s) => s && s.name === params.seriesName);
+        if (j >= 0) {
+          seriesKey = String(keys[j] || "");
+        }
+      }
+    }
+    if (seriesKey) {
+      omniSetBadMarkerVisibility(chart, seriesKey);
+    }
+  };
+  const onLeaveChart = () => {
+    omniSetBadMarkerVisibility(chart, "");
+  };
+  chart.on("showTip", showBySeries);
+  chart.on("mouseover", showBySeries);
+  chart.on("globalout", onLeaveChart);
+  chart.__omniBadMarkersDispose = () => {
+    chart.off("showTip", showBySeries);
+    chart.off("mouseover", showBySeries);
+    chart.off("globalout", onLeaveChart);
+  };
+}
+
 function setChart(container, option) {
   if (typeof echarts === "undefined") {
     return;
@@ -831,10 +924,23 @@ function setChart(container, option) {
     chart.__omniBaselineDispose();
     chart.__omniBaselineDispose = null;
   }
+  if (typeof chart.__omniBadMarkersDispose === "function") {
+    chart.__omniBadMarkersDispose();
+    chart.__omniBadMarkersDispose = null;
+  }
+  chart.__omniSeriesKeyByIndex = Array.isArray(option?.series)
+    ? option.series.map((s) => String(s?.__omniSeriesKey || ""))
+    : [];
+  chart.__omniBadSeriesIndexSet = Array.isArray(option?.series)
+    ? new Set(option.series.map((s, i) => (s?.__omniBadMarkers ? i : -1)).filter((i) => i >= 0))
+    : new Set();
   chart.setOption(applyTheme(option), true);
   charts.set(container, chart);
   if (omniOptionHasMarkLineSeries(option)) {
     wireOmniBaselineHover(chart);
+  }
+  if (omniOptionHasBadMarkerSeries(option)) {
+    wireOmniBadMarkersHover(chart);
   }
 }
 
@@ -1218,19 +1324,10 @@ function buildOmniMetricSeries(records, metric, groupFields, options) {
         is_bad_day: isBad,
         bridged_line_y: isBad ? lineY : null,
         actual_metric_y: isMissingDay ? null : e.numY,
+        series_key: "",
       };
       if (isBad && Number.isFinite(lineY)) {
-        badScatterData.push({
-          value: [xVal, lineY],
-          symbol: "path://M-5,-5 L5,5 M5,-5 L-5,5",
-          symbolSize: 10,
-          itemStyle: {
-            color: "#dc2626",
-            borderColor: "#dc2626",
-            borderWidth: 2,
-          },
-          meta,
-        });
+        badScatterData.push({ value: [xVal, lineY], meta });
       }
       return {
         value: [xVal, lineY],
@@ -1244,9 +1341,22 @@ function buildOmniMetricSeries(records, metric, groupFields, options) {
       };
     });
     if (points.length > 0) {
+      const label = buildSeriesLabel(items[0], groupFields);
+      const seriesKey = `${metric}::${String(items[0]?.config_key || label || "")}`;
+      points.forEach((p) => {
+        if (p?.meta) {
+          p.meta.series_key = seriesKey;
+        }
+      });
+      badScatterData.forEach((p) => {
+        if (p?.meta) {
+          p.meta.series_key = seriesKey;
+        }
+      });
       const n = points.length;
       const lineSeries = {
-        name: buildSeriesLabel(items[0], groupFields),
+        name: label,
+        __omniSeriesKey: seriesKey,
         type: "line",
         triggerLineEvent: true,
         showSymbol: true,
@@ -1275,10 +1385,20 @@ function buildOmniMetricSeries(records, metric, groupFields, options) {
       if (badScatterData.length > 0) {
         series.push({
           __omniBadMarkers: true,
+          __omniSeriesKey: seriesKey,
           name: lineSeries.name,
           type: "scatter",
+          symbol: OMNI_BAD_DAY_MARK_SYMBOL,
+          symbolSize: OMNI_BAD_DAY_MARK_SIZE,
+          itemStyle: { ...OMNI_BAD_DAY_MARK_ITEM_STYLE },
           data: badScatterData,
           z: 10,
+          emphasis: {
+            disabled: true,
+          },
+          select: {
+            disabled: true,
+          },
         });
       }
     }
