@@ -8,6 +8,7 @@ from pathlib import Path
 from scripts.generate_charts import (
     build_qwen3_omni_history_payload,
     load_qwen_image_benchmark_history,
+    load_wan22_benchmark_history,
     parse_qwen3_omni_filename,
     parse_result_test_filename,
 )
@@ -104,6 +105,33 @@ def test_qwen3_omni_history_groups_and_sorts_by_config_and_time(repo_root: Path,
     ]
 
 
+def test_wan22_benchmark_only_loads_diffusion_result_with_wan22_in_name(tmp_path: Path) -> None:
+    source_dir = tmp_path / "wan22"
+    source_dir.mkdir()
+    row = [
+        {
+            "test_name": "wan22_bench",
+            "backend": "b",
+            "timestamp": "20260401-120000",
+            "server_params": {"model": "m"},
+            "benchmark_params": {"name": "n", "dataset": "d"},
+            "result": {
+                "completed_requests": 1,
+                "failed_requests": 0,
+                "latency_mean": 1.5,
+                "throughput_qps": 0.2,
+                "peak_memory_mb_mean": 4096,
+            },
+        }
+    ]
+    (source_dir / "diffusion_result_test_wan22_vllm_20260401-120000.json").write_text(json.dumps(row), encoding="utf-8")
+    (source_dir / "diffusion_result_test_qwen_image_20260401-120000.json").write_text(json.dumps(row), encoding="utf-8")
+    (source_dir / "benchmark_results_test_wan22_20260401-120000.json").write_text(json.dumps(row), encoding="utf-8")
+    records = load_wan22_benchmark_history(source_dir)
+    assert len(records) == 1
+    assert records[0]["test_name"] == "wan22_bench"
+
+
 def test_qwen_image_benchmark_baseline_mapped_to_record_fields(tmp_path: Path) -> None:
     source_dir = tmp_path / "qwen_image"
     source_dir.mkdir()
@@ -187,6 +215,7 @@ def test_output_files_created(repo_root: Path) -> None:
     assert (repo_root / "docs" / "assets" / "charts" / "qwen_image_history.json").exists()
     assert (repo_root / "docs" / "assets" / "charts" / "qwen_image_edit_history.json").exists()
     assert (repo_root / "docs" / "assets" / "charts" / "qwen_image_edit_2509_history.json").exists()
+    assert (repo_root / "docs" / "assets" / "charts" / "wan22_history.json").exists()
     assert (repo_root / "docs" / "assets" / "charts" / "qwen3_tts_real_time_factor_7d.json").exists()
     assert (repo_root / "docs" / "assets" / "charts" / "qwen_image_e2e_latency_ms_7d.json").exists()
     assert (repo_root / "docs" / "assets" / "charts" / "wan22_peak_memory_gb_7d.json").exists()

@@ -459,6 +459,59 @@
           "metrics": ["peak_memory_gb"]
         }
       ]
+    },
+    "wan22_history": {
+      "source_dir": "wan22",
+      "chart_point_per_day": true,
+      "filters": [
+        "model_id",
+        "test_name",
+        "dataset_name",
+        "benchmark_name",
+        "backend",
+        "max_concurrency",
+        "num_prompts"
+      ],
+      "table_columns": [
+        "date",
+        "test_name",
+        "backend",
+        "model_id",
+        "benchmark_name",
+        "dataset_name",
+        "task",
+        "width",
+        "height",
+        "max_concurrency",
+        "num_prompts",
+        "completed_requests",
+        "failed_requests",
+        "e2e_latency_ms",
+        "e2e_latency_median_ms",
+        "e2e_latency_p99_ms",
+        "throughput_qps",
+        "peak_memory_gb",
+        "peak_memory_mb_mean",
+        "peak_memory_mb_median",
+        "peak_memory_mb_max"
+      ],
+      "metric_groups": [
+        {
+          "id": "e2e_latency",
+          "title": "E2E Latency",
+          "metrics": ["e2e_latency_ms"]
+        },
+        {
+          "id": "throughput",
+          "title": "Throughput (QPS)",
+          "metrics": ["throughput_qps"]
+        },
+        {
+          "id": "peak_memory",
+          "title": "Peak Memory",
+          "metrics": ["peak_memory_gb"]
+        }
+      ]
     }
   },
   "thresholds": {
