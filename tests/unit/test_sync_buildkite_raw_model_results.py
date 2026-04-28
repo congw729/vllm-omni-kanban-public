@@ -48,6 +48,17 @@ def test_iter_source_files_includes_diffusion_result_json(tmp_path: Path) -> Non
     assert found == [match]
 
 
+def test_iter_source_files_includes_wan22_diffusion_result(tmp_path: Path) -> None:
+    raw = tmp_path / "buildkite_nightly_raw"
+    (raw / "2" / "perf").mkdir(parents=True)
+    match = raw / "2" / "perf" / "diffusion_result_test_wan22_20260101-120000.json"
+    match.write_text("[]", encoding="utf-8")
+    noise = raw / "2" / "perf" / "diffusion_result_test_qwen_image_20260101-120000.json"
+    noise.write_text("[]", encoding="utf-8")
+    found = iter_source_files(raw, "wan22")
+    assert found == [match]
+
+
 def test_iter_source_files_matches_basename_when_path_lacks_keyword(tmp_path: Path) -> None:
     raw = tmp_path / "buildkite_nightly_raw"
     (raw / "1000" / "tests" / "qwen3_omni" / "perf").mkdir(parents=True)

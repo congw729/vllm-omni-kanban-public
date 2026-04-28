@@ -25,6 +25,7 @@ QWEN_IMAGE_HISTORY_PATH = CHARTS_DIR / "qwen_image_history.json"
 QWEN_IMAGE_LAYERED_HISTORY_PATH = CHARTS_DIR / "qwen_image_layered_history.json"
 QWEN_IMAGE_EDIT_HISTORY_PATH = CHARTS_DIR / "qwen_image_edit_history.json"
 QWEN_IMAGE_EDIT_2509_HISTORY_PATH = CHARTS_DIR / "qwen_image_edit_2509_history.json"
+WAN22_HISTORY_PATH = CHARTS_DIR / "wan22_history.json"
 DEFAULT_RESULT_DATASETS = frozenset({"random", "random-mm"})
 QWEN3_OMNI_DATASETS = set(DEFAULT_RESULT_DATASETS)  # backward compat
 QWEN3_OMNI_GROUP_FIELDS = (
@@ -264,15 +265,12 @@ def _serialize_serve_arg_value(value: Any) -> Any:
     return json.dumps(value, ensure_ascii=False)
 
 
-def load_qwen_image_benchmark_history(source_dir: Path) -> list[dict[str, Any]]:
-    """Load CI perf arrays from diffusion_* / benchmark_results_*.json (Qwen Image diffusion bench)."""
+def _load_diffusion_benchmark_records(sorted_paths: list[Path]) -> list[dict[str, Any]]:
+    """Parse diffusion/benchmark perf JSON arrays (shared by Qwen Image and WAN 2.2 pages)."""
     raw_rows: list[tuple[dict[str, Any], dict[str, Any], dict[str, Any]]] = []
     stage_keys: set[str] = set()
     serve_arg_keys: set[str] = set()
-    bench_paths: set[Path] = set()
-    for pattern in ("diffusion_result_*.json", "benchmark_results_*.json"):
-        bench_paths.update(source_dir.rglob(pattern))
-    for path in sorted(bench_paths, key=lambda p: str(p)):
+    for path in sorted_paths:
         data = load_json(path, [])
         if not isinstance(data, list):
             continue
@@ -380,6 +378,26 @@ def load_qwen_image_benchmark_history(source_dir: Path) -> list[dict[str, Any]]:
         items = sorted(grouped[key], key=lambda item: item["sort_timestamp"], reverse=True)
         ordered.extend(items)
     return ordered
+
+
+def load_qwen_image_benchmark_history(source_dir: Path) -> list[dict[str, Any]]:
+    """Load CI perf arrays from diffusion_* / benchmark_results_*.json (Qwen Image diffusion bench)."""
+    bench_paths: set[Path] = set()
+    for pattern in ("diffusion_result_*.json", "benchmark_results_*.json"):
+        bench_paths.update(source_dir.rglob(pattern))
+    return _load_diffusion_benchmark_records(sorted(bench_paths, key=lambda p: str(p)))
+
+
+def load_wan22_benchmark_history(source_dir: Path) -> list[dict[str, Any]]:
+    """Load CI perf arrays from diffusion_result*.json basenames that contain wan22."""
+    bench_paths: list[Path] = []
+    for path in source_dir.rglob("diffusion_result*.json"):
+        if not path.is_file():
+            continue
+        if "wan22" not in path.name.casefold():
+            continue
+        bench_paths.append(path)
+    return _load_diffusion_benchmark_records(sorted(bench_paths, key=lambda p: str(p)))
 
 
 def _history_payload_from_records(
@@ -492,9 +510,11 @@ def build_qwen_image_family_history_payload(
     model_key: str,
     fallback_display: str,
     test_name_filter: Callable[[str], bool] | None = None,
+    records_loader: Callable[[Path], list[dict[str, Any]]] | None = None,
 ) -> dict[str, Any]:
     display = config.get("models", {}).get(model_key, {}).get("display_name", fallback_display)
-    records = load_qwen_image_benchmark_history(source_dir) if source_dir.is_dir() else []
+    loader = records_loader or load_qwen_image_benchmark_history
+    records = loader(source_dir) if source_dir.is_dir() else []
     if test_name_filter is not None:
         records = [r for r in records if test_name_filter(str(r.get("test_name") or ""))]
     payload = _history_payload_from_records(config, source_dir, page_key, display, QWEN_IMAGE_GROUP_FIELDS, records)
@@ -584,6 +604,17 @@ def build_qwen_image_edit_2509_history_payload(config: dict[str, Any], source_di
         model_key="Qwen-Image-edit-2509",
         fallback_display="Qwen Image Edit 2509",
         test_name_filter=lambda name: "qwen_image_edit_2509" in name,
+    )
+
+
+def build_wan22_history_payload(config: dict[str, Any], source_dir: Path) -> dict[str, Any]:
+    return build_qwen_image_family_history_payload(
+        config,
+        source_dir,
+        page_key="wan22_history",
+        model_key="WAN2.2",
+        fallback_display="WAN 2.2",
+        records_loader=load_wan22_benchmark_history,
     )
 
 
@@ -734,6 +765,8 @@ def main() -> int:
     save_json(QWEN_IMAGE_EDIT_HISTORY_PATH, build_qwen_image_edit_history_payload(config, qwen_image_edit_source_dir))
     qwen_image_edit_2509_source_dir = RESULTS_DIR / config.get("kanban_pages", {}).get("qwen_image_edit_2509_history", {}).get("source_dir", "qwen_image_edit_2509")
     save_json(QWEN_IMAGE_EDIT_2509_HISTORY_PATH, build_qwen_image_edit_2509_history_payload(config, qwen_image_edit_2509_source_dir))
+    wan22_source_dir = RESULTS_DIR / config.get("kanban_pages", {}).get("wan22_history", {}).get("source_dir", "wan22")
+    save_json(WAN22_HISTORY_PATH, build_wan22_history_payload(config, wan22_source_dir))
     for model, model_config in config.get("models", {}).items():
         available_metrics = set(model_config["metrics"]["required"]) | set(model_config["metrics"]["optional"])
         for metric, y_min, y_max in MODEL_METRICS.get(model, []):

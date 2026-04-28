@@ -15,6 +15,9 @@ _BUILDKITE_RAW_SYNCS: tuple[tuple[str, str], ...] = (
     ("qwen3omni", "qwen3_omni"),
     ("qwen3tts", "qwen3_tts"),
     ("qwen_image", "qwen_image"),
+    ("qwen_image_edit", "qwen_image_edit"),
+    ("qwen_image_edit_2509", "qwen_image_edit_2509"),
+    ("wan22", "wan22"),
 )
 
 

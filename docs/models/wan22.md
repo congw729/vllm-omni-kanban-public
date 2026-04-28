@@ -1,28 +1,44 @@
 # WAN 2.2
 
 <p class="dashboard-intro">
-This page tracks video-generation cost for WAN 2.2, with dedicated visibility into full request latency and peak memory usage per hardware target.
+This page tracks WAN 2.2 nightly benchmark runs: configurations, latency, throughput, and peak memory over time (from Buildkite diffusion_result JSON containing wan22).
 </p>
 
-<label class="time-range-control" for="time-range">
-  <span class="time-range-control__label">Time Window</span>
-  <select id="time-range" data-time-range>
-    <option value="1d">24h</option>
-    <option value="7d" selected>7 days</option>
-    <option value="30d">30 days</option>
-  </select>
-  <span class="time-range-control__hint">Switch the window for all WAN 2.2 charts on this page.</span>
-</label>
+<section
+  class="omni-history-page"
+  data-omni-history-src="../../assets/charts/wan22_history.json"
+  markdown="1"
+>
 
-## Generation Cost
+## Nightly run history
 
-<div class="chart-grid chart-grid--single">
-<div class="chart-card">
-<h4>E2E Latency</h4>
-<div class="chart-frame" data-chart-base="../../assets/charts/wan22_e2e_latency_ms"></div>
+## Filters
+
+<div class="omni-section">
+  <div class="omni-section__header">
+    <p>Filter by model, test, benchmark profile, and runtime settings.</p>
+  </div>
+  <div class="omni-filter-bar" data-omni-history-filters></div>
 </div>
-<div class="chart-card">
-<h4>Peak Memory</h4>
-<div class="chart-frame" data-chart-base="../../assets/charts/wan22_peak_memory_gb"></div>
+
+<div class="omni-summary-grid" data-omni-history-summary></div>
+
+## Trend Charts
+
+<div class="omni-section">
+  <div class="omni-section__header">
+    <p>Each line represents one benchmark configuration over time.</p>
+  </div>
+  <div data-omni-history-charts></div>
 </div>
+
+## History Table
+
+<div class="omni-section">
+  <div class="omni-section__header">
+    <p>Rows are grouped by run date (newest date first; expand/collapse each day). Within a day, newest run first.</p>
+  </div>
+  <div data-omni-history-table></div>
 </div>
+
+</section>
