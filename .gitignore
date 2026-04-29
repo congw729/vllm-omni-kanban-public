@@ -72,6 +72,9 @@ instance/
 # Sphinx documentation
 docs/_build/
 
+# Generated chart JSON (do not commit)
+docs/assets/charts/*.json
+
 # PyBuilder
 .pybuilder/
 target/
