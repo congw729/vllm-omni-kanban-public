@@ -1,0 +1,412 @@
+[
+  {
+    "test_name": "test_wan22_i2v_single_device",
+    "backend": "v1/videos",
+    "timestamp": "20260503-183108",
+    "server_params": {
+      "model": "Wan-AI/Wan2.2-I2V-A14B-Diffusers",
+      "serve_args": {
+        "enable-diffusion-pipeline-profiler": true
+      }
+    },
+    "benchmark_params": {
+      "name": "832x480_frames81_steps4",
+      "dataset": "random",
+      "task": "i2v",
+      "num-prompts": 10,
+      "max-concurrency": 1,
+      "num-input-images": 1,
+      "seed": 42,
+      "enable-negative-prompt": true,
+      "random-request-config": [
+        {
+          "width": 832,
+          "height": 480,
+          "num_inference_steps": 4,
+          "num_frames": 81,
+          "fps": 16,
+          "weight": 1
+        }
+      ],
+      "baseline": {
+        "throughput_qps": 0.034,
+        "latency_mean": 26.0,
+        "peak_memory_mb_mean": 80000
+      }
+    },
+    "result": {
+      "duration": 283.0409898823127,
+      "completed_requests": 10,
+      "failed_requests": 0,
+      "throughput_qps": 0.03533057174566115,
+      "latency_mean": 28.30390410590917,
+      "latency_median": 28.052593328990042,
+      "latency_p99": 30.340740249305963,
+      "latency_p95": 29.436668682843443,
+      "latency_p50": 28.052593328990042,
+      "peak_memory_mb_max": 76378.0,
+      "peak_memory_mb_mean": 76376.4,
+      "peak_memory_mb_median": 76378.0,
+      "stage_durations_mean": {
+        "Wan22I2VPipeline.text_encoder.forward": 0.05580818448215723,
+        "Wan22I2VPipeline.vae.encode": 1.3761985056102275,
+        "Wan22I2VPipeline.diffuse": 22.291615783795713,
+        "Wan22I2VPipeline.vae.decode": 2.2493648012168705,
+        "queue_wait_ms": 0.31446516513824463,
+        "stage_0_gen_ms": 26858.079528808594
+      },
+      "stage_durations_p50": {
+        "Wan22I2VPipeline.text_encoder.forward": 0.05587998451665044,
+        "Wan22I2VPipeline.vae.encode": 1.3759781890548766,
+        "Wan22I2VPipeline.diffuse": 22.226578978821635,
+        "Wan22I2VPipeline.vae.decode": 2.2506954707205296,
+        "queue_wait_ms": 0.30794041231274605,
+        "stage_0_gen_ms": 26783.337354660034
+      },
+      "stage_durations_p99": {
+        "Wan22I2VPipeline.text_encoder.forward": 0.056109145088121294,
+        "Wan22I2VPipeline.vae.encode": 1.378238015146926,
+        "Wan22I2VPipeline.diffuse": 23.19456760688685,
+        "Wan22I2VPipeline.vae.decode": 2.252399933738634,
+        "queue_wait_ms": 0.3903941996395588,
+        "stage_0_gen_ms": 27765.790021419525
+      },
+      "backend": "v1/videos",
+      "model": "Wan-AI/Wan2.2-I2V-A14B-Diffusers",
+      "dataset": "random",
+      "task": "i2v"
+    },
+    "log_file": "tests/dfx/perf/results/logs/test_wan22_i2v_single_device_v1_videos_20260503-183108.log",
+    "Model": "Wan-AI/Wan2.2-I2V-A14B-Diffusers",
+    "Framework": "vllm-omni",
+    "API Backend": "v1/videos",
+    "Hardware": "",
+    "Deployment": "",
+    "Task": "i2v",
+    "Dataset": "random",
+    "resolution": "unknown widthxunknown height",
+    "Parallelism": "none",
+    "max_concurrency": 1,
+    "Cache": "disabled",
+    "Quantization": "disabled",
+    "offload": "disabled",
+    "compile": "enabled",
+    "Attn_backend": "FLASH_ATTN",
+    "num_inference_steps": "",
+    "completed": 10,
+    "failed": 0,
+    "throughput_qps": 0.03533057174566115,
+    "latency_mean": 28.30390410590917,
+    "latency_median": 28.052593328990042,
+    "latency_p99": 30.340740249305963,
+    "latency_p95": 29.436668682843443,
+    "latency_p50": 28.052593328990042,
+    "peak_memory_mb_max": 76378.0,
+    "peak_memory_mb_mean": 76376.4,
+    "peak_memory_mb_median": 76378.0,
+    "stage_durations_mean": {
+      "Wan22I2VPipeline.text_encoder.forward": 0.05580818448215723,
+      "Wan22I2VPipeline.vae.encode": 1.3761985056102275,
+      "Wan22I2VPipeline.diffuse": 22.291615783795713,
+      "Wan22I2VPipeline.vae.decode": 2.2493648012168705,
+      "queue_wait_ms": 0.31446516513824463,
+      "stage_0_gen_ms": 26858.079528808594
+    },
+    "stage_durations_p50": {
+      "Wan22I2VPipeline.text_encoder.forward": 0.05587998451665044,
+      "Wan22I2VPipeline.vae.encode": 1.3759781890548766,
+      "Wan22I2VPipeline.diffuse": 22.226578978821635,
+      "Wan22I2VPipeline.vae.decode": 2.2506954707205296,
+      "queue_wait_ms": 0.30794041231274605,
+      "stage_0_gen_ms": 26783.337354660034
+    },
+    "stage_durations_p99": {
+      "Wan22I2VPipeline.text_encoder.forward": 0.056109145088121294,
+      "Wan22I2VPipeline.vae.encode": 1.378238015146926,
+      "Wan22I2VPipeline.diffuse": 23.19456760688685,
+      "Wan22I2VPipeline.vae.decode": 2.252399933738634,
+      "queue_wait_ms": 0.3903941996395588,
+      "stage_0_gen_ms": 27765.790021419525
+    },
+    "commit_sha": "6bb18af119c797fae31e843748fd14fd1e6b2efb",
+    "build_id": "019deeff-70f5-441b-9915-c59901e52c9e",
+    "build_url": "https://buildkite.com/vllm/vllm-omni/builds/8772",
+    "source_file": "tests/dfx/perf/tests/test_wan22_i2v_vllm_omni.json"
+  },
+  {
+    "test_name": "test_wan22_i2v_usp2_vae_patch2_hsdp_slicing",
+    "backend": "v1/videos",
+    "timestamp": "20260503-183924",
+    "server_params": {
+      "model": "Wan-AI/Wan2.2-I2V-A14B-Diffusers",
+      "serve_args": {
+        "usp": 2,
+        "vae-patch-parallel-size": 2,
+        "use-hsdp": true,
+        "vae-use-slicing": true,
+        "enable-diffusion-pipeline-profiler": true
+      }
+    },
+    "benchmark_params": {
+      "name": "832x480_frames81_steps4",
+      "dataset": "random",
+      "task": "i2v",
+      "num-prompts": 10,
+      "max-concurrency": 1,
+      "num-input-images": 1,
+      "seed": 42,
+      "enable-negative-prompt": true,
+      "random-request-config": [
+        {
+          "width": 832,
+          "height": 480,
+          "num_inference_steps": 4,
+          "num_frames": 81,
+          "fps": 16,
+          "weight": 1
+        }
+      ],
+      "baseline": {
+        "throughput_qps": 0.042,
+        "latency_mean": 21.6,
+        "peak_memory_mb_mean": 55300
+      }
+    },
+    "result": {
+      "duration": 182.77397256810218,
+      "completed_requests": 10,
+      "failed_requests": 0,
+      "throughput_qps": 0.05471238524551939,
+      "latency_mean": 18.2771945011802,
+      "latency_median": 18.03559972718358,
+      "latency_p99": 20.236500879693775,
+      "latency_p95": 19.366794427577403,
+      "latency_p50": 18.03559972718358,
+      "peak_memory_mb_max": 48414.0,
+      "peak_memory_mb_mean": 47958.4,
+      "peak_memory_mb_median": 47825.0,
+      "stage_durations_mean": {
+        "Wan22I2VPipeline.text_encoder.forward": 0.056698098126798865,
+        "Wan22I2VPipeline.vae.encode": 1.566750704497099,
+        "Wan22I2VPipeline.diffuse": 12.160132154915482,
+        "Wan22I2VPipeline.vae.decode": 2.4665148362517355,
+        "queue_wait_ms": 0.3269832581281662,
+        "stage_0_gen_ms": 17150.011801719666
+      },
+      "stage_durations_p50": {
+        "Wan22I2VPipeline.text_encoder.forward": 0.05674361018463969,
+        "Wan22I2VPipeline.vae.encode": 1.5374142923392355,
+        "Wan22I2VPipeline.diffuse": 12.178261806257069,
+        "Wan22I2VPipeline.vae.decode": 2.41976307798177,
+        "queue_wait_ms": 0.3279321826994419,
+        "stage_0_gen_ms": 17110.528349876404
+      },
+      "stage_durations_p99": {
+        "Wan22I2VPipeline.text_encoder.forward": 0.057001820411533115,
+        "Wan22I2VPipeline.vae.encode": 1.7961845886707306,
+        "Wan22I2VPipeline.diffuse": 12.232677577380091,
+        "Wan22I2VPipeline.vae.decode": 2.8412014986295255,
+        "queue_wait_ms": 0.3740976005792618,
+        "stage_0_gen_ms": 17652.615838050842
+      },
+      "backend": "v1/videos",
+      "model": "Wan-AI/Wan2.2-I2V-A14B-Diffusers",
+      "dataset": "random",
+      "task": "i2v"
+    },
+    "log_file": "tests/dfx/perf/results/logs/test_wan22_i2v_usp2_vae_patch2_hsdp_slicing_v1_videos_20260503-183924.log",
+    "Model": "Wan-AI/Wan2.2-I2V-A14B-Diffusers",
+    "Framework": "vllm-omni",
+    "API Backend": "v1/videos",
+    "Hardware": "",
+    "Deployment": "",
+    "Task": "i2v",
+    "Dataset": "random",
+    "resolution": "unknown widthxunknown height",
+    "Parallelism": "usp=2,vae-patch-parallel-size=2",
+    "max_concurrency": 1,
+    "Cache": "disabled",
+    "Quantization": "disabled",
+    "offload": "disabled",
+    "compile": "enabled",
+    "Attn_backend": "FLASH_ATTN",
+    "num_inference_steps": "",
+    "completed": 10,
+    "failed": 0,
+    "throughput_qps": 0.05471238524551939,
+    "latency_mean": 18.2771945011802,
+    "latency_median": 18.03559972718358,
+    "latency_p99": 20.236500879693775,
+    "latency_p95": 19.366794427577403,
+    "latency_p50": 18.03559972718358,
+    "peak_memory_mb_max": 48414.0,
+    "peak_memory_mb_mean": 47958.4,
+    "peak_memory_mb_median": 47825.0,
+    "stage_durations_mean": {
+      "Wan22I2VPipeline.text_encoder.forward": 0.056698098126798865,
+      "Wan22I2VPipeline.vae.encode": 1.566750704497099,
+      "Wan22I2VPipeline.diffuse": 12.160132154915482,
+      "Wan22I2VPipeline.vae.decode": 2.4665148362517355,
+      "queue_wait_ms": 0.3269832581281662,
+      "stage_0_gen_ms": 17150.011801719666
+    },
+    "stage_durations_p50": {
+      "Wan22I2VPipeline.text_encoder.forward": 0.05674361018463969,
+      "Wan22I2VPipeline.vae.encode": 1.5374142923392355,
+      "Wan22I2VPipeline.diffuse": 12.178261806257069,
+      "Wan22I2VPipeline.vae.decode": 2.41976307798177,
+      "queue_wait_ms": 0.3279321826994419,
+      "stage_0_gen_ms": 17110.528349876404
+    },
+    "stage_durations_p99": {
+      "Wan22I2VPipeline.text_encoder.forward": 0.057001820411533115,
+      "Wan22I2VPipeline.vae.encode": 1.7961845886707306,
+      "Wan22I2VPipeline.diffuse": 12.232677577380091,
+      "Wan22I2VPipeline.vae.decode": 2.8412014986295255,
+      "queue_wait_ms": 0.3740976005792618,
+      "stage_0_gen_ms": 17652.615838050842
+    },
+    "commit_sha": "6bb18af119c797fae31e843748fd14fd1e6b2efb",
+    "build_id": "019deeff-70f5-441b-9915-c59901e52c9e",
+    "build_url": "https://buildkite.com/vllm/vllm-omni/builds/8772",
+    "source_file": "tests/dfx/perf/tests/test_wan22_i2v_vllm_omni.json"
+  },
+  {
+    "test_name": "test_wan22_i2v_usp2_vae_patch2_hsdp_slicing",
+    "backend": "v1/videos",
+    "timestamp": "20260503-184238",
+    "server_params": {
+      "model": "Wan-AI/Wan2.2-I2V-A14B-Diffusers",
+      "serve_args": {
+        "usp": 2,
+        "vae-patch-parallel-size": 2,
+        "use-hsdp": true,
+        "vae-use-slicing": true,
+        "enable-diffusion-pipeline-profiler": true
+      }
+    },
+    "benchmark_params": {
+      "name": "1280x720_frames121_steps4",
+      "dataset": "random",
+      "task": "i2v",
+      "num-prompts": 10,
+      "max-concurrency": 1,
+      "num-input-images": 1,
+      "seed": 42,
+      "enable-negative-prompt": true,
+      "random-request-config": [
+        {
+          "width": 1280,
+          "height": 720,
+          "num_inference_steps": 4,
+          "num_frames": 121,
+          "fps": 16,
+          "weight": 1
+        }
+      ],
+      "baseline": {
+        "throughput_qps": 0.0085,
+        "latency_mean": 101.6,
+        "peak_memory_mb_mean": 65200
+      }
+    },
+    "result": {
+      "duration": 1063.0993037167937,
+      "completed_requests": 10,
+      "failed_requests": 0,
+      "throughput_qps": 0.00940645898745125,
+      "latency_mean": 106.30973035506904,
+      "latency_median": 106.03844401147217,
+      "latency_p99": 108.59453900933266,
+      "latency_p95": 108.57488319426776,
+      "latency_p50": 106.03844401147217,
+      "peak_memory_mb_max": 56852.0,
+      "peak_memory_mb_mean": 56780.8,
+      "peak_memory_mb_median": 56808.0,
+      "stage_durations_mean": {
+        "Wan22I2VPipeline.text_encoder.forward": 0.057031029276549815,
+        "Wan22I2VPipeline.vae.encode": 4.794380962941796,
+        "Wan22I2VPipeline.diffuse": 86.48289624657482,
+        "Wan22I2VPipeline.vae.decode": 7.580405709892512,
+        "queue_wait_ms": 0.31496789306402206,
+        "stage_0_gen_ms": 101848.68943691254
+      },
+      "stage_durations_p50": {
+        "Wan22I2VPipeline.text_encoder.forward": 0.05700664967298508,
+        "Wan22I2VPipeline.vae.encode": 4.739273478742689,
+        "Wan22I2VPipeline.diffuse": 86.23506919713691,
+        "Wan22I2VPipeline.vae.decode": 7.579839357174933,
+        "queue_wait_ms": 0.3041964955627918,
+        "stage_0_gen_ms": 101608.18147659302
+      },
+      "stage_durations_p99": {
+        "Wan22I2VPipeline.text_encoder.forward": 0.05730259709991515,
+        "Wan22I2VPipeline.vae.encode": 5.20352360480465,
+        "Wan22I2VPipeline.diffuse": 88.82839393152855,
+        "Wan22I2VPipeline.vae.decode": 7.586299835415557,
+        "queue_wait_ms": 0.37870016880333424,
+        "stage_0_gen_ms": 104143.4331035614
+      },
+      "backend": "v1/videos",
+      "model": "Wan-AI/Wan2.2-I2V-A14B-Diffusers",
+      "dataset": "random",
+      "task": "i2v"
+    },
+    "log_file": "tests/dfx/perf/results/logs/test_wan22_i2v_usp2_vae_patch2_hsdp_slicing_v1_videos_20260503-184238.log",
+    "Model": "Wan-AI/Wan2.2-I2V-A14B-Diffusers",
+    "Framework": "vllm-omni",
+    "API Backend": "v1/videos",
+    "Hardware": "",
+    "Deployment": "",
+    "Task": "i2v",
+    "Dataset": "random",
+    "resolution": "unknown widthxunknown height",
+    "Parallelism": "usp=2,vae-patch-parallel-size=2",
+    "max_concurrency": 1,
+    "Cache": "disabled",
+    "Quantization": "disabled",
+    "offload": "disabled",
+    "compile": "enabled",
+    "Attn_backend": "FLASH_ATTN",
+    "num_inference_steps": "",
+    "completed": 10,
+    "failed": 0,
+    "throughput_qps": 0.00940645898745125,
+    "latency_mean": 106.30973035506904,
+    "latency_median": 106.03844401147217,
+    "latency_p99": 108.59453900933266,
+    "latency_p95": 108.57488319426776,
+    "latency_p50": 106.03844401147217,
+    "peak_memory_mb_max": 56852.0,
+    "peak_memory_mb_mean": 56780.8,
+    "peak_memory_mb_median": 56808.0,
+    "stage_durations_mean": {
+      "Wan22I2VPipeline.text_encoder.forward": 0.057031029276549815,
+      "Wan22I2VPipeline.vae.encode": 4.794380962941796,
+      "Wan22I2VPipeline.diffuse": 86.48289624657482,
+      "Wan22I2VPipeline.vae.decode": 7.580405709892512,
+      "queue_wait_ms": 0.31496789306402206,
+      "stage_0_gen_ms": 101848.68943691254
+    },
+    "stage_durations_p50": {
+      "Wan22I2VPipeline.text_encoder.forward": 0.05700664967298508,
+      "Wan22I2VPipeline.vae.encode": 4.739273478742689,
+      "Wan22I2VPipeline.diffuse": 86.23506919713691,
+      "Wan22I2VPipeline.vae.decode": 7.579839357174933,
+      "queue_wait_ms": 0.3041964955627918,
+      "stage_0_gen_ms": 101608.18147659302
+    },
+    "stage_durations_p99": {
+      "Wan22I2VPipeline.text_encoder.forward": 0.05730259709991515,
+      "Wan22I2VPipeline.vae.encode": 5.20352360480465,
+      "Wan22I2VPipeline.diffuse": 88.82839393152855,
+      "Wan22I2VPipeline.vae.decode": 7.586299835415557,
+      "queue_wait_ms": 0.37870016880333424,
+      "stage_0_gen_ms": 104143.4331035614
+    },
+    "commit_sha": "6bb18af119c797fae31e843748fd14fd1e6b2efb",
+    "build_id": "019deeff-70f5-441b-9915-c59901e52c9e",
+    "build_url": "https://buildkite.com/vllm/vllm-omni/builds/8772",
+    "source_file": "tests/dfx/perf/tests/test_wan22_i2v_vllm_omni.json"
+  }
+]
