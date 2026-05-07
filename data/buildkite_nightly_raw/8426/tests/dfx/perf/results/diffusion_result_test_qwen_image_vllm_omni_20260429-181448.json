@@ -1,0 +1,857 @@
+[
+  {
+    "test_name": "test_qwen_image_single_device",
+    "backend": "vllm-omni",
+    "timestamp": "20260429-181635",
+    "server_params": {
+      "model": "Qwen/Qwen-Image",
+      "serve_args": {
+        "enable-diffusion-pipeline-profiler": true
+      }
+    },
+    "benchmark_params": {
+      "name": "512x512_steps20",
+      "dataset": "random",
+      "task": "t2i",
+      "width": 512,
+      "height": 512,
+      "num-inference-steps": 20,
+      "num-prompts": 10,
+      "max-concurrency": 1,
+      "enable-negative-prompt": true,
+      "baseline": {
+        "throughput_qps": 0.3,
+        "latency_mean": 3.5,
+        "peak_memory_mb_mean": 67000
+      }
+    },
+    "result": {
+      "duration": 25.332980157341808,
+      "completed_requests": 10,
+      "failed_requests": 0,
+      "throughput_qps": 0.39474234527049423,
+      "latency_mean": 2.533083281852305,
+      "latency_median": 2.4480103296227753,
+      "latency_p99": 2.999613000880927,
+      "latency_p95": 2.905307757016271,
+      "latency_p50": 2.4480103296227753,
+      "peak_memory_mb_max": 56342.0,
+      "peak_memory_mb_mean": 56342.0,
+      "peak_memory_mb_median": 56342.0,
+      "stage_durations_mean": {
+        "QwenImagePipeline.text_encoder.forward": 0.03803257416002452,
+        "QwenImagePipeline.diffuse": 2.3368202802259477,
+        "QwenImagePipeline.vae.decode": 0.01899241665378213,
+        "queue_wait_ms": 0.5202325526624918,
+        "stage_0_gen_ms": 2427.0751953125
+      },
+      "stage_durations_p50": {
+        "QwenImagePipeline.text_encoder.forward": 0.03573485719971359,
+        "QwenImagePipeline.diffuse": 2.2554870906751603,
+        "QwenImagePipeline.vae.decode": 0.018812111113220453,
+        "queue_wait_ms": 0.24286797270178795,
+        "stage_0_gen_ms": 2341.8856859207153
+      },
+      "stage_durations_p99": {
+        "QwenImagePipeline.text_encoder.forward": 0.05198778936173767,
+        "QwenImagePipeline.diffuse": 2.7719279608875516,
+        "QwenImagePipeline.vae.decode": 0.01978704837616533,
+        "queue_wait_ms": 2.8220800077542667,
+        "stage_0_gen_ms": 2885.0245356559753
+      },
+      "backend": "vllm-omni",
+      "model": "Qwen/Qwen-Image",
+      "dataset": "random",
+      "task": "t2i"
+    },
+    "log_file": "tests/dfx/perf/results/logs/test_qwen_image_single_device_vllm-omni_20260429-181635.log",
+    "Model": "Qwen/Qwen-Image",
+    "Framework": "vllm-omni",
+    "API Backend": "vllm-omni",
+    "Hardware": "",
+    "Deployment": "",
+    "Task": "t2i",
+    "Dataset": "random",
+    "resolution": "512x512",
+    "Parallelism": "none",
+    "max_concurrency": 1,
+    "Cache": "disabled",
+    "Quantization": "disabled",
+    "offload": "disabled",
+    "compile": "enabled",
+    "Attn_backend": "FLASH_ATTN",
+    "num_inference_steps": 20,
+    "completed": 10,
+    "failed": 0,
+    "throughput_qps": 0.39474234527049423,
+    "latency_mean": 2.533083281852305,
+    "latency_median": 2.4480103296227753,
+    "latency_p99": 2.999613000880927,
+    "latency_p95": 2.905307757016271,
+    "latency_p50": 2.4480103296227753,
+    "peak_memory_mb_max": 56342.0,
+    "peak_memory_mb_mean": 56342.0,
+    "peak_memory_mb_median": 56342.0,
+    "stage_durations_mean": {
+      "QwenImagePipeline.text_encoder.forward": 0.03803257416002452,
+      "QwenImagePipeline.diffuse": 2.3368202802259477,
+      "QwenImagePipeline.vae.decode": 0.01899241665378213,
+      "queue_wait_ms": 0.5202325526624918,
+      "stage_0_gen_ms": 2427.0751953125
+    },
+    "stage_durations_p50": {
+      "QwenImagePipeline.text_encoder.forward": 0.03573485719971359,
+      "QwenImagePipeline.diffuse": 2.2554870906751603,
+      "QwenImagePipeline.vae.decode": 0.018812111113220453,
+      "queue_wait_ms": 0.24286797270178795,
+      "stage_0_gen_ms": 2341.8856859207153
+    },
+    "stage_durations_p99": {
+      "QwenImagePipeline.text_encoder.forward": 0.05198778936173767,
+      "QwenImagePipeline.diffuse": 2.7719279608875516,
+      "QwenImagePipeline.vae.decode": 0.01978704837616533,
+      "queue_wait_ms": 2.8220800077542667,
+      "stage_0_gen_ms": 2885.0245356559753
+    },
+    "commit_sha": "dd0fa02547aae9f57e1cb1c80b7db50a4161b8d2",
+    "build_id": "019dda65-f305-4720-8200-3e3ee6794834",
+    "build_url": "https://buildkite.com/vllm/vllm-omni/builds/8426",
+    "source_file": "tests/dfx/perf/tests/test_qwen_image_vllm_omni.json"
+  },
+  {
+    "test_name": "test_qwen_image_single_device",
+    "backend": "vllm-omni",
+    "timestamp": "20260429-181701",
+    "server_params": {
+      "model": "Qwen/Qwen-Image",
+      "serve_args": {
+        "enable-diffusion-pipeline-profiler": true
+      }
+    },
+    "benchmark_params": {
+      "name": "1536x1536_steps35",
+      "dataset": "random",
+      "task": "t2i",
+      "width": 1536,
+      "height": 1536,
+      "num-inference-steps": 35,
+      "num-prompts": 10,
+      "max-concurrency": 1,
+      "enable-negative-prompt": true,
+      "baseline": {
+        "throughput_qps": 0.037,
+        "latency_mean": 27.0,
+        "peak_memory_mb_mean": 74000
+      }
+    },
+    "result": {
+      "duration": 246.04452421190217,
+      "completed_requests": 10,
+      "failed_requests": 0,
+      "throughput_qps": 0.04064305040736306,
+      "latency_mean": 24.604159992514177,
+      "latency_median": 24.633633877616376,
+      "latency_p99": 24.788227018998004,
+      "latency_p95": 24.778782151197085,
+      "latency_p50": 24.633633877616376,
+      "peak_memory_mb_max": 67622.0,
+      "peak_memory_mb_mean": 67622.0,
+      "peak_memory_mb_median": 67622.0,
+      "stage_durations_mean": {
+        "QwenImagePipeline.text_encoder.forward": 0.036554458923637866,
+        "QwenImagePipeline.diffuse": 23.265718832379207,
+        "QwenImagePipeline.vae.decode": 0.16597083308734,
+        "queue_wait_ms": 0.2756146714091301,
+        "stage_0_gen_ms": 23579.840064048767
+      },
+      "stage_durations_p50": {
+        "QwenImagePipeline.text_encoder.forward": 0.036040593637153506,
+        "QwenImagePipeline.diffuse": 23.297943393932655,
+        "QwenImagePipeline.vae.decode": 0.1658965095411986,
+        "queue_wait_ms": 0.2672025002539158,
+        "stage_0_gen_ms": 23617.25616455078
+      },
+      "stage_durations_p99": {
+        "QwenImagePipeline.text_encoder.forward": 0.04038305679801851,
+        "QwenImagePipeline.diffuse": 23.33598880071193,
+        "QwenImagePipeline.vae.decode": 0.16688404162880033,
+        "queue_wait_ms": 0.36452376283705235,
+        "stage_0_gen_ms": 23641.422562599182
+      },
+      "backend": "vllm-omni",
+      "model": "Qwen/Qwen-Image",
+      "dataset": "random",
+      "task": "t2i"
+    },
+    "log_file": "tests/dfx/perf/results/logs/test_qwen_image_single_device_vllm-omni_20260429-181701.log",
+    "Model": "Qwen/Qwen-Image",
+    "Framework": "vllm-omni",
+    "API Backend": "vllm-omni",
+    "Hardware": "",
+    "Deployment": "",
+    "Task": "t2i",
+    "Dataset": "random",
+    "resolution": "1536x1536",
+    "Parallelism": "none",
+    "max_concurrency": 1,
+    "Cache": "disabled",
+    "Quantization": "disabled",
+    "offload": "disabled",
+    "compile": "enabled",
+    "Attn_backend": "FLASH_ATTN",
+    "num_inference_steps": 35,
+    "completed": 10,
+    "failed": 0,
+    "throughput_qps": 0.04064305040736306,
+    "latency_mean": 24.604159992514177,
+    "latency_median": 24.633633877616376,
+    "latency_p99": 24.788227018998004,
+    "latency_p95": 24.778782151197085,
+    "latency_p50": 24.633633877616376,
+    "peak_memory_mb_max": 67622.0,
+    "peak_memory_mb_mean": 67622.0,
+    "peak_memory_mb_median": 67622.0,
+    "stage_durations_mean": {
+      "QwenImagePipeline.text_encoder.forward": 0.036554458923637866,
+      "QwenImagePipeline.diffuse": 23.265718832379207,
+      "QwenImagePipeline.vae.decode": 0.16597083308734,
+      "queue_wait_ms": 0.2756146714091301,
+      "stage_0_gen_ms": 23579.840064048767
+    },
+    "stage_durations_p50": {
+      "QwenImagePipeline.text_encoder.forward": 0.036040593637153506,
+      "QwenImagePipeline.diffuse": 23.297943393932655,
+      "QwenImagePipeline.vae.decode": 0.1658965095411986,
+      "queue_wait_ms": 0.2672025002539158,
+      "stage_0_gen_ms": 23617.25616455078
+    },
+    "stage_durations_p99": {
+      "QwenImagePipeline.text_encoder.forward": 0.04038305679801851,
+      "QwenImagePipeline.diffuse": 23.33598880071193,
+      "QwenImagePipeline.vae.decode": 0.16688404162880033,
+      "queue_wait_ms": 0.36452376283705235,
+      "stage_0_gen_ms": 23641.422562599182
+    },
+    "commit_sha": "dd0fa02547aae9f57e1cb1c80b7db50a4161b8d2",
+    "build_id": "019dda65-f305-4720-8200-3e3ee6794834",
+    "build_url": "https://buildkite.com/vllm/vllm-omni/builds/8426",
+    "source_file": "tests/dfx/perf/tests/test_qwen_image_vllm_omni.json"
+  },
+  {
+    "test_name": "test_qwen_image_single_device_step_execution",
+    "backend": "vllm-omni",
+    "timestamp": "20260429-182329",
+    "server_params": {
+      "model": "Qwen/Qwen-Image",
+      "serve_args": {
+        "enable-diffusion-pipeline-profiler": true,
+        "step-execution": true
+      }
+    },
+    "benchmark_params": {
+      "name": "512x512_steps20",
+      "dataset": "random",
+      "task": "t2i",
+      "width": 512,
+      "height": 512,
+      "num-inference-steps": 20,
+      "num-prompts": 10,
+      "max-concurrency": 1,
+      "enable-negative-prompt": true,
+      "baseline": {
+        "throughput_qps": 0.3,
+        "latency_mean": 3.5,
+        "peak_memory_mb_mean": 67000
+      }
+    },
+    "result": {
+      "duration": 24.472907286137342,
+      "completed_requests": 10,
+      "failed_requests": 0,
+      "throughput_qps": 0.4086151221462965,
+      "latency_mean": 2.447080729296431,
+      "latency_median": 2.427723604487255,
+      "latency_p99": 2.558890457293019,
+      "latency_p95": 2.544593769265339,
+      "latency_p50": 2.427723604487255,
+      "peak_memory_mb_max": 0,
+      "peak_memory_mb_mean": 0,
+      "peak_memory_mb_median": 0,
+      "stage_durations_mean": {
+        "QwenImagePipeline.text_encoder.forward": 0.6053806410171092,
+        "QwenImagePipeline.vae.decode": 0.34809959777630867,
+        "queue_wait_ms": 0.2672698348760605,
+        "stage_0_gen_ms": 2337.0742559432983
+      },
+      "stage_durations_p50": {
+        "QwenImagePipeline.text_encoder.forward": 0.6075686016120017,
+        "QwenImagePipeline.vae.decode": 0.3481999975629151,
+        "queue_wait_ms": 0.26419246569275856,
+        "stage_0_gen_ms": 2310.01353263855
+      },
+      "stage_durations_p99": {
+        "QwenImagePipeline.text_encoder.forward": 0.7637197918258607,
+        "QwenImagePipeline.vae.decode": 0.4308401253493503,
+        "queue_wait_ms": 0.3193838382139802,
+        "stage_0_gen_ms": 2435.9308290481567
+      },
+      "backend": "vllm-omni",
+      "model": "Qwen/Qwen-Image",
+      "dataset": "random",
+      "task": "t2i"
+    },
+    "log_file": "tests/dfx/perf/results/logs/test_qwen_image_single_device_step_execution_vllm-omni_20260429-182329.log",
+    "Model": "Qwen/Qwen-Image",
+    "Framework": "vllm-omni",
+    "API Backend": "vllm-omni",
+    "Hardware": "",
+    "Deployment": "",
+    "Task": "t2i",
+    "Dataset": "random",
+    "resolution": "512x512",
+    "Parallelism": "none",
+    "max_concurrency": 1,
+    "Cache": "disabled",
+    "Quantization": "disabled",
+    "offload": "disabled",
+    "compile": "enabled",
+    "Attn_backend": "FLASH_ATTN",
+    "num_inference_steps": 20,
+    "completed": 10,
+    "failed": 0,
+    "throughput_qps": 0.4086151221462965,
+    "latency_mean": 2.447080729296431,
+    "latency_median": 2.427723604487255,
+    "latency_p99": 2.558890457293019,
+    "latency_p95": 2.544593769265339,
+    "latency_p50": 2.427723604487255,
+    "peak_memory_mb_max": 0,
+    "peak_memory_mb_mean": 0,
+    "peak_memory_mb_median": 0,
+    "stage_durations_mean": {
+      "QwenImagePipeline.text_encoder.forward": 0.6053806410171092,
+      "QwenImagePipeline.vae.decode": 0.34809959777630867,
+      "queue_wait_ms": 0.2672698348760605,
+      "stage_0_gen_ms": 2337.0742559432983
+    },
+    "stage_durations_p50": {
+      "QwenImagePipeline.text_encoder.forward": 0.6075686016120017,
+      "QwenImagePipeline.vae.decode": 0.3481999975629151,
+      "queue_wait_ms": 0.26419246569275856,
+      "stage_0_gen_ms": 2310.01353263855
+    },
+    "stage_durations_p99": {
+      "QwenImagePipeline.text_encoder.forward": 0.7637197918258607,
+      "QwenImagePipeline.vae.decode": 0.4308401253493503,
+      "queue_wait_ms": 0.3193838382139802,
+      "stage_0_gen_ms": 2435.9308290481567
+    },
+    "commit_sha": "dd0fa02547aae9f57e1cb1c80b7db50a4161b8d2",
+    "build_id": "019dda65-f305-4720-8200-3e3ee6794834",
+    "build_url": "https://buildkite.com/vllm/vllm-omni/builds/8426",
+    "source_file": "tests/dfx/perf/tests/test_qwen_image_vllm_omni.json"
+  },
+  {
+    "test_name": "test_qwen_image_single_device_step_execution",
+    "backend": "vllm-omni",
+    "timestamp": "20260429-182354",
+    "server_params": {
+      "model": "Qwen/Qwen-Image",
+      "serve_args": {
+        "enable-diffusion-pipeline-profiler": true,
+        "step-execution": true
+      }
+    },
+    "benchmark_params": {
+      "name": "1536x1536_steps35",
+      "dataset": "random",
+      "task": "t2i",
+      "width": 1536,
+      "height": 1536,
+      "num-inference-steps": 35,
+      "num-prompts": 10,
+      "max-concurrency": 1,
+      "enable-negative-prompt": true,
+      "baseline": {
+        "throughput_qps": 0.037,
+        "latency_mean": 27.0,
+        "peak_memory_mb_mean": 74000
+      }
+    },
+    "result": {
+      "duration": 245.8397054700181,
+      "completed_requests": 10,
+      "failed_requests": 0,
+      "throughput_qps": 0.04067691173352619,
+      "latency_mean": 24.583731551747768,
+      "latency_median": 24.61136132501997,
+      "latency_p99": 24.876658158102074,
+      "latency_p95": 24.80978821453173,
+      "latency_p50": 24.61136132501997,
+      "peak_memory_mb_max": 0,
+      "peak_memory_mb_mean": 0,
+      "peak_memory_mb_median": 0,
+      "stage_durations_mean": {
+        "QwenImagePipeline.text_encoder.forward": 1.0027932695578783,
+        "QwenImagePipeline.vae.decode": 1.5254370164126159,
+        "queue_wait_ms": 0.39964462630450726,
+        "stage_0_gen_ms": 23604.635787010193
+      },
+      "stage_durations_p50": {
+        "QwenImagePipeline.text_encoder.forward": 1.0038589236792177,
+        "QwenImagePipeline.vae.decode": 1.5254335387144238,
+        "queue_wait_ms": 0.38425205275416374,
+        "stage_0_gen_ms": 23593.379497528076
+      },
+      "stage_durations_p99": {
+        "QwenImagePipeline.text_encoder.forward": 1.162916953167878,
+        "QwenImagePipeline.vae.decode": 2.2588806183449925,
+        "queue_wait_ms": 0.5789098329842091,
+        "stage_0_gen_ms": 23689.749643802643
+      },
+      "backend": "vllm-omni",
+      "model": "Qwen/Qwen-Image",
+      "dataset": "random",
+      "task": "t2i"
+    },
+    "log_file": "tests/dfx/perf/results/logs/test_qwen_image_single_device_step_execution_vllm-omni_20260429-182354.log",
+    "Model": "Qwen/Qwen-Image",
+    "Framework": "vllm-omni",
+    "API Backend": "vllm-omni",
+    "Hardware": "",
+    "Deployment": "",
+    "Task": "t2i",
+    "Dataset": "random",
+    "resolution": "1536x1536",
+    "Parallelism": "none",
+    "max_concurrency": 1,
+    "Cache": "disabled",
+    "Quantization": "disabled",
+    "offload": "disabled",
+    "compile": "enabled",
+    "Attn_backend": "FLASH_ATTN",
+    "num_inference_steps": 35,
+    "completed": 10,
+    "failed": 0,
+    "throughput_qps": 0.04067691173352619,
+    "latency_mean": 24.583731551747768,
+    "latency_median": 24.61136132501997,
+    "latency_p99": 24.876658158102074,
+    "latency_p95": 24.80978821453173,
+    "latency_p50": 24.61136132501997,
+    "peak_memory_mb_max": 0,
+    "peak_memory_mb_mean": 0,
+    "peak_memory_mb_median": 0,
+    "stage_durations_mean": {
+      "QwenImagePipeline.text_encoder.forward": 1.0027932695578783,
+      "QwenImagePipeline.vae.decode": 1.5254370164126159,
+      "queue_wait_ms": 0.39964462630450726,
+      "stage_0_gen_ms": 23604.635787010193
+    },
+    "stage_durations_p50": {
+      "QwenImagePipeline.text_encoder.forward": 1.0038589236792177,
+      "QwenImagePipeline.vae.decode": 1.5254335387144238,
+      "queue_wait_ms": 0.38425205275416374,
+      "stage_0_gen_ms": 23593.379497528076
+    },
+    "stage_durations_p99": {
+      "QwenImagePipeline.text_encoder.forward": 1.162916953167878,
+      "QwenImagePipeline.vae.decode": 2.2588806183449925,
+      "queue_wait_ms": 0.5789098329842091,
+      "stage_0_gen_ms": 23689.749643802643
+    },
+    "commit_sha": "dd0fa02547aae9f57e1cb1c80b7db50a4161b8d2",
+    "build_id": "019dda65-f305-4720-8200-3e3ee6794834",
+    "build_url": "https://buildkite.com/vllm/vllm-omni/builds/8426",
+    "source_file": "tests/dfx/perf/tests/test_qwen_image_vllm_omni.json"
+  },
+  {
+    "test_name": "test_qwen_image_ulysses2_cfg2_vae_patch4",
+    "backend": "vllm-omni",
+    "timestamp": "20260429-183008",
+    "server_params": {
+      "model": "Qwen/Qwen-Image",
+      "serve_args": {
+        "ulysses-degree": 2,
+        "cfg-parallel-size": 2,
+        "vae-patch-parallel-size": 4,
+        "vae-use-tiling": true,
+        "enable-diffusion-pipeline-profiler": true
+      }
+    },
+    "benchmark_params": {
+      "name": "1536x1536_steps35",
+      "dataset": "random",
+      "task": "t2i",
+      "width": 1536,
+      "height": 1536,
+      "num-inference-steps": 35,
+      "num-prompts": 10,
+      "max-concurrency": 1,
+      "enable-negative-prompt": true,
+      "baseline": {
+        "throughput_qps": 0.1,
+        "latency_mean": 9.1,
+        "peak_memory_mb_mean": 61000
+      }
+    },
+    "result": {
+      "duration": 84.64302743505687,
+      "completed_requests": 10,
+      "failed_requests": 0,
+      "throughput_qps": 0.11814322222433019,
+      "latency_mean": 8.464059595623985,
+      "latency_median": 8.488876384450123,
+      "latency_p99": 8.542749828938394,
+      "latency_p95": 8.538350107613951,
+      "latency_p50": 8.488876384450123,
+      "peak_memory_mb_max": 55724.0,
+      "peak_memory_mb_mean": 55724.0,
+      "peak_memory_mb_median": 55724.0,
+      "stage_durations_mean": {
+        "QwenImagePipeline.text_encoder.forward": 0.040263337828218934,
+        "QwenImagePipeline.diffuse": 6.956081272801384,
+        "QwenImagePipeline.vae.decode": 0.36317848186008633,
+        "queue_wait_ms": 0.27045421302318573,
+        "stage_0_gen_ms": 7470.861864089966
+      },
+      "stage_durations_p50": {
+        "QwenImagePipeline.text_encoder.forward": 0.03834789106622338,
+        "QwenImagePipeline.diffuse": 6.959332440281287,
+        "QwenImagePipeline.vae.decode": 0.3559185320045799,
+        "queue_wait_ms": 0.2599905710667372,
+        "stage_0_gen_ms": 7458.052635192871
+      },
+      "stage_durations_p99": {
+        "QwenImagePipeline.text_encoder.forward": 0.05251814783550799,
+        "QwenImagePipeline.diffuse": 6.986783294393681,
+        "QwenImagePipeline.vae.decode": 0.4162136662751436,
+        "queue_wait_ms": 0.3668959764763713,
+        "stage_0_gen_ms": 7560.44689655304
+      },
+      "backend": "vllm-omni",
+      "model": "Qwen/Qwen-Image",
+      "dataset": "random",
+      "task": "t2i"
+    },
+    "log_file": "tests/dfx/perf/results/logs/test_qwen_image_ulysses2_cfg2_vae_patch4_vllm-omni_20260429-183008.log",
+    "Model": "Qwen/Qwen-Image",
+    "Framework": "vllm-omni",
+    "API Backend": "vllm-omni",
+    "Hardware": "",
+    "Deployment": "",
+    "Task": "t2i",
+    "Dataset": "random",
+    "resolution": "1536x1536",
+    "Parallelism": "ulysses-degree=2,cfg-parallel-size=2,vae-patch-parallel-size=4,vae-use-tiling=True",
+    "max_concurrency": 1,
+    "Cache": "disabled",
+    "Quantization": "disabled",
+    "offload": "disabled",
+    "compile": "enabled",
+    "Attn_backend": "FLASH_ATTN",
+    "num_inference_steps": 35,
+    "completed": 10,
+    "failed": 0,
+    "throughput_qps": 0.11814322222433019,
+    "latency_mean": 8.464059595623985,
+    "latency_median": 8.488876384450123,
+    "latency_p99": 8.542749828938394,
+    "latency_p95": 8.538350107613951,
+    "latency_p50": 8.488876384450123,
+    "peak_memory_mb_max": 55724.0,
+    "peak_memory_mb_mean": 55724.0,
+    "peak_memory_mb_median": 55724.0,
+    "stage_durations_mean": {
+      "QwenImagePipeline.text_encoder.forward": 0.040263337828218934,
+      "QwenImagePipeline.diffuse": 6.956081272801384,
+      "QwenImagePipeline.vae.decode": 0.36317848186008633,
+      "queue_wait_ms": 0.27045421302318573,
+      "stage_0_gen_ms": 7470.861864089966
+    },
+    "stage_durations_p50": {
+      "QwenImagePipeline.text_encoder.forward": 0.03834789106622338,
+      "QwenImagePipeline.diffuse": 6.959332440281287,
+      "QwenImagePipeline.vae.decode": 0.3559185320045799,
+      "queue_wait_ms": 0.2599905710667372,
+      "stage_0_gen_ms": 7458.052635192871
+    },
+    "stage_durations_p99": {
+      "QwenImagePipeline.text_encoder.forward": 0.05251814783550799,
+      "QwenImagePipeline.diffuse": 6.986783294393681,
+      "QwenImagePipeline.vae.decode": 0.4162136662751436,
+      "queue_wait_ms": 0.3668959764763713,
+      "stage_0_gen_ms": 7560.44689655304
+    },
+    "commit_sha": "dd0fa02547aae9f57e1cb1c80b7db50a4161b8d2",
+    "build_id": "019dda65-f305-4720-8200-3e3ee6794834",
+    "build_url": "https://buildkite.com/vllm/vllm-omni/builds/8426",
+    "source_file": "tests/dfx/perf/tests/test_qwen_image_vllm_omni.json"
+  },
+  {
+    "test_name": "test_qwen_image_ulysses2_cfg2_cache_dit",
+    "backend": "vllm-omni",
+    "timestamp": "20260429-183332",
+    "server_params": {
+      "model": "Qwen/Qwen-Image",
+      "serve_args": {
+        "ulysses-degree": 2,
+        "cfg-parallel-size": 2,
+        "cache-backend": "cache_dit",
+        "cache-config": {
+          "Fn_compute_blocks": 1,
+          "Bn_compute_blocks": 0,
+          "max_warmup_steps": 4,
+          "residual_diff_threshold": 0.24,
+          "max_continuous_cached_steps": 3,
+          "enable_taylorseer": false,
+          "taylorseer_order": 1,
+          "scm_steps_mask_policy": null,
+          "scm_steps_policy": "dynamic"
+        },
+        "enable-diffusion-pipeline-profiler": true
+      }
+    },
+    "benchmark_params": {
+      "name": "512x512_steps20",
+      "dataset": "random",
+      "task": "t2i",
+      "width": 512,
+      "height": 512,
+      "num-inference-steps": 20,
+      "num-prompts": 10,
+      "max-concurrency": 1,
+      "enable-negative-prompt": true,
+      "baseline": {
+        "throughput_qps": 0.1,
+        "latency_mean": 3.5,
+        "peak_memory_mb_mean": 67000
+      }
+    },
+    "result": {
+      "duration": 16.430708817206323,
+      "completed_requests": 10,
+      "failed_requests": 0,
+      "throughput_qps": 0.6086164700045045,
+      "latency_mean": 1.642871059803292,
+      "latency_median": 1.5919141164049506,
+      "latency_p99": 2.1254037221055477,
+      "latency_p95": 1.9487516456749285,
+      "latency_p50": 1.5919141164049506,
+      "peak_memory_mb_max": 56458.0,
+      "peak_memory_mb_mean": 56458.0,
+      "peak_memory_mb_median": 56458.0,
+      "stage_durations_mean": {
+        "QwenImagePipeline.text_encoder.forward": 0.03734901482239365,
+        "QwenImagePipeline.diffuse": 1.4391686310991645,
+        "QwenImagePipeline.vae.decode": 0.018763386504724623,
+        "queue_wait_ms": 0.2530355006456375,
+        "stage_0_gen_ms": 1525.160026550293
+      },
+      "stage_durations_p50": {
+        "QwenImagePipeline.text_encoder.forward": 0.03660327009856701,
+        "QwenImagePipeline.diffuse": 1.3825951535254717,
+        "QwenImagePipeline.vae.decode": 0.018732081400230527,
+        "queue_wait_ms": 0.24039275012910366,
+        "stage_0_gen_ms": 1472.0335006713867
+      },
+      "stage_durations_p99": {
+        "QwenImagePipeline.text_encoder.forward": 0.04176022609230131,
+        "QwenImagePipeline.diffuse": 1.915028732600622,
+        "QwenImagePipeline.vae.decode": 0.019224468343891202,
+        "queue_wait_ms": 0.3352812072262168,
+        "stage_0_gen_ms": 2002.8018021583557
+      },
+      "backend": "vllm-omni",
+      "model": "Qwen/Qwen-Image",
+      "dataset": "random",
+      "task": "t2i"
+    },
+    "log_file": "tests/dfx/perf/results/logs/test_qwen_image_ulysses2_cfg2_cache_dit_vllm-omni_20260429-183332.log",
+    "Model": "Qwen/Qwen-Image",
+    "Framework": "vllm-omni",
+    "API Backend": "vllm-omni",
+    "Hardware": "",
+    "Deployment": "",
+    "Task": "t2i",
+    "Dataset": "random",
+    "resolution": "512x512",
+    "Parallelism": "ulysses-degree=2,cfg-parallel-size=2",
+    "max_concurrency": 1,
+    "Cache": "cache_dit",
+    "Quantization": "disabled",
+    "offload": "disabled",
+    "compile": "enabled",
+    "Attn_backend": "FLASH_ATTN",
+    "num_inference_steps": 20,
+    "completed": 10,
+    "failed": 0,
+    "throughput_qps": 0.6086164700045045,
+    "latency_mean": 1.642871059803292,
+    "latency_median": 1.5919141164049506,
+    "latency_p99": 2.1254037221055477,
+    "latency_p95": 1.9487516456749285,
+    "latency_p50": 1.5919141164049506,
+    "peak_memory_mb_max": 56458.0,
+    "peak_memory_mb_mean": 56458.0,
+    "peak_memory_mb_median": 56458.0,
+    "stage_durations_mean": {
+      "QwenImagePipeline.text_encoder.forward": 0.03734901482239365,
+      "QwenImagePipeline.diffuse": 1.4391686310991645,
+      "QwenImagePipeline.vae.decode": 0.018763386504724623,
+      "queue_wait_ms": 0.2530355006456375,
+      "stage_0_gen_ms": 1525.160026550293
+    },
+    "stage_durations_p50": {
+      "QwenImagePipeline.text_encoder.forward": 0.03660327009856701,
+      "QwenImagePipeline.diffuse": 1.3825951535254717,
+      "QwenImagePipeline.vae.decode": 0.018732081400230527,
+      "queue_wait_ms": 0.24039275012910366,
+      "stage_0_gen_ms": 1472.0335006713867
+    },
+    "stage_durations_p99": {
+      "QwenImagePipeline.text_encoder.forward": 0.04176022609230131,
+      "QwenImagePipeline.diffuse": 1.915028732600622,
+      "QwenImagePipeline.vae.decode": 0.019224468343891202,
+      "queue_wait_ms": 0.3352812072262168,
+      "stage_0_gen_ms": 2002.8018021583557
+    },
+    "commit_sha": "dd0fa02547aae9f57e1cb1c80b7db50a4161b8d2",
+    "build_id": "019dda65-f305-4720-8200-3e3ee6794834",
+    "build_url": "https://buildkite.com/vllm/vllm-omni/builds/8426",
+    "source_file": "tests/dfx/perf/tests/test_qwen_image_vllm_omni.json"
+  },
+  {
+    "test_name": "test_qwen_image_ulysses2_cfg2_cache_dit",
+    "backend": "vllm-omni",
+    "timestamp": "20260429-183349",
+    "server_params": {
+      "model": "Qwen/Qwen-Image",
+      "serve_args": {
+        "ulysses-degree": 2,
+        "cfg-parallel-size": 2,
+        "cache-backend": "cache_dit",
+        "cache-config": {
+          "Fn_compute_blocks": 1,
+          "Bn_compute_blocks": 0,
+          "max_warmup_steps": 4,
+          "residual_diff_threshold": 0.24,
+          "max_continuous_cached_steps": 3,
+          "enable_taylorseer": false,
+          "taylorseer_order": 1,
+          "scm_steps_mask_policy": null,
+          "scm_steps_policy": "dynamic"
+        },
+        "enable-diffusion-pipeline-profiler": true
+      }
+    },
+    "benchmark_params": {
+      "name": "1536x1536_steps35",
+      "dataset": "random",
+      "task": "t2i",
+      "width": 1536,
+      "height": 1536,
+      "num-inference-steps": 35,
+      "num-prompts": 10,
+      "max-concurrency": 1,
+      "enable-negative-prompt": true,
+      "baseline": {
+        "throughput_qps": 0.1,
+        "latency_mean": 6.15,
+        "peak_memory_mb_mean": 74000
+      }
+    },
+    "result": {
+      "duration": 53.7343369522132,
+      "completed_requests": 10,
+      "failed_requests": 0,
+      "throughput_qps": 0.18610074241528576,
+      "latency_mean": 5.373152716364712,
+      "latency_median": 5.405508370371535,
+      "latency_p99": 5.799016651757992,
+      "latency_p95": 5.793299784255214,
+      "latency_p50": 5.405508370371535,
+      "peak_memory_mb_max": 67738.0,
+      "peak_memory_mb_mean": 67738.0,
+      "peak_memory_mb_median": 67738.0,
+      "stage_durations_mean": {
+        "QwenImagePipeline.text_encoder.forward": 0.036705722426995636,
+        "QwenImagePipeline.diffuse": 4.0921199327334765,
+        "QwenImagePipeline.vae.decode": 0.16548797409050167,
+        "queue_wait_ms": 0.3053587395697832,
+        "stage_0_gen_ms": 4401.0897397994995
+      },
+      "stage_durations_p50": {
+        "QwenImagePipeline.text_encoder.forward": 0.03654839005321264,
+        "QwenImagePipeline.diffuse": 4.055686132516712,
+        "QwenImagePipeline.vae.decode": 0.16540826670825481,
+        "queue_wait_ms": 0.29975175857543945,
+        "stage_0_gen_ms": 4366.174936294556
+      },
+      "stage_durations_p99": {
+        "QwenImagePipeline.text_encoder.forward": 0.038663356523029505,
+        "QwenImagePipeline.diffuse": 4.439795259041712,
+        "QwenImagePipeline.vae.decode": 0.16639032029546796,
+        "queue_wait_ms": 0.40840623900294304,
+        "stage_0_gen_ms": 4747.669110298157
+      },
+      "backend": "vllm-omni",
+      "model": "Qwen/Qwen-Image",
+      "dataset": "random",
+      "task": "t2i"
+    },
+    "log_file": "tests/dfx/perf/results/logs/test_qwen_image_ulysses2_cfg2_cache_dit_vllm-omni_20260429-183349.log",
+    "Model": "Qwen/Qwen-Image",
+    "Framework": "vllm-omni",
+    "API Backend": "vllm-omni",
+    "Hardware": "",
+    "Deployment": "",
+    "Task": "t2i",
+    "Dataset": "random",
+    "resolution": "1536x1536",
+    "Parallelism": "ulysses-degree=2,cfg-parallel-size=2",
+    "max_concurrency": 1,
+    "Cache": "cache_dit",
+    "Quantization": "disabled",
+    "offload": "disabled",
+    "compile": "enabled",
+    "Attn_backend": "FLASH_ATTN",
+    "num_inference_steps": 35,
+    "completed": 10,
+    "failed": 0,
+    "throughput_qps": 0.18610074241528576,
+    "latency_mean": 5.373152716364712,
+    "latency_median": 5.405508370371535,
+    "latency_p99": 5.799016651757992,
+    "latency_p95": 5.793299784255214,
+    "latency_p50": 5.405508370371535,
+    "peak_memory_mb_max": 67738.0,
+    "peak_memory_mb_mean": 67738.0,
+    "peak_memory_mb_median": 67738.0,
+    "stage_durations_mean": {
+      "QwenImagePipeline.text_encoder.forward": 0.036705722426995636,
+      "QwenImagePipeline.diffuse": 4.0921199327334765,
+      "QwenImagePipeline.vae.decode": 0.16548797409050167,
+      "queue_wait_ms": 0.3053587395697832,
+      "stage_0_gen_ms": 4401.0897397994995
+    },
+    "stage_durations_p50": {
+      "QwenImagePipeline.text_encoder.forward": 0.03654839005321264,
+      "QwenImagePipeline.diffuse": 4.055686132516712,
+      "QwenImagePipeline.vae.decode": 0.16540826670825481,
+      "queue_wait_ms": 0.29975175857543945,
+      "stage_0_gen_ms": 4366.174936294556
+    },
+    "stage_durations_p99": {
+      "QwenImagePipeline.text_encoder.forward": 0.038663356523029505,
+      "QwenImagePipeline.diffuse": 4.439795259041712,
+      "QwenImagePipeline.vae.decode": 0.16639032029546796,
+      "queue_wait_ms": 0.40840623900294304,
+      "stage_0_gen_ms": 4747.669110298157
+    },
+    "commit_sha": "dd0fa02547aae9f57e1cb1c80b7db50a4161b8d2",
+    "build_id": "019dda65-f305-4720-8200-3e3ee6794834",
+    "build_url": "https://buildkite.com/vllm/vllm-omni/builds/8426",
+    "source_file": "tests/dfx/perf/tests/test_qwen_image_vllm_omni.json"
+  }
+]
