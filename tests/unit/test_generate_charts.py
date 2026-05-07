@@ -61,6 +61,22 @@ def test_parse_result_test_filename_accepts_float_request_rate_token_for_random_
     assert parsed["timestamp_key"] == "20260415-183805"
 
 
+def test_parse_result_test_filename_strips_tts_inna_outna_placeholder_suffix() -> None:
+    """Qwen3-TTS customvoice runs use _inna_outna instead of _in100_out100 before the timestamp."""
+    parsed = parse_result_test_filename(
+        Path(
+            "result_test_qwen3_tts_customvoice_seed-tts-design_8_80_inna_outna_20260428-181951.json",
+        ),
+        frozenset({"random", "random-mm", "seed-tts-design", "seed-tts-text"}),
+    )
+    assert parsed is not None
+    assert parsed["test_name"] == "qwen3_tts_customvoice"
+    assert parsed["dataset_name"] == "seed-tts-design"
+    assert parsed["max_concurrency"] == 8
+    assert parsed["num_prompts"] == 80
+    assert parsed["timestamp_key"] == "20260428-181951"
+
+
 def test_qwen3_omni_history_groups_and_sorts_by_config_and_time(repo_root: Path, tmp_path: Path) -> None:
     source_dir = tmp_path / "qwen3omni"
     source_dir.mkdir()

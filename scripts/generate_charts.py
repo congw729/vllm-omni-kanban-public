@@ -125,8 +125,11 @@ def chart_slug(value: str) -> str:
 
 
 def _strip_io_length_suffix_before_timestamp(name: str) -> str:
-    """Strip _in{digits}_out{digits} immediately before the trailing _YYYYMMDD-HHMMSS segment."""
-    return re.sub(r"_in\d+_out\d+(?=_\d{8}-\d{6}$)", "", name)
+    """Strip _in*_out*_ before the trailing _YYYYMMDD-HHMMSS segment.
+
+    Matches numeric IO lengths (_in100_out100) and TTS-style placeholders (_inna_outna).
+    """
+    return re.sub(r"_in[^_]+_out[^_]+(?=_\d{8}-\d{6}$)", "", name)
 
 
 def parse_result_test_filename(

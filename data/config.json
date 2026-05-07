@@ -178,7 +178,7 @@
     "qwen3_tts_history": {
       "source_dir": "qwen3tts",
       "chart_point_per_day": true,
-      "dataset_names": ["random", "random-mm"],
+      "dataset_names": ["random", "random-mm", "seed-tts-design", "seed-tts-text"],
       "filters": [
         "test_name",
         "dataset_name",
