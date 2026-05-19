@@ -986,6 +986,14 @@ function formatGroupFieldForLegend(field, record) {
       return `ri${v}`;
     case "random_output_len":
       return `ro${v}`;
+    case "omni_metrics_profile":
+      if (v === "audio_metrics") {
+        return "audio";
+      }
+      if (v === "text_only_metrics") {
+        return "text-only";
+      }
+      return String(v);
     default:
       return String(v);
   }
