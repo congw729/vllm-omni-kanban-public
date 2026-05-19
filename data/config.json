@@ -83,6 +83,7 @@
         "dataset_name",
         "max_concurrency",
         "num_prompts",
+        "omni_metrics_profile",
         "qps",
         "input_len",
         "output_len"
@@ -102,6 +103,7 @@
         "endpoint_type",
         "backend",
         "model_id",
+        "omni_metrics_profile",
         "request_throughput",
         "output_throughput",
         "total_token_throughput",

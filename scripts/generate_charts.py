@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import math
 import re
 import sys
 from collections import Counter
@@ -39,6 +40,9 @@ QWEN3_OMNI_GROUP_FIELDS = (
     "random_output_len",
     "max_concurrency",
     "num_prompts",
+    # Same CI scenario can emit two rows differing only by whether audio RTF/TTFP/duration metrics exist.
+    # Without this dimension, frontend line charts merge them and latest-per-day hides the other path.
+    "omni_metrics_profile",
 )
 QWEN3_TTS_GROUP_FIELDS = (
     "endpoint_type",
@@ -184,6 +188,40 @@ def parse_qwen3_omni_filename(path: Path) -> dict[str, Any] | None:
     return parse_result_test_filename(path, DEFAULT_RESULT_DATASETS)
 
 
+def infer_omni_metrics_profile(payload: dict[str, Any]) -> str:
+    """Label for chart grouping: audio-series present vs text-oriented aggregate only.
+
+    Nightly payloads may include two measurements for an otherwise identical workload
+    (endpoint, concurrency, prompts, lengths) where only one fills ``mean_audio_rtf`` /
+    TTFP / audio duration columns. Previously they shared one series key and
+    ``pickLatestPerCalendarDay`` kept only the latest timestamp.
+    """
+
+    probe_keys = (
+        "mean_audio_rtf",
+        "median_audio_rtf",
+        "p99_audio_rtf",
+        "mean_audio_ttfp_ms",
+        "median_audio_ttfp_ms",
+        "p99_audio_ttfp_ms",
+        "mean_audio_duration_s",
+        "median_audio_duration_s",
+        "p99_audio_duration_s",
+    )
+    for key in probe_keys:
+        raw = payload.get(key)
+        if isinstance(raw, (int, float)) and math.isfinite(float(raw)):
+            return "audio_metrics"
+        if isinstance(raw, str) and raw.strip():
+            try:
+                val = float(raw)
+            except ValueError:
+                continue
+            if math.isfinite(val):
+                return "audio_metrics"
+    return "text_only_metrics"
+
+
 def load_result_test_history(
     source_dir: Path,
     dataset_allowlist: frozenset[str] | set[str] | None = None,
@@ -197,9 +235,8 @@ def load_result_test_history(
         if not isinstance(payload, dict):
             continue
         merged = {**payload, **parsed}
-        record = {
+        record: dict[str, Any] = {
             "source_file": path.name,
-            "config_key": " | ".join(str(merged.get(field, "")) for field in QWEN3_OMNI_GROUP_FIELDS),
             **payload,
             **parsed,
         }
@@ -222,6 +259,8 @@ def load_result_test_history(
             for bk, bv in baseline_obj.items():
                 if isinstance(bk, str) and bk and isinstance(bv, (int, float)):
                     record[f"baseline_{bk}"] = float(bv)
+        record["omni_metrics_profile"] = infer_omni_metrics_profile(record)
+        record["config_key"] = " | ".join("" if record.get(field) is None else str(record.get(field)) for field in QWEN3_OMNI_GROUP_FIELDS)
         records.append(record)
 
     def _group_sort_key(item: dict[str, Any]) -> tuple[Any, ...]:
