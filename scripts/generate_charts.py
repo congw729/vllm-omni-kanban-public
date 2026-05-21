@@ -404,16 +404,19 @@ def _load_diffusion_benchmark_records(sorted_paths: list[Path]) -> list[dict[str
         record["config_key"] = " | ".join(str(record.get(field, "")) for field in QWEN_IMAGE_GROUP_FIELDS)
         records.append(record)
 
+    def _group_sort_key(item: dict[str, Any]) -> tuple[Any, ...]:
+        return tuple("" if item.get(field) is None else str(item.get(field)) for field in QWEN_IMAGE_GROUP_FIELDS)
+
     records.sort(
         key=lambda item: (
-            tuple(item.get(field) for field in QWEN_IMAGE_GROUP_FIELDS),
+            _group_sort_key(item),
             item["sort_timestamp"],
         ),
         reverse=False,
     )
     grouped: dict[tuple[Any, ...], list[dict[str, Any]]] = {}
     for record in records:
-        key = tuple(record.get(field) for field in QWEN_IMAGE_GROUP_FIELDS)
+        key = _group_sort_key(record)
         grouped.setdefault(key, []).append(record)
     ordered: list[dict[str, Any]] = []
     for key in sorted(grouped):
