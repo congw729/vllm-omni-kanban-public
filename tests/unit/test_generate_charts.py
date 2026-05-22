@@ -188,6 +188,34 @@ def test_qwen_image_benchmark_baseline_mapped_to_record_fields(tmp_path: Path) -
     assert abs(r0["baseline_peak_memory_gb"] - 10.0) < 1e-6
 
 
+def test_qwen_image_benchmark_sorts_numeric_group_fields_numerically(tmp_path: Path) -> None:
+    source_dir = tmp_path / "qwen_image"
+    source_dir.mkdir()
+    rows = [
+        {
+            "test_name": "t",
+            "backend": "b",
+            "timestamp": "20260401-120000",
+            "server_params": {"model": "m"},
+            "benchmark_params": {"name": "n", "dataset": "random", "max-concurrency": 10, "num-prompts": 10},
+            "result": {"completed_requests": 1, "failed_requests": 0, "latency_mean": 1.0},
+        },
+        {
+            "test_name": "t",
+            "backend": "b",
+            "timestamp": "20260401-121000",
+            "server_params": {"model": "m"},
+            "benchmark_params": {"name": "n", "dataset": "random", "max-concurrency": 2, "num-prompts": 10},
+            "result": {"completed_requests": 1, "failed_requests": 0, "latency_mean": 1.0},
+        },
+    ]
+    (source_dir / "diffusion_result_sorting.json").write_text(json.dumps(rows), encoding="utf-8")
+
+    records = load_qwen_image_benchmark_history(source_dir)
+
+    assert [record["max_concurrency"] for record in records] == [2, 10]
+
+
 def test_result_test_optional_baseline_object(tmp_path: Path, repo_root: Path) -> None:
     source_dir = tmp_path / "qwen3omni"
     source_dir.mkdir()
