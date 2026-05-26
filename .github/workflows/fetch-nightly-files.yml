@@ -136,10 +136,27 @@ jobs:
             echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Deploy MkDocs (optional)
+      - name: Build MkDocs site
         if: hashFiles('mkdocs.yml') != '' && steps.commit_push.outputs.changed == 'true'
         run: |
           pip install -r requirements.txt 2>/dev/null || pip install mkdocs-material
-          mkdocs gh-deploy --force
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          mkdocs build
+
+      - name: Deploy MkDocs to gh-pages (preserves /dashboard/ and other subpaths)
+        if: hashFiles('mkdocs.yml') != '' && steps.commit_push.outputs.changed == 'true'
+        # Was `mkdocs gh-deploy --force`, which orphan-force-pushed gh-pages and
+        # wiped sibling deploys (the Astro `/dashboard/` and `/dashboard-preview/`
+        # subpaths managed by dashboard-deploy.yml). peaceiris/actions-gh-pages
+        # with `keep_files: true` ADDS/UPDATES MkDocs's own files without
+        # touching unrelated paths, so both deploys coexist on gh-pages.
+        # Tradeoff: pages removed from the MkDocs nav stay as orphans on the
+        # live site until manually purged. Acceptable for a low-churn doc site.
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: site
+          keep_files: true
+          enable_jekyll: false
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
+          commit_message: 'Deployed MkDocs build ${{ github.sha }}'
