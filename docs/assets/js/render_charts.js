@@ -306,21 +306,19 @@ function ensureModelsHoverDropdown() {
   const path = window.location.pathname || "";
 
   // Derive the site's base path from the FIRST models tab link Material already
-  // rendered (which is correctly prefixed with /vllm-omni-kanban/ on Pages or
-  // / locally). Falls back to '/' so this still works when the site is mounted
-  // at the host root.
+  // rendered. We read its RESOLVED .href (browser-absolute URL) rather than the
+  // raw attribute, because Material emits relative paths like 'models/qwen3-omni/'
+  // — those don't contain '/models/' as a substring, so attribute-string parsing
+  // doesn't work. The browser-resolved .href is always absolute regardless of
+  // base URL or current page depth.
   function siteBase() {
     const existingLink = modelsTabItem.querySelector(":scope > .md-tabs__link");
-    const href = existingLink?.getAttribute("href") || "";
-    // Material renders e.g. '/vllm-omni-kanban/models/qwen3-omni/' on this
-    // first models link; everything up to and including '/models/' is the base.
-    const match = href.match(/^(.*?)\/models\//);
-    if (match) {
-      return `${match[1]}/`;
+    if (!existingLink || !existingLink.href) {
+      return "/";
     }
-    // For relative hrefs like '../models/...', construct base from current path.
-    const idx = path.indexOf("/models/");
-    return idx >= 0 ? path.slice(0, idx + 1) : "/";
+    const pathname = new URL(existingLink.href).pathname;
+    const idx = pathname.indexOf("/models/");
+    return idx >= 0 ? pathname.slice(0, idx + 1) : "/";
   }
   const base = siteBase();
 
