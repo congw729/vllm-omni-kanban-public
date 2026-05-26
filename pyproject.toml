@@ -1,0 +1,58 @@
+[project]
+name = "vllm-omni-kanban"
+version = "0.1.0"
+description = "vllm-omni nightly benchmark kanban + Astro dashboard"
+requires-python = ">=3.12"
+dependencies = [
+    # dashboard scripts
+    "pyyaml>=6.0",
+    "jsonschema>=4.22",
+    # existing kanban deps (also in requirements.txt — kept for uv compatibility)
+    "mkdocs>=1.6",
+    "mkdocs-material>=9.5",
+    "mkdocs-macros-plugin>=1.0",
+    "requests>=2.32",
+    "tenacity>=8.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+    "pytest-cov>=5.0",
+    "pytest-mock>=3.14",
+    "ruff>=0.6",
+    "mypy>=1.10",
+    "types-PyYAML",
+    "types-jsonschema",
+    "freezegun>=1.5",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+# Scoped to files added by the dashboard PR; the kanban's pre-existing scripts
+# follow their own style conventions and aren't touched by this config.
+include = [
+  "scripts/fetch_perf_local.py",
+  "scripts/fetch_prs.py",
+  "scripts/verify_data.py",
+  "tests/python/**/*.py",
+]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM", "RUF"]
+# E501 (line-too-long) is owned by `ruff format`; suppress duplicate lint reports.
+ignore = ["E501"]
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+files = ["scripts/fetch_perf_local.py", "scripts/fetch_prs.py", "scripts/verify_data.py", "tests/python"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests/python"]
+addopts = "-ra -q"
+pythonpath = ["."]

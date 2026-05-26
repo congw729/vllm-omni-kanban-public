@@ -1,0 +1,125 @@
+---
+interface SnapshotRow {
+  date: string;
+  variant_id: string;
+  values: Record<string, number>;
+}
+interface Variant {
+  id: string;
+  display_name: string;
+  color: string;
+}
+interface Props {
+  rows: SnapshotRow[];
+  variants: Variant[];
+  metric: string;
+  unit: string;
+  id: string;
+}
+const { rows, variants, metric, unit, id } = Astro.props;
+
+const seriesData = variants.map((v) => {
+  const points = rows
+    .filter((r) => r.variant_id === v.id && r.values[metric] !== undefined)
+    .map((r) => [r.date, r.values[metric]] as [string, number])
+    .sort((a, b) => a[0].localeCompare(b[0]));
+  return { variant: v, points };
+});
+const payload = JSON.stringify({ seriesData, metric, unit });
+---
+<div id={id} class="w-full" style="min-height: 380px;" data-trendchart={payload}></div>
+
+<script>
+  import * as echarts from 'echarts';
+
+  function unitLabel(unit: string): string {
+    const map: Record<string, string> = {
+      ratio_0_to_1: 'pass rate',
+      milliseconds: 'ms',
+      seconds: 's',
+      tokens_per_second: 'tok/s',
+      per_second: '/s',
+      audio_per_second: 'audio-s / s',
+      queries_per_second: 'QPS',
+      megabytes: 'MB',
+      ratio: '×',
+      count: 'count',
+    };
+    return map[unit] ?? unit;
+  }
+
+  type ChartPayload = {
+    seriesData: { variant: { id: string; display_name: string; color: string }; points: [string, number][] }[];
+    metric: string;
+    unit: string;
+  };
+
+  // Registry: element id → ECharts instance + raw payload, so a global
+  // variant-filter dropdown elsewhere on the page can re-render all charts.
+  const REGISTRY = new Map<string, { chart: echarts.ECharts; payload: ChartPayload }>();
+
+  function activeFilter(): string {
+    return localStorage.getItem('vop-variant-filter') || 'all';
+  }
+
+  function renderChart(chart: echarts.ECharts, payload: ChartPayload): void {
+    const filter = activeFilter();
+    const visible = filter === 'all'
+      ? payload.seriesData
+      : payload.seriesData.filter((s) => s.variant.id === filter);
+    chart.setOption(
+      {
+        grid: { left: 50, right: 16, top: 28, bottom: 40 },
+        tooltip: { trigger: 'axis' },
+        legend: {
+          data: visible.map((s) => s.variant.display_name),
+          top: 0,
+          textStyle: { color: getComputedStyle(document.body).color },
+        },
+        xAxis: { type: 'time', axisLabel: { color: '#a1a1aa' } },
+        yAxis: {
+          type: 'value',
+          name: unitLabel(payload.unit),
+          nameTextStyle: { color: '#a1a1aa' },
+          axisLabel: { color: '#a1a1aa' },
+          splitLine: { lineStyle: { color: 'rgba(160,160,160,0.15)' } },
+        },
+        series: visible.map((s) => ({
+          name: s.variant.display_name,
+          type: 'line',
+          showSymbol: true,
+          symbolSize: 6,
+          smooth: false,
+          connectNulls: false,
+          itemStyle: { color: s.variant.color },
+          lineStyle: { color: s.variant.color, width: 2 },
+          data: s.points,
+        })),
+      },
+      true, // notMerge: replace prior series cleanly on re-render
+    );
+  }
+
+  function renderAll(): void {
+    document.querySelectorAll<HTMLDivElement>('[data-trendchart]').forEach((el) => {
+      const raw = el.dataset.trendchart;
+      if (!raw || !el.id) return;
+      const payload = JSON.parse(raw) as ChartPayload;
+      const chart = echarts.init(el, null, { renderer: 'svg' });
+      REGISTRY.set(el.id, { chart, payload });
+      renderChart(chart, payload);
+      new ResizeObserver(() => chart.resize()).observe(el);
+    });
+
+    // Listen for the dropdown's custom event and re-render every chart.
+    window.addEventListener('vop:variantfilter', () => {
+      REGISTRY.forEach(({ chart, payload }) => renderChart(chart, payload));
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', renderAll);
+  } else {
+    renderAll();
+  }
+</script>

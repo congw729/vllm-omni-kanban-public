@@ -1,0 +1,54 @@
+name: dashboard-sync
+on:
+  workflow_dispatch:
+  # Run after their existing Buildkite sync workflow completes (best-effort):
+  # Daily cron at 03:45 UTC — slightly after their buildkite sync at 23:25 UTC
+  schedule:
+    - cron: '45 3 * * *'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: dashboard-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 1 }
+
+      - uses: astral-sh/setup-uv@v3
+        with: { enable-cache: true }
+
+      - name: Clone vllm-omni for PR attribution
+        uses: actions/checkout@v4
+        with:
+          repository: hsliuustc0106/vllm-omni
+          path: .cache/vllm-omni
+          fetch-depth: 0
+
+      - run: uv sync --frozen
+
+      - name: Refresh perf snapshots from local raw data
+        run: uv run python -m scripts.fetch_perf_local
+
+      - name: Refresh PR feed
+        run: uv run python -m scripts.fetch_prs .cache/vllm-omni
+
+      - name: Verify data integrity
+        run: uv run python -m scripts.verify_data
+
+      - name: Commit changes if any
+        run: |
+          git config user.name 'vllm-omni-dashboard-bot'
+          git config user.email 'linyueqian+bot@outlook.com'
+          git add dashboard/src/data
+          if git diff --staged --quiet; then
+            echo "no changes; skipping commit"
+            exit 0
+          fi
+          git commit -m "chore(dashboard): daily sync $(date -u +%Y-%m-%d)"
+          git push

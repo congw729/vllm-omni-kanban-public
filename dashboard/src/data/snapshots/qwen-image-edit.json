@@ -1,0 +1,572 @@
+{
+  "alert_thresholds": {},
+  "category": "image_editing",
+  "display_name": "Qwen Image Edit",
+  "model_id": "qwen-image-edit",
+  "optional_metrics": [],
+  "required_metrics": [
+    "pass_rate",
+    "latency_mean_ms",
+    "latency_median_ms",
+    "latency_p50_ms",
+    "latency_p95_ms",
+    "latency_p99_ms",
+    "peak_memory_mb_max",
+    "peak_memory_mb_mean",
+    "peak_memory_mb_median",
+    "throughput_qps"
+  ],
+  "series": [
+    {
+      "alerts": [],
+      "date": "2026-04-22",
+      "values": {
+        "latency_mean_ms": 9243.890585424379,
+        "latency_median_ms": 9252.342334249988,
+        "latency_p50_ms": 9252.342334249988,
+        "latency_p95_ms": 9276.427226141095,
+        "latency_p99_ms": 9278.657352179289,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 58076.0,
+        "peak_memory_mb_mean": 58076.0,
+        "peak_memory_mb_median": 58076.0,
+        "throughput_qps": 0.1081772612467049
+      },
+      "variant_id": "single_device"
+    },
+    {
+      "alerts": [],
+      "date": "2026-04-24",
+      "values": {
+        "latency_mean_ms": 9303.645082004368,
+        "latency_median_ms": 9271.850926568732,
+        "latency_p50_ms": 9271.850926568732,
+        "latency_p95_ms": 9459.24405863043,
+        "latency_p99_ms": 9555.555726434104,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 58076.0,
+        "peak_memory_mb_mean": 58076.0,
+        "peak_memory_mb_median": 58076.0,
+        "throughput_qps": 0.10748242075967242
+      },
+      "variant_id": "single_device"
+    },
+    {
+      "alerts": [],
+      "date": "2026-04-25",
+      "values": {
+        "latency_mean_ms": 9140.491224545985,
+        "latency_median_ms": 9129.787306301296,
+        "latency_p50_ms": 9129.787306301296,
+        "latency_p95_ms": 9195.780256669968,
+        "latency_p99_ms": 9203.44307905063,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 58076.0,
+        "peak_memory_mb_mean": 58076.0,
+        "peak_memory_mb_median": 58076.0,
+        "throughput_qps": 0.10940088707965638
+      },
+      "variant_id": "single_device"
+    },
+    {
+      "alerts": [],
+      "date": "2026-04-26",
+      "values": {
+        "latency_mean_ms": 9197.948675137013,
+        "latency_median_ms": 9164.99493829906,
+        "latency_p50_ms": 9164.99493829906,
+        "latency_p95_ms": 9394.365772604942,
+        "latency_p99_ms": 9514.054193347692,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 58076.0,
+        "peak_memory_mb_mean": 58076.0,
+        "peak_memory_mb_median": 58076.0,
+        "throughput_qps": 0.1087173753068212
+      },
+      "variant_id": "single_device"
+    },
+    {
+      "alerts": [],
+      "date": "2026-04-27",
+      "values": {
+        "latency_mean_ms": 9175.6655854173,
+        "latency_median_ms": 9176.37770716101,
+        "latency_p50_ms": 9176.37770716101,
+        "latency_p95_ms": 9213.126311544329,
+        "latency_p99_ms": 9213.659028429538,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 58076.0,
+        "peak_memory_mb_mean": 58076.0,
+        "peak_memory_mb_median": 58076.0,
+        "throughput_qps": 0.1089815071755187
+      },
+      "variant_id": "single_device"
+    },
+    {
+      "alerts": [],
+      "date": "2026-04-28",
+      "values": {
+        "latency_mean_ms": 9280.120392772369,
+        "latency_median_ms": 9285.84633313585,
+        "latency_p50_ms": 9285.84633313585,
+        "latency_p95_ms": 9347.505758178886,
+        "latency_p99_ms": 9373.388996466529,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 58076.0,
+        "peak_memory_mb_mean": 58076.0,
+        "peak_memory_mb_median": 58076.0,
+        "throughput_qps": 0.10775476960869051
+      },
+      "variant_id": "single_device"
+    },
+    {
+      "alerts": [],
+      "date": "2026-04-29",
+      "values": {
+        "latency_mean_ms": 9201.012170640752,
+        "latency_median_ms": 9186.295881168917,
+        "latency_p50_ms": 9186.295881168917,
+        "latency_p95_ms": 9254.325663042255,
+        "latency_p99_ms": 9255.170271047391,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 58076.0,
+        "peak_memory_mb_mean": 58076.0,
+        "peak_memory_mb_median": 58076.0,
+        "throughput_qps": 0.10868113451586338
+      },
+      "variant_id": "single_device"
+    },
+    {
+      "alerts": [],
+      "date": "2026-04-30",
+      "values": {
+        "latency_mean_ms": 10583.092644950375,
+        "latency_median_ms": 10581.186234019697,
+        "latency_p50_ms": 10581.186234019697,
+        "latency_p95_ms": 10625.762170320377,
+        "latency_p99_ms": 10633.481538696215,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 58078.0,
+        "peak_memory_mb_mean": 58078.0,
+        "peak_memory_mb_median": 58078.0,
+        "throughput_qps": 0.09448859023376786
+      },
+      "variant_id": "single_device"
+    },
+    {
+      "alerts": [],
+      "date": "2026-05-01",
+      "values": {
+        "latency_mean_ms": 10539.786005100177,
+        "latency_median_ms": 10529.692199501369,
+        "latency_p50_ms": 10529.692199501369,
+        "latency_p95_ms": 10591.19141930023,
+        "latency_p99_ms": 10591.654165459113,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 58078.0,
+        "peak_memory_mb_mean": 58078.0,
+        "peak_memory_mb_median": 58078.0,
+        "throughput_qps": 0.09487687903816468
+      },
+      "variant_id": "single_device"
+    },
+    {
+      "alerts": [],
+      "date": "2026-05-02",
+      "values": {
+        "latency_mean_ms": 10531.609607487917,
+        "latency_median_ms": 10516.325589735061,
+        "latency_p50_ms": 10516.325589735061,
+        "latency_p95_ms": 10639.811158878729,
+        "latency_p99_ms": 10688.198647042736,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 58078.0,
+        "peak_memory_mb_mean": 58078.0,
+        "peak_memory_mb_median": 58078.0,
+        "throughput_qps": 0.0949503906984965
+      },
+      "variant_id": "single_device"
+    },
+    {
+      "alerts": [],
+      "date": "2026-05-03",
+      "values": {
+        "latency_mean_ms": 10585.372516326606,
+        "latency_median_ms": 10568.641778314486,
+        "latency_p50_ms": 10568.641778314486,
+        "latency_p95_ms": 10656.022179871798,
+        "latency_p99_ms": 10668.386000022292,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 58078.0,
+        "peak_memory_mb_mean": 58078.0,
+        "peak_memory_mb_median": 58078.0,
+        "throughput_qps": 0.09446824503216153
+      },
+      "variant_id": "single_device"
+    },
+    {
+      "alerts": [],
+      "date": "2026-05-04",
+      "values": {
+        "latency_mean_ms": 10472.38505417481,
+        "latency_median_ms": 10463.415605947375,
+        "latency_p50_ms": 10463.415605947375,
+        "latency_p95_ms": 10544.953141221777,
+        "latency_p99_ms": 10554.916094960645,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 58078.0,
+        "peak_memory_mb_mean": 58078.0,
+        "peak_memory_mb_median": 58078.0,
+        "throughput_qps": 0.09548741068925798
+      },
+      "variant_id": "single_device"
+    },
+    {
+      "alerts": [],
+      "date": "2026-05-05",
+      "values": {
+        "latency_mean_ms": 10600.998578080907,
+        "latency_median_ms": 10585.499939508736,
+        "latency_p50_ms": 10585.499939508736,
+        "latency_p95_ms": 10641.476820083335,
+        "latency_p99_ms": 10645.759378159419,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 58078.0,
+        "peak_memory_mb_mean": 58078.0,
+        "peak_memory_mb_median": 58078.0,
+        "throughput_qps": 0.09432895142083685
+      },
+      "variant_id": "single_device"
+    },
+    {
+      "alerts": [],
+      "date": "2026-05-06",
+      "values": {
+        "latency_mean_ms": 9485.893173329532,
+        "latency_median_ms": 9484.519974095747,
+        "latency_p50_ms": 9484.519974095747,
+        "latency_p95_ms": 9530.455270642415,
+        "latency_p99_ms": 9543.7587279547,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 58078.0,
+        "peak_memory_mb_mean": 58078.0,
+        "peak_memory_mb_median": 58078.0,
+        "throughput_qps": 0.10541743862318628
+      },
+      "variant_id": "single_device"
+    },
+    {
+      "alerts": [],
+      "date": "2026-05-07",
+      "values": {
+        "latency_mean_ms": 9568.191785691306,
+        "latency_median_ms": 9525.663685752079,
+        "latency_p50_ms": 9525.663685752079,
+        "latency_p95_ms": 9767.383990087546,
+        "latency_p99_ms": 9813.669670601375,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 58078.0,
+        "peak_memory_mb_mean": 58078.0,
+        "peak_memory_mb_median": 58078.0,
+        "throughput_qps": 0.10451073556998589
+      },
+      "variant_id": "single_device"
+    },
+    {
+      "alerts": [],
+      "date": "2026-05-08",
+      "values": {
+        "latency_mean_ms": 9458.25073113665,
+        "latency_median_ms": 9453.435393515974,
+        "latency_p50_ms": 9453.435393515974,
+        "latency_p95_ms": 9521.388210821897,
+        "latency_p99_ms": 9531.869857851416,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 58078.0,
+        "peak_memory_mb_mean": 58078.0,
+        "peak_memory_mb_median": 58078.0,
+        "throughput_qps": 0.10572550376193852
+      },
+      "variant_id": "single_device"
+    },
+    {
+      "alerts": [],
+      "date": "2026-05-09",
+      "values": {
+        "latency_mean_ms": 9439.857397507876,
+        "latency_median_ms": 9444.449028465897,
+        "latency_p50_ms": 9444.449028465897,
+        "latency_p95_ms": 9501.930932654068,
+        "latency_p99_ms": 9529.60877253674,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 58078.0,
+        "peak_memory_mb_mean": 58078.0,
+        "peak_memory_mb_median": 58078.0,
+        "throughput_qps": 0.1059316399916634
+      },
+      "variant_id": "single_device"
+    },
+    {
+      "alerts": [],
+      "date": "2026-05-10",
+      "values": {
+        "latency_mean_ms": 9596.205637324601,
+        "latency_median_ms": 9603.18897338584,
+        "latency_p50_ms": 9603.18897338584,
+        "latency_p95_ms": 9741.463704453781,
+        "latency_p99_ms": 9762.667471626773,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 58078.0,
+        "peak_memory_mb_mean": 58078.0,
+        "peak_memory_mb_median": 58078.0,
+        "throughput_qps": 0.10420558967355549
+      },
+      "variant_id": "single_device"
+    },
+    {
+      "alerts": [],
+      "date": "2026-05-11",
+      "values": {
+        "latency_mean_ms": 9395.802442589775,
+        "latency_median_ms": 9387.674036435783,
+        "latency_p50_ms": 9387.674036435783,
+        "latency_p95_ms": 9436.75247717183,
+        "latency_p99_ms": 9448.33737862762,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 58078.0,
+        "peak_memory_mb_mean": 58078.0,
+        "peak_memory_mb_median": 58078.0,
+        "throughput_qps": 0.106427878366083
+      },
+      "variant_id": "single_device"
+    },
+    {
+      "alerts": [],
+      "date": "2026-05-12",
+      "values": {
+        "latency_mean_ms": 9563.348396960646,
+        "latency_median_ms": 9562.465207185596,
+        "latency_p50_ms": 9562.465207185596,
+        "latency_p95_ms": 9593.893836648203,
+        "latency_p99_ms": 9598.644603309222,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 58078.0,
+        "peak_memory_mb_mean": 58078.0,
+        "peak_memory_mb_median": 58078.0,
+        "throughput_qps": 0.10456363511733564
+      },
+      "variant_id": "single_device"
+    },
+    {
+      "alerts": [],
+      "date": "2026-05-13",
+      "values": {
+        "latency_mean_ms": 9478.95590821281,
+        "latency_median_ms": 9480.947211384773,
+        "latency_p50_ms": 9480.947211384773,
+        "latency_p95_ms": 9497.469379147515,
+        "latency_p99_ms": 9499.202130092308,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 58270.0,
+        "peak_memory_mb_mean": 58270.0,
+        "peak_memory_mb_median": 58270.0,
+        "throughput_qps": 0.1054944686074991
+      },
+      "variant_id": "single_device"
+    },
+    {
+      "alerts": [],
+      "date": "2026-05-14",
+      "values": {
+        "latency_mean_ms": 9520.162506820634,
+        "latency_median_ms": 9531.562288990244,
+        "latency_p50_ms": 9531.562288990244,
+        "latency_p95_ms": 9561.318356147967,
+        "latency_p99_ms": 9564.607956926338,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 58270.0,
+        "peak_memory_mb_mean": 58270.0,
+        "peak_memory_mb_median": 58270.0,
+        "throughput_qps": 0.10503780940606189
+      },
+      "variant_id": "single_device"
+    },
+    {
+      "alerts": [],
+      "date": "2026-05-15",
+      "values": {
+        "latency_mean_ms": 9445.965662505478,
+        "latency_median_ms": 9445.14803076163,
+        "latency_p50_ms": 9445.14803076163,
+        "latency_p95_ms": 9508.27626795508,
+        "latency_p99_ms": 9531.448854329064,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 58270.0,
+        "peak_memory_mb_mean": 58270.0,
+        "peak_memory_mb_median": 58270.0,
+        "throughput_qps": 0.10586298922811527
+      },
+      "variant_id": "single_device"
+    },
+    {
+      "alerts": [],
+      "date": "2026-05-16",
+      "values": {
+        "latency_mean_ms": 9358.360914327204,
+        "latency_median_ms": 9357.680352171883,
+        "latency_p50_ms": 9357.680352171883,
+        "latency_p95_ms": 9386.72804608941,
+        "latency_p99_ms": 9396.814010962844,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 58270.0,
+        "peak_memory_mb_mean": 58270.0,
+        "peak_memory_mb_median": 58270.0,
+        "throughput_qps": 0.10685379778412997
+      },
+      "variant_id": "single_device"
+    },
+    {
+      "alerts": [],
+      "date": "2026-05-17",
+      "values": {
+        "latency_mean_ms": 9372.138906875625,
+        "latency_median_ms": 9368.40902036056,
+        "latency_p50_ms": 9368.40902036056,
+        "latency_p95_ms": 9418.179798149504,
+        "latency_p99_ms": 9429.924711813219,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 58270.0,
+        "peak_memory_mb_mean": 58270.0,
+        "peak_memory_mb_median": 58270.0,
+        "throughput_qps": 0.10669706842527625
+      },
+      "variant_id": "single_device"
+    },
+    {
+      "alerts": [],
+      "date": "2026-05-18",
+      "values": {
+        "latency_mean_ms": 9450.679641822353,
+        "latency_median_ms": 9450.362200848758,
+        "latency_p50_ms": 9450.362200848758,
+        "latency_p95_ms": 9508.048844197765,
+        "latency_p99_ms": 9512.94928801246,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 58270.0,
+        "peak_memory_mb_mean": 58270.0,
+        "peak_memory_mb_median": 58270.0,
+        "throughput_qps": 0.10581026871811415
+      },
+      "variant_id": "single_device"
+    },
+    {
+      "alerts": [],
+      "date": "2026-05-19",
+      "values": {
+        "latency_mean_ms": 9410.900186374784,
+        "latency_median_ms": 9413.184174336493,
+        "latency_p50_ms": 9413.184174336493,
+        "latency_p95_ms": 9463.424192229286,
+        "latency_p99_ms": 9481.699932636693,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 58270.0,
+        "peak_memory_mb_mean": 58270.0,
+        "peak_memory_mb_median": 58270.0,
+        "throughput_qps": 0.1062574265661565
+      },
+      "variant_id": "single_device"
+    },
+    {
+      "alerts": [],
+      "date": "2026-05-20",
+      "values": {
+        "latency_mean_ms": 9674.710183311254,
+        "latency_median_ms": 9654.225751757622,
+        "latency_p50_ms": 9654.225751757622,
+        "latency_p95_ms": 9764.282134920359,
+        "latency_p99_ms": 9765.14898866415,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 58270.0,
+        "peak_memory_mb_mean": 58270.0,
+        "peak_memory_mb_median": 58270.0,
+        "throughput_qps": 0.10336007020482046
+      },
+      "variant_id": "single_device"
+    },
+    {
+      "alerts": [],
+      "date": "2026-05-21",
+      "values": {
+        "latency_mean_ms": 9368.868436757475,
+        "latency_median_ms": 9360.057956539094,
+        "latency_p50_ms": 9360.057956539094,
+        "latency_p95_ms": 9435.251634125598,
+        "latency_p99_ms": 9437.966044903733,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 58270.0,
+        "peak_memory_mb_mean": 58270.0,
+        "peak_memory_mb_median": 58270.0,
+        "throughput_qps": 0.10673413070667344
+      },
+      "variant_id": "single_device"
+    },
+    {
+      "alerts": [],
+      "date": "2026-05-22",
+      "values": {
+        "latency_mean_ms": 9376.079216785729,
+        "latency_median_ms": 9358.735936228186,
+        "latency_p50_ms": 9358.735936228186,
+        "latency_p95_ms": 9464.784503681585,
+        "latency_p99_ms": 9465.978591283783,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 58270.0,
+        "peak_memory_mb_mean": 58270.0,
+        "peak_memory_mb_median": 58270.0,
+        "throughput_qps": 0.10665188062089417
+      },
+      "variant_id": "single_device"
+    },
+    {
+      "alerts": [],
+      "date": "2026-05-23",
+      "values": {
+        "latency_mean_ms": 9411.248183064163,
+        "latency_median_ms": 9408.420962747186,
+        "latency_p50_ms": 9408.420962747186,
+        "latency_p95_ms": 9461.139085749164,
+        "latency_p99_ms": 9472.970501156524,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 58270.0,
+        "peak_memory_mb_mean": 58270.0,
+        "peak_memory_mb_median": 58270.0,
+        "throughput_qps": 0.10625349561862266
+      },
+      "variant_id": "single_device"
+    },
+    {
+      "alerts": [],
+      "date": "2026-05-24",
+      "values": {
+        "latency_mean_ms": 9483.607631456107,
+        "latency_median_ms": 9483.702580444515,
+        "latency_p50_ms": 9483.702580444515,
+        "latency_p95_ms": 9526.687001530081,
+        "latency_p99_ms": 9535.100137013942,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 58270.0,
+        "peak_memory_mb_mean": 58270.0,
+        "peak_memory_mb_median": 58270.0,
+        "throughput_qps": 0.1054428550155683
+      },
+      "variant_id": "single_device"
+    }
+  ],
+  "variants": [
+    {
+      "color": "#76b900",
+      "display_name": "single device",
+      "id": "single_device"
+    }
+  ]
+}

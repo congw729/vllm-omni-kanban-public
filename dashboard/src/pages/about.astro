@@ -1,0 +1,40 @@
+---
+import Base from '../layouts/Base.astro';
+import { identity, prStats } from '../lib/data';
+---
+<Base title="About — vllm-omni nightly perf">
+  <h1 class="text-2xl font-semibold mb-4">About this dashboard</h1>
+
+  <h2 class="text-lg font-semibold mt-6 mb-2">Data sources</h2>
+  <ul class="list-disc pl-6 space-y-1 text-sm">
+    <li>Perf data: <a class="underline" href="https://github.com/hsliuustc0106/vllm-omni-kanban">hsliuustc0106/vllm-omni-kanban</a> — daily Markdown reports.</li>
+    <li>Code changes: <a class="underline" href="https://github.com/hsliuustc0106/vllm-omni">hsliuustc0106/vllm-omni</a> main commit log + PR file lists.</li>
+    <li>Refreshed by <a class="underline" href="https://github.com/linyueqian/vllm-omni-nightly-perf/actions/workflows/daily-sync.yml">daily-sync.yml</a> at 03:30 UTC.</li>
+  </ul>
+
+  <h2 class="text-lg font-semibold mt-6 mb-2">PR attribution heuristic</h2>
+  <p class="text-sm mb-2">Each merged PR is bucketed per model as one of:</p>
+  <ul class="list-disc pl-6 space-y-1 text-sm">
+    <li><strong>direct</strong> — PR changed files inside this model's code directory (per <code>scripts/pr_mapping.yml</code>).</li>
+    <li><strong>inferred</strong> — no direct file match, but the PR title's <code>[Bracket]</code> prefix matches a tag for this model.</li>
+    <li><strong>platform</strong> — PR touched shared paths (scheduler, engine, core, distributed, sample, entrypoints, metrics). Shown on every model page (collapsed) where no direct/inferred match applies.</li>
+  </ul>
+  <p class="text-sm mt-2">
+    This is <em>correlation, not causation</em>. A scheduler change may or may not have affected your model's perf the same day; the dashboard surfaces the temporal proximity and lets you investigate. Coverage today: <span class="font-mono">{prStats.attribution_coverage.direct}</span> direct · <span class="font-mono">{prStats.attribution_coverage.inferred_only}</span> inferred · <span class="font-mono">{prStats.attribution_coverage.platform}</span> platform across {prStats.total_prs_indexed_90d} PRs in the last 90 days.
+  </p>
+
+  <h2 class="text-lg font-semibold mt-6 mb-2">Models tracked</h2>
+  <table class="text-sm">
+    <thead><tr class="text-left text-zinc-500"><th class="pr-6">Model</th><th>Category</th></tr></thead>
+    <tbody>
+      {identity.models.map((m) => (
+        <tr><td class="pr-6 font-mono">{m.id}</td><td>{m.category}</td></tr>
+      ))}
+    </tbody>
+  </table>
+
+  <h2 class="text-lg font-semibold mt-6 mb-2">Source</h2>
+  <p class="text-sm">
+    Site code: <a class="underline" href="https://github.com/linyueqian/vllm-omni-nightly-perf">linyueqian/vllm-omni-nightly-perf</a>. Apache-2.0.
+  </p>
+</Base>

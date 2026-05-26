@@ -1,0 +1,10 @@
+# Astro build output and type cache
+dist/
+.astro/
+
+# Node modules
+node_modules/
+
+# Playwright test results
+test-results/
+playwright-report/

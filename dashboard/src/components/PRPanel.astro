@@ -1,0 +1,92 @@
+---
+import { daysSince } from '../lib/data';
+
+interface PRRow {
+  number: number;
+  title: string;
+  author: string;
+  merged_at: string;
+  url: string;
+  files_matched?: string[];
+  platform_paths?: string[];
+  tag_matched?: string;
+}
+interface PRBuckets {
+  direct: PRRow[];
+  inferred: PRRow[];
+  platform: PRRow[];
+}
+interface Props {
+  buckets: PRBuckets;
+  cutoffDate: string;
+}
+const { buckets, cutoffDate } = Astro.props;
+
+const inRange = (r: PRRow) => r.merged_at >= cutoffDate;
+const direct = buckets.direct.filter(inRange);
+const inferred = buckets.inferred.filter(inRange);
+const platform = buckets.platform.filter(inRange);
+
+function relative(iso: string): string {
+  const d = daysSince(iso) ?? 0;
+  if (d < 1) return 'today';
+  if (d < 2) return '1 day ago';
+  return `${Math.floor(d)} days ago`;
+}
+
+const bucketLabel: Record<string, string> = {
+  direct: "changed this model's code",
+  inferred: 'title tag matched',
+  platform: 'shared infra change',
+};
+const base = import.meta.env.BASE_URL;
+---
+<section class="mt-8">
+  <h2 class="text-lg font-semibold mb-1">Code changes around this time</h2>
+  <p class="text-xs text-zinc-500 mb-4">
+    Correlation only, not causation — a perf change may have other causes. Bucket explanations on <a class="underline" href={`${base}about/`}>about</a>.
+  </p>
+
+  <details open class="mb-3">
+    <summary class="cursor-pointer text-sm font-medium">Model-specific ({direct.length + inferred.length})</summary>
+    <ul class="mt-2 divide-y divide-zinc-100 dark:divide-zinc-900">
+      {[...direct, ...inferred].map((r) => {
+        const isDirect = direct.includes(r);
+        return (
+          <li class="py-2 flex items-baseline gap-3">
+            <a href={r.url} class="font-mono text-xs text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100">#{r.number}</a>
+            <a href={r.url} class="flex-1 text-sm hover:underline">{r.title}</a>
+            <span class="text-xs text-zinc-500">@{r.author}</span>
+            <span class="text-xs text-zinc-500 whitespace-nowrap">{relative(r.merged_at)}</span>
+            <span class="text-[10px] uppercase tracking-wide rounded px-1.5 py-0.5 bg-zinc-100 dark:bg-zinc-800"
+                  title={bucketLabel[isDirect ? 'direct' : 'inferred']}>
+              {isDirect ? 'direct' : 'inferred'}
+            </span>
+          </li>
+        );
+      })}
+      {direct.length + inferred.length === 0 && (
+        <li class="py-2 text-sm text-zinc-500">No model-specific merges in this range.</li>
+      )}
+    </ul>
+  </details>
+
+  <details class="mb-3">
+    <summary class="cursor-pointer text-sm font-medium">Platform-wide that may affect this model ({platform.length})</summary>
+    <ul class="mt-2 divide-y divide-zinc-100 dark:divide-zinc-900">
+      {platform.map((r) => (
+        <li class="py-2 flex items-baseline gap-3">
+          <a href={r.url} class="font-mono text-xs text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100">#{r.number}</a>
+          <a href={r.url} class="flex-1 text-sm hover:underline">{r.title}</a>
+          <span class="text-xs text-zinc-500">@{r.author}</span>
+          <span class="text-xs text-zinc-500 whitespace-nowrap">{relative(r.merged_at)}</span>
+          <span class="text-[10px] uppercase tracking-wide rounded px-1.5 py-0.5 bg-zinc-100 dark:bg-zinc-800"
+                title={bucketLabel.platform}>platform</span>
+        </li>
+      ))}
+      {platform.length === 0 && (
+        <li class="py-2 text-sm text-zinc-500">No platform merges in this range.</li>
+      )}
+    </ul>
+  </details>
+</section>

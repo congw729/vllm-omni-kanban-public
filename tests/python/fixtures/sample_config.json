@@ -1,0 +1,27 @@
+{
+  "retention_days": 90,
+  "hardware": {
+    "NVIDIA-A100": { "display_name": "NVIDIA A100" },
+    "NVIDIA-H100": { "display_name": "NVIDIA H100" }
+  },
+  "models": {
+    "Qwen3-Omni": {
+      "display_name": "Qwen3 Omni",
+      "category": "multimodal",
+      "metrics": {
+        "required": ["pass_rate", "latency_p99_ms", "ttft_ms", "throughput_tokens_per_sec"],
+        "optional": []
+      },
+      "alert_overrides": {}
+    },
+    "Qwen3-TTS": {
+      "display_name": "Qwen3 TTS",
+      "category": "audio_synthesis",
+      "metrics": {
+        "required": ["pass_rate", "latency_p99_ms"],
+        "optional": ["ttft_ms", "throughput_tokens_per_sec"]
+      },
+      "alert_overrides": { "latency_p99_ms_critical": 2000 }
+    }
+  }
+}

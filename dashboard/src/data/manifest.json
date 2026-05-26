@@ -1,0 +1,16 @@
+{
+  "date_range": {
+    "end": "2026-05-24",
+    "start": "2026-04-22"
+  },
+  "last_updated": "2026-05-25T15:15:34Z",
+  "models": [
+    "qwen-image",
+    "qwen-image-layered",
+    "qwen-image-edit",
+    "qwen-image-edit-2509",
+    "wan22",
+    "qwen3-omni",
+    "qwen3-tts"
+  ]
+}

@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+:root {
+  color-scheme: light dark;
+}
+
+/* Body background/text classes applied directly on <body> in Base.astro
+   (Tailwind v4 + @apply for dark: variants in CSS can be fragile). */

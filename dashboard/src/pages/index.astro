@@ -1,0 +1,39 @@
+---
+import ModelCard from '../components/ModelCard.astro';
+import Base from '../layouts/Base.astro';
+import { identity, manifest } from '../lib/data';
+
+const snapshots = await Promise.all(
+  identity.models.map(async (m) => {
+    try {
+      const data = await import(`../data/snapshots/${m.id}.json`);
+      return { model: m, snapshot: data.default };
+    } catch {
+      return {
+        model: m,
+        snapshot: {
+          model_id: m.id,
+          display_name: m.display_name,
+          category: m.category,
+          series: [],
+        },
+      };
+    }
+  }),
+);
+---
+<Base title="vllm-omni nightly perf">
+  <div class="mb-6 flex justify-between items-baseline">
+    <h1 class="text-2xl font-semibold">Models</h1>
+    {manifest.date_range.end && (
+      <div class="text-sm text-zinc-500">
+        latest data: <span class="font-mono">{manifest.date_range.end}</span>
+      </div>
+    )}
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    {snapshots.map(({ model, snapshot }) => (
+      <ModelCard model={model} snapshot={snapshot} />
+    ))}
+  </div>
+</Base>

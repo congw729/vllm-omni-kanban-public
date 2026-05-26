@@ -1,0 +1,28 @@
+{
+  "name": "vllm-omni-kanban-dashboard",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "lint": "biome check src tests/e2e",
+    "format": "biome format --write src tests/e2e",
+    "test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.3.0",
+    "astro": "^5.0.0",
+    "echarts": "^5.5.0",
+    "tailwindcss": "^4.3.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.9",
+    "@biomejs/biome": "^1.9.0",
+    "@playwright/test": "^1.48.0",
+    "typescript": "^5.9.3"
+  },
+  "packageManager": "pnpm@9.12.0"
+}

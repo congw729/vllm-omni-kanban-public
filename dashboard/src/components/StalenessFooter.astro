@@ -1,0 +1,42 @@
+---
+import { manifest, prStats } from '../lib/data';
+
+function hoursSince(iso: string | null): number | null {
+  if (!iso) return null;
+  return Math.round((Date.now() - new Date(iso).getTime()) / 36e5);
+}
+
+function severity(hrs: number | null): 'fresh' | 'warn' | 'stale' {
+  if (hrs === null) return 'stale';
+  if (hrs > 72) return 'stale';
+  if (hrs > 36) return 'warn';
+  return 'fresh';
+}
+
+const perfHrs = hoursSince(manifest.last_updated);
+const prHrs = hoursSince(prStats.last_updated);
+const perfSev = severity(perfHrs);
+const prSev = severity(prHrs);
+
+const sevClass = {
+  fresh: 'text-zinc-500',
+  warn: 'text-amber-600 dark:text-amber-400',
+  stale: 'text-red-600 dark:text-red-400',
+};
+---
+
+<footer class="mt-12 border-t border-zinc-200 dark:border-zinc-800 py-4 text-sm">
+  <div class="mx-auto max-w-7xl px-4 flex flex-wrap gap-6 justify-between text-zinc-500">
+    <div class="flex gap-6">
+      <span class={sevClass[perfSev]}>
+        Perf data: {perfHrs === null ? 'never synced' : `${perfHrs}h ago`}
+      </span>
+      <span class={sevClass[prSev]}>
+        PR feed: {prHrs === null ? 'never synced' : `${prHrs}h ago`}
+      </span>
+    </div>
+    <div>
+      <a class="hover:text-zinc-700 dark:hover:text-zinc-300" href="https://github.com/linyueqian/vllm-omni-nightly-perf">source</a>
+    </div>
+  </div>
+</footer>

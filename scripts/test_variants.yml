@@ -1,0 +1,82 @@
+# Per-model variants. Each variant identifies a workload signature
+# (task + dataset for LLM/TTS, test_name suffix for diffusion) AND
+# the canonical sweep config we trend over time.
+
+models:
+  Qwen3-Omni:
+    type: llm
+    variants:
+      - id: random-c1
+        display_name: "random · c=1"
+        file_glob: "result_test_qwen3_omni_random_1_4_in2500_out900_*.json"
+      - id: random-mm-qps0.1
+        display_name: "random-mm · qps=0.1"
+        file_glob: "result_test_qwen3_omni_random-mm_0.1_10_in100_out100_*.json"
+      - id: vllm_text-random-c1
+        display_name: "vllm_text · c=1"
+        file_glob: "result_test_qwen3_omni_vllm_text_random_1_4_in2500_out900_*.json"
+      - id: vllm_text-random-mm-qps0.1
+        display_name: "vllm_text · mm · qps=0.1"
+        file_glob: "result_test_qwen3_omni_vllm_text_random-mm_0.1_10_in100_out100_*.json"
+
+  Qwen3-TTS:
+    type: llm
+    variants:
+      - id: base-seedtts-c1
+        display_name: "base · seed-tts · c=1"
+        file_glob: "result_test_qwen3_tts_base_seed-tts_1_20_inna_outna_*.json"
+      - id: customvoice-design-c1
+        display_name: "customvoice · design · c=1"
+        file_glob: "result_test_qwen3_tts_customvoice_seed-tts-design_1_20_inna_outna_*.json"
+      - id: customvoice-text-c1
+        display_name: "customvoice · text · c=1"
+        file_glob: "result_test_qwen3_tts_customvoice_seed-tts-text_1_20_inna_outna_*.json"
+
+  Qwen-image:
+    type: diffusion
+    variants:
+      - id: single_device
+        display_name: "single device"
+        file_glob: "diffusion_result_test_qwen_image_vllm_omni_*.json"
+        inner_test_name: "test_qwen_image_single_device"
+      # Add more diffusion variants here later (ulysses2_cfg2_vae_patch4, etc.)
+
+  Qwen-image-layered:
+    type: diffusion
+    variants:
+      - id: single_device
+        display_name: "single device"
+        file_glob: "diffusion_result_test_qwen_image_layered_vllm_omni_*.json"
+        inner_test_name: "test_qwen_image_layered_single_device"
+
+  Qwen-Image-edit:
+    type: diffusion
+    variants:
+      - id: single_device
+        display_name: "single device"
+        file_glob: "diffusion_result_test_qwen_image_edit_vllm_omni_*.json"
+        inner_test_name: "test_qwen_image_edit_single_device"
+
+  Qwen-Image-edit-2509:
+    type: diffusion
+    variants:
+      - id: single_device
+        display_name: "single device"
+        file_glob: "diffusion_result_test_qwen_image_edit_2509_vllm_omni_*.json"
+        inner_test_name: "test_qwen_image_edit_2509_single_device"
+
+  WAN2.2:
+    type: diffusion
+    variants:
+      - id: i2v_single_device
+        display_name: "i2v · single device"
+        file_glob: "diffusion_result_test_wan22_i2v_vllm_omni_*.json"
+        inner_test_name: "test_wan22_i2v_single_device"
+
+# Stable color palette for variants (cycled in declaration order)
+variant_colors:
+  - "#76b900"  # NVIDIA green
+  - "#ed1c24"  # AMD red
+  - "#3b82f6"  # Ascend blue
+  - "#a855f7"  # purple
+  - "#f59e0b"  # amber

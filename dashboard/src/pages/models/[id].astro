@@ -1,0 +1,241 @@
+---
+import PRPanel from '../../components/PRPanel.astro';
+import TrendChart from '../../components/TrendChart.astro';
+import Base from '../../layouts/Base.astro';
+import { cutoffDateDaysAgo, identity } from '../../lib/data';
+
+// Static site: range/metric query strings can't filter at build time, so
+// instead of toggle-then-reload (which serves the same HTML), we render
+// EVERY metric as its own chart stacked vertically. The nav strip at the
+// top is a smooth-scroll jump menu, not a filter.
+
+export async function getStaticPaths() {
+  return identity.models.map((m) => ({ params: { id: m.slug } }));
+}
+
+interface PRRow {
+  number: number;
+  title: string;
+  author: string;
+  merged_at: string;
+  url: string;
+}
+interface PRBuckets {
+  direct: PRRow[];
+  inferred: PRRow[];
+  platform: PRRow[];
+}
+interface Variant {
+  id: string;
+  display_name: string;
+  color: string;
+}
+interface SnapshotRow {
+  date: string;
+  variant_id: string;
+  values: Record<string, number>;
+}
+
+const { id } = Astro.params;
+const model = identity.models.find((m) => m.slug === id);
+if (!model) throw new Error(`Unknown model slug: ${id}`);
+
+const snapshot = (await import(`../../data/snapshots/${model.id}.json`)).default;
+
+let prs: PRBuckets;
+try {
+  const pr = (await import(`../../data/prs/per_model/${model.id}.json`)).default;
+  prs = { direct: pr.direct ?? [], inferred: pr.inferred ?? [], platform: pr.platform ?? [] };
+} catch {
+  prs = { direct: [], inferred: [], platform: [] };
+}
+
+// Fixed 90-day window so every chart shows the same time axis.
+const range = 90;
+const cutoff = cutoffDateDaysAgo(range);
+
+const metricKeys: string[] = [
+  ...(snapshot.required_metrics ?? []),
+  ...(snapshot.optional_metrics ?? []),
+];
+
+// Variants declared in the snapshot (id, display_name, color)
+const variants: Variant[] = snapshot.variants ?? [];
+
+// Curated friendly labels for the metrics we know about. Unknown metrics
+// (e.g. anything upstream adds tomorrow) auto-humanize via `humanizeKey`.
+const friendlyName: Record<string, string> = {
+  pass_rate: 'Pass rate',
+  rtfx: 'RTF×',
+  audio_throughput: 'Audio throughput',
+  output_throughput: 'Output throughput',
+  request_throughput: 'Request throughput',
+  request_goodput: 'Request goodput',
+  total_token_throughput: 'Total token throughput',
+  max_output_tokens_per_s: 'Max output tok/s',
+  total_audio_duration_s: 'Total audio duration',
+  total_audio_frames: 'Total audio frames',
+  total_input_tokens: 'Total input tokens',
+  total_output_tokens: 'Total output tokens',
+};
+function humanizeKey(k: string): string {
+  if (friendlyName[k]) return friendlyName[k];
+  return k
+    .replace(/_/g, ' ')
+    .replace(/\bms\b/i, '(ms)')
+    .replace(/\bs\b/i, '(s)')
+    .replace(/\brtf\b/i, 'RTF')
+    .replace(/\bttft\b/i, 'TTFT')
+    .replace(/\bttfp\b/i, 'TTFP')
+    .replace(/\btpot\b/i, 'TPOT')
+    .replace(/\bp99\b/i, 'P99')
+    .replace(/\bp95\b/i, 'P95')
+    .replace(/\bp50\b/i, 'P50')
+    .replace(/\bmb\b/i, 'MB')
+    .replace(/\bqps\b/i, 'QPS')
+    .replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
+// Infer the chart's y-axis unit from the metric key name. Keeps the fetcher
+// schema-free: any new metric upstream adds gets a sensible unit label.
+function inferUnit(key: string): string {
+  if (key === 'pass_rate') return 'ratio_0_to_1';
+  if (key.endsWith('_ms')) return 'milliseconds';
+  if (key.endsWith('_s')) return 'seconds';
+  if (key.startsWith('peak_memory_mb') || key.endsWith('_mb')) return 'megabytes';
+  if (key === 'rtfx' || /_rtf$/.test(key) || /^rtf_/.test(key)) return 'ratio';
+  if (key === 'throughput_qps' || key.endsWith('_qps')) return 'queries_per_second';
+  if (
+    key.includes('throughput') ||
+    key.endsWith('_per_s') ||
+    key.endsWith('_per_sec') ||
+    key.endsWith('tokens_per_s')
+  ) {
+    return key.includes('audio') ? 'audio_per_second' : 'per_second';
+  }
+  if (key.includes('frames') || key.startsWith('total_')) return 'count';
+  return '';
+}
+
+const rowsInRange = (snapshot.series ?? []).filter((r: SnapshotRow) => r.date >= cutoff);
+
+const allVariantIds = new Set<string>(rowsInRange.map((r: SnapshotRow) => r.variant_id));
+
+// Build per-metric data
+const metricSections = metricKeys.map((key) => {
+  const rowsForMetric = rowsInRange.filter((r: SnapshotRow) => r.values[key] !== undefined);
+  return {
+    key,
+    display: humanizeKey(key),
+    unit: snapshot.metric_units?.[key] ?? inferUnit(key),
+    rows: rowsForMetric,
+    pointCount: rowsForMetric.length,
+  };
+});
+---
+<Base title={`${model.display_name} — vllm-omni nightly perf`}>
+  <div class="mb-4 flex justify-between items-end">
+    <div>
+      <h1 class="text-2xl font-semibold">{model.display_name}</h1>
+      <div class="text-sm text-zinc-500">
+        {model.category} · <span class="font-mono">{model.id}</span> · last {range} days
+      </div>
+    </div>
+  </div>
+
+  {/* Jump nav: anchors to each metric section */}
+  {metricSections.length > 0 && (
+    <div class="flex flex-wrap gap-1 border-b border-zinc-200 dark:border-zinc-800 mb-4 overflow-x-auto">
+      {metricSections.map((s) => (
+        <a
+          href={`#metric-${s.key}`}
+          class="px-3 py-2 text-sm whitespace-nowrap border-b-2 -mb-px border-transparent text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 hover:border-zinc-400"
+        >
+          {s.display}
+          <span class="text-xs text-zinc-400 ml-1">({s.pointCount})</span>
+        </a>
+      ))}
+    </div>
+  )}
+
+  {/* Variant filter dropdown + chips. Dropdown updates every chart on the
+      page via a custom event listened to by TrendChart.astro. */}
+  <div class="flex flex-wrap items-center gap-3 mb-3">
+    {variants.length > 1 && (
+      <div class="flex items-center gap-2 text-xs">
+        <label for="variant-filter" class="text-zinc-500">Show:</label>
+        <select
+          id="variant-filter"
+          class="rounded border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-2 py-1 text-xs"
+        >
+          <option value="all">All variants ({variants.length})</option>
+          {variants.map((v) => (
+            <option value={v.id}>{v.display_name}</option>
+          ))}
+        </select>
+      </div>
+    )}
+    <div class="flex flex-wrap gap-2 text-xs">
+      {variants.map((v) => {
+        const active = allVariantIds.has(v.id);
+        return (
+          <span class={`inline-flex items-center gap-1.5 rounded-full border px-2 py-0.5 ${active ? 'border-zinc-300 dark:border-zinc-700' : 'border-dashed border-zinc-300 dark:border-zinc-700 opacity-50'}`}>
+            <span class="w-2 h-2 rounded-full" style={`background:${v.color}`}></span>
+            {v.display_name}
+          </span>
+        );
+      })}
+    </div>
+  </div>
+
+  <script>
+    // Restore prior selection from localStorage on load, then wire the
+    // dropdown to dispatch a global event when changed.
+    const KEY = 'vop-variant-filter';
+    const select = document.getElementById('variant-filter') as HTMLSelectElement | null;
+    if (select) {
+      const saved = localStorage.getItem(KEY);
+      if (saved && Array.from(select.options).some((o) => o.value === saved)) {
+        select.value = saved;
+      }
+      select.addEventListener('change', () => {
+        localStorage.setItem(KEY, select.value);
+        window.dispatchEvent(new CustomEvent('vop:variantfilter'));
+      });
+      // Initial fire so charts pick up any restored value on first paint.
+      window.addEventListener('load', () => {
+        window.dispatchEvent(new CustomEvent('vop:variantfilter'));
+      });
+    }
+  </script>
+
+  {rowsInRange.length === 0 && (
+    <div class="rounded border border-dashed border-zinc-300 dark:border-zinc-700 p-8 text-center text-zinc-500">
+      No data in the last {range} days.
+    </div>
+  )}
+
+  {metricSections.map((s) => (
+    <section id={`metric-${s.key}`} class="scroll-mt-20 mt-8 first:mt-2">
+      <div class="flex items-baseline justify-between mb-2">
+        <h2 class="text-lg font-semibold">{s.display}</h2>
+        <span class="text-xs text-zinc-500 font-mono">{s.key} · {s.pointCount} points</span>
+      </div>
+      {s.rows.length > 0 ? (
+        <TrendChart
+          id={`chart-${model.id}-${s.key}`}
+          rows={s.rows}
+          variants={variants}
+          metric={s.key}
+          unit={s.unit}
+        />
+      ) : (
+        <div class="rounded border border-dashed border-zinc-300 dark:border-zinc-700 p-4 text-center text-sm text-zinc-500">
+          No {s.display.toLowerCase()} data in this window.
+        </div>
+      )}
+    </section>
+  ))}
+
+  <PRPanel buckets={prs} cutoffDate={cutoff} />
+</Base>

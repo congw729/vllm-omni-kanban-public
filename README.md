@@ -37,6 +37,10 @@ Core scripts:
 - [TDD Plan](docs/plans/2025-03-13-tdd-plan-design.md)
 - [Implementation Plan](docs/plans/2026-03-13-implementation-plan.md)
 
+## Dashboard
+
+A live Astro trend dashboard that reads `data/buildkite_nightly_raw/` directly is available at `dashboard/` — see [dashboard/README.md](dashboard/README.md) for details.
+
 ## License
 
 Apache-2.0

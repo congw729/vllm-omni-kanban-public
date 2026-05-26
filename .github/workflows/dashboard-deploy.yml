@@ -1,0 +1,95 @@
+name: dashboard-deploy
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'dashboard/**'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'dashboard/**'
+      - 'scripts/fetch_perf_local.py'
+      - 'scripts/fetch_prs.py'
+      - 'scripts/verify_data.py'
+      - 'scripts/test_variants.yml'
+      - 'scripts/pr_mapping.yml'
+  workflow_dispatch:
+    inputs:
+      destination:
+        description: "gh-pages subpath to publish to (e.g. 'dashboard' for prod, 'dashboard-preview/feat-x' for a branch)"
+        required: false
+        default: 'dashboard'
+
+permissions:
+  contents: write
+  pull-requests: write   # so PR builds can post the preview URL as a comment
+
+jobs:
+  build-deploy:
+    # Skip PR builds from forks (no write access to gh-pages branch from forked PR head)
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with: { version: '9.12.0' }
+
+      - uses: actions/setup-node@v4
+        with: { node-version: '22', cache: 'pnpm', cache-dependency-path: 'dashboard/pnpm-lock.yaml' }
+
+      - name: Compute destination path
+        id: dest
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            echo "path=dashboard-preview/pr-${{ github.event.number }}" >> "$GITHUB_OUTPUT"
+            echo "label=preview for PR #${{ github.event.number }}" >> "$GITHUB_OUTPUT"
+          elif [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "path=${{ inputs.destination }}" >> "$GITHUB_OUTPUT"
+            echo "label=manual deploy (${{ inputs.destination }})" >> "$GITHUB_OUTPUT"
+          else
+            echo "path=dashboard" >> "$GITHUB_OUTPUT"
+            echo "label=production" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Rewrite Astro base path for non-prod previews
+        if: steps.dest.outputs.path != 'dashboard'
+        working-directory: dashboard
+        run: |
+          # Astro's `base` is hardcoded to /vllm-omni-kanban/dashboard/; for a
+          # preview at e.g. dashboard-preview/pr-29 we need the same suffix.
+          NEW_BASE="/vllm-omni-kanban/${{ steps.dest.outputs.path }}/"
+          echo "rewriting astro base to: $NEW_BASE"
+          sed -i "s|base: '/vllm-omni-kanban/dashboard/'|base: '$NEW_BASE'|" astro.config.mjs
+          grep -F "base:" astro.config.mjs
+
+      - working-directory: dashboard
+        run: pnpm install --frozen-lockfile
+
+      - working-directory: dashboard
+        run: pnpm build
+
+      - name: Deploy to gh-pages subdirectory
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: dashboard/dist
+          destination_dir: ${{ steps.dest.outputs.path }}
+          keep_files: true   # critical: don't wipe MkDocs root or other previews
+          enable_jekyll: false
+          user_name: 'vllm-omni-dashboard-bot'
+          user_email: 'linyueqian+bot@outlook.com'
+          commit_message: 'deploy: ${{ steps.dest.outputs.label }} (${{ github.sha }})'
+
+      - name: Post preview URL on PR
+        if: github.event_name == 'pull_request'
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: dashboard-preview
+          message: |
+            🔍 **Dashboard preview deployed**
+
+            URL: https://hsliuustc0106.github.io/vllm-omni-kanban/${{ steps.dest.outputs.path }}/
+
+            Updated by commit ${{ github.event.pull_request.head.sha }}.
+            (Build artifacts are under `gh-pages` branch at `${{ steps.dest.outputs.path }}/`.)

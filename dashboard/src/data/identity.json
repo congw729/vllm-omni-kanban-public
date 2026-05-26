@@ -1,0 +1,11 @@
+{
+  "models": [
+    { "id": "qwen-image",          "kanban_name": "Qwen-image",          "display_name": "Qwen Image",          "slug": "qwen-image",          "category": "image_generation" },
+    { "id": "qwen-image-layered",  "kanban_name": "Qwen-image-layered",  "display_name": "Qwen Image Layered",  "slug": "qwen-image-layered",  "category": "image_generation" },
+    { "id": "qwen-image-edit",     "kanban_name": "Qwen-Image-edit",     "display_name": "Qwen Image Edit",     "slug": "qwen-image-edit",     "category": "image_editing" },
+    { "id": "qwen-image-edit-2509","kanban_name": "Qwen-Image-edit-2509","display_name": "Qwen Image Edit 2509","slug": "qwen-image-edit-2509","category": "image_editing" },
+    { "id": "wan22",               "kanban_name": "WAN2.2",              "display_name": "WAN 2.2",             "slug": "wan22",               "category": "video_generation" },
+    { "id": "qwen3-omni",          "kanban_name": "Qwen3-Omni",          "display_name": "Qwen3 Omni",          "slug": "qwen3-omni",          "category": "multimodal" },
+    { "id": "qwen3-tts",           "kanban_name": "Qwen3-TTS",           "display_name": "Qwen3 TTS",           "slug": "qwen3-tts",           "category": "audio_synthesis" }
+  ]
+}

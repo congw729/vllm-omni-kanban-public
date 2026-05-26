@@ -1,0 +1,3842 @@
+{
+  "direct": [
+    {
+      "author": "amy-why-3459",
+      "files_matched": [
+        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni.py",
+        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni_code2wav.py"
+      ],
+      "merged_at": "2026-05-24T00:05:55+08:00",
+      "number": 3732,
+      "title": "[BugFix] code2wav supports disabling CUDA graph. (#3732)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3732"
+    },
+    {
+      "author": "amy-why-3459",
+      "files_matched": [
+        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni.py"
+      ],
+      "merged_at": "2026-05-15T17:07:42+08:00",
+      "number": 3147,
+      "title": "[BugFix] Fix the issue of thinker requests being preempted, causing shape mismatch. (#3147)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3147"
+    },
+    {
+      "author": "NATURE",
+      "files_matched": [
+        "vllm_omni/model_executor/models/qwen3_omni/pipeline.py",
+        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni.py"
+      ],
+      "merged_at": "2026-05-15T14:14:08+08:00",
+      "number": 2677,
+      "title": "[2/5] [core]refactor communication layer: PR 2 of 5 Qwen3 Omni non async  (#2677)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2677"
+    },
+    {
+      "author": "Nick Cao",
+      "files_matched": [
+        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni.py",
+        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni_moe_talker.py"
+      ],
+      "merged_at": "2026-05-11T12:04:56-04:00",
+      "number": 3296,
+      "title": "[Perf] Remove dead audio_tower and visual from Qwen3-Omni talker stage (#3296)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3296"
+    },
+    {
+      "author": "amy-why-3459",
+      "files_matched": [
+        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni.py"
+      ],
+      "merged_at": "2026-05-07T06:21:00+08:00",
+      "number": 3385,
+      "title": "[BugFix] Fixed a precision issue with one-word answers. (#3385)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3385"
+    },
+    {
+      "author": "Juan Pablo Zuluaga",
+      "files_matched": [
+        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni.py",
+        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni_code2wav.py"
+      ],
+      "merged_at": "2026-05-07T00:16:03+02:00",
+      "number": 2376,
+      "title": "[Feat][Qwen3-Omni] Add CUDA graph support for Code2Wav decoder (#2376)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2376"
+    },
+    {
+      "author": "Alex Brooks",
+      "files_matched": [
+        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni_moe_talker.py"
+      ],
+      "merged_at": "2026-04-30T06:00:21-06:00",
+      "number": 3082,
+      "title": "[Misc] Remove Entrypoint Hijack for vLLM / 0.20.0 Changes (#3082)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3082"
+    },
+    {
+      "author": "Zhou Taichang",
+      "files_matched": [
+        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni_moe_thinker.py"
+      ],
+      "merged_at": "2026-04-30T05:56:59+08:00",
+      "number": 3232,
+      "title": "[Rebase] Rebase to vllm 0.20.0 (#3232)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3232"
+    },
+    {
+      "author": "dsinghvi",
+      "files_matched": [
+        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni.py",
+        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni_moe_thinker.py"
+      ],
+      "merged_at": "2026-04-25T15:45:38+05:30",
+      "number": 1829,
+      "title": "[Refactor] Standardize data entry key names to {type}.{qualifier} format (#1829)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1829"
+    },
+    {
+      "author": "Liang Lv",
+      "files_matched": [
+        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni_moe_talker.py"
+      ],
+      "merged_at": "2026-04-22T19:54:45+08:00",
+      "number": 2670,
+      "title": "[AutoRound] Support Qwen Omni W4A16 quantization model  (#2670)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2670"
+    },
+    {
+      "author": "GXIN",
+      "files_matched": [
+        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni_moe_code_predictor_mtp.py"
+      ],
+      "merged_at": "2026-04-22T18:15:08+08:00",
+      "number": 2695,
+      "title": "[NPU] Support code predictor NPU graph (#2695)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2695"
+    },
+    {
+      "author": "Haco",
+      "files_matched": [
+        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni.py"
+      ],
+      "merged_at": "2026-04-21T14:47:22+08:00",
+      "number": 2940,
+      "title": "[BugFix] add missing subtalker sampling config to Qwen3-TTS deploy YAML (#2940)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2940"
+    },
+    {
+      "author": "SYLAR",
+      "files_matched": [
+        "vllm_omni/model_executor/models/qwen3_omni/pipeline.py"
+      ],
+      "merged_at": "2026-04-20T01:18:03+08:00",
+      "number": 2915,
+      "title": "[Config Refactor 2.5/N] Centralize pipeline registry (#2915)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2915"
+    },
+    {
+      "author": "SYLAR",
+      "files_matched": [
+        "vllm_omni/model_executor/models/qwen3_omni/pipeline.py"
+      ],
+      "merged_at": "2026-04-19T10:36:00+08:00",
+      "number": 2383,
+      "title": "[Config Refactor][2/N] Pipeline + Deploy Config Schema (#2383)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2383"
+    },
+    {
+      "author": "ChenWenjing",
+      "files_matched": [
+        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni.py"
+      ],
+      "merged_at": "2026-04-18T15:42:41+08:00",
+      "number": 2581,
+      "title": "[Feature]Support audio streaming input and output-phase2 (#2581)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2581"
+    },
+    {
+      "author": "Bingyu (Spencer) Liu",
+      "files_matched": [
+        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni.py"
+      ],
+      "merged_at": "2026-04-17T18:43:17+08:00",
+      "number": 2220,
+      "title": "[Feature] Support Prefill-Decode disaggregation via vLLM KV transfer (#2220)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2220"
+    },
+    {
+      "author": "Juan Pablo Zuluaga",
+      "files_matched": [
+        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni_moe_code_predictor_mtp.py"
+      ],
+      "merged_at": "2026-04-15T09:14:57+02:00",
+      "number": 2375,
+      "title": "[Feat][Qwen3-Omni] Shared code predictor module for Qwen3-TTS and Qwen3-Omni (#2375)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2375"
+    },
+    {
+      "author": "Yiyang \"Ian\" Liu",
+      "files_matched": [
+        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni_moe_thinker.py"
+      ],
+      "merged_at": "2026-04-14T06:52:32-07:00",
+      "number": 2702,
+      "title": "fix: do not apply FP8 quant config to vision/audio encoders for pre-quantized checkpoints (#2702)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2702"
+    },
+    {
+      "author": "Reid",
+      "files_matched": [
+        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni.py"
+      ],
+      "merged_at": "2026-04-12T12:14:16+08:00",
+      "number": 2407,
+      "title": "[Bugfix] Validate speaker in chat endpoint and fix case-insensitive lookup (#2407)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2407"
+    },
+    {
+      "author": "Zhou Taichang",
+      "files_matched": [
+        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni.py",
+        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni_moe_thinker.py"
+      ],
+      "merged_at": "2026-04-04T15:03:32+08:00",
+      "number": 2475,
+      "title": "[Rebase] Rebase to vllm v0.19.0 (#2475)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2475"
+    },
+    {
+      "author": "ChenWenjing",
+      "files_matched": [
+        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni.py"
+      ],
+      "merged_at": "2026-04-02T22:51:41+08:00",
+      "number": 2208,
+      "title": "[Feature] add session based audio streaming input  (#2208)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2208"
+    },
+    {
+      "author": "rein yang",
+      "files_matched": [
+        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni.py"
+      ],
+      "merged_at": "2026-04-02T18:07:22+08:00",
+      "number": 2450,
+      "title": "[skip ci][Bugfix] clean useless log (#2450)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2450"
+    },
+    {
+      "author": "Junhong Liu",
+      "files_matched": [
+        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni_moe_code_predictor_mtp.py"
+      ],
+      "merged_at": "2026-03-28T23:02:44+08:00",
+      "number": 2291,
+      "title": "Qwen3-Omni][Bugfix] Replace vLLM fused layers with HF-compatible numerics in code predictor (#2291)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2291"
+    },
+    {
+      "author": "amy-why-3459",
+      "files_matched": [
+        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni.py"
+      ],
+      "merged_at": "2026-03-27T11:46:24+08:00",
+      "number": 2239,
+      "title": "[BugFix][Qwen3-Omni]Fixed the issue of incorrect answers for single words. (#2239)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2239"
+    },
+    {
+      "author": "amy-why-3459",
+      "files_matched": [
+        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni.py"
+      ],
+      "merged_at": "2026-03-26T15:16:25+08:00",
+      "number": 2213,
+      "title": "[BugFix]Fix keyError: num_processed_tokens_delta (#2213)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2213"
+    },
+    {
+      "author": "Sy03",
+      "files_matched": [
+        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni.py"
+      ],
+      "merged_at": "2026-03-26T11:07:11+08:00",
+      "number": 2019,
+      "title": "[Bugfix] Fix qwen3-omni async thinker to talker decode alignment for #1758 (#2019)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2019"
+    },
+    {
+      "author": "SYLAR",
+      "files_matched": [
+        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni_moe_talker.py",
+        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni_moe_thinker.py"
+      ],
+      "merged_at": "2026-03-24T18:56:55+08:00",
+      "number": 1764,
+      "title": "[Core] Unified quantization framework (#1764)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1764"
+    },
+    {
+      "author": "rein yang",
+      "files_matched": [
+        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni.py"
+      ],
+      "merged_at": "2026-03-24T13:53:24+08:00",
+      "number": 1963,
+      "title": "[Feature] support to change the speaker of qwen3-omni (#1963)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1963"
+    },
+    {
+      "author": "Alicia",
+      "files_matched": [
+        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni_moe_code_predictor_mtp.py"
+      ],
+      "merged_at": "2026-03-24T11:20:50+08:00",
+      "number": 2110,
+      "title": "[Doc] Sync and fix. (#2110)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2110"
+    },
+    {
+      "author": "Zhou Taichang",
+      "files_matched": [
+        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni_moe_talker.py",
+        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni_moe_thinker.py"
+      ],
+      "merged_at": "2026-03-21T20:37:38+08:00",
+      "number": 2037,
+      "title": "[Rebase] Rebase to vllm v0.18.0 (#2037)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2037"
+    },
+    {
+      "author": "Junhong Liu",
+      "files_matched": [
+        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni.py",
+        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni_moe_code_predictor_mtp.py",
+        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni_moe_talker.py"
+      ],
+      "merged_at": "2026-03-20T19:33:52+08:00",
+      "number": 2012,
+      "title": "[Fixbug][Perf] Qwen3-omni: code predictor with re-prefill + SDPA and eliminate decode hot-path CPU round-trips (#2012)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2012"
+    },
+    {
+      "author": "rein yang",
+      "files_matched": [
+        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni.py",
+        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni_moe_code_predictor_mtp.py",
+        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni_moe_talker.py"
+      ],
+      "merged_at": "2026-03-19T17:34:01+08:00",
+      "number": 2009,
+      "title": "[Bugfix] revert PR#1758 which introduced the accuracy problem of qwen3-omni (#2009)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2009"
+    },
+    {
+      "author": "Canlin Guo",
+      "files_matched": [
+        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni_moe_code_predictor_mtp.py"
+      ],
+      "merged_at": "2026-03-16T14:42:59+08:00",
+      "number": 1890,
+      "title": "[NPU] Upgrade to v0.17.0 (#1890)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1890"
+    },
+    {
+      "author": "Junhong Liu",
+      "files_matched": [
+        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni.py",
+        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni_moe_code_predictor_mtp.py",
+        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni_moe_talker.py"
+      ],
+      "merged_at": "2026-03-11T07:52:21+08:00",
+      "number": 1758,
+      "title": "[Refactor][Perf] Qwen3-omni: code predictor with re-prefill + SDPA and eliminate decode hot-path CPU round-trips (#1758)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1758"
+    },
+    {
+      "author": "Zhou Taichang",
+      "files_matched": [
+        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni_moe_talker.py",
+        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni_moe_thinker.py"
+      ],
+      "merged_at": "2026-03-09T17:29:38+08:00",
+      "number": 1639,
+      "title": "Dev/rebase v0170 (#1639)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1639"
+    },
+    {
+      "author": "Ziming Huang",
+      "files_matched": [
+        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni.py"
+      ],
+      "merged_at": "2026-03-05T22:26:30+08:00",
+      "number": 1656,
+      "title": "[Optimize][Qwen3-Omni] Reduce inter-packet latency in async chunk  (#1656)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1656"
+    },
+    {
+      "author": "Junhong Liu",
+      "files_matched": [
+        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni.py",
+        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni_code2wav.py"
+      ],
+      "merged_at": "2026-03-03T22:06:52+08:00",
+      "number": 1423,
+      "title": "Make chunk_size and left_context_size configurable via YAML for async chunking (#1423)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1423"
+    },
+    {
+      "author": "dsinghvi",
+      "files_matched": [
+        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni.py"
+      ],
+      "merged_at": "2026-03-02T02:19:41Z",
+      "number": 1394,
+      "title": "[Refactor]: Phase1 for rebasing_additional_info (#1394)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1394"
+    },
+    {
+      "author": "Zhou Taichang",
+      "files_matched": [
+        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni_moe_thinker.py"
+      ],
+      "merged_at": "2026-02-28T10:39:25+08:00",
+      "number": 1534,
+      "title": "[Debug] Merge vllm pull 35368 (#1534)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1534"
+    },
+    {
+      "author": "amy-why-3459",
+      "files_matched": [
+        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni_moe_talker.py"
+      ],
+      "merged_at": "2026-02-27T06:44:11+08:00",
+      "number": 1524,
+      "title": "[BugFix] Restore talker's config (#1524)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1524"
+    },
+    {
+      "author": "amy-why-3459",
+      "files_matched": [
+        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni.py"
+      ],
+      "merged_at": "2026-02-26T21:21:36+08:00",
+      "number": 1378,
+      "title": "[Performance]Qwen3-Omni performance optimization (#1378)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1378"
+    },
+    {
+      "author": "Canlin Guo",
+      "files_matched": [
+        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni.py",
+        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni_moe_talker.py"
+      ],
+      "merged_at": "2026-02-26T14:26:50+08:00",
+      "number": 1375,
+      "title": "[NPU] Upgrade to v0.16.0 (#1375)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1375"
+    },
+    {
+      "author": "Zhou Taichang",
+      "files_matched": [
+        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni.py",
+        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni_moe_thinker.py"
+      ],
+      "merged_at": "2026-02-26T09:26:25+08:00",
+      "number": 1433,
+      "title": "[Debug] Multi-Request for Qwen 3 Omni use_audio_in_video (#1433)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1433"
+    }
+  ],
+  "inferred": [
+    {
+      "author": "Sy03",
+      "merged_at": "2026-05-19T02:59:23+08:00",
+      "number": 3687,
+      "tag_matched": "Qwen3-Omni",
+      "title": "[Bugfix][Qwen3-Omni] Handle short Code2Wav chunk outputs (#3687)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3687"
+    },
+    {
+      "author": "amy-why-3459",
+      "merged_at": "2026-04-14T19:36:02+08:00",
+      "number": 2598,
+      "tag_matched": "Qwen3-Omni",
+      "title": "[Tests][Qwen3-Omni]Add test cases for long videos and long audios. (#2598)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2598"
+    },
+    {
+      "author": "amy-why-3459",
+      "merged_at": "2026-04-13T19:03:13+08:00",
+      "number": 2600,
+      "tag_matched": "Qwen3-Omni",
+      "title": "[Tests][Qwen3-Omni]Modify Qwen3-Omni performance test cases (#2600)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2600"
+    },
+    {
+      "author": "amy-why-3459",
+      "merged_at": "2026-03-28T19:01:44+08:00",
+      "number": 2011,
+      "tag_matched": "Qwen3-Omni",
+      "title": "[Tests][Qwen3-Omni] Add performance test cases (#2011)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2011"
+    },
+    {
+      "author": "amy-why-3459",
+      "merged_at": "2026-03-04T22:42:47+08:00",
+      "number": 1628,
+      "tag_matched": "Qwen3-Omni",
+      "title": "[Test][Qwen3-Omni]Modify Qwen3-Omni benchmark test cases (#1628)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1628"
+    }
+  ],
+  "model_id": "qwen3-omni",
+  "platform": [
+    {
+      "author": "skf",
+      "merged_at": "2026-05-22T16:08:04+08:00",
+      "number": 3506,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/api_server.py",
+        "vllm_omni/entrypoints/openai/protocol/images.py",
+        "vllm_omni/entrypoints/openai/serving_chat.py"
+      ],
+      "title": "[Bugfix] Align Offline and Online Inference (#3506)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3506"
+    },
+    {
+      "author": "ANHDY",
+      "merged_at": "2026-05-22T15:23:03+08:00",
+      "number": 2572,
+      "platform_paths": [
+        "vllm_omni/engine/async_omni_engine.py",
+        "vllm_omni/entrypoints/cli/serve.py"
+      ],
+      "title": "[feature]: support Hidream-I1-Full model (#2572)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2572"
+    },
+    {
+      "author": "qiye",
+      "merged_at": "2026-05-22T11:32:14+08:00",
+      "number": 3541,
+      "platform_paths": [
+        "vllm_omni/entrypoints/pd_utils.py"
+      ],
+      "title": "[Bugfix] Remove stale OmniStage import and type annotation (#3541)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3541"
+    },
+    {
+      "author": "bjf-frz",
+      "merged_at": "2026-05-20T15:31:41+08:00",
+      "number": 3740,
+      "platform_paths": [
+        "vllm_omni/engine/async_omni_engine.py",
+        "vllm_omni/engine/stage_pool.py"
+      ],
+      "title": "[Bugfix]Fix distributed stage0 multimodal cache routing (#3740)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3740"
+    },
+    {
+      "author": "yangsonglin13",
+      "merged_at": "2026-05-20T14:51:33+08:00",
+      "number": 3180,
+      "platform_paths": [
+        "vllm_omni/distributed/__init__.py",
+        "vllm_omni/distributed/omni_connectors/__init__.py",
+        "vllm_omni/distributed/omni_connectors/connectors/mooncake_transfer_engine_connector.py",
+        "vllm_omni/distributed/omni_connectors/connectors/yuanrong_transfer_engine_connector.py",
+        "vllm_omni/distributed/omni_connectors/factory.py",
+        "vllm_omni/distributed/omni_connectors/kv_transfer_manager.py",
+        "vllm_omni/distributed/omni_connectors/utils/config.py",
+        "vllm_omni/distributed/omni_connectors/utils/env.py",
+        "vllm_omni/distributed/omni_connectors/utils/initialization.py",
+        "vllm_omni/distributed/omni_connectors/utils/local_rank.py",
+        "vllm_omni/distributed/omni_connectors/utils/memory_pool.py",
+        "vllm_omni/engine/stage_engine_core_client.py"
+      ],
+      "title": "Yuanrong TransferEngine Connector for NPU (#3180)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3180"
+    },
+    {
+      "author": "Yueqian Lin",
+      "merged_at": "2026-05-20T03:24:06-04:00",
+      "number": 3748,
+      "platform_paths": [
+        "vllm_omni/engine/arg_utils.py",
+        "vllm_omni/entrypoints/openai/serving_speech.py"
+      ],
+      "title": "[Doc][TTS] CosyVoice3 online docs + residual TTS yaml cleanup + remove VoxCPM v1 (#3748)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3748"
+    },
+    {
+      "author": "Nick Cao",
+      "merged_at": "2026-05-20T00:36:59-04:00",
+      "number": 3523,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/serving_speech.py"
+      ],
+      "title": "[Bugfix][TTS] Only populate voice_name for uploaded voices without inline ref_audio (#3523)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3523"
+    },
+    {
+      "author": "dengyunyang",
+      "merged_at": "2026-05-19T22:22:27+08:00",
+      "number": 3741,
+      "platform_paths": [
+        "vllm_omni/entrypoints/cli/serve.py"
+      ],
+      "title": "[BugFix] fix mult cli timeout with get kv (#3741)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3741"
+    },
+    {
+      "author": "Schatten",
+      "merged_at": "2026-05-19T19:23:45+08:00",
+      "number": 3720,
+      "platform_paths": [
+        "vllm_omni/entrypoints/utils.py"
+      ],
+      "title": "[Cleanup] Remove unused build_base_engine_args after #1115 (#3720)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3720"
+    },
+    {
+      "author": "chickeyton",
+      "merged_at": "2026-05-19T12:08:20+08:00",
+      "number": 3569,
+      "platform_paths": [
+        "vllm_omni/distributed/omni_connectors/kv_transfer_manager.py",
+        "vllm_omni/distributed/omni_connectors/utils/initialization.py",
+        "vllm_omni/distributed/omni_connectors/utils/kv_utils.py",
+        "vllm_omni/distributed/omni_coordinator/__init__.py",
+        "vllm_omni/distributed/omni_coordinator/load_balancer.py",
+        "vllm_omni/distributed/omni_coordinator/messages.py",
+        "vllm_omni/distributed/omni_coordinator/omni_coord_client_for_hub.py",
+        "vllm_omni/distributed/omni_coordinator/omni_coord_client_for_stage.py",
+        "vllm_omni/distributed/omni_coordinator/omni_coordinator.py",
+        "vllm_omni/distributed/omni_coordinator/runtime.py",
+        "vllm_omni/engine/arg_utils.py",
+        "vllm_omni/engine/async_omni_engine.py",
+        "vllm_omni/engine/messages.py",
+        "vllm_omni/engine/omni_core_engine_proc_manager.py",
+        "vllm_omni/engine/orchestrator.py",
+        "vllm_omni/engine/stage_engine_core_client.py",
+        "vllm_omni/engine/stage_engine_core_proc.py",
+        "vllm_omni/engine/stage_engine_startup.py",
+        "vllm_omni/engine/stage_init_utils.py",
+        "vllm_omni/engine/stage_pool.py",
+        "vllm_omni/entrypoints/cli/serve.py",
+        "vllm_omni/entrypoints/stage_utils.py"
+      ],
+      "title": "[large-scale-serving] Integrate OmniCoordinator into stage engine pipeline (#3569)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3569"
+    },
+    {
+      "author": "Rustam Khadipash",
+      "merged_at": "2026-05-19T09:42:17+08:00",
+      "number": 2322,
+      "platform_paths": [
+        "vllm_omni/engine/async_omni_engine.py"
+      ],
+      "title": "[Feature] Add support for Pipeline Parallel and integrate it into Wan 2.2 (#2322)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2322"
+    },
+    {
+      "author": "Mike Qiu",
+      "merged_at": "2026-05-17T23:30:24+08:00",
+      "number": 2845,
+      "platform_paths": [
+        "vllm_omni/engine/stage_init_utils.py"
+      ],
+      "title": "Fix reasoning_parser crash: reconstruct StructuredOutputsConfig from dict (#2845)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2845"
+    },
+    {
+      "author": "Mike Qiu",
+      "merged_at": "2026-05-17T23:05:34+08:00",
+      "number": 2849,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/serving_chat.py"
+      ],
+      "title": "Fix output finish reason issue for audio chunk in stream mode (#2849)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2849"
+    },
+    {
+      "author": "Reid",
+      "merged_at": "2026-05-17T22:10:26+08:00",
+      "number": 3316,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/api_server.py"
+      ],
+      "title": "  [Frontend]Handle audio generate engine errors consistently (#3316)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3316"
+    },
+    {
+      "author": "Yuanheng Zhao",
+      "merged_at": "2026-05-17T07:32:34+08:00",
+      "number": 3338,
+      "platform_paths": [
+        "vllm_omni/engine/arg_utils.py"
+      ],
+      "title": "[Refactor] Migrate and clean up TTS configs: CosyVoice3, OmniVoice, VoxCPM (#3338)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3338"
+    },
+    {
+      "author": "wuhang",
+      "merged_at": "2026-05-16T20:50:29+08:00",
+      "number": 3214,
+      "platform_paths": [
+        "vllm_omni/entrypoints/omni_base.py"
+      ],
+      "title": "[Bugfix] Support diffusion worker dead detect when use inline engine (#3214)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3214"
+    },
+    {
+      "author": "Zhou Taichang",
+      "merged_at": "2026-05-16T18:18:43+08:00",
+      "number": 3530,
+      "platform_paths": [
+        "vllm_omni/core/sched/omni_ar_scheduler.py",
+        "vllm_omni/core/sched/omni_generation_scheduler.py",
+        "vllm_omni/core/sched/output.py",
+        "vllm_omni/engine/__init__.py",
+        "vllm_omni/engine/orchestrator.py",
+        "vllm_omni/engine/output_processor.py",
+        "vllm_omni/engine/stage_engine_core_client.py",
+        "vllm_omni/entrypoints/async_omni.py",
+        "vllm_omni/entrypoints/openai/serving_chat.py",
+        "vllm_omni/entrypoints/openai/serving_speech.py",
+        "vllm_omni/request.py"
+      ],
+      "title": "[Rebase] Rebase to vllm v0.21.0 (#3530)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3530"
+    },
+    {
+      "author": "Nick Cao",
+      "merged_at": "2026-05-16T07:34:04-04:00",
+      "number": 3613,
+      "platform_paths": [
+        "vllm_omni/core/sched/omni_generation_scheduler.py"
+      ],
+      "title": "[BugFix] Finish async_chunk requests without pad-token injection (#3613)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3613"
+    },
+    {
+      "author": "bjf-frz",
+      "merged_at": "2026-05-15T16:42:18+08:00",
+      "number": 3605,
+      "platform_paths": [
+        "vllm_omni/engine/async_omni_engine.py"
+      ],
+      "title": "[Bugfix]Fix multimodal cache routing for AR replicas (#3605)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3605"
+    },
+    {
+      "author": "Jie Liu",
+      "merged_at": "2026-05-15T11:43:05+08:00",
+      "number": 3380,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/protocol/audio.py"
+      ],
+      "title": "Update streaming_speech_client.py to solve Qwen/Qwen3-TTS-12Hz-0.6B-CustomVoice voice problem (#3380)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3380"
+    },
+    {
+      "author": "lyj-jjj",
+      "merged_at": "2026-05-15T11:22:59+08:00",
+      "number": 3596,
+      "platform_paths": [
+        "vllm_omni/engine/async_omni_engine.py",
+        "vllm_omni/entrypoints/cli/serve.py"
+      ],
+      "title": "[BugFix] fix(omni): isolate diffusion KV-cache dtype from vLLM --kv-cache-dtype #3585 (#3596)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3596"
+    },
+    {
+      "author": "dengyunyang",
+      "merged_at": "2026-05-14T20:07:12+08:00",
+      "number": 3583,
+      "platform_paths": [
+        "vllm_omni/distributed/omni_connectors/kv_transfer_manager.py"
+      ],
+      "title": "[BugFix] fix shm connector (#3583)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3583"
+    },
+    {
+      "author": "TaffyOfficial",
+      "merged_at": "2026-05-14T16:58:40+08:00",
+      "number": 3444,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/api_server.py",
+        "vllm_omni/entrypoints/openai/serving_chat.py"
+      ],
+      "title": "[Feature] HunyuanImage-3.0 IT2I: multi-image input + prompt API cleanup (#3444)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3444"
+    },
+    {
+      "author": "wuhang",
+      "merged_at": "2026-05-14T11:25:55+08:00",
+      "number": 3139,
+      "platform_paths": [
+        "vllm_omni/engine/async_omni_engine.py",
+        "vllm_omni/engine/messages.py",
+        "vllm_omni/engine/orchestrator.py",
+        "vllm_omni/engine/output_modality.py",
+        "vllm_omni/engine/stage_client.py",
+        "vllm_omni/engine/stage_engine_core_client.py",
+        "vllm_omni/engine/stage_pool.py",
+        "vllm_omni/entrypoints/async_omni.py",
+        "vllm_omni/entrypoints/omni.py",
+        "vllm_omni/entrypoints/omni_base.py"
+      ],
+      "title": "[Entrypoint][Refactor] Make field type hint more concrete (#3139)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3139"
+    },
+    {
+      "author": "Y. Fisher",
+      "merged_at": "2026-05-13T22:22:43+08:00",
+      "number": 3020,
+      "platform_paths": [
+        "vllm_omni/engine/async_omni_engine.py"
+      ],
+      "title": "[Feat][Config] Support additional_config for diffusion worker (#3020)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3020"
+    },
+    {
+      "author": "knlnguyen1802",
+      "merged_at": "2026-05-13T15:31:48+08:00",
+      "number": 3533,
+      "platform_paths": [
+        "vllm_omni/engine/async_omni_engine.py"
+      ],
+      "title": "[Bugfix, rl] Diffusion worker SIGKILL under Ray actor (exitcode -9) (#3533)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3533"
+    },
+    {
+      "author": "lyj-jjj",
+      "merged_at": "2026-05-13T11:46:00+08:00",
+      "number": 2640,
+      "platform_paths": [
+        "vllm_omni/engine/async_omni_engine.py",
+        "vllm_omni/entrypoints/cli/serve.py"
+      ],
+      "title": "support online FP8 quantization for FA on NPU #2236 (#2640)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2640"
+    },
+    {
+      "author": "Dnoob",
+      "merged_at": "2026-05-12T14:39:58+08:00",
+      "number": 2293,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/serving_speech.py"
+      ],
+      "title": "[New Model] Add support for tencent/Covo-Audio-Chat (#2293)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2293"
+    },
+    {
+      "author": "dengyunyang",
+      "merged_at": "2026-05-12T12:13:30+08:00",
+      "number": 3516,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/serving_chat.py"
+      ],
+      "title": "[Bugfix] Align the AR and DiT prompt formatting across both online and offline modes. (#3516)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3516"
+    },
+    {
+      "author": "dsinghvi",
+      "merged_at": "2026-05-12T12:00:13+05:30",
+      "number": 3149,
+      "platform_paths": [
+        "vllm_omni/distributed/omni_connectors/transfer_adapter/chunk_transfer_adapter.py"
+      ],
+      "title": "[Refactor] msgspec standardisation for data entry key names and improved type checks  (#3149)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3149"
+    },
+    {
+      "author": "Saad Al-Tohamy",
+      "merged_at": "2026-05-12T08:10:04+03:00",
+      "number": 3320,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/serving_speech.py"
+      ],
+      "title": "[FIX] Ensure `extra_params` are correctly merged into sampling params in `_create_diffusion_speech()` (#3320)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3320"
+    },
+    {
+      "author": "Y. Fisher",
+      "merged_at": "2026-05-11T22:49:19+08:00",
+      "number": 3172,
+      "platform_paths": [
+        "vllm_omni/entrypoints/cli/serve.py"
+      ],
+      "title": "[Config] Add HunyuanImage3 deploy configs (#3172)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3172"
+    },
+    {
+      "author": "\u6c6a\u5fd7\u9e4f",
+      "merged_at": "2026-05-11T22:19:00+08:00",
+      "number": 3319,
+      "platform_paths": [
+        "vllm_omni/entrypoints/omni_base.py",
+        "vllm_omni/entrypoints/openai/serving_chat.py",
+        "vllm_omni/entrypoints/openai/utils.py"
+      ],
+      "title": "[New Model]: Add sensenova u1 support (#3319)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3319"
+    },
+    {
+      "author": "wuhang",
+      "merged_at": "2026-05-11T20:16:05+08:00",
+      "number": 3414,
+      "platform_paths": [
+        "vllm_omni/distributed/omni_connectors/kv_transfer_manager.py",
+        "vllm_omni/engine/orchestrator.py",
+        "vllm_omni/entrypoints/openai/api_server.py"
+      ],
+      "title": "[Misc] Clean logs for image gen task (#3414)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3414"
+    },
+    {
+      "author": "dengyunyang",
+      "merged_at": "2026-05-11T19:34:58+08:00",
+      "number": 3500,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/serving_chat.py"
+      ],
+      "title": "[Bug][Hunyuanimage 3.0] fix different AR encode behavior  between online and offline (#3500)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3500"
+    },
+    {
+      "author": "dengyunyang",
+      "merged_at": "2026-05-10T22:08:24+08:00",
+      "number": 2981,
+      "platform_paths": [
+        "vllm_omni/distributed/omni_connectors/kv_transfer_manager.py"
+      ],
+      "title": "[Feature] hunyuanimage support flash attn (#2981)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2981"
+    },
+    {
+      "author": "Canlin Guo",
+      "merged_at": "2026-05-10T11:59:05+08:00",
+      "number": 2681,
+      "platform_paths": [
+        "vllm_omni/engine/async_omni_engine.py",
+        "vllm_omni/engine/stage_init_utils.py",
+        "vllm_omni/entrypoints/cli/serve.py"
+      ],
+      "title": "[Diffusion][Attention] Support per-role attention backend via CLI (#2681)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2681"
+    },
+    {
+      "author": "Dan",
+      "merged_at": "2026-05-09T06:44:19+08:00",
+      "number": 3424,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/api_server.py",
+        "vllm_omni/entrypoints/openai/serving_speech.py"
+      ],
+      "title": "[Perf] Optimize VoxCPM2 first-request latency via startup warmup (#3424)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3424"
+    },
+    {
+      "author": "baonudesifeizhai",
+      "merged_at": "2026-05-09T04:55:05-04:00",
+      "number": 2913,
+      "platform_paths": [
+        "vllm_omni/engine/arg_utils.py",
+        "vllm_omni/engine/async_omni_engine.py",
+        "vllm_omni/entrypoints/cli/serve.py"
+      ],
+      "title": "\uff08Phase 1\uff09Add ModelOpt FP8 auto-detect support for diffusion checkpoints #2709 (#2913)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2913"
+    },
+    {
+      "author": "skf",
+      "merged_at": "2026-05-08T21:33:53+08:00",
+      "number": 3410,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/api_server.py",
+        "vllm_omni/entrypoints/openai/serving_chat.py"
+      ],
+      "title": "[Feature] online HunyuanImage-3.0 IT2I (image editing) support (#3410)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3410"
+    },
+    {
+      "author": "Phi-C",
+      "merged_at": "2026-05-08T15:22:32+08:00",
+      "number": 3436,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/serving_chat.py"
+      ],
+      "title": "[Bugfix] Fix the issue where the seed parameter does not take effect when using the OpenAI Python client (#3436)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3436"
+    },
+    {
+      "author": "Nick Cao",
+      "merged_at": "2026-05-07T11:23:59-04:00",
+      "number": 3365,
+      "platform_paths": [
+        "vllm_omni/distributed/omni_connectors/connectors/mooncake_transfer_engine_connector.py"
+      ],
+      "title": "[Refactor] Replace and ban a few torch.cuda functions in favor of torch.accelerator replacements. (#3365)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3365"
+    },
+    {
+      "author": "Haco",
+      "merged_at": "2026-05-07T06:32:01+08:00",
+      "number": 3144,
+      "platform_paths": [
+        "vllm_omni/entrypoints/omni_base.py"
+      ],
+      "title": "[Config Refactor] Remove legacy Omni CLI arg helper and align tests with nullified parser defaults (#3144)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3144"
+    },
+    {
+      "author": "Lidang Jiang",
+      "merged_at": "2026-05-06T23:43:19+08:00",
+      "number": 1636,
+      "platform_paths": [
+        "vllm_omni/entrypoints/cli/logo.py",
+        "vllm_omni/entrypoints/cli/main.py"
+      ],
+      "title": "[Bugfix] Fix missing ANSI colors in CLI logo when output is piped (#1636)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1636"
+    },
+    {
+      "author": "Haco",
+      "merged_at": "2026-05-06T22:21:29+08:00",
+      "number": 2559,
+      "platform_paths": [
+        "vllm_omni/engine/async_omni_engine.py"
+      ],
+      "title": "[Bugfix] Fix default diffusion stage config generator drops runtime engine args (#2559)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2559"
+    },
+    {
+      "author": "Zheng Wengang",
+      "merged_at": "2026-05-06T19:33:18+08:00",
+      "number": 2396,
+      "platform_paths": [
+        "vllm_omni/engine/__init__.py",
+        "vllm_omni/engine/async_omni_engine.py",
+        "vllm_omni/engine/cfg_companion_tracker.py",
+        "vllm_omni/engine/orchestrator.py",
+        "vllm_omni/engine/output_processor.py",
+        "vllm_omni/engine/stage_engine_core_client.py",
+        "vllm_omni/engine/stage_engine_startup.py",
+        "vllm_omni/engine/stage_init_utils.py",
+        "vllm_omni/engine/stage_pool.py",
+        "vllm_omni/entrypoints/cli/serve.py"
+      ],
+      "title": "[FEAT] support multi-stage deployment (#2396)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2396"
+    },
+    {
+      "author": "Chen-Yo Sun",
+      "merged_at": "2026-05-06T15:43:01-07:00",
+      "number": 3120,
+      "platform_paths": [
+        "vllm_omni/engine/arg_utils.py",
+        "vllm_omni/engine/async_omni_engine.py",
+        "vllm_omni/engine/stage_init_utils.py",
+        "vllm_omni/entrypoints/cli/serve.py"
+      ],
+      "title": "[BugFix] Forward CLI --tokenizer to per-stage engine configs (#3120)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3120"
+    },
+    {
+      "author": "Haco",
+      "merged_at": "2026-05-06T14:25:20+08:00",
+      "number": 3290,
+      "platform_paths": [
+        "vllm_omni/engine/arg_utils.py",
+        "vllm_omni/entrypoints/omni_base.py"
+      ],
+      "title": "[BugFix] Fix Whitelist optimization  CI failure (#3290)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3290"
+    },
+    {
+      "author": "Mike Qiu",
+      "merged_at": "2026-05-06T10:56:23+08:00",
+      "number": 3248,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/serving_chat.py"
+      ],
+      "title": "Support both \"voice\" and \"speaker\" params in chat completions (#3248)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3248"
+    },
+    {
+      "author": "Ting FU",
+      "merged_at": "2026-05-06T05:47:13+08:00",
+      "number": 2729,
+      "platform_paths": [
+        "vllm_omni/engine/async_omni_engine.py"
+      ],
+      "title": "[Feat] DiffusionEngine Support async batch infer  (#2729)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2729"
+    },
+    {
+      "author": "Sy03",
+      "merged_at": "2026-05-06T02:57:55+08:00",
+      "number": 3350,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/serving_speech.py"
+      ],
+      "title": "[Bugfix] Propagate seed to Qwen3-TTS Fast AR sampler (#3350)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3350"
+    },
+    {
+      "author": "Chendi.Xue",
+      "merged_at": "2026-05-05T19:03:48-05:00",
+      "number": 2751,
+      "platform_paths": [
+        "vllm_omni/outputs.py"
+      ],
+      "title": "Enable Wan2.2-S2V modeling to vLLM-omni (#2751)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2751"
+    },
+    {
+      "author": "Juan Pablo Zuluaga",
+      "merged_at": "2026-05-05T16:53:45+02:00",
+      "number": 2630,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/serving_speech.py"
+      ],
+      "title": "[TTS][SpeakerCacheManager] A global speaker cache manager for Voice Cloning (#2630)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2630"
+    },
+    {
+      "author": "zhanqiuhu",
+      "merged_at": "2026-05-05T04:13:30-04:00",
+      "number": 1616,
+      "platform_paths": [
+        "vllm_omni/entrypoints/omni_base.py"
+      ],
+      "title": "[Bugfix] Add GatedRepoError Report (#1616)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1616"
+    },
+    {
+      "author": "Zhang Jian",
+      "merged_at": "2026-05-04T22:24:35+08:00",
+      "number": 2077,
+      "platform_paths": [
+        "vllm_omni/engine/async_omni_engine.py",
+        "vllm_omni/entrypoints/openai/serving_chat.py"
+      ],
+      "title": "[Diffusion] [Model] Support AudioX (#2077)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2077"
+    },
+    {
+      "author": "Alex Brooks",
+      "merged_at": "2026-05-04T22:09:45-06:00",
+      "number": 3306,
+      "platform_paths": [
+        "vllm_omni/core/sched/__init__.py",
+        "vllm_omni/core/sched/omni_ar_scheduler.py"
+      ],
+      "title": "[Core] Support Async & Sync AutoRegressive Scheduling (#3306)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3306"
+    },
+    {
+      "author": "ptarasiewiczNV",
+      "merged_at": "2026-05-04T15:07:53+02:00",
+      "number": 3189,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/serving_chat.py"
+      ],
+      "title": "[Bugfix] GLM-Image: route t2i requests through the multimodal processor (#3034) (#3189)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3189"
+    },
+    {
+      "author": "Nick Cao",
+      "merged_at": "2026-05-04T10:17:25-04:00",
+      "number": 3227,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/serving_speech.py"
+      ],
+      "title": "[Cleanup] Use tokens_input() for TTS prompt construction (#3227)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3227"
+    },
+    {
+      "author": "Alex Brooks",
+      "merged_at": "2026-05-03T23:50:31-06:00",
+      "number": 3333,
+      "platform_paths": [
+        "vllm_omni/engine/stage_engine_startup.py"
+      ],
+      "title": "[Bugfix] Use get_open_ports_list for stage ports in OmniMasterServer (#3333)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3333"
+    },
+    {
+      "author": "Dan250124",
+      "merged_at": "2026-05-03T22:29:47+08:00",
+      "number": 3312,
+      "platform_paths": [
+        "vllm_omni/engine/orchestrator.py"
+      ],
+      "title": "Fixed memory leak and Remove dead code (#3312)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3312"
+    },
+    {
+      "author": "\u6c6a\u5fd7\u9e4f",
+      "merged_at": "2026-05-03T20:02:22+08:00",
+      "number": 3318,
+      "platform_paths": [
+        "vllm_omni/core/sched/omni_ar_scheduler.py"
+      ],
+      "title": "[BugFix]: Fix async scheduer transfer exceed KV cache (#3318)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3318"
+    },
+    {
+      "author": "GuoSheng Feng",
+      "merged_at": "2026-05-03T12:36:15+08:00",
+      "number": 3217,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/serving_speech.py"
+      ],
+      "title": "[Bugfix] Map Qwen3-TTS max_new_tokens to max_tokens (#3217)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3217"
+    },
+    {
+      "author": "Yueqian Lin",
+      "merged_at": "2026-05-03T00:35:35-04:00",
+      "number": 3192,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/serving_speech.py"
+      ],
+      "title": "[Bugfix][MOSS-TTS-Nano] Drop fictional voice presets, require ref_audio (#3192)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3192"
+    },
+    {
+      "author": "Alex Brooks",
+      "merged_at": "2026-05-02T18:02:47-06:00",
+      "number": 3298,
+      "platform_paths": [
+        "vllm_omni/engine/stage_init_utils.py"
+      ],
+      "title": "[CI] Fix Bad TP Initialization in Dynin-Omni Tests (#3298)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3298"
+    },
+    {
+      "author": "Jason",
+      "merged_at": "2026-05-02T02:39:49+08:00",
+      "number": 3191,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/serving_speech.py"
+      ],
+      "title": "[Bugfix] Validate Qwen3-TTS speaker embedding dimensions before engine execution (#3191)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3191"
+    },
+    {
+      "author": "amy-why-3459",
+      "merged_at": "2026-05-01T22:47:24+08:00",
+      "number": 3203,
+      "platform_paths": [
+        "vllm_omni/core/sched/omni_ar_scheduler.py"
+      ],
+      "title": "[perf]Qwen3-Omni performance optimization (#3203)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3203"
+    },
+    {
+      "author": "Gao Han",
+      "merged_at": "2026-05-01T04:39:54+01:00",
+      "number": 3287,
+      "platform_paths": [
+        "vllm_omni/engine/arg_utils.py",
+        "vllm_omni/engine/async_omni_engine.py",
+        "vllm_omni/entrypoints/omni_base.py"
+      ],
+      "title": "[CI failed]Revert \"[Config Refactor] Derive deploy override fields from stage config\" (#3287)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3287"
+    },
+    {
+      "author": "Haco",
+      "merged_at": "2026-05-01T01:04:03+08:00",
+      "number": 3162,
+      "platform_paths": [
+        "vllm_omni/engine/arg_utils.py",
+        "vllm_omni/engine/async_omni_engine.py",
+        "vllm_omni/entrypoints/omni_base.py"
+      ],
+      "title": "[Config Refactor] Derive deploy override fields from stage config (#3162)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3162"
+    },
+    {
+      "author": "Haco",
+      "merged_at": "2026-04-30T17:03:09+08:00",
+      "number": 3181,
+      "platform_paths": [
+        "vllm_omni/engine/async_omni_engine.py"
+      ],
+      "title": "[BugFix] Fix nullify regressions in pure diffusion offline examples (#3181)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3181"
+    },
+    {
+      "author": "NATURE",
+      "merged_at": "2026-04-30T11:56:51+08:00",
+      "number": 2867,
+      "platform_paths": [
+        "vllm_omni/engine/async_omni_engine.py"
+      ],
+      "title": "[Bugfix]pass TP size to diffusion config (#2867)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2867"
+    },
+    {
+      "author": "Hongsheng Liu",
+      "merged_at": "2026-04-28T14:29:49+08:00",
+      "number": 3204,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/protocol/audio.py",
+        "vllm_omni/entrypoints/openai/serving_speech.py"
+      ],
+      "title": "Revert \"[Doc][Frontend][Model][VoxCPM2] Support instructions and per-request cfg_value\" (#3204)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3204"
+    },
+    {
+      "author": "Ekagra Ranjan",
+      "merged_at": "2026-04-28T14:06:57-04:00",
+      "number": 1794,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/api_server.py",
+        "vllm_omni/entrypoints/openai/audio_utils_mixin.py",
+        "vllm_omni/entrypoints/openai/protocol/audio.py",
+        "vllm_omni/entrypoints/openai/serving_audio_generate.py",
+        "vllm_omni/entrypoints/openai/serving_speech.py"
+      ],
+      "title": "Fix \"Add online serving to Stable Audio Diffusion and introduce v1/audio/generate endpoint\" (#1794)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1794"
+    },
+    {
+      "author": "Hongsheng Liu",
+      "merged_at": "2026-04-28T13:23:29+08:00",
+      "number": 3202,
+      "platform_paths": [
+        "vllm_omni/core/sched/omni_ar_scheduler.py",
+        "vllm_omni/entrypoints/openai/serving_chat.py"
+      ],
+      "title": "Revert \"[perf]Qwen3-Omni performance optimization\" (#3202)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3202"
+    },
+    {
+      "author": "amy-why-3459",
+      "merged_at": "2026-04-28T11:59:26+08:00",
+      "number": 3164,
+      "platform_paths": [
+        "vllm_omni/core/sched/omni_ar_scheduler.py",
+        "vllm_omni/entrypoints/openai/serving_chat.py"
+      ],
+      "title": "[perf]Qwen3-Omni performance optimization (#3164)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3164"
+    },
+    {
+      "author": "Alfian Firmansyah",
+      "merged_at": "2026-04-28T10:24:04+07:00",
+      "number": 3118,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/protocol/audio.py",
+        "vllm_omni/entrypoints/openai/serving_speech.py"
+      ],
+      "title": "[Doc][Frontend][Model][VoxCPM2] Support instructions and per-request cfg_value (#3118)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3118"
+    },
+    {
+      "author": "Reid",
+      "merged_at": "2026-04-26T23:30:11+08:00",
+      "number": 3153,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/api_server.py",
+        "vllm_omni/entrypoints/openai/serving_chat.py",
+        "vllm_omni/entrypoints/openai/serving_video.py",
+        "vllm_omni/entrypoints/openai/stage_params.py"
+      ],
+      "title": "[Refactor] Centralize stage sampling params resolution (#3153)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3153"
+    },
+    {
+      "author": "Yueqian Lin",
+      "merged_at": "2026-04-26T22:26:26-04:00",
+      "number": 2753,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/serving_speech.py"
+      ],
+      "title": "feat: add MOSS-TTS-Nano single-stage TTS support (#2753)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2753"
+    },
+    {
+      "author": "Yiyang \"Ian\" Liu",
+      "merged_at": "2026-04-26T12:15:30-07:00",
+      "number": 2624,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/protocol/audio.py",
+        "vllm_omni/entrypoints/openai/serving_speech.py"
+      ],
+      "title": "[Bugfix] Add seed support to TTS API for deterministic Fish Speech voice generation (#2624)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2624"
+    },
+    {
+      "author": "Alex Brooks",
+      "merged_at": "2026-04-25T21:11:53-06:00",
+      "number": 2911,
+      "platform_paths": [
+        "vllm_omni/engine/output_modality.py",
+        "vllm_omni/engine/output_processor.py",
+        "vllm_omni/engine/stage_engine_core_client.py",
+        "vllm_omni/entrypoints/async_omni.py",
+        "vllm_omni/entrypoints/omni_base.py",
+        "vllm_omni/entrypoints/openai/realtime_connection.py",
+        "vllm_omni/entrypoints/openai/serving_chat.py",
+        "vllm_omni/entrypoints/openai/serving_speech.py",
+        "vllm_omni/entrypoints/utils.py"
+      ],
+      "title": "[Refactor/Bugfix] Use Delta Messages for Streaming (#2911)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2911"
+    },
+    {
+      "author": "Jared Wen",
+      "merged_at": "2026-04-25T20:49:19+08:00",
+      "number": 3024,
+      "platform_paths": [
+        "vllm_omni/engine/async_omni_engine.py",
+        "vllm_omni/engine/orchestrator.py",
+        "vllm_omni/entrypoints/cli/serve.py",
+        "vllm_omni/entrypoints/omni_base.py",
+        "vllm_omni/entrypoints/openai/api_server.py",
+        "vllm_omni/entrypoints/openai/serving_chat.py",
+        "vllm_omni/metrics/stats.py"
+      ],
+      "title": "Benchmark and Bugfix for GLM-Image (#3024)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3024"
+    },
+    {
+      "author": "Yuanheng Zhao",
+      "merged_at": "2026-04-25T18:17:25+08:00",
+      "number": 3065,
+      "platform_paths": [
+        "vllm_omni/engine/arg_utils.py"
+      ],
+      "title": "[Bugfix][Refactor] Migrate Voxtral TTS config and parser registry (#3065)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3065"
+    },
+    {
+      "author": "jiangmengyu18",
+      "merged_at": "2026-04-25T14:14:01+08:00",
+      "number": 2979,
+      "platform_paths": [
+        "vllm_omni/engine/async_omni_engine.py"
+      ],
+      "title": "[NPU] [Quant] Support HunyuanImage3 offline quantization with vLLM-Ascend on diffusion path (#2979)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2979"
+    },
+    {
+      "author": "amy-why-3459",
+      "merged_at": "2026-04-25T11:48:03+08:00",
+      "number": 3007,
+      "platform_paths": [
+        "vllm_omni/entrypoints/omni_base.py"
+      ],
+      "title": "[Refactor] Remove the default value \"mp\" from distributed_executor_backend. (#3007)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3007"
+    },
+    {
+      "author": "FrosterHan",
+      "merged_at": "2026-04-25T10:17:44+08:00",
+      "number": 3094,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/api_server.py",
+        "vllm_omni/entrypoints/openai/protocol/images.py"
+      ],
+      "title": "fix generations reponse body (#3094)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3094"
+    },
+    {
+      "author": "Sy03",
+      "merged_at": "2026-04-24T22:54:35+08:00",
+      "number": 2342,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/api_server.py",
+        "vllm_omni/entrypoints/openai/serving_video_stream.py",
+        "vllm_omni/entrypoints/openai/video_frame_filter.py",
+        "vllm_omni/entrypoints/openai/video_stream_context.py",
+        "vllm_omni/entrypoints/openai/video_stream_envs.py",
+        "vllm_omni/entrypoints/openai/video_stream_session.py"
+      ],
+      "title": "[Feature] Streaming video input with EVS frame filtering (RFC #2201 Phase 2-4) (#2342)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2342"
+    },
+    {
+      "author": "\u6c6a\u5fd7\u9e4f",
+      "merged_at": "2026-04-24T21:21:30+08:00",
+      "number": 2936,
+      "platform_paths": [
+        "vllm_omni/engine/stage_init_utils.py",
+        "vllm_omni/entrypoints/utils.py"
+      ],
+      "title": "[Config Refactor]: Remove bagel yaml (#2936)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2936"
+    },
+    {
+      "author": "Haco",
+      "merged_at": "2026-04-24T20:07:24+08:00",
+      "number": 3078,
+      "platform_paths": [
+        "vllm_omni/engine/arg_utils.py",
+        "vllm_omni/engine/async_omni_engine.py",
+        "vllm_omni/entrypoints/cli/serve.py",
+        "vllm_omni/entrypoints/omni_base.py",
+        "vllm_omni/entrypoints/openai/api_server.py",
+        "vllm_omni/entrypoints/utils.py"
+      ],
+      "title": "[Config Refactor] sentinel default precedence (#3078)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3078"
+    },
+    {
+      "author": "Lancer",
+      "merged_at": "2026-04-24T20:01:01+08:00",
+      "number": 3001,
+      "platform_paths": [
+        "vllm_omni/engine/stage_engine_core_client.py",
+        "vllm_omni/engine/stage_engine_core_proc.py"
+      ],
+      "title": "[Bugfix] graceful shutdown for  multi-stage engine processes (#3001)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3001"
+    },
+    {
+      "author": "Lancer",
+      "merged_at": "2026-04-24T20:00:14+08:00",
+      "number": 3084,
+      "platform_paths": [
+        "vllm_omni/engine/orchestrator.py",
+        "vllm_omni/entrypoints/openai/serving_chat.py"
+      ],
+      "title": "[Bugfix] fix GLM-Image multi-stage online generation fail (#3084)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3084"
+    },
+    {
+      "author": "NumberWan",
+      "merged_at": "2026-04-24T15:09:23+08:00",
+      "number": 2442,
+      "platform_paths": [
+        "vllm_omni/distributed/omni_coordinator/omni_coordinator.py"
+      ],
+      "title": "[Feature] Coordinator PUB mechanism optimization (#2442)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2442"
+    },
+    {
+      "author": "Lancer",
+      "merged_at": "2026-04-24T13:49:49+08:00",
+      "number": 2292,
+      "platform_paths": [
+        "vllm_omni/engine/async_omni_engine.py"
+      ],
+      "title": "[Feat] support quantization for GLM-IMAGE (#2292)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2292"
+    },
+    {
+      "author": "Yueqian Lin",
+      "merged_at": "2026-04-24T11:35:33-04:00",
+      "number": 2835,
+      "platform_paths": [
+        "vllm_omni/entrypoints/cli/benchmark/serve.py"
+      ],
+      "title": "[Benchmark] Universal TTS benchmark: Qwen3-TTS + VoxCPM2 with 3 task types (voice-clone/default/design) (#2835)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2835"
+    },
+    {
+      "author": "Haco",
+      "merged_at": "2026-04-23T14:21:37+08:00",
+      "number": 2956,
+      "platform_paths": [
+        "vllm_omni/engine/async_omni_engine.py"
+      ],
+      "title": "[BugFix] Preserve media access args for stage configs (#2956)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2956"
+    },
+    {
+      "author": "Yuanheng Zhao",
+      "merged_at": "2026-04-23T12:04:52+08:00",
+      "number": 2890,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/serving_chat.py",
+        "vllm_omni/entrypoints/openai/serving_speech.py"
+      ],
+      "title": "[Model] Ming-flash-omni-2.0 Omni-Speech and TTS (#2890)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2890"
+    },
+    {
+      "author": "WeiQing Chen",
+      "merged_at": "2026-04-23T11:31:13+08:00",
+      "number": 3049,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/api_server.py",
+        "vllm_omni/entrypoints/openai/serving_video.py"
+      ],
+      "title": "[Bugfix] Fix default sampling params for /v1/videos on main (#3049)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3049"
+    },
+    {
+      "author": "amy-why-3459",
+      "merged_at": "2026-04-23T09:40:43+08:00",
+      "number": 2843,
+      "platform_paths": [
+        "vllm_omni/entrypoints/cli/benchmark/serve.py"
+      ],
+      "title": "[Tests]Add accuracy benchmark L4 test cases (#2843)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2843"
+    },
+    {
+      "author": "wuhang",
+      "merged_at": "2026-04-23T04:32:43+08:00",
+      "number": 2961,
+      "platform_paths": [
+        "vllm_omni/engine/orchestrator.py",
+        "vllm_omni/entrypoints/async_omni.py",
+        "vllm_omni/entrypoints/omni_base.py",
+        "vllm_omni/entrypoints/openai/api_server.py"
+      ],
+      "title": "[Feature] Failure message shows more details (#2961)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2961"
+    },
+    {
+      "author": "NumberWan",
+      "merged_at": "2026-04-23T00:57:01+08:00",
+      "number": 2932,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/serving_chat.py"
+      ],
+      "title": "[BugFix] Surface diffusion metrics in chat completions; sanitize Bagel img2img mm kwargs (#2932)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2932"
+    },
+    {
+      "author": "Zeyu Huang | \u9ec3\u6fa4\u5b87",
+      "merged_at": "2026-04-23T00:07:18+08:00",
+      "number": 2724,
+      "platform_paths": [
+        "vllm_omni/engine/async_omni_engine.py",
+        "vllm_omni/entrypoints/cli/serve.py"
+      ],
+      "title": "[feat]: General diffusers adapter backend to run diffusion models (#2724)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2724"
+    },
+    {
+      "author": "Greenhand Tsang",
+      "merged_at": "2026-04-22T11:35:39+08:00",
+      "number": 2508,
+      "platform_paths": [
+        "vllm_omni/engine/arg_utils.py"
+      ],
+      "title": "[Bugfix][Model] Fix Qwen3-TTS Code2Wav max_model_len validation (#2508)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2508"
+    },
+    {
+      "author": "NumberWan",
+      "merged_at": "2026-04-22T02:17:28+08:00",
+      "number": 2448,
+      "platform_paths": [
+        "vllm_omni/distributed/omni_coordinator/__init__.py",
+        "vllm_omni/distributed/omni_coordinator/load_balancer.py"
+      ],
+      "title": "[Feature] Load Balancer - Add LeastQueueLengthBalancer RoundRobinBalancer (#2448)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2448"
+    },
+    {
+      "author": "WeiQing Chen",
+      "merged_at": "2026-04-21T21:37:52+08:00",
+      "number": 2980,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/api_server.py"
+      ],
+      "title": "[Bugfix] ComfyUI image-to-image DALL-E endpoint cases #2886 (#2980)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2980"
+    },
+    {
+      "author": "Chen-Yo Sun",
+      "merged_at": "2026-04-21T20:49:50-07:00",
+      "number": 2338,
+      "platform_paths": [
+        "vllm_omni/engine/arg_utils.py",
+        "vllm_omni/engine/stage_init_utils.py",
+        "vllm_omni/entrypoints/openai/protocol/audio.py",
+        "vllm_omni/entrypoints/openai/serving_speech.py"
+      ],
+      "title": "[Feature][Voxtral TTS] Support per-model extra sampling params & add cfg_alpha for Voxtral TTS (#2338)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2338"
+    },
+    {
+      "author": "amy-why-3459",
+      "merged_at": "2026-04-21T11:51:39+08:00",
+      "number": 2955,
+      "platform_paths": [
+        "vllm_omni/engine/output_processor.py"
+      ],
+      "title": "[BugFix] Fix the issue with stream=True (#2955)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2955"
+    },
+    {
+      "author": "Yueqian Lin",
+      "merged_at": "2026-04-21T09:17:53-04:00",
+      "number": 2958,
+      "platform_paths": [
+        "vllm_omni/entrypoints/utils.py"
+      ],
+      "title": "[Config Refactor] Migrate 5 TTS models (VoxCPM2 / CosyVoice3 / MiMo Audio / Voxtral TTS / Fish Speech S2 Pro) to Pipeline + Deploy schema (#2958)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2958"
+    },
+    {
+      "author": "Vensen",
+      "merged_at": "2026-04-21T07:19:53+07:00",
+      "number": 2022,
+      "platform_paths": [
+        "vllm_omni/engine/arg_utils.py",
+        "vllm_omni/engine/async_omni_engine.py",
+        "vllm_omni/engine/stage_init_utils.py",
+        "vllm_omni/entrypoints/async_omni.py",
+        "vllm_omni/entrypoints/cli/serve.py",
+        "vllm_omni/entrypoints/omni_base.py",
+        "vllm_omni/entrypoints/openai/api_server.py"
+      ],
+      "title": "[Feat][sleepmode] add omni sleepmode and ack protocol (#2022)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2022"
+    },
+    {
+      "author": "Daniel Huang",
+      "merged_at": "2026-04-20T23:46:05-07:00",
+      "number": 2426,
+      "platform_paths": [
+        "vllm_omni/engine/async_omni_engine.py",
+        "vllm_omni/engine/orchestrator.py",
+        "vllm_omni/engine/stage_engine_core_client.py",
+        "vllm_omni/entrypoints/async_omni.py",
+        "vllm_omni/entrypoints/omni.py",
+        "vllm_omni/entrypoints/omni_base.py",
+        "vllm_omni/entrypoints/openai/api_server.py",
+        "vllm_omni/entrypoints/openai/protocol/videos.py",
+        "vllm_omni/entrypoints/openai/serving_chat.py",
+        "vllm_omni/entrypoints/openai/serving_speech.py",
+        "vllm_omni/outputs.py"
+      ],
+      "title": "[Enhancement] Engine runtime errors (#2426)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2426"
+    },
+    {
+      "author": "Jared Wen",
+      "merged_at": "2026-04-20T19:24:06+08:00",
+      "number": 2320,
+      "platform_paths": [
+        "vllm_omni/engine/orchestrator.py",
+        "vllm_omni/entrypoints/openai/api_server.py",
+        "vllm_omni/entrypoints/openai/serving_chat.py"
+      ],
+      "title": " [Bugfix] Fix GLM-Image output dimensions and image edit pipeline (#2320)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2320"
+    },
+    {
+      "author": "amy-why-3459",
+      "merged_at": "2026-04-20T13:50:17+08:00",
+      "number": 2934,
+      "platform_paths": [
+        "vllm_omni/entrypoints/omni_base.py"
+      ],
+      "title": "[BugFix] Fixed the issue where --no-async-chunk was not working. (#2934)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2934"
+    },
+    {
+      "author": "Haco",
+      "merged_at": "2026-04-20T00:21:03+08:00",
+      "number": 2805,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/api_server.py"
+      ],
+      "title": "[Bugfix] diffusion end points allow model mismatch (#2805)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2805"
+    },
+    {
+      "author": "Sy03",
+      "merged_at": "2026-04-18T22:04:44+08:00",
+      "number": 2894,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/serving_speech.py"
+      ],
+      "title": "[Bugfix][VoxCPM2] Fix voice-clone decode loop by padding prefill prompt (#2894)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2894"
+    },
+    {
+      "author": "Mike Qiu",
+      "merged_at": "2026-04-17T20:10:24+08:00",
+      "number": 2315,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/serving_chat.py"
+      ],
+      "title": "Fix NoneType error of outputs (#2315)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2315"
+    },
+    {
+      "author": "Lancer",
+      "merged_at": "2026-04-17T20:09:41+08:00",
+      "number": 2267,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/api_server.py",
+        "vllm_omni/entrypoints/openai/serving_chat.py"
+      ],
+      "title": "[Bugfix] Fix image quality in /v1/images/generations for multi-stage pipeline (#2267)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2267"
+    },
+    {
+      "author": "WeiQing Chen",
+      "merged_at": "2026-04-17T20:07:30+08:00",
+      "number": 2840,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/api_server.py"
+      ],
+      "title": "[Bugfix] Limit Qwen-Image-Edit-2511 input image count (#2840)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2840"
+    },
+    {
+      "author": "amy-why-3459",
+      "merged_at": "2026-04-17T17:15:35+08:00",
+      "number": 2871,
+      "platform_paths": [
+        "vllm_omni/core/sched/omni_ar_scheduler.py",
+        "vllm_omni/core/sched/omni_generation_scheduler.py",
+        "vllm_omni/distributed/omni_connectors/transfer_adapter/chunk_transfer_adapter.py"
+      ],
+      "title": "[BugFix] Fixing occasional engine crashes caused by abort requests (#2871)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2871"
+    },
+    {
+      "author": "Peiqi Yin",
+      "merged_at": "2026-04-17T16:13:00+08:00",
+      "number": 2623,
+      "platform_paths": [
+        "vllm_omni/engine/async_omni_engine.py",
+        "vllm_omni/engine/cfg_companion_tracker.py",
+        "vllm_omni/engine/orchestrator.py",
+        "vllm_omni/entrypoints/cfg_companion_tracker.py"
+      ],
+      "title": "[Core] Refactor CFG companion tracker and use in Orchestrator (#2623)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2623"
+    },
+    {
+      "author": "WeiQing Chen",
+      "merged_at": "2026-04-17T12:07:10+08:00",
+      "number": 2780,
+      "platform_paths": [
+        "vllm_omni/engine/async_omni_engine.py"
+      ],
+      "title": "[Bugfix] Preserve default diffusion sampling params in default stage (#2780)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2780"
+    },
+    {
+      "author": "Lancer",
+      "merged_at": "2026-04-17T07:55:00+08:00",
+      "number": 1180,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/api_server.py",
+        "vllm_omni/entrypoints/openai/serving_chat.py"
+      ],
+      "title": "[Feature] Flux2 klein inpaint (#1180)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1180"
+    },
+    {
+      "author": "TaffyOfficial",
+      "merged_at": "2026-04-16T23:15:25+08:00",
+      "number": 2713,
+      "platform_paths": [
+        "vllm_omni/patch.py"
+      ],
+      "title": "Feat/Add HunyuanImage-3.0-Instruct ar part support: (#2713)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2713"
+    },
+    {
+      "author": "Sy03",
+      "merged_at": "2026-04-16T23:07:48+08:00",
+      "number": 2832,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/serving_speech.py"
+      ],
+      "title": "[BugFix][VoxCPM2]: split multichar Chinese tokens to match training tokenization (#2832)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2832"
+    },
+    {
+      "author": "Mike Qiu",
+      "merged_at": "2026-04-16T22:40:34+08:00",
+      "number": 2855,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/serving_chat.py"
+      ],
+      "title": "[FIX] Preserve YAML default stop words when request sends empty list (#2855)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2855"
+    },
+    {
+      "author": "NATURE",
+      "merged_at": "2026-04-16T16:25:13+08:00",
+      "number": 2705,
+      "platform_paths": [
+        "vllm_omni/distributed/omni_connectors/kv_transfer_manager.py",
+        "vllm_omni/distributed/omni_connectors/utils/kv_utils.py",
+        "vllm_omni/engine/async_omni_engine.py",
+        "vllm_omni/engine/stage_engine_core_client.py",
+        "vllm_omni/engine/stage_init_utils.py",
+        "vllm_omni/entrypoints/openai/serving_chat.py"
+      ],
+      "title": "[Feature] Bagel: Support tp+cfg parallel using mooncake transfer engine connector (#2705)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2705"
+    },
+    {
+      "author": "IsleOfDawnlight",
+      "merged_at": "2026-04-15T15:04:58+08:00",
+      "number": 2467,
+      "platform_paths": [
+        "vllm_omni/engine/arg_utils.py",
+        "vllm_omni/entrypoints/openai/serving_speech.py"
+      ],
+      "title": "Add voxcpm model support. (#2467)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2467"
+    },
+    {
+      "author": "WeiQing Chen",
+      "merged_at": "2026-04-15T11:52:20+08:00",
+      "number": 2555,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/api_server.py",
+        "vllm_omni/entrypoints/openai/protocol/videos.py",
+        "vllm_omni/entrypoints/openai/serving_video.py"
+      ],
+      "title": "[Feature] feat: add video frame interpolation postprocess (#2555)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2555"
+    },
+    {
+      "author": "Samit",
+      "merged_at": "2026-04-15T11:46:06+08:00",
+      "number": 2736,
+      "platform_paths": [
+        "vllm_omni/engine/async_omni_engine.py",
+        "vllm_omni/engine/orchestrator.py",
+        "vllm_omni/engine/stage_init_utils.py",
+        "vllm_omni/entrypoints/openai/video_api_utils.py",
+        "vllm_omni/outputs.py"
+      ],
+      "title": "[Perf] Eliminate Hop 3 IPC overhead for single-stage diffusion via inline execution (#2736)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2736"
+    },
+    {
+      "author": "amy-why-3459",
+      "merged_at": "2026-04-15T11:07:35+08:00",
+      "number": 2558,
+      "platform_paths": [
+        "vllm_omni/entrypoints/cli/benchmark/serve.py"
+      ],
+      "title": "[Benchmark]Omni-modality model accuracy benchmark(Daily-Omni & seed-tts-eval) (#2558)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2558"
+    },
+    {
+      "author": "Alex Brooks",
+      "merged_at": "2026-04-15T11:01:45-06:00",
+      "number": 2164,
+      "platform_paths": [
+        "vllm_omni/core/prefix_cache.py"
+      ],
+      "title": "[feature] Hidden State Prefix Caching (#2164)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2164"
+    },
+    {
+      "author": "rongfu.leng",
+      "merged_at": "2026-04-15T08:52:32+08:00",
+      "number": 1680,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/api_server.py"
+      ],
+      "title": "[Bugfix] Handle numpy array outputs when generate image (#1680)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1680"
+    },
+    {
+      "author": "Yueqian Lin",
+      "merged_at": "2026-04-14T21:58:25-04:00",
+      "number": 2758,
+      "platform_paths": [
+        "vllm_omni/engine/output_processor.py"
+      ],
+      "title": "[Perf] VoxCPM2: streaming VAE + compile optimization (45% RTF reduction) (#2758)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2758"
+    },
+    {
+      "author": "NATURE",
+      "merged_at": "2026-04-14T16:06:37+08:00",
+      "number": 2731,
+      "platform_paths": [
+        "vllm_omni/distributed/omni_connectors/connectors/base.py",
+        "vllm_omni/distributed/omni_connectors/connectors/mooncake_store_connector.py",
+        "vllm_omni/distributed/omni_connectors/connectors/mooncake_transfer_engine_connector.py",
+        "vllm_omni/distributed/omni_connectors/connectors/shm_connector.py",
+        "vllm_omni/distributed/omni_connectors/utils/initialization.py"
+      ],
+      "title": "[Omni Connector] Omni Transfer Engine Connector: Enable 1-receiver-to-N-senders to support Bagel TP/CFG parallel (#2731)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2731"
+    },
+    {
+      "author": "Samit",
+      "merged_at": "2026-04-14T14:20:38+08:00",
+      "number": 2735,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/api_server.py",
+        "vllm_omni/entrypoints/openai/serving_video.py",
+        "vllm_omni/entrypoints/openai/video_api_utils.py"
+      ],
+      "title": "[Perf] Optimize MP4 encoding latency in video generation (#2735)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2735"
+    },
+    {
+      "author": "amy-why-3459",
+      "merged_at": "2026-04-14T13:32:00+08:00",
+      "number": 2741,
+      "platform_paths": [
+        "vllm_omni/engine/arg_utils.py"
+      ],
+      "title": "[BugFix] Remove stage_configs_path validation (#2741)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2741"
+    },
+    {
+      "author": "Bvicii",
+      "merged_at": "2026-04-14T05:53:06-07:00",
+      "number": 2763,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/serving_speech.py"
+      ],
+      "title": "[Bugfix] Reject /v1/audio/speech for Qwen omni models (#2763)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2763"
+    },
+    {
+      "author": "Sy03",
+      "merged_at": "2026-04-14T05:16:47+08:00",
+      "number": 2690,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/serving_speech.py"
+      ],
+      "title": "[Perf]: Speedup VoxCPM2 TTS performance and Support PagedAttention (#2690)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2690"
+    },
+    {
+      "author": "Chenguang Zheng",
+      "merged_at": "2026-04-13T18:35:59+08:00",
+      "number": 2717,
+      "platform_paths": [
+        "vllm_omni/engine/async_omni_engine.py"
+      ],
+      "title": "[Bugfix] Release stage launch lock before handshake (#2717)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2717"
+    },
+    {
+      "author": "NATURE",
+      "merged_at": "2026-04-13T16:01:14+08:00",
+      "number": 1555,
+      "platform_paths": [
+        "vllm_omni/core/sched/omni_scheduling_coordinator.py",
+        "vllm_omni/outputs.py"
+      ],
+      "title": "[core]refactor communication layer: PR1(Added Refactor Infra Only) (#1555)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1555"
+    },
+    {
+      "author": "amy-why-3459",
+      "merged_at": "2026-04-13T14:55:16+08:00",
+      "number": 2716,
+      "platform_paths": [
+        "vllm_omni/engine/async_omni_engine.py",
+        "vllm_omni/engine/orchestrator.py",
+        "vllm_omni/entrypoints/async_omni.py"
+      ],
+      "title": "[Revert] Revert \"[Log] Wire stat loggers into AsyncOmniEngine to match AsyncLL\u2026 (#2716)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2716"
+    },
+    {
+      "author": "Jiaqian Liu",
+      "merged_at": "2026-04-13T14:20:04+08:00",
+      "number": 2134,
+      "platform_paths": [
+        "vllm_omni/engine/async_omni_engine.py"
+      ],
+      "title": "[Model] Adapt Wan2.2-I2V-A14B via LightX2V offline conversion path (#2134)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2134"
+    },
+    {
+      "author": "NATURE",
+      "merged_at": "2026-04-13T11:36:20+08:00",
+      "number": 2458,
+      "platform_paths": [
+        "vllm_omni/core/sched/omni_ar_scheduler.py"
+      ],
+      "title": "[Bugfix] Fix Bagel online mode for  1. Hang after several requests  2. Non-deterministic image quality regression. (#2458)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2458"
+    },
+    {
+      "author": "Zhengyuan Su (\u82cf\u653f\u6e0a)",
+      "merged_at": "2026-04-13T11:08:52+08:00",
+      "number": 2684,
+      "platform_paths": [
+        "vllm_omni/engine/arg_utils.py",
+        "vllm_omni/engine/async_omni_engine.py"
+      ],
+      "title": "[Feat] Override single stage CLI args when stage_configs_path is set in OmniEngineArgs (#2684)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2684"
+    },
+    {
+      "author": "Canlin Guo",
+      "merged_at": "2026-04-12T19:54:23+08:00",
+      "number": 2551,
+      "platform_paths": [
+        "vllm_omni/engine/async_omni_engine.py",
+        "vllm_omni/engine/orchestrator.py",
+        "vllm_omni/entrypoints/async_omni.py"
+      ],
+      "title": "[Log] Wire stat loggers into AsyncOmniEngine to match AsyncLLM (#2551)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2551"
+    },
+    {
+      "author": "Yuanheng Zhao",
+      "merged_at": "2026-04-12T00:48:47+08:00",
+      "number": 2519,
+      "platform_paths": [
+        "vllm_omni/engine/async_omni_engine.py",
+        "vllm_omni/engine/stage_engine_core_proc.py",
+        "vllm_omni/engine/stage_init_utils.py"
+      ],
+      "title": "[Bugfix] Restore user config/runtime stage init timeout (#2519)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2519"
+    },
+    {
+      "author": "TJian",
+      "merged_at": "2026-04-11T19:54:22+08:00",
+      "number": 2340,
+      "platform_paths": [
+        "vllm_omni/engine/stage_init_utils.py"
+      ],
+      "title": "[ROCm] [CI] [Bugfix] Resurface CI Signal, fix MHA AR selection, sync with cuda tests (#2340)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2340"
+    },
+    {
+      "author": "Juan Pablo Zuluaga",
+      "merged_at": "2026-04-11T18:14:03+02:00",
+      "number": 2676,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/serving_speech.py"
+      ],
+      "title": "[TTS][OmniVoice] Add voice cloning support for OmniVoice TTS (#2676)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2676"
+    },
+    {
+      "author": "teith",
+      "merged_at": "2026-04-11T04:46:38+02:00",
+      "number": 2203,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/serving_speech.py"
+      ],
+      "title": "[BUG FIX]: prevent EngineCore crash when Qwen TTS Base task is missing ref_text (#2203)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2203"
+    },
+    {
+      "author": "Yueqian Lin",
+      "merged_at": "2026-04-10T22:21:26-04:00",
+      "number": 2658,
+      "platform_paths": [
+        "vllm_omni/engine/arg_utils.py"
+      ],
+      "title": "[Model] VoxCPM2 native AR TTS support (#2658)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2658"
+    },
+    {
+      "author": "bjf-frz",
+      "merged_at": "2026-04-10T16:48:06+08:00",
+      "number": 2647,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/api_server.py",
+        "vllm_omni/entrypoints/openai/protocol/videos.py",
+        "vllm_omni/entrypoints/openai/serving_video.py"
+      ],
+      "title": "[Bugfix]: modify diffusion pipeline profiler result in videos (#2647)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2647"
+    },
+    {
+      "author": "wuhang",
+      "merged_at": "2026-04-10T14:40:37+08:00",
+      "number": 2020,
+      "platform_paths": [
+        "vllm_omni/engine/arg_utils.py",
+        "vllm_omni/engine/async_omni_engine.py",
+        "vllm_omni/engine/stage_engine_core_client.py",
+        "vllm_omni/engine/stage_engine_startup.py",
+        "vllm_omni/engine/stage_init_utils.py",
+        "vllm_omni/entrypoints/cli/serve.py",
+        "vllm_omni/entrypoints/openai/api_server.py"
+      ],
+      "title": "[Entrypoint][Refactor]Stage CLI Refactor (#2020)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2020"
+    },
+    {
+      "author": "Nick Cao",
+      "merged_at": "2026-04-10T14:11:31-04:00",
+      "number": 2273,
+      "platform_paths": [
+        "vllm_omni/entrypoints/chat_utils.py",
+        "vllm_omni/entrypoints/openai/audio_utils_mixin.py"
+      ],
+      "title": "[Refactor] Remove dependency on librosa (#2273)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2273"
+    },
+    {
+      "author": "Haco",
+      "merged_at": "2026-04-10T10:24:35+08:00",
+      "number": 2663,
+      "platform_paths": [
+        "vllm_omni/entrypoints/utils.py"
+      ],
+      "title": "[Bugfix] restore legacy stage config precedence (#2663)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2663"
+    },
+    {
+      "author": "Sy03",
+      "merged_at": "2026-04-10T04:34:34+08:00",
+      "number": 2606,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/serving_speech.py"
+      ],
+      "title": "[Bugfix] Fix Fish Speech voice clone FileNotFoundError on multi-GPU (#2606)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2606"
+    },
+    {
+      "author": "Yueqian Lin",
+      "merged_at": "2026-04-09T22:34:03-04:00",
+      "number": 2609,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/serving_speech.py"
+      ],
+      "title": "[Feat][FishSpeech] Cache DAC-encoded ref audio for voice cloning (#2609)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2609"
+    },
+    {
+      "author": "Samit",
+      "merged_at": "2026-04-09T18:06:40+08:00",
+      "number": 2513,
+      "platform_paths": [
+        "vllm_omni/outputs.py"
+      ],
+      "title": "[Refactor] Use trajectory_* fields for Qwen-Image structured RL outputs (#2513)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2513"
+    },
+    {
+      "author": "Haco",
+      "merged_at": "2026-04-09T16:44:31+08:00",
+      "number": 2076,
+      "platform_paths": [
+        "vllm_omni/engine/stage_init_utils.py",
+        "vllm_omni/entrypoints/stage_utils.py",
+        "vllm_omni/entrypoints/utils.py"
+      ],
+      "title": "[Bugfix] Fix precedence between caller runtime args and default stage configs (#2076)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2076"
+    },
+    {
+      "author": "pjh4993",
+      "merged_at": "2026-04-09T15:41:23+09:00",
+      "number": 2587,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/api_server.py"
+      ],
+      "title": "[Bugfix] Guard app.state access during server shutdown (#2587)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2587"
+    },
+    {
+      "author": "LiBai",
+      "merged_at": "2026-04-09T15:35:22+08:00",
+      "number": 2187,
+      "platform_paths": [
+        "vllm_omni/entrypoints/__init__.py"
+      ],
+      "title": "[Bug] Lazy-import entrypoints to fix subprocess pynvml crash (#2187)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2187"
+    },
+    {
+      "author": "Ting FU",
+      "merged_at": "2026-04-09T15:08:08+08:00",
+      "number": 2621,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/api_server.py"
+      ],
+      "title": "[Feat] /v1/images/generations api supports request cancel (#2621)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2621"
+    },
+    {
+      "author": "\u6c6a\u5fd7\u9e4f",
+      "merged_at": "2026-04-09T14:52:12+08:00",
+      "number": 2554,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/serving_video.py",
+        "vllm_omni/entrypoints/openai/video_api_utils.py"
+      ],
+      "title": "[MagiHuman] Fix audio sample rate and fps propagation for online serving (#2554)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2554"
+    },
+    {
+      "author": "Zhengyuan Su (\u82cf\u653f\u6e0a)",
+      "merged_at": "2026-04-09T09:33:55+08:00",
+      "number": 2494,
+      "platform_paths": [
+        "vllm_omni/engine/orchestrator.py"
+      ],
+      "title": "[Feature] End-to-end LoRA support for BAGEL (#2494)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2494"
+    },
+    {
+      "author": "Nick Cao",
+      "merged_at": "2026-04-08T23:54:12-04:00",
+      "number": 2599,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/api_server.py"
+      ],
+      "title": "[Bugfix] Enforce --max-generated-image-size on /v1/images/generations (#2599)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2599"
+    },
+    {
+      "author": "vveerrgg",
+      "merged_at": "2026-04-08T15:20:33-07:00",
+      "number": 2569,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/serving_speech.py"
+      ],
+      "title": "[TTS] Add missing _generate_pcm_chunks for OmniOpenAIServingSpeech streaming (#2569)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2569"
+    },
+    {
+      "author": "Jinheng",
+      "merged_at": "2026-04-08T14:55:35+08:00",
+      "number": 2000,
+      "platform_paths": [
+        "vllm_omni/distributed/omni_connectors/connectors/mooncake_transfer_engine_connector.py",
+        "vllm_omni/distributed/omni_connectors/kv_transfer_manager.py",
+        "vllm_omni/distributed/omni_connectors/utils/initialization.py",
+        "vllm_omni/engine/async_omni_engine.py",
+        "vllm_omni/engine/orchestrator.py",
+        "vllm_omni/engine/stage_engine_core_client.py"
+      ],
+      "title": "[Feature] Port Bagel RDMA flow to latest main (#2000)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2000"
+    },
+    {
+      "author": "Lancer",
+      "merged_at": "2026-04-08T14:41:24+08:00",
+      "number": 1580,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/api_server.py"
+      ],
+      "title": "[Feat] image2image for Z-Image (#1580)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1580"
+    },
+    {
+      "author": "Zhengyuan Su (\u82cf\u653f\u6e0a)",
+      "merged_at": "2026-04-08T10:43:01+08:00",
+      "number": 2483,
+      "platform_paths": [
+        "vllm_omni/entrypoints/omni_base.py",
+        "vllm_omni/outputs.py"
+      ],
+      "title": "[Feature] Add trajectory recording to BAGEL denoising loop (#2483)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2483"
+    },
+    {
+      "author": "pikaxinge",
+      "merged_at": "2026-04-08T00:48:26+08:00",
+      "number": 1899,
+      "platform_paths": [
+        "vllm_omni/distributed/omni_coordinator/omni_coord_client_for_stage.py"
+      ],
+      "title": "[Bugfix] Prevent Silent Stage Dropouts: fix coordinator reconnect bug, close/update race, and heartbeat stall (#1899)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1899"
+    },
+    {
+      "author": "Markus / Mark",
+      "merged_at": "2026-04-07T17:07:01+02:00",
+      "number": 2424,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/protocol/audio.py",
+        "vllm_omni/entrypoints/openai/serving_speech.py"
+      ],
+      "title": "[Bugfix] Accept 'speaker' as alias for 'voice' in TTS speech API (#2424)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2424"
+    },
+    {
+      "author": "skf",
+      "merged_at": "2026-04-07T15:37:17+08:00",
+      "number": 2270,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/api_server.py",
+        "vllm_omni/entrypoints/openai/protocol/images.py"
+      ],
+      "title": "[HunyuanImage3] Align system_prompt support with official implementation (#2270)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2270"
+    },
+    {
+      "author": "\u6c6a\u5fd7\u9e4f",
+      "merged_at": "2026-04-07T09:30:01+08:00",
+      "number": 2502,
+      "platform_paths": [
+        "vllm_omni/core/sched/omni_ar_scheduler.py",
+        "vllm_omni/engine/async_omni_engine.py"
+      ],
+      "title": "[BugFix] Continue decode if don't need transfer kv cache between two \u2026 (#2502)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2502"
+    },
+    {
+      "author": "Alex Brooks",
+      "merged_at": "2026-04-06T21:24:19-06:00",
+      "number": 2530,
+      "platform_paths": [
+        "vllm_omni/engine/async_omni_engine.py"
+      ],
+      "title": "[Bugfix] Fix DataType Handling in Default Diffusion Config (#2530)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2530"
+    },
+    {
+      "author": "Bvicii",
+      "merged_at": "2026-04-06T21:17:04-07:00",
+      "number": 2511,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/api_server.py",
+        "vllm_omni/entrypoints/openai/serving_speech.py"
+      ],
+      "title": "[RFC] Offload blocking TTS/speech ops to thread pool to unblock event loop (#2511)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2511"
+    },
+    {
+      "author": "Yuanheng Zhao",
+      "merged_at": "2026-04-05T18:46:11+08:00",
+      "number": 2498,
+      "platform_paths": [
+        "vllm_omni/engine/async_omni_engine.py"
+      ],
+      "title": "[Bugfix] Assign original prompt back to RequestOutput (#2498)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2498"
+    },
+    {
+      "author": "indevn",
+      "merged_at": "2026-04-05T14:11:33+08:00",
+      "number": 1703,
+      "platform_paths": [
+        "vllm_omni/core/sched/omni_ar_scheduler.py",
+        "vllm_omni/distributed/omni_connectors/transfer_adapter/chunk_transfer_adapter.py",
+        "vllm_omni/entrypoints/openai/serving_speech.py"
+      ],
+      "title": "[Model][Core] Enable async_chunk streaming pipeline for CosyVoice3 (#1703)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1703"
+    },
+    {
+      "author": "Yueqian Lin",
+      "merged_at": "2026-04-04T20:45:49-04:00",
+      "number": 2486,
+      "platform_paths": [
+        "vllm_omni/entrypoints/utils.py"
+      ],
+      "title": "[CosyVoice3] Fix vLLM 0.19.0 compatibility issues (#2486)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2486"
+    },
+    {
+      "author": "Juan Pablo Zuluaga",
+      "merged_at": "2026-04-03T22:51:58+02:00",
+      "number": 2108,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/api_server.py",
+        "vllm_omni/entrypoints/openai/metadata_manager.py",
+        "vllm_omni/entrypoints/openai/serving_speech.py"
+      ],
+      "title": "[Qwen3TTS] [TTS] [Feat] Refactor voice cache manager (#2108)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2108"
+    },
+    {
+      "author": "Yueqian Lin",
+      "merged_at": "2026-04-03T21:55:15-04:00",
+      "number": 2431,
+      "platform_paths": [
+        "vllm_omni/engine/arg_utils.py",
+        "vllm_omni/engine/async_omni_engine.py",
+        "vllm_omni/entrypoints/openai/serving_speech.py"
+      ],
+      "title": "[CosyVoice3] Add online serving support, fix stage config, and add CI tests (#2431)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2431"
+    },
+    {
+      "author": "Yueqian Lin",
+      "merged_at": "2026-04-03T16:41:20-04:00",
+      "number": 2463,
+      "platform_paths": [
+        "vllm_omni/engine/arg_utils.py",
+        "vllm_omni/entrypoints/openai/api_server.py",
+        "vllm_omni/entrypoints/openai/serving_speech.py"
+      ],
+      "title": "[OmniVoice] Add two-stage TTS serving support (#2463)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2463"
+    },
+    {
+      "author": "chickeyton",
+      "merged_at": "2026-04-03T16:05:19+08:00",
+      "number": 2006,
+      "platform_paths": [
+        "vllm_omni/engine/async_omni_engine.py",
+        "vllm_omni/engine/orchestrator.py",
+        "vllm_omni/engine/stage_engine_core_client.py",
+        "vllm_omni/engine/stage_engine_core_proc.py",
+        "vllm_omni/engine/stage_init_utils.py",
+        "vllm_omni/entrypoints/__init__.py",
+        "vllm_omni/entrypoints/async_omni_diffusion.py",
+        "vllm_omni/entrypoints/openai/serving_chat.py"
+      ],
+      "title": "Refactor StageDiffusionClient and StageEngineCoreClient (#2006)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2006"
+    },
+    {
+      "author": "\u6c6a\u5fd7\u9e4f",
+      "merged_at": "2026-04-03T11:47:57+08:00",
+      "number": 2447,
+      "platform_paths": [
+        "vllm_omni/engine/async_omni_engine.py"
+      ],
+      "title": "[BAGEL] [Feature]: Add `thinking mode` in Bagel multi-stage serving (#2447)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2447"
+    },
+    {
+      "author": "Yi Liu",
+      "merged_at": "2026-04-02T13:57:53+08:00",
+      "number": 1777,
+      "platform_paths": [
+        "vllm_omni/entrypoints/async_omni_diffusion.py"
+      ],
+      "title": "[AutoRound] Add offline quantized `W4A16` model support (#1777)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1777"
+    },
+    {
+      "author": "NATURE",
+      "merged_at": "2026-04-01T23:01:39+08:00",
+      "number": 2422,
+      "platform_paths": [
+        "vllm_omni/core/sched/omni_ar_scheduler.py"
+      ],
+      "title": "[Bugfix] Fix delayed decoding bug for Bagel AR/DIT workflow (L3 test_bagel_img2img error) (#2422)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2422"
+    },
+    {
+      "author": "Wu JIAZHEN",
+      "merged_at": "2026-04-01T17:25:02+08:00",
+      "number": 1769,
+      "platform_paths": [
+        "vllm_omni/engine/async_omni_engine.py",
+        "vllm_omni/entrypoints/async_omni_diffusion.py",
+        "vllm_omni/entrypoints/cli/serve.py"
+      ],
+      "title": "[Feat] Support step-boundary abort in diffusion (#1769)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1769"
+    },
+    {
+      "author": "NATURE",
+      "merged_at": "2026-04-01T16:50:45+08:00",
+      "number": 2398,
+      "platform_paths": [
+        "vllm_omni/core/sched/omni_ar_scheduler.py",
+        "vllm_omni/engine/orchestrator.py",
+        "vllm_omni/entrypoints/openai/serving_chat.py"
+      ],
+      "title": "[Perf] Bagel KV-ready early forwarding and time step consistency for /v1/chat/completions (#2398)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2398"
+    },
+    {
+      "author": "Samit",
+      "merged_at": "2026-04-01T10:47:33+08:00",
+      "number": 2049,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/api_server.py",
+        "vllm_omni/entrypoints/openai/serving_video.py"
+      ],
+      "title": "[Feat][Benchmark] Add synchronous video generation endpoint POST /v1/videos/sync for benchmark test (#2049)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2049"
+    },
+    {
+      "author": "WeiQing Chen",
+      "merged_at": "2026-03-30T21:27:09+08:00",
+      "number": 2334,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/api_server.py",
+        "vllm_omni/entrypoints/openai/image_api_utils.py",
+        "vllm_omni/entrypoints/openai/protocol/images.py",
+        "vllm_omni/entrypoints/openai/serving_chat.py"
+      ],
+      "title": "[Bugfix] fix: validate layered image layers range (#2334)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2334"
+    },
+    {
+      "author": "WeiQing Chen",
+      "merged_at": "2026-03-30T20:24:57+08:00",
+      "number": 2298,
+      "platform_paths": [
+        "vllm_omni/entrypoints/async_omni.py",
+        "vllm_omni/entrypoints/async_omni_diffusion.py",
+        "vllm_omni/entrypoints/openai/api_server.py"
+      ],
+      "title": "[Bugfix] fix: return 400 for unsupported multi-image edits such as Qwen-Image-Layered (#2298)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2298"
+    },
+    {
+      "author": "WeiQing Chen",
+      "merged_at": "2026-03-29T19:33:37+08:00",
+      "number": 2297,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/api_server.py"
+      ],
+      "title": "[Bugfix] fix: handle Qwen-Image-Layered layered RGBA output for jpeg edits (#2297)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2297"
+    },
+    {
+      "author": "lif",
+      "merged_at": "2026-03-28T22:17:38+08:00",
+      "number": 805,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/api_server.py"
+      ],
+      "title": "Fix: Enable /v1/models endpoint for pure diffusion mode (#805)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/805"
+    },
+    {
+      "author": "Sy03",
+      "merged_at": "2026-03-28T07:00:00+08:00",
+      "number": 2268,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/serving_speech.py"
+      ],
+      "title": "[Bugfix] Fix Fish Speech S2 Pro prompt handling for truncated audio & emotion tag (#2268)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2268"
+    },
+    {
+      "author": "Jared Wen",
+      "merged_at": "2026-03-26T18:50:54+08:00",
+      "number": 2137,
+      "platform_paths": [
+        "vllm_omni/engine/async_omni_engine.py"
+      ],
+      "title": "[Bug Fix] GLM-Image stage device isolation and t2i prompt preprocessing in Omni runtime (#2137)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2137"
+    },
+    {
+      "author": "Juan Pablo Zuluaga",
+      "merged_at": "2026-03-26T15:26:52+01:00",
+      "number": 2046,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/api_server.py",
+        "vllm_omni/entrypoints/openai/serving_speech.py"
+      ],
+      "title": "[Qwen3TTS][ServingSpeech] Bugfix/voice upload and add optional ref_text (#2046)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2046"
+    },
+    {
+      "author": "Lancer",
+      "merged_at": "2026-03-26T09:47:01+08:00",
+      "number": 1894,
+      "platform_paths": [
+        "vllm_omni/entrypoints/utils.py"
+      ],
+      "title": "[Bugfix] resolve stage config for GLM-Image with diffusers format (#1894)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1894"
+    },
+    {
+      "author": "Yueqian Lin",
+      "merged_at": "2026-03-26T09:34:31-04:00",
+      "number": 2156,
+      "platform_paths": [
+        "vllm_omni/engine/arg_utils.py"
+      ],
+      "title": "[Bugfix] Fix Voxtral TTS voice embeddings not loading (#2156)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2156"
+    },
+    {
+      "author": "rongfu.leng",
+      "merged_at": "2026-03-26T03:05:28+08:00",
+      "number": 2178,
+      "platform_paths": [
+        "vllm_omni/engine/arg_utils.py"
+      ],
+      "title": "[Bugfix] add inject model_arch to hf_overrides (#2178)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2178"
+    },
+    {
+      "author": "Daniel Huang",
+      "merged_at": "2026-03-26T01:52:01-07:00",
+      "number": 2153,
+      "platform_paths": [
+        "vllm_omni/engine/async_omni_engine.py"
+      ],
+      "title": "[Enhancement] Patch AsyncOmniEngine try_get_output[_async] hanging issues (#2153)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2153"
+    },
+    {
+      "author": "Sy03",
+      "merged_at": "2026-03-25T23:41:10+08:00",
+      "number": 2145,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/serving_speech.py"
+      ],
+      "title": "[Perf] [TTS] Improve Fish Speech S2 Pro voice cloning TTFP (#2145)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2145"
+    },
+    {
+      "author": "Markus / Mark",
+      "merged_at": "2026-03-25T20:02:48+01:00",
+      "number": 1227,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/api_server.py",
+        "vllm_omni/entrypoints/openai/protocol/audio.py",
+        "vllm_omni/entrypoints/openai/serving_speech.py",
+        "vllm_omni/entrypoints/openai/serving_speech_stream.py"
+      ],
+      "title": "[Frontend] Speaker embedding support for speech and voices APIs (#1227)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1227"
+    },
+    {
+      "author": "Hui.",
+      "merged_at": "2026-03-25T16:42:04+08:00",
+      "number": 2041,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/serving_chat.py"
+      ],
+      "title": "[Bug-Fix]fix bug of empty prompt input (#2041)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2041"
+    },
+    {
+      "author": "Yueqian Lin",
+      "merged_at": "2026-03-25T04:26:38-04:00",
+      "number": 2161,
+      "platform_paths": [
+        "vllm_omni/engine/test_serialization.py"
+      ],
+      "title": "[Cleanup] Remove stray test file from engine directory (#2161)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2161"
+    },
+    {
+      "author": "Sy03",
+      "merged_at": "2026-03-25T04:02:52+08:00",
+      "number": 2104,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/serving_speech.py"
+      ],
+      "title": "[Fix] Qwen3 TTS audio handling for long ref_audio (#2104)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2104"
+    },
+    {
+      "author": "Alex Brooks",
+      "merged_at": "2026-03-25T03:56:13-06:00",
+      "number": 2025,
+      "platform_paths": [
+        "vllm_omni/engine/async_omni_engine.py",
+        "vllm_omni/engine/stage_init_utils.py",
+        "vllm_omni/entrypoints/stage_utils.py"
+      ],
+      "title": "[BugFix] Make Stage Device Initialization Respect Visible GPUs (#2025)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2025"
+    },
+    {
+      "author": "Du Bin",
+      "merged_at": "2026-03-24T22:52:31+08:00",
+      "number": 2028,
+      "platform_paths": [
+        "vllm_omni/core/sched/omni_ar_scheduler.py",
+        "vllm_omni/distributed/omni_connectors/transfer_adapter/chunk_transfer_adapter.py"
+      ],
+      "title": "[Bugfix] Fix memory leak: missing chunk_transfer_adapter.cleanup() in OmniARScheduler (#2028)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2028"
+    },
+    {
+      "author": "Canlin Guo",
+      "merged_at": "2026-03-24T15:47:41+08:00",
+      "number": 2053,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/api_server.py"
+      ],
+      "title": "[API] Add layers and resolution parameters to /v1/images/edits endpoint (#2053)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2053"
+    },
+    {
+      "author": "Canlin Guo",
+      "merged_at": "2026-03-24T15:25:52+08:00",
+      "number": 2099,
+      "platform_paths": [
+        "vllm_omni/engine/async_omni_engine.py",
+        "vllm_omni/entrypoints/async_omni.py",
+        "vllm_omni/entrypoints/async_omni_diffusion.py",
+        "vllm_omni/entrypoints/omni_base.py",
+        "vllm_omni/entrypoints/openai/api_server.py"
+      ],
+      "title": "[Refactor] Unify torch profiler for omni and diffusion models (#2099)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2099"
+    },
+    {
+      "author": "dongbo910220",
+      "merged_at": "2026-03-24T14:55:54+08:00",
+      "number": 1379,
+      "platform_paths": [
+        "vllm_omni/engine/async_omni_engine.py",
+        "vllm_omni/entrypoints/cli/serve.py"
+      ],
+      "title": "[Feature]: add Ulysses advanced_uaa mode (#1379)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1379"
+    },
+    {
+      "author": "dsinghvi",
+      "merged_at": "2026-03-24T14:52:01Z",
+      "number": 1701,
+      "platform_paths": [
+        "vllm_omni/entrypoints/omni_base.py",
+        "vllm_omni/entrypoints/openai/api_server.py",
+        "vllm_omni/entrypoints/openai/protocol/audio.py",
+        "vllm_omni/entrypoints/openai/serving_speech.py"
+      ],
+      "title": "[Feature] Speech batch entrypoint (#1701)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1701"
+    },
+    {
+      "author": "rongfu.leng",
+      "merged_at": "2026-03-24T13:02:35+08:00",
+      "number": 1955,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/api_server.py",
+        "vllm_omni/entrypoints/openai/protocol/videos.py",
+        "vllm_omni/entrypoints/openai/serving_video.py"
+      ],
+      "title": "[Feature] Add a extra body param in create video api (#1955)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1955"
+    },
+    {
+      "author": "Nick Cao",
+      "merged_at": "2026-03-24T10:29:38-04:00",
+      "number": 2105,
+      "platform_paths": [
+        "vllm_omni/core/sched/omni_ar_scheduler.py",
+        "vllm_omni/engine/__init__.py",
+        "vllm_omni/engine/serialization.py",
+        "vllm_omni/engine/test_serialization.py"
+      ],
+      "title": "[Feat] Support scalar types in AdditionalInformationEntry (#2105)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2105"
+    },
+    {
+      "author": "Didan Deng",
+      "merged_at": "2026-03-24T00:19:20+08:00",
+      "number": 1805,
+      "platform_paths": [
+        "vllm_omni/entrypoints/omni_base.py",
+        "vllm_omni/entrypoints/openai/serving_chat.py",
+        "vllm_omni/outputs.py"
+      ],
+      "title": "[Perf] Qwen-Image Performance Nightly CI test (#1805)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1805"
+    },
+    {
+      "author": "Chendi.Xue",
+      "merged_at": "2026-03-24T00:00:21-05:00",
+      "number": 1826,
+      "platform_paths": [
+        "vllm_omni/entrypoints/utils.py"
+      ],
+      "title": "[BugFIX] enable Hunyuan image3 with stage selection among text_to_image/image_to_text (#1826)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1826"
+    },
+    {
+      "author": "\u6c6a\u5fd7\u9e4f",
+      "merged_at": "2026-03-23T21:52:50+08:00",
+      "number": 1903,
+      "platform_paths": [
+        "vllm_omni/distributed/omni_connectors/kv_transfer_manager.py"
+      ],
+      "title": "[Bagel]: Support SP (#1903)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1903"
+    },
+    {
+      "author": "Megha Agarwal",
+      "merged_at": "2026-03-23T20:03:01+05:30",
+      "number": 1816,
+      "platform_paths": [
+        "vllm_omni/engine/arg_utils.py",
+        "vllm_omni/engine/mm_outputs.py",
+        "vllm_omni/engine/output_modality.py"
+      ],
+      "title": "[Feat] Phase 1 foundation types for multimodal output decoupling (#1816)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1816"
+    },
+    {
+      "author": "Juan Pablo Zuluaga",
+      "merged_at": "2026-03-23T18:09:04+01:00",
+      "number": 2102,
+      "platform_paths": [
+        "vllm_omni/distributed/omni_connectors/transfer_adapter/base.py",
+        "vllm_omni/distributed/omni_connectors/transfer_adapter/chunk_transfer_adapter.py"
+      ],
+      "title": "[Bugfix][Chunk Transfer Adapter] deque mutated fix  (#2102)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2102"
+    },
+    {
+      "author": "knlnguyen1802",
+      "merged_at": "2026-03-23T17:08:24+07:00",
+      "number": 1593,
+      "platform_paths": [
+        "vllm_omni/engine/async_omni_engine.py",
+        "vllm_omni/engine/orchestrator.py",
+        "vllm_omni/engine/stage_init_utils.py",
+        "vllm_omni/entrypoints/async_omni.py",
+        "vllm_omni/entrypoints/async_omni_diffusion.py",
+        "vllm_omni/entrypoints/omni_base.py"
+      ],
+      "title": "[Feature][RL] Support batching for QwenImage in async mode (#1593)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1593"
+    },
+    {
+      "author": "Du Bin",
+      "merged_at": "2026-03-22T14:32:51+08:00",
+      "number": 1691,
+      "platform_paths": [
+        "vllm_omni/core/sched/omni_generation_scheduler.py"
+      ],
+      "title": "[Bugfix] Restore chunk-waiting requests on OmniNewRequestData rewrap failure (#1691)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1691"
+    },
+    {
+      "author": "zJ",
+      "merged_at": "2026-03-22T10:13:01+01:00",
+      "number": 2050,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/api_server.py"
+      ],
+      "title": "[Fix] Fix non-unique request IDs in /v1/images/edits endpoint (#2050)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2050"
+    },
+    {
+      "author": "Alex Brooks",
+      "merged_at": "2026-03-22T04:27:28-06:00",
+      "number": 1768,
+      "platform_paths": [
+        "vllm_omni/engine/arg_utils.py"
+      ],
+      "title": "[Core] Simplify OmniModelConfig Initialization (#1768)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1768"
+    },
+    {
+      "author": "\u6c6a\u5fd7\u9e4f",
+      "merged_at": "2026-03-21T22:32:00+08:00",
+      "number": 2062,
+      "platform_paths": [
+        "vllm_omni/patch.py"
+      ],
+      "title": "Remove mm_prefix_lm patch because vllm==0.18.0 already support (#2062)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2062"
+    },
+    {
+      "author": "Zeyu Huang | \u9ec3\u6fa4\u5b87",
+      "merged_at": "2026-03-21T15:53:04+08:00",
+      "number": 2042,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/serving_chat.py"
+      ],
+      "title": "[bugfix] /chat/completion doesn't read extra_body for diffusion model (#2042)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2042"
+    },
+    {
+      "author": "Sy03",
+      "merged_at": "2026-03-21T13:15:02+08:00",
+      "number": 1859,
+      "platform_paths": [
+        "vllm_omni/distributed/omni_connectors/transfer_adapter/chunk_transfer_adapter.py"
+      ],
+      "title": "[Perf] Improve Fish Speech S2 Pro inference performance (#1859)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1859"
+    },
+    {
+      "author": "Yueqian Lin",
+      "merged_at": "2026-03-21T10:18:10-04:00",
+      "number": 2058,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/serving_speech.py"
+      ],
+      "title": "[Bugfix] Fix Fish Speech and CosyVoice3 online serving - missing is_comprehension and broken model detection (#2058)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2058"
+    },
+    {
+      "author": "Zhou Taichang",
+      "merged_at": "2026-03-20T16:13:24+08:00",
+      "number": 1851,
+      "platform_paths": [
+        "vllm_omni/engine/async_omni_engine.py",
+        "vllm_omni/entrypoints/utils.py"
+      ],
+      "title": "[Bugfix] Remove duplicated config keyword max batch size (#1851)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1851"
+    },
+    {
+      "author": "JuboYu",
+      "merged_at": "2026-03-19T22:58:29+08:00",
+      "number": 1470,
+      "platform_paths": [
+        "vllm_omni/engine/async_omni_engine.py"
+      ],
+      "title": "Int8 Quantization Support for DiT (Z-Image & Qwen-Image) (#1470)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1470"
+    },
+    {
+      "author": "Hui.",
+      "merged_at": "2026-03-19T18:57:04+08:00",
+      "number": 2007,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/serving_chat.py"
+      ],
+      "title": "[Bugfix]Fix bug of online server can not return mutli images (#2007)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2007"
+    },
+    {
+      "author": "Samit",
+      "merged_at": "2026-03-19T16:00:26+08:00",
+      "number": 1979,
+      "platform_paths": [
+        "vllm_omni/entrypoints/async_omni_diffusion.py",
+        "vllm_omni/entrypoints/openai/serving_chat.py"
+      ],
+      "title": "[Bugfix] Fix config misalignment between offline and online diffusion inference (Wan2.2, Qwen-Image series) (#1979)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1979"
+    },
+    {
+      "author": "Chen-Yo Sun",
+      "merged_at": "2026-03-19T13:02:11-07:00",
+      "number": 1803,
+      "platform_paths": [
+        "vllm_omni/engine/arg_utils.py",
+        "vllm_omni/entrypoints/openai/serving_speech.py"
+      ],
+      "title": "[Model] Add Voxtral TTS model (#1803)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1803"
+    },
+    {
+      "author": "dengyunyang",
+      "merged_at": "2026-03-19T12:26:12+08:00",
+      "number": 1757,
+      "platform_paths": [
+        "vllm_omni/engine/async_omni_engine.py",
+        "vllm_omni/entrypoints/cli/serve.py",
+        "vllm_omni/entrypoints/omni_base.py",
+        "vllm_omni/entrypoints/openai/serving_chat.py",
+        "vllm_omni/outputs.py"
+      ],
+      "title": "[Performance] diffusion timing (#1757)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1757"
+    },
+    {
+      "author": "TJian",
+      "merged_at": "2026-03-19T05:11:28+08:00",
+      "number": 1984,
+      "platform_paths": [
+        "vllm_omni/engine/async_omni_engine.py",
+        "vllm_omni/entrypoints/stage_utils.py"
+      ],
+      "title": "[CI] [ROCm] Bugfix device environment issue (#1984)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1984"
+    },
+    {
+      "author": "Canlin Guo",
+      "merged_at": "2026-03-18T17:56:13+08:00",
+      "number": 1893,
+      "platform_paths": [
+        "vllm_omni/distributed/omni_connectors/transfer_adapter/chunk_transfer_adapter.py"
+      ],
+      "title": "[Bugfix] Set PREEMPTED status when moving requests from running to waiting queue (#1893)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1893"
+    },
+    {
+      "author": "Chenguang Zheng",
+      "merged_at": "2026-03-18T17:33:53+08:00",
+      "number": 1908,
+      "platform_paths": [
+        "vllm_omni/distributed/omni_connectors/adapter.py",
+        "vllm_omni/engine/arg_utils.py",
+        "vllm_omni/engine/async_omni_engine.py",
+        "vllm_omni/engine/input_processor.py",
+        "vllm_omni/engine/orchestrator.py",
+        "vllm_omni/engine/serialization.py",
+        "vllm_omni/engine/stage_engine_core_client.py",
+        "vllm_omni/engine/stage_init_utils.py",
+        "vllm_omni/entrypoints/__init__.py",
+        "vllm_omni/entrypoints/async_omni.py",
+        "vllm_omni/entrypoints/async_omni_diffusion.py",
+        "vllm_omni/entrypoints/async_omni_llm.py",
+        "vllm_omni/entrypoints/cli/serve.py",
+        "vllm_omni/entrypoints/omni.py",
+        "vllm_omni/entrypoints/omni_base.py",
+        "vllm_omni/entrypoints/omni_diffusion.py",
+        "vllm_omni/entrypoints/omni_llm.py",
+        "vllm_omni/entrypoints/omni_stage.py",
+        "vllm_omni/entrypoints/openai/api_server.py",
+        "vllm_omni/entrypoints/openai/serving_chat.py",
+        "vllm_omni/entrypoints/openai/serving_speech.py",
+        "vllm_omni/entrypoints/openai/serving_video.py",
+        "vllm_omni/entrypoints/openai/utils.py",
+        "vllm_omni/entrypoints/stage_utils.py",
+        "vllm_omni/entrypoints/zmq_utils.py",
+        "vllm_omni/outputs.py"
+      ],
+      "title": "[Entrypoint][Refactor] vLLM-Omni Entrypoint Refactoring (#1908)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1908"
+    },
+    {
+      "author": "Juan Pablo Zuluaga",
+      "merged_at": "2026-03-18T17:22:05+01:00",
+      "number": 1852,
+      "platform_paths": [
+        "vllm_omni/distributed/omni_connectors/transfer_adapter/base.py",
+        "vllm_omni/distributed/omni_connectors/transfer_adapter/chunk_transfer_adapter.py"
+      ],
+      "title": "[Optim][Qwen3TTS] big boost model throughput+latency high concurrency (#1852)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1852"
+    },
+    {
+      "author": "Juan Pablo Zuluaga",
+      "merged_at": "2026-03-16T20:23:09+01:00",
+      "number": 1930,
+      "platform_paths": [
+        "vllm_omni/distributed/omni_connectors/transfer_adapter/chunk_transfer_adapter.py"
+      ],
+      "title": "[Bug][Qwen3TTS][Streaming] remove dynamic initial chunk and only compute on initial request (#1930)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1930"
+    },
+    {
+      "author": "Jinheng",
+      "merged_at": "2026-03-16T14:05:19+08:00",
+      "number": 1863,
+      "platform_paths": [
+        "vllm_omni/distributed/kv_transfer/__init__.py",
+        "vllm_omni/distributed/kv_transfer/monkey_patch.py",
+        "vllm_omni/entrypoints/pd_utils.py"
+      ],
+      "title": "[Feature] Split #1303 Part 1: PD disaggregation scaffolding (#1863)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1863"
+    },
+    {
+      "author": "Lancer",
+      "merged_at": "2026-03-15T02:55:30+08:00",
+      "number": 1473,
+      "platform_paths": [
+        "vllm_omni/entrypoints/async_omni.py"
+      ],
+      "title": "[Bugfix] Fix cpu offload and quantization compatibility (#1473)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1473"
+    },
+    {
+      "author": "dengyunyang",
+      "merged_at": "2026-03-13T21:53:06+08:00",
+      "number": 1855,
+      "platform_paths": [
+        "vllm_omni/entrypoints/omni_diffusion.py"
+      ],
+      "title": "[Diffusion] [Model] Dreamid omni (#1855)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1855"
+    },
+    {
+      "author": "\u6c6a\u5fd7\u9e4f",
+      "merged_at": "2026-03-13T16:58:44+08:00",
+      "number": 1804,
+      "platform_paths": [
+        "vllm_omni/entrypoints/async_omni.py",
+        "vllm_omni/entrypoints/openai/serving_chat.py"
+      ],
+      "title": "[BugFix]: Fix bagel online inference bug (#1804)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1804"
+    },
+    {
+      "author": "Yueqian Lin",
+      "merged_at": "2026-03-13T11:37:08-04:00",
+      "number": 1879,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/api_server.py"
+      ],
+      "title": "[Bugfix] Restore voice upload API and profiler endpoints reverted by #1719 (#1879)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1879"
+    },
+    {
+      "author": "Ian Eaves",
+      "merged_at": "2026-03-13T04:11:06-05:00",
+      "number": 1665,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/api_server.py",
+        "vllm_omni/entrypoints/openai/errors.py",
+        "vllm_omni/entrypoints/openai/protocol/__init__.py",
+        "vllm_omni/entrypoints/openai/protocol/videos.py",
+        "vllm_omni/entrypoints/openai/serving_video.py",
+        "vllm_omni/entrypoints/openai/storage.py",
+        "vllm_omni/entrypoints/openai/stores.py",
+        "vllm_omni/entrypoints/openai/video_api_utils.py"
+      ],
+      "title": "[Frontend] Rewrite video API for async job lifecycle (#1665)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1665"
+    },
+    {
+      "author": "SYLAR",
+      "merged_at": "2026-03-12T21:09:34+08:00",
+      "number": 1115,
+      "platform_paths": [
+        "vllm_omni/entrypoints/omni.py",
+        "vllm_omni/entrypoints/omni_stage.py",
+        "vllm_omni/entrypoints/stage_utils.py",
+        "vllm_omni/entrypoints/utils.py"
+      ],
+      "title": "[Config Refactor][1/2] Model Pipeline Configuration System (#1115)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1115"
+    },
+    {
+      "author": "\u6c6a\u5fd7\u9e4f",
+      "merged_at": "2026-03-12T19:19:57+08:00",
+      "number": 1842,
+      "platform_paths": [
+        "vllm_omni/entrypoints/omni.py"
+      ],
+      "title": "[BugFix]: Revert #1582 (#1842)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1842"
+    },
+    {
+      "author": "rongfu.leng",
+      "merged_at": "2026-03-12T17:45:13+08:00",
+      "number": 1819,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/protocol/audio.py",
+        "vllm_omni/entrypoints/openai/serving_speech.py"
+      ],
+      "title": "[Feat] add wav response_format when stream is true in /v1/audio/speec\u2026 (#1819)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1819"
+    },
+    {
+      "author": "Yueqian Lin",
+      "merged_at": "2026-03-12T16:20:52-04:00",
+      "number": 1798,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/serving_speech.py"
+      ],
+      "title": "Add Fish Speech S2 Pro support with online serving and voice cloning (#1798)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1798"
+    },
+    {
+      "author": "\u6c6a\u5fd7\u9e4f",
+      "merged_at": "2026-03-12T12:24:10+08:00",
+      "number": 1821,
+      "platform_paths": [
+        "vllm_omni/engine/arg_utils.py",
+        "vllm_omni/entrypoints/omni_llm.py"
+      ],
+      "title": "[Feature]: Enable directly use OmniLLM init AR model (#1821)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1821"
+    },
+    {
+      "author": "Sy03",
+      "merged_at": "2026-03-12T11:48:41+08:00",
+      "number": 1719,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/api_server.py",
+        "vllm_omni/entrypoints/openai/protocol/audio.py",
+        "vllm_omni/entrypoints/openai/serving_speech.py",
+        "vllm_omni/entrypoints/openai/serving_speech_stream.py",
+        "vllm_omni/entrypoints/openai/text_splitter.py"
+      ],
+      "title": "[Feat][Qwen3-TTS] Support streaming audio output for websocket  (#1719)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1719"
+    },
+    {
+      "author": "Vensen",
+      "merged_at": "2026-03-12T11:17:18+07:00",
+      "number": 1582,
+      "platform_paths": [
+        "vllm_omni/entrypoints/omni.py"
+      ],
+      "title": "[Feat][Diffusion]: Implement Component-Level VRAM Quota and Resource Domain Isolation (#1582)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1582"
+    },
+    {
+      "author": "Daniel Huang",
+      "merged_at": "2026-03-11T21:08:34-07:00",
+      "number": 1561,
+      "platform_paths": [
+        "vllm_omni/distributed/ray_utils/utils.py",
+        "vllm_omni/entrypoints/omni_stage.py"
+      ],
+      "title": "[Enhancement] Patch OmniStage.try_collect() with ray alive checks (#1561)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1561"
+    },
+    {
+      "author": "Lancer",
+      "merged_at": "2026-03-11T20:52:10+08:00",
+      "number": 1771,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/api_server.py"
+      ],
+      "title": "[Bugfix] Expose base_model_paths property in _DiffusionServingModels (#1771)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1771"
+    },
+    {
+      "author": "Yueqian Lin",
+      "merged_at": "2026-03-11T19:43:37-04:00",
+      "number": 1825,
+      "platform_paths": [
+        "vllm_omni/entrypoints/async_omni.py"
+      ],
+      "title": "Fix duplicate get_supported_tasks definition in async_omni.py (#1825)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1825"
+    },
+    {
+      "author": "Daniel Huang",
+      "merged_at": "2026-03-11T19:40:42-07:00",
+      "number": 1560,
+      "platform_paths": [
+        "vllm_omni/entrypoints/omni_stage.py"
+      ],
+      "title": "[Enhancement] Patch OmniStage.try_collect() with _proc alive checks (#1560)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1560"
+    },
+    {
+      "author": "NumberWan",
+      "merged_at": "2026-03-11T14:36:48+08:00",
+      "number": 1465,
+      "platform_paths": [
+        "vllm_omni/distributed/omni_coordinator/__init__.py",
+        "vllm_omni/distributed/omni_coordinator/load_balancer.py",
+        "vllm_omni/distributed/omni_coordinator/messages.py",
+        "vllm_omni/distributed/omni_coordinator/omni_coord_client_for_hub.py",
+        "vllm_omni/distributed/omni_coordinator/omni_coord_client_for_stage.py",
+        "vllm_omni/distributed/omni_coordinator/omni_coordinator.py"
+      ],
+      "title": "Add coordinator module and corresponding unit test (#1465)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1465"
+    },
+    {
+      "author": "Yueqian Lin",
+      "merged_at": "2026-03-11T13:06:20-04:00",
+      "number": 1645,
+      "platform_paths": [
+        "vllm_omni/entrypoints/async_omni.py",
+        "vllm_omni/entrypoints/openai/api_server.py"
+      ],
+      "title": "[Bugfix] Report supported tasks for omni models to skip unnecessary chat init (#1645)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1645"
+    },
+    {
+      "author": "Ting FU",
+      "merged_at": "2026-03-11T10:45:36+08:00",
+      "number": 1323,
+      "platform_paths": [
+        "vllm_omni/entrypoints/async_omni.py",
+        "vllm_omni/entrypoints/async_omni_diffusion.py",
+        "vllm_omni/entrypoints/omni_diffusion.py"
+      ],
+      "title": "[Feat] Enable expert parallel for diffusion MoE layers (#1323)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1323"
+    },
+    {
+      "author": "Hongsheng Liu",
+      "merged_at": "2026-03-10T22:40:48+08:00",
+      "number": 1789,
+      "platform_paths": [
+        "vllm_omni/entrypoints/omni_llm.py",
+        "vllm_omni/entrypoints/openai/api_server.py",
+        "vllm_omni/entrypoints/openai/audio_utils_mixin.py",
+        "vllm_omni/entrypoints/openai/protocol/audio.py",
+        "vllm_omni/entrypoints/openai/serving_audio_generate.py",
+        "vllm_omni/entrypoints/openai/serving_speech.py",
+        "vllm_omni/entrypoints/utils.py"
+      ],
+      "title": "Revert \"Add online serving to Stable Audio Diffusion and introduce `v1/audio/generate` endpoint\" (#1789)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1789"
+    },
+    {
+      "author": "Juan Pablo Zuluaga",
+      "merged_at": "2026-03-10T22:02:33+01:00",
+      "number": 1714,
+      "platform_paths": [
+        "vllm_omni/distributed/omni_connectors/transfer_adapter/chunk_transfer_adapter.py",
+        "vllm_omni/entrypoints/openai/protocol/audio.py"
+      ],
+      "title": "[feat][Qwen3TTS] Simple dynamic TTFA based on Code2Wav load (#1714)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1714"
+    },
+    {
+      "author": "Sy03",
+      "merged_at": "2026-03-10T01:36:27+08:00",
+      "number": 1731,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/serving_speech.py"
+      ],
+      "title": "[Fix][Qwen3-TTS] Preserve ref_code decoder context for Base ICL (#1731)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1731"
+    },
+    {
+      "author": "\u6c6a\u5fd7\u9e4f",
+      "merged_at": "2026-03-09T22:23:50+08:00",
+      "number": 1669,
+      "platform_paths": [
+        "vllm_omni/distributed/omni_connectors/kv_transfer_manager.py",
+        "vllm_omni/distributed/omni_connectors/utils/kv_utils.py",
+        "vllm_omni/patch.py"
+      ],
+      "title": "[Bagel]: Support multistage img2img (#1669)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1669"
+    },
+    {
+      "author": "Samit",
+      "merged_at": "2026-03-09T19:03:51+08:00",
+      "number": 1715,
+      "platform_paths": [
+        "vllm_omni/entrypoints/async_omni.py",
+        "vllm_omni/entrypoints/omni.py",
+        "vllm_omni/entrypoints/omni_diffusion.py",
+        "vllm_omni/entrypoints/omni_stage.py",
+        "vllm_omni/entrypoints/openai/serving_video.py"
+      ],
+      "title": "[Perf] Reduce IPC overhead for single-stage diffusion serving for Wan2.2 (#1715)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1715"
+    },
+    {
+      "author": "Ekagra Ranjan",
+      "merged_at": "2026-03-09T13:36:46-04:00",
+      "number": 1255,
+      "platform_paths": [
+        "vllm_omni/entrypoints/omni_llm.py",
+        "vllm_omni/entrypoints/openai/api_server.py",
+        "vllm_omni/entrypoints/openai/audio_utils_mixin.py",
+        "vllm_omni/entrypoints/openai/protocol/audio.py",
+        "vllm_omni/entrypoints/openai/serving_audio_generate.py",
+        "vllm_omni/entrypoints/openai/serving_speech.py",
+        "vllm_omni/entrypoints/utils.py"
+      ],
+      "title": "Add online serving to Stable Audio Diffusion and introduce `v1/audio/generate` endpoint (#1255)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1255"
+    },
+    {
+      "author": "zhaotyer",
+      "merged_at": "2026-03-09T11:02:11+08:00",
+      "number": 1201,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/api_server.py",
+        "vllm_omni/entrypoints/openai/metadata_manager.py",
+        "vllm_omni/entrypoints/openai/serving_speech.py"
+      ],
+      "title": "feat(tts): add voice upload API for Qwen3-TTS (#1201)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1201"
+    },
+    {
+      "author": "knlnguyen1802",
+      "merged_at": "2026-03-09T09:12:43+07:00",
+      "number": 1646,
+      "platform_paths": [
+        "vllm_omni/entrypoints/async_omni.py",
+        "vllm_omni/entrypoints/omni.py",
+        "vllm_omni/entrypoints/omni_stage.py",
+        "vllm_omni/entrypoints/stage_utils.py",
+        "vllm_omni/outputs.py"
+      ],
+      "title": "[RL] Support collective rpc api to entrypoint && Support custom input output  (#1646)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1646"
+    },
+    {
+      "author": "Yueqian Lin",
+      "merged_at": "2026-03-08T21:38:26-04:00",
+      "number": 1661,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/serving_speech.py"
+      ],
+      "title": "[Bugfix] Use upstream MediaConnector for ref_audio resolution (#1661)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1661"
+    },
+    {
+      "author": "Canlin Guo",
+      "merged_at": "2026-03-07T19:11:47+08:00",
+      "number": 1724,
+      "platform_paths": [
+        "vllm_omni/entrypoints/omni.py",
+        "vllm_omni/metrics/stats.py",
+        "vllm_omni/outputs.py"
+      ],
+      "title": "Revert \"[Profile] Adding metrics for Diffusion/DiT Single diffusion Pipeline (#668)\" (#1724)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1724"
+    },
+    {
+      "author": "Didan Deng",
+      "merged_at": "2026-03-07T01:45:02+08:00",
+      "number": 1716,
+      "platform_paths": [
+        "vllm_omni/entrypoints/async_omni.py",
+        "vllm_omni/entrypoints/cli/serve.py"
+      ],
+      "title": "[Feature]:  Add vae-patch-parallel CLI argument in online serving (#1716)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1716"
+    },
+    {
+      "author": "erfgss",
+      "merged_at": "2026-03-06T15:39:19+08:00",
+      "number": 668,
+      "platform_paths": [
+        "vllm_omni/entrypoints/omni.py",
+        "vllm_omni/metrics/stats.py",
+        "vllm_omni/outputs.py"
+      ],
+      "title": "[Profile] Adding metrics for Diffusion/DiT Single diffusion Pipeline (#668)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/668"
+    },
+    {
+      "author": "Canlin Guo",
+      "merged_at": "2026-03-06T14:45:53+08:00",
+      "number": 1579,
+      "platform_paths": [
+        "vllm_omni/engine/output_processor.py",
+        "vllm_omni/entrypoints/openai/serving_speech.py"
+      ],
+      "title": "[1/N][Refactor] Clean up dead code in output processor (#1579)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1579"
+    },
+    {
+      "author": "Jack Lee",
+      "merged_at": "2026-03-06T02:39:09+08:00",
+      "number": 1197,
+      "platform_paths": [
+        "vllm_omni/engine/arg_utils.py",
+        "vllm_omni/entrypoints/cli/serve.py"
+      ],
+      "title": "[Feature] Support flexible task_type configuration for Qwen3-TTS models (#1197)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1197"
+    },
+    {
+      "author": "Lidang Jiang",
+      "merged_at": "2026-03-05T23:38:20+08:00",
+      "number": 1687,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/api_server.py"
+      ],
+      "title": "[BugFix] Return proper HTTP status for ErrorResponse in create_speech (#1687)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1687"
+    },
+    {
+      "author": "WeiQing Chen",
+      "merged_at": "2026-03-05T23:31:48+08:00",
+      "number": 841,
+      "platform_paths": [
+        "vllm_omni/entrypoints/async_omni.py",
+        "vllm_omni/entrypoints/async_omni_diffusion.py",
+        "vllm_omni/entrypoints/cli/serve.py",
+        "vllm_omni/entrypoints/omni_diffusion.py",
+        "vllm_omni/entrypoints/openai/serving_video.py",
+        "vllm_omni/entrypoints/openai/video_api_utils.py"
+      ],
+      "title": "[Model] support LTX-2 text-to-video image-to-video (#841)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/841"
+    },
+    {
+      "author": "rongfu.leng",
+      "merged_at": "2026-03-05T17:36:19+08:00",
+      "number": 1675,
+      "platform_paths": [
+        "vllm_omni/engine/arg_utils.py"
+      ],
+      "title": "[Misc] remove logits_processor_pattern this field, because vllm have \u2026 (#1675)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1675"
+    },
+    {
+      "author": "Juan Pablo Zuluaga",
+      "merged_at": "2026-03-05T16:14:41+01:00",
+      "number": 1583,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/protocol/audio.py",
+        "vllm_omni/entrypoints/openai/serving_speech.py"
+      ],
+      "title": "[Feat][Qwen3TTS] reduce TTFA with flexible initial phase (#1583)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1583"
+    },
+    {
+      "author": "dsinghvi",
+      "merged_at": "2026-03-05T00:54:59Z",
+      "number": 498,
+      "platform_paths": [
+        "vllm_omni/engine/arg_utils.py"
+      ],
+      "title": "[Model] Fun cosy voice3-0.5-b-2512 (#498)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/498"
+    },
+    {
+      "author": "Alex Brooks",
+      "merged_at": "2026-03-04T07:49:28-07:00",
+      "number": 1391,
+      "platform_paths": [
+        "vllm_omni/entrypoints/omni.py"
+      ],
+      "title": "[Bugfix] Fix Dtype Parsing (#1391)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1391"
+    },
+    {
+      "author": "Yueqian Lin",
+      "merged_at": "2026-03-04T01:27:02-05:00",
+      "number": 1641,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/serving_speech.py"
+      ],
+      "title": "[Bugfix] Add TTS request validation to prevent engine crashes (#1641)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1641"
+    },
+    {
+      "author": "Yuanheng Zhao",
+      "merged_at": "2026-03-03T18:40:53+08:00",
+      "number": 1609,
+      "platform_paths": [
+        "vllm_omni/entrypoints/stage_utils.py"
+      ],
+      "title": "[Bugfix] Fix filepath resolution for model with subdir and GLM-Image generation (#1609)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1609"
+    },
+    {
+      "author": "Yueqian Lin",
+      "merged_at": "2026-03-03T12:28:32-05:00",
+      "number": 1536,
+      "platform_paths": [
+        "vllm_omni/core/sched/omni_generation_scheduler.py",
+        "vllm_omni/engine/output_processor.py"
+      ],
+      "title": "[Bugfix] Fix transformers 5.x compat issues in online TTS serving (#1536)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1536"
+    },
+    {
+      "author": "Samit",
+      "merged_at": "2026-03-02T22:53:25+08:00",
+      "number": 1504,
+      "platform_paths": [
+        "vllm_omni/entrypoints/async_omni.py",
+        "vllm_omni/entrypoints/cli/serve.py"
+      ],
+      "title": "[Feature][Wan2.2] Speed up diffusion model startup by multi-thread weight loading (#1504)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1504"
+    },
+    {
+      "author": "rongfu.leng",
+      "merged_at": "2026-03-02T21:54:15+08:00",
+      "number": 1566,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/serving_chat.py"
+      ],
+      "title": "[Bugfix] Import InputPreprocessor into Renderer (#1566)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1566"
+    },
+    {
+      "author": "\u6c6a\u5fd7\u9e4f",
+      "merged_at": "2026-03-02T13:06:28+08:00",
+      "number": 1422,
+      "platform_paths": [
+        "vllm_omni/distributed/omni_connectors/kv_transfer_manager.py",
+        "vllm_omni/entrypoints/async_omni_diffusion.py",
+        "vllm_omni/entrypoints/cfg_companion_tracker.py",
+        "vllm_omni/entrypoints/omni.py",
+        "vllm_omni/entrypoints/omni_diffusion.py",
+        "vllm_omni/entrypoints/omni_stage.py",
+        "vllm_omni/entrypoints/stage_utils.py"
+      ],
+      "title": "[Feature]: Support cfg kv-cache transfer in multi-stage (#1422)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1422"
+    },
+    {
+      "author": "\u6c6a\u5fd7\u9e4f",
+      "merged_at": "2026-02-28T16:26:56+08:00",
+      "number": 1565,
+      "platform_paths": [
+        "vllm_omni/distributed/omni_connectors/connectors/shm_connector.py",
+        "vllm_omni/distributed/omni_connectors/transfer_adapter/chunk_transfer_adapter.py"
+      ],
+      "title": "[BugFix]: fix a lot of bug (#1565)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1565"
+    },
+    {
+      "author": "Ting FU",
+      "merged_at": "2026-02-28T14:21:49+08:00",
+      "number": 1562,
+      "platform_paths": [
+        "vllm_omni/entrypoints/omni_diffusion.py"
+      ],
+      "title": "[BugFix] Fix unexpected crash when init OmniDiffusion (#1562)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1562"
+    },
+    {
+      "author": "Yueqian Lin",
+      "merged_at": "2026-02-27T22:49:47-05:00",
+      "number": 1554,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/serving_speech.py"
+      ],
+      "title": "fix(qwen3-tts): fix Base ICL voice clone producing corrupted audio (#1554)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1554"
+    },
+    {
+      "author": "Canlin Guo",
+      "merged_at": "2026-02-27T14:41:20+08:00",
+      "number": 1136,
+      "platform_paths": [
+        "vllm_omni/entrypoints/async_omni_diffusion.py",
+        "vllm_omni/entrypoints/omni.py",
+        "vllm_omni/entrypoints/omni_stage.py",
+        "vllm_omni/entrypoints/openai/api_server.py"
+      ],
+      "title": "[Profiler] Support online profiling (#1136)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1136"
+    },
+    {
+      "author": "Sy03",
+      "merged_at": "2026-02-27T14:39:33+08:00",
+      "number": 1087,
+      "platform_paths": [
+        "vllm_omni/core/sched/omni_ar_scheduler.py",
+        "vllm_omni/core/sched/omni_generation_scheduler.py",
+        "vllm_omni/distributed/omni_connectors/transfer_adapter/chunk_transfer_adapter.py"
+      ],
+      "title": "[Feat] : Support Async chunk cleanup (#1087)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1087"
+    },
+    {
+      "author": "WeiQing Chen",
+      "merged_at": "2026-02-27T11:39:14+08:00",
+      "number": 1285,
+      "platform_paths": [
+        "vllm_omni/engine/arg_utils.py",
+        "vllm_omni/entrypoints/cli/serve.py",
+        "vllm_omni/entrypoints/omni.py"
+      ],
+      "title": "[Feature]: Native GGUF Quantization Support for DiT (#1285)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1285"
+    },
+    {
+      "author": "Jared Wen",
+      "merged_at": "2026-02-27T10:29:14+08:00",
+      "number": 920,
+      "platform_paths": [
+        "vllm_omni/entrypoints/omni_diffusion.py",
+        "vllm_omni/entrypoints/omni_stage.py",
+        "vllm_omni/entrypoints/openai/serving_chat.py",
+        "vllm_omni/entrypoints/stage_utils.py",
+        "vllm_omni/patch.py"
+      ],
+      "title": "[Perf] GLM Image (#920)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/920"
+    },
+    {
+      "author": "wuhang",
+      "merged_at": "2026-02-26T21:44:07+08:00",
+      "number": 1522,
+      "platform_paths": [
+        "vllm_omni/entrypoints/omni.py"
+      ],
+      "title": "[Bugfix] Use uds for zmq address if not set --stage-id (#1522)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1522"
+    },
+    {
+      "author": "Canlin Guo",
+      "merged_at": "2026-02-26T21:31:10+08:00",
+      "number": 1339,
+      "platform_paths": [
+        "vllm_omni/entrypoints/async_omni.py",
+        "vllm_omni/entrypoints/cli/serve.py"
+      ],
+      "title": "[Feature] Support HSDP for diffusion models (#1339)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1339"
+    },
+    {
+      "author": "Zeyu Huang | \u9ec3\u6fa4\u5b87",
+      "merged_at": "2026-02-26T20:30:35+08:00",
+      "number": 1509,
+      "platform_paths": [
+        "vllm_omni/entrypoints/omni_diffusion.py"
+      ],
+      "title": "[Chore] remove unused logger in omni_diffusion (#531) (#1509)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1509"
+    },
+    {
+      "author": "Junhong Liu",
+      "merged_at": "2026-02-26T17:23:55+08:00",
+      "number": 1312,
+      "platform_paths": [
+        "vllm_omni/metrics/stats.py",
+        "vllm_omni/outputs.py"
+      ],
+      "title": "[Bugfix] fix record audio generated frame in offline infer (#1312)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1312"
+    },
+    {
+      "author": "junuxyz",
+      "merged_at": "2026-02-26T16:20:40+09:00",
+      "number": 1405,
+      "platform_paths": [
+        "vllm_omni/distributed/omni_connectors/kv_transfer_manager.py"
+      ],
+      "title": "[Bugfix] Fix tuple/list KV cache extraction crash (#1405)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1405"
+    },
+    {
+      "author": "Juan Pablo Zuluaga",
+      "merged_at": "2026-02-26T14:02:35+01:00",
+      "number": 1438,
+      "platform_paths": [
+        "vllm_omni/entrypoints/async_omni.py",
+        "vllm_omni/entrypoints/openai/protocol/audio.py",
+        "vllm_omni/entrypoints/openai/serving_speech.py"
+      ],
+      "title": "[Qwen3TTS][Feat] Streaming output (#1438)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1438"
+    },
+    {
+      "author": "Junhong Liu",
+      "merged_at": "2026-02-26T10:59:18+08:00",
+      "number": 1468,
+      "platform_paths": [
+        "vllm_omni/core/sched/omni_generation_scheduler.py"
+      ],
+      "title": "[BugFix] process request.num_cached_tokens if it equals to the initial value  (#1468)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1468"
+    },
+    {
+      "author": "Alex Brooks",
+      "merged_at": "2026-02-26T02:22:35-07:00",
+      "number": 1421,
+      "platform_paths": [
+        "vllm_omni/entrypoints/async_omni_diffusion.py"
+      ],
+      "title": "[Bugfix] Fix LoRA Scaling on Active Adapters (#1421)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1421"
+    },
+    {
+      "author": "Junhong Liu",
+      "merged_at": "2026-02-25T22:59:49+08:00",
+      "number": 1222,
+      "platform_paths": [
+        "vllm_omni/entrypoints/openai/serving_chat.py"
+      ],
+      "title": "[Bugfix] Robust Audio Data Handling in _create_audio_choice (#1222)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1222"
+    },
+    {
+      "author": "Yanick Schraner",
+      "merged_at": "2026-02-25T17:14:44+01:00",
+      "number": 1177,
+      "platform_paths": [
+        "vllm_omni/entrypoints/cli/serve.py",
+        "vllm_omni/entrypoints/omni.py",
+        "vllm_omni/entrypoints/omni_stage.py",
+        "vllm_omni/entrypoints/openai/serving_speech.py"
+      ],
+      "title": "[Bugfix] Add TTS configuration options (#1177)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1177"
+    },
+    {
+      "author": "Dong W",
+      "merged_at": "2026-02-25T08:09:11-08:00",
+      "number": 612,
+      "platform_paths": [
+        "vllm_omni/entrypoints/async_omni_diffusion.py",
+        "vllm_omni/entrypoints/omni_diffusion.py"
+      ],
+      "title": "[Model]Add new nextstep_1(Diffusion) model(only T2I) (#612)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/612"
+    }
+  ]
+}

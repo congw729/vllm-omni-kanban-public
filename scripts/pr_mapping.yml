@@ -1,0 +1,54 @@
+# Globs are evaluated against PR's changed-file list using pathlib match.
+# A PR may match multiple model entries (each adds it to that model's `direct` bucket).
+# Direct match suppresses inferred for the same (PR, model) pair, both globally
+# and on a per-page basis (direct also suppresses platform on the same page).
+
+models:
+  Qwen-image:
+    - "vllm_omni/diffusion/qwen_image/**"
+    - "vllm_omni/model_executor/models/qwen_image*/**"
+  Qwen-image-layered:
+    - "vllm_omni/diffusion/qwen_image_layered/**"
+  Qwen-Image-edit:
+    - "vllm_omni/diffusion/qwen_image_edit/**"
+  Qwen-Image-edit-2509:
+    - "vllm_omni/diffusion/qwen_image_edit_2509/**"
+  WAN2.2:
+    - "vllm_omni/diffusion/wan*/**"
+  Qwen3-Omni:
+    - "vllm_omni/model_executor/models/qwen3_omni/**"
+  Qwen3-TTS:
+    - "vllm_omni/model_executor/models/qwen3_tts/**"
+
+# PR is bucketed as "platform" if any changed file matches these.
+# A platform PR is shown (collapsed) on every model page except those where
+# the PR has a direct match (per-page dedup).
+platform_paths:
+  - "vllm_omni/core/**"
+  - "vllm_omni/engine/**"
+  - "vllm_omni/scheduler/**"
+  - "vllm_omni/distributed/**"
+  - "vllm_omni/sample/**"
+  - "vllm_omni/entrypoints/**"
+  - "vllm_omni/metrics/**"
+  - "vllm_omni/patch.py"
+  - "vllm_omni/request.py"
+  - "vllm_omni/outputs.py"
+
+# Title-tag inference: bracketed prefix in PR title matched (case-insensitive)
+# against any alias. Applied only when no direct match for the same (PR, model) pair landed.
+title_tags:
+  Qwen3-Omni: ["qwen3-omni", "qwen3omni"]
+  Qwen3-TTS: ["qwen3-tts", "qwen3tts"]
+  Qwen-image: ["qwen-image", "qwenimage"]
+  Qwen-Image-edit: ["qwen-image-edit", "qwenimageedit"]
+  WAN2.2: ["wan2.2", "wan22"]
+
+# Source repos. Note: pr_url_base is independent of code_repo because the
+# hsliuustc0106 fork tracks upstream vllm-project/vllm-omni — squash-merge
+# (#NNNN) suffixes refer to upstream PR numbers regardless of which fork we
+# read commits from.
+sources:
+  kanban_repo: "hsliuustc0106/vllm-omni-kanban"
+  code_repo:   "hsliuustc0106/vllm-omni"
+  pr_url_base: "https://github.com/vllm-project/vllm-omni/pull"
