@@ -200,6 +200,25 @@ async function fetchJson(src) {
   return response.json();
 }
 
+// Try a range-suffixed chart path first; if it 404s (the corresponding
+// generate_charts.py output may not have landed yet, or the range simply has
+// no data), fall back to the unsuffixed base file so the dropdown still
+// produces a chart rather than an error.
+async function fetchChartWithFallback(src) {
+  try {
+    return await fetchJson(src);
+  } catch (err) {
+    const baseFallback = src.replace(/_(1d|7d|30d|90d)\.json$/, ".json");
+    if (baseFallback !== src) {
+      const response = await fetch(baseFallback);
+      if (response.ok) {
+        return response.json();
+      }
+    }
+    throw err;
+  }
+}
+
 async function loadChart(container) {
   const src = chartSrc(container, selectedRange());
   if (!src || typeof echarts === "undefined") {
@@ -207,7 +226,7 @@ async function loadChart(container) {
   }
 
   try {
-    const option = applyTheme(await fetchJson(src));
+    const option = applyTheme(await fetchChartWithFallback(src));
     const chart = charts.get(container) || echarts.init(container);
     chart.setOption(option, true);
     charts.set(container, chart);
