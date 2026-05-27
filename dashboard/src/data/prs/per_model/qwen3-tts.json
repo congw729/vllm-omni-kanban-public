@@ -706,16 +706,6 @@
       "number": 1289,
       "title": "[Bugfix][Qwen3TTS] (#1289)",
       "url": "https://github.com/vllm-project/vllm-omni/pull/1289"
-    },
-    {
-      "author": "Sangchun Ha",
-      "files_matched": [
-        "vllm_omni/model_executor/models/qwen3_tts/qwen3_tts.py"
-      ],
-      "merged_at": "2026-02-26T11:27:13+09:00",
-      "number": 1455,
-      "title": "[Bugfix] Fix case-sensitive task_type matching in Qwen3TTSModelForGeneration (#1455)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1455"
     }
   ],
   "inferred": [
@@ -3820,16 +3810,6 @@
       "url": "https://github.com/vllm-project/vllm-omni/pull/1405"
     },
     {
-      "author": "Junhong Liu",
-      "merged_at": "2026-02-26T10:59:18+08:00",
-      "number": 1468,
-      "platform_paths": [
-        "vllm_omni/core/sched/omni_generation_scheduler.py"
-      ],
-      "title": "[BugFix] process request.num_cached_tokens if it equals to the initial value  (#1468)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1468"
-    },
-    {
       "author": "Alex Brooks",
       "merged_at": "2026-02-26T02:22:35-07:00",
       "number": 1421,
@@ -3838,40 +3818,6 @@
       ],
       "title": "[Bugfix] Fix LoRA Scaling on Active Adapters (#1421)",
       "url": "https://github.com/vllm-project/vllm-omni/pull/1421"
-    },
-    {
-      "author": "Junhong Liu",
-      "merged_at": "2026-02-25T22:59:49+08:00",
-      "number": 1222,
-      "platform_paths": [
-        "vllm_omni/entrypoints/openai/serving_chat.py"
-      ],
-      "title": "[Bugfix] Robust Audio Data Handling in _create_audio_choice (#1222)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1222"
-    },
-    {
-      "author": "Yanick Schraner",
-      "merged_at": "2026-02-25T17:14:44+01:00",
-      "number": 1177,
-      "platform_paths": [
-        "vllm_omni/entrypoints/cli/serve.py",
-        "vllm_omni/entrypoints/omni.py",
-        "vllm_omni/entrypoints/omni_stage.py",
-        "vllm_omni/entrypoints/openai/serving_speech.py"
-      ],
-      "title": "[Bugfix] Add TTS configuration options (#1177)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1177"
-    },
-    {
-      "author": "Dong W",
-      "merged_at": "2026-02-25T08:09:11-08:00",
-      "number": 612,
-      "platform_paths": [
-        "vllm_omni/entrypoints/async_omni_diffusion.py",
-        "vllm_omni/entrypoints/omni_diffusion.py"
-      ],
-      "title": "[Model]Add new nextstep_1(Diffusion) model(only T2I) (#612)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/612"
     }
   ]
 }
