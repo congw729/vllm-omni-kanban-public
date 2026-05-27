@@ -75,6 +75,11 @@ This dashboard tracks one daily snapshot per model and hardware combination for 
     <strong>WAN 2.2</strong>
     <span>E2E latency, peak memory</span>
   </a>
+  <a class="model-directory-card" href="models/hunyuan-image3/">
+    <span class="model-directory-card__eyebrow">Image Editing</span>
+    <strong>Hunyuan Image 3</strong>
+    <span>E2E latency, throughput, peak memory</span>
+  </a>
 </div>
 
 ## Pass Rate

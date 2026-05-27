@@ -38,6 +38,7 @@ nav:
       - Qwen Image Edit: models/qwen-image-edit.md
       - Qwen Image Edit 2509: models/qwen-image-edit-2509.md
       - WAN 2.2: models/wan22.md
+      - Hunyuan Image 3: models/hunyuan-image3.md
   - Alerts: alerts.md
   - Reports:
       - Archive: reports/index.md

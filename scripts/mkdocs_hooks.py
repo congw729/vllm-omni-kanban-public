@@ -18,29 +18,45 @@ _BUILDKITE_RAW_SYNCS: tuple[tuple[str, str], ...] = (
     ("qwen_image_edit", "qwen_image_edit"),
     ("qwen_image_edit_2509", "qwen_image_edit_2509"),
     ("wan22", "wan22"),
+    ("hunyuan_image3", "hunyuan_image3"),
 )
+
+_LOCAL_RAW_SYNCS: tuple[tuple[str, str], ...] = (
+    ("hunyuan_image3", "hunyuan_image3"),
+)
+
+
+def _run_sync(repo_root: Path, sync_script: Path, model_name: str, model_keywords: str, raw_root: Path | None = None) -> None:
+    cmd = [
+        sys.executable,
+        str(sync_script),
+        "--model-name",
+        model_name,
+        "--model-keywords",
+        model_keywords,
+    ]
+    if raw_root is not None:
+        cmd.extend(["--raw-root", str(raw_root)])
+    proc = subprocess.run(
+        cmd,
+        cwd=str(repo_root),
+        check=False,
+    )
+    if proc.returncode != 0:
+        raise RuntimeError(
+            f"sync_buildkite_raw_model_results.py ({model_name}) exited with status {proc.returncode}",
+        )
 
 
 def on_startup(command: str, dirty: bool, **kwargs) -> None:
     repo_root = Path(__file__).resolve().parent.parent
     sync_script = repo_root / "scripts" / "sync_buildkite_raw_model_results.py"
     for model_name, model_keywords in _BUILDKITE_RAW_SYNCS:
-        proc = subprocess.run(
-            [
-                sys.executable,
-                str(sync_script),
-                "--model-name",
-                model_name,
-                "--model-keywords",
-                model_keywords,
-            ],
-            cwd=str(repo_root),
-            check=False,
-        )
-        if proc.returncode != 0:
-            raise RuntimeError(
-                f"sync_buildkite_raw_model_results.py ({model_name}) exited with status {proc.returncode}",
-            )
+        _run_sync(repo_root, sync_script, model_name, model_keywords)
+
+    local_raw_root = repo_root / "data" / "local_nightly_raw"
+    for model_name, model_keywords in _LOCAL_RAW_SYNCS:
+        _run_sync(repo_root, sync_script, model_name, model_keywords, local_raw_root)
 
     gen_script = repo_root / "scripts" / "generate_charts.py"
     proc = subprocess.run(

@@ -27,6 +27,7 @@ QWEN_IMAGE_LAYERED_HISTORY_PATH = CHARTS_DIR / "qwen_image_layered_history.json"
 QWEN_IMAGE_EDIT_HISTORY_PATH = CHARTS_DIR / "qwen_image_edit_history.json"
 QWEN_IMAGE_EDIT_2509_HISTORY_PATH = CHARTS_DIR / "qwen_image_edit_2509_history.json"
 WAN22_HISTORY_PATH = CHARTS_DIR / "wan22_history.json"
+HUNYUAN_IMAGE3_HISTORY_PATH = CHARTS_DIR / "hunyuan_image3_history.json"
 DEFAULT_RESULT_DATASETS = frozenset({"random", "random-mm"})
 QWEN3_OMNI_DATASETS = set(DEFAULT_RESULT_DATASETS)  # backward compat
 QWEN3_OMNI_GROUP_FIELDS = (
@@ -57,6 +58,7 @@ QWEN3_TTS_GROUP_FIELDS = (
 QWEN_IMAGE_GROUP_FIELDS = (
     "test_name",
     "backend",
+    "hardware",
     "model_id",
     "benchmark_name",
     "dataset_name",
@@ -91,6 +93,10 @@ MODEL_METRICS = {
         ("peak_memory_gb", None, None),
     ],
     "WAN2.2": [
+        ("e2e_latency_ms", None, None),
+        ("peak_memory_gb", None, None),
+    ],
+    "Hunyuan-Image3": [
         ("e2e_latency_ms", None, None),
         ("peak_memory_gb", None, None),
     ],
@@ -307,6 +313,15 @@ def _serialize_serve_arg_value(value: Any) -> Any:
     return json.dumps(value, ensure_ascii=False)
 
 
+def _normalize_hardware(value: Any) -> str | None:
+    if not isinstance(value, str):
+        return None
+    hardware = value.strip()
+    if not hardware:
+        return None
+    return hardware.upper()
+
+
 def _load_diffusion_benchmark_records(sorted_paths: list[Path]) -> list[dict[str, Any]]:
     """Parse diffusion/benchmark perf JSON arrays (shared by Qwen Image and WAN 2.2 pages)."""
     raw_rows: list[tuple[dict[str, Any], dict[str, Any], dict[str, Any]]] = []
@@ -349,6 +364,7 @@ def _load_diffusion_benchmark_records(sorted_paths: list[Path]) -> list[dict[str
             record = {
                 "test_name": raw.get("test_name"),
                 "backend": raw.get("backend"),
+                "hardware": _normalize_hardware(raw.get("hardware") or raw.get("Hardware")),
                 "model_id": sp.get("model"),
                 "benchmark_name": str(bp.get("name") or ""),
                 "dataset_name": str(bp.get("dataset") or ""),
@@ -665,6 +681,17 @@ def build_wan22_history_payload(config: dict[str, Any], source_dir: Path) -> dic
     )
 
 
+def build_hunyuan_image3_history_payload(config: dict[str, Any], source_dir: Path) -> dict[str, Any]:
+    return build_qwen_image_family_history_payload(
+        config,
+        source_dir,
+        page_key="hunyuan_image3_history",
+        model_key="Hunyuan-Image3",
+        fallback_display="Hunyuan Image 3",
+        test_name_filter=lambda name: "hunyuan_image3" in name,
+    )
+
+
 def build_multi_series_chart(
     dates: list[str],
     hardware_items: list[tuple[str, str]],
@@ -814,6 +841,8 @@ def main() -> int:
     save_json(QWEN_IMAGE_EDIT_2509_HISTORY_PATH, build_qwen_image_edit_2509_history_payload(config, qwen_image_edit_2509_source_dir))
     wan22_source_dir = RESULTS_DIR / config.get("kanban_pages", {}).get("wan22_history", {}).get("source_dir", "wan22")
     save_json(WAN22_HISTORY_PATH, build_wan22_history_payload(config, wan22_source_dir))
+    hunyuan_image3_source_dir = RESULTS_DIR / config.get("kanban_pages", {}).get("hunyuan_image3_history", {}).get("source_dir", "hunyuan_image3")
+    save_json(HUNYUAN_IMAGE3_HISTORY_PATH, build_hunyuan_image3_history_payload(config, hunyuan_image3_source_dir))
     for model, model_config in config.get("models", {}).items():
         available_metrics = set(model_config["metrics"]["required"]) | set(model_config["metrics"]["optional"])
         for metric, y_min, y_max in MODEL_METRICS.get(model, []):

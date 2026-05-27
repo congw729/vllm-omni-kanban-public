@@ -6,6 +6,7 @@ import sys
 from pathlib import Path
 
 from scripts.generate_charts import (
+    build_hunyuan_image3_history_payload,
     build_qwen3_omni_history_payload,
     load_qwen_image_benchmark_history,
     load_wan22_benchmark_history,
@@ -214,6 +215,55 @@ def test_qwen_image_benchmark_sorts_numeric_group_fields_numerically(tmp_path: P
     records = load_qwen_image_benchmark_history(source_dir)
 
     assert [record["max_concurrency"] for record in records] == [2, 10]
+
+
+def test_hunyuan_image3_history_payload_maps_diffusion_records(tmp_path: Path, repo_root: Path) -> None:
+    source_dir = tmp_path / "hunyuan_image3"
+    source_dir.mkdir()
+    row = [
+        {
+            "test_name": "test_hunyuan_image3_ti2i_tp4_tp4_inline",
+            "backend": "vllm-omni",
+            "Hardware": "h200",
+            "timestamp": "20260525-141005",
+            "server_params": {
+                "model": "tencent/HunyuanImage-3.0-Instruct",
+                "serve_args": {"enable-diffusion-pipeline-profiler": True},
+            },
+            "benchmark_params": {
+                "name": "inline_dataset_5_requests",
+                "dataset": "custom",
+                "task": "ti2i",
+                "max-concurrency": 4,
+                "num-prompts": 16,
+            },
+            "result": {
+                "completed_requests": 16,
+                "failed_requests": 0,
+                "throughput_qps": 0.10495291600140096,
+                "latency_mean": 35.56606174609624,
+                "latency_median": 35.946332490071654,
+                "latency_p99": 44.45902248136699,
+                "peak_memory_mb_mean": 0,
+            },
+        }
+    ]
+    (source_dir / "diffusion_result_test_hunyuan_image3_it2i_20260525-140555.json").write_text(json.dumps(row), encoding="utf-8")
+    config = json.loads((repo_root / "data" / "config.json").read_text(encoding="utf-8"))
+
+    payload = build_hunyuan_image3_history_payload(config, source_dir)
+
+    assert payload["record_count"] == 1
+    rec = payload["records"][0]
+    assert rec["model_id"] == "tencent/HunyuanImage-3.0-Instruct"
+    assert rec["task"] == "ti2i"
+    assert rec["completed_requests"] == 16
+    assert abs(rec["throughput_qps"] - 0.10495291600140096) < 1e-12
+    assert abs(rec["e2e_latency_ms"] - 35566.06174609624) < 1e-9
+    assert "hardware" in rec
+    assert "hardware" in payload["filters"]
+    assert "hardware" in payload["table_columns"]
+    assert "serve_args_enable_diffusion_pipeline_profiler" in payload["table_columns"]
 
 
 def test_result_test_optional_baseline_object(tmp_path: Path, repo_root: Path) -> None:

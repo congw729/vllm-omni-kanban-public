@@ -54,6 +54,15 @@
       },
       "alert_overrides": {}
     },
+    "Hunyuan-Image3": {
+      "display_name": "Hunyuan Image 3",
+      "category": "image_editing",
+      "metrics": {
+        "required": ["pass_rate", "latency_p99_ms"],
+        "optional": ["e2e_latency_ms", "peak_memory_gb", "edit_quality_score", "generation_time_ms"]
+      },
+      "alert_overrides": {}
+    },
     "Qwen3-Omni": {
       "display_name": "Qwen3 Omni",
       "category": "multimodal",
@@ -478,6 +487,61 @@
         "date",
         "test_name",
         "backend",
+        "model_id",
+        "benchmark_name",
+        "dataset_name",
+        "task",
+        "width",
+        "height",
+        "max_concurrency",
+        "num_prompts",
+        "completed_requests",
+        "failed_requests",
+        "e2e_latency_ms",
+        "e2e_latency_median_ms",
+        "e2e_latency_p99_ms",
+        "throughput_qps",
+        "peak_memory_gb",
+        "peak_memory_mb_mean",
+        "peak_memory_mb_median",
+        "peak_memory_mb_max"
+      ],
+      "metric_groups": [
+        {
+          "id": "e2e_latency",
+          "title": "E2E Latency",
+          "metrics": ["e2e_latency_ms"]
+        },
+        {
+          "id": "throughput",
+          "title": "Throughput (QPS)",
+          "metrics": ["throughput_qps"]
+        },
+        {
+          "id": "peak_memory",
+          "title": "Peak Memory",
+          "metrics": ["peak_memory_gb"]
+        }
+      ]
+    },
+    "hunyuan_image3_history": {
+      "source_dir": "hunyuan_image3",
+      "chart_point_per_day": true,
+      "filters": [
+        "model_id",
+        "test_name",
+        "dataset_name",
+        "benchmark_name",
+        "backend",
+        "hardware",
+        "max_concurrency",
+        "num_prompts"
+      ],
+      "table_columns": [
+        "date",
+        "test_name",
+        "backend",
+        "hardware",
         "model_id",
         "benchmark_name",
         "dataset_name",
