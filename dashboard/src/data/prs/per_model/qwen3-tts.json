@@ -669,43 +669,6 @@
       "number": 1564,
       "title": "[NPU][Bugfix] Align GPU side and recover qwen3-tts (#1564)",
       "url": "https://github.com/vllm-project/vllm-omni/pull/1564"
-    },
-    {
-      "author": "Xu Lu",
-      "files_matched": [
-        "vllm_omni/model_executor/models/qwen3_tts/cuda_graph_decoder_wrapper.py",
-        "vllm_omni/model_executor/models/qwen3_tts/qwen3_tts.py",
-        "vllm_omni/model_executor/models/qwen3_tts/tokenizer_12hz/modeling_qwen3_tts_tokenizer_v2.py"
-      ],
-      "merged_at": "2026-02-26T18:48:25-08:00",
-      "number": 1205,
-      "title": "feat(qwen3-tts): Add CUDA Graph support for speech tokenizer decoder (#1205)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1205"
-    },
-    {
-      "author": "Yuanheng Zhao",
-      "files_matched": [
-        "vllm_omni/model_executor/models/qwen3_tts/tokenizer_25hz/configuration_qwen3_tts_tokenizer_v1.py",
-        "vllm_omni/model_executor/models/qwen3_tts/tokenizer_25hz/modeling_qwen3_tts_tokenizer_v1.py",
-        "vllm_omni/model_executor/models/qwen3_tts/tokenizer_25hz/vq/speech_vq.py",
-        "vllm_omni/model_executor/models/qwen3_tts/tokenizer_25hz/vq/whisper_encoder.py"
-      ],
-      "merged_at": "2026-02-26T14:39:08+08:00",
-      "number": 1482,
-      "title": "[Fix][Chore] Qwen3-TTS Modeling Minor Code Sanity Improvements (#1482)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1482"
-    },
-    {
-      "author": "Juan Pablo Zuluaga",
-      "files_matched": [
-        "vllm_omni/model_executor/models/qwen3_tts/qwen3_tts_tokenizer.py",
-        "vllm_omni/model_executor/models/qwen3_tts/tokenizer_12hz/modeling_qwen3_tts_tokenizer_v2.py",
-        "vllm_omni/model_executor/models/qwen3_tts/tokenizer_25hz/modeling_qwen3_tts_tokenizer_v1.py"
-      ],
-      "merged_at": "2026-02-26T11:58:35+01:00",
-      "number": 1289,
-      "title": "[Bugfix][Qwen3TTS] (#1289)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1289"
     }
   ],
   "inferred": [
@@ -764,14 +727,6 @@
       "tag_matched": "Qwen3-TTS",
       "title": "[Feat][Qwen3TTS] reduce TTFA with flexible initial phase (#1583)",
       "url": "https://github.com/vllm-project/vllm-omni/pull/1583"
-    },
-    {
-      "author": "Juan Pablo Zuluaga",
-      "merged_at": "2026-02-26T14:02:35+01:00",
-      "number": 1438,
-      "tag_matched": "Qwen3-TTS",
-      "title": "[Qwen3TTS][Feat] Streaming output (#1438)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1438"
     }
   ],
   "model_id": "qwen3-tts",
@@ -3718,106 +3673,6 @@
       ],
       "title": "[Feat] : Support Async chunk cleanup (#1087)",
       "url": "https://github.com/vllm-project/vllm-omni/pull/1087"
-    },
-    {
-      "author": "WeiQing Chen",
-      "merged_at": "2026-02-27T11:39:14+08:00",
-      "number": 1285,
-      "platform_paths": [
-        "vllm_omni/engine/arg_utils.py",
-        "vllm_omni/entrypoints/cli/serve.py",
-        "vllm_omni/entrypoints/omni.py"
-      ],
-      "title": "[Feature]: Native GGUF Quantization Support for DiT (#1285)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1285"
-    },
-    {
-      "author": "Jared Wen",
-      "merged_at": "2026-02-27T10:29:14+08:00",
-      "number": 920,
-      "platform_paths": [
-        "vllm_omni/entrypoints/omni_diffusion.py",
-        "vllm_omni/entrypoints/omni_stage.py",
-        "vllm_omni/entrypoints/openai/serving_chat.py",
-        "vllm_omni/entrypoints/stage_utils.py",
-        "vllm_omni/patch.py"
-      ],
-      "title": "[Perf] GLM Image (#920)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/920"
-    },
-    {
-      "author": "wuhang",
-      "merged_at": "2026-02-26T21:44:07+08:00",
-      "number": 1522,
-      "platform_paths": [
-        "vllm_omni/entrypoints/omni.py"
-      ],
-      "title": "[Bugfix] Use uds for zmq address if not set --stage-id (#1522)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1522"
-    },
-    {
-      "author": "Canlin Guo",
-      "merged_at": "2026-02-26T21:31:10+08:00",
-      "number": 1339,
-      "platform_paths": [
-        "vllm_omni/entrypoints/async_omni.py",
-        "vllm_omni/entrypoints/cli/serve.py"
-      ],
-      "title": "[Feature] Support HSDP for diffusion models (#1339)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1339"
-    },
-    {
-      "author": "amy-why-3459",
-      "merged_at": "2026-02-26T21:21:36+08:00",
-      "number": 1378,
-      "platform_paths": [
-        "vllm_omni/distributed/omni_connectors/connectors/shm_connector.py",
-        "vllm_omni/distributed/omni_connectors/transfer_adapter/base.py",
-        "vllm_omni/distributed/omni_connectors/transfer_adapter/chunk_transfer_adapter.py"
-      ],
-      "title": "[Performance]Qwen3-Omni performance optimization (#1378)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1378"
-    },
-    {
-      "author": "Zeyu Huang | \u9ec3\u6fa4\u5b87",
-      "merged_at": "2026-02-26T20:30:35+08:00",
-      "number": 1509,
-      "platform_paths": [
-        "vllm_omni/entrypoints/omni_diffusion.py"
-      ],
-      "title": "[Chore] remove unused logger in omni_diffusion (#531) (#1509)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1509"
-    },
-    {
-      "author": "Junhong Liu",
-      "merged_at": "2026-02-26T17:23:55+08:00",
-      "number": 1312,
-      "platform_paths": [
-        "vllm_omni/metrics/stats.py",
-        "vllm_omni/outputs.py"
-      ],
-      "title": "[Bugfix] fix record audio generated frame in offline infer (#1312)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1312"
-    },
-    {
-      "author": "junuxyz",
-      "merged_at": "2026-02-26T16:20:40+09:00",
-      "number": 1405,
-      "platform_paths": [
-        "vllm_omni/distributed/omni_connectors/kv_transfer_manager.py"
-      ],
-      "title": "[Bugfix] Fix tuple/list KV cache extraction crash (#1405)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1405"
-    },
-    {
-      "author": "Alex Brooks",
-      "merged_at": "2026-02-26T02:22:35-07:00",
-      "number": 1421,
-      "platform_paths": [
-        "vllm_omni/entrypoints/async_omni_diffusion.py"
-      ],
-      "title": "[Bugfix] Fix LoRA Scaling on Active Adapters (#1421)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1421"
     }
   ]
 }

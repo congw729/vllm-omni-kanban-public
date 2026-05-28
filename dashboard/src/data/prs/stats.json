@@ -1,10 +1,10 @@
 {
   "attribution_coverage": {
-    "direct": 109,
-    "inferred_only": 14,
-    "platform": 2047
+    "direct": 103,
+    "inferred_only": 13,
+    "platform": 1979
   },
-  "last_updated": "2026-05-27T05:13:03Z",
-  "total_prs_indexed_90d": 953,
+  "last_updated": "2026-05-28T05:12:04Z",
+  "total_prs_indexed_90d": 919,
   "truncated": false
 }
