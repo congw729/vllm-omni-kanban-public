@@ -1,11 +1,15 @@
 """Tests for nightly sync artifact basename filter (no network)."""
 
+import io
+import urllib.error
 from pathlib import PurePosixPath
+from unittest.mock import patch
 
 import pytest
 
 from scripts.fetch_buildkite_nightly_files import (
     _append_matching_builds_until_cap,
+    _request_json,
     append_resolved_build_github_output,
     build_matches_latest_nightly_criteria,
     first_matching_build_number,
@@ -99,3 +103,23 @@ def test_append_matching_builds_until_cap_respects_order_and_cap() -> None:
         cap=2,
     )
     assert [b["number"] for b in out2] == [10, 8]
+
+
+def test_request_json_preserves_http_error_detail(monkeypatch) -> None:
+    """HTTPError body is preserved for retry-layer rate-limit handling."""
+    detail = '{"message":"rate limited","reset":33}'
+    error = urllib.error.HTTPError(
+        "https://api.buildkite.com/v2/example",
+        429,
+        "Too Many Requests",
+        {},
+        io.BytesIO(detail.encode("utf-8")),
+    )
+    monkeypatch.setenv("RETRY_MAX_ATTEMPTS", "1")
+    monkeypatch.setenv("RETRY_MIN_WAIT", "0")
+    monkeypatch.setenv("RETRY_MAX_WAIT", "0")
+
+    with patch("urllib.request.urlopen", side_effect=error), pytest.raises(urllib.error.HTTPError) as exc_info:
+        _request_json("https://api.buildkite.com/v2/example", "token")
+
+    assert exc_info.value.retry_detail == detail

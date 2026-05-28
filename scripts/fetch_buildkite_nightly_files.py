@@ -80,6 +80,7 @@ def _request_json(url: str, token: str):
             return json.loads(body) if body.strip() else None
     except urllib.error.HTTPError as e:
         detail = e.read().decode("utf-8", errors="replace") if e.fp else ""
+        e.retry_detail = detail
         sys.stderr.write(f"HTTP {e.code} {e.reason} for {url}\n{detail}\n")
         raise
 

@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import os
 import sys
+import urllib.error
 from pathlib import Path
 from unittest.mock import patch, MagicMock
 
@@ -16,6 +17,7 @@ if str(ROOT) not in sys.path:
 
 from scripts.retry_utils import (
     get_retry_config,
+    get_retry_after_seconds,
     should_retry,
     with_retry,
     RETRYABLE_EXCEPTIONS,
@@ -93,6 +95,46 @@ class TestShouldRetry:
         response = MagicMock(status_code=404)
         exception = requests.HTTPError(response=response)
         assert should_retry(exception) is False
+
+
+class TestGetRetryAfterSeconds:
+    """Tests for server-provided retry wait times."""
+
+    def test_reads_requests_retry_after_header(self):
+        """Test parsing Retry-After from requests-style responses."""
+        response = MagicMock(status_code=429, headers={"Retry-After": "33"})
+        exception = requests.HTTPError(response=response)
+
+        assert get_retry_after_seconds(exception) == 33
+
+    def test_respects_zero_retry_after_header(self):
+        """Test Retry-After zero is treated as an explicit server value."""
+        response = MagicMock(status_code=429, headers={"Retry-After": "0"})
+        exception = requests.HTTPError(response=response)
+        exception.retry_detail = '{"reset":29}'
+
+        assert get_retry_after_seconds(exception) == 0
+
+    def test_reads_urllib_retry_after_header(self):
+        """Test parsing Retry-After from urllib-style HTTP errors."""
+        headers = {"Retry-After": "31"}
+        exception = urllib.error.HTTPError("https://example.test", 429, "Too Many Requests", headers, None)
+
+        assert get_retry_after_seconds(exception) == 31
+
+    def test_reads_buildkite_reset_detail(self):
+        """Test parsing Buildkite rate-limit reset seconds from captured body."""
+        exception = urllib.error.HTTPError("https://example.test", 429, "Too Many Requests", {}, None)
+        exception.retry_detail = '{"message":"rate limited","reset":29}'
+
+        assert get_retry_after_seconds(exception) == 29
+
+    def test_ignores_retry_detail_for_non_rate_limit(self):
+        """Test reset detail only applies to HTTP 429."""
+        exception = urllib.error.HTTPError("https://example.test", 500, "Internal Server Error", {}, None)
+        exception.retry_detail = '{"reset":29}'
+
+        assert get_retry_after_seconds(exception) is None
 
 
 class TestWithRetry:
