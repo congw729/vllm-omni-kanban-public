@@ -24,6 +24,7 @@ import argparse
 import json
 import os
 import sys
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -51,6 +52,16 @@ ALLOWED_BASENAME_PREFIXES = (
     "benchmark_results_",
 )
 ALLOWED_BASENAME_SUFFIXES = (".json", ".html")
+
+
+def non_negative_float(value: str) -> float:
+    try:
+        parsed = float(value)
+    except ValueError as exc:
+        raise argparse.ArgumentTypeError(f"expected a number, got {value!r}") from exc
+    if parsed < 0:
+        raise argparse.ArgumentTypeError(f"expected a non-negative number, got {value!r}")
+    return parsed
 
 
 def token_from_env() -> str:
@@ -317,7 +328,7 @@ class StripAuthOnRedirect(urllib.request.HTTPRedirectHandler):
         return new_req
 
 
-@with_retry
+@with_retry(max_attempts=5, max_wait=60)
 def _download_file(download_url: str, dest: str, token: str) -> None:
     req = urllib.request.Request(
         download_url,
@@ -326,13 +337,18 @@ def _download_file(download_url: str, dest: str, token: str) -> None:
     )
     os.makedirs(os.path.dirname(dest) or ".", exist_ok=True)
     opener = urllib.request.build_opener(StripAuthOnRedirect)
-    with opener.open(req, timeout=300) as resp:
-        with open(dest, "wb") as f:
+    try:
+        with opener.open(req, timeout=300) as resp, open(dest, "wb") as f:
             while True:
                 chunk = resp.read(256 * 1024)
                 if not chunk:
                     break
                 f.write(chunk)
+    except urllib.error.HTTPError as e:
+        detail = e.read().decode("utf-8", errors="replace") if e.fp else ""
+        e.retry_detail = detail
+        sys.stderr.write(f"HTTP {e.code} {e.reason} while downloading {download_url}\n{detail}\n")
+        raise
 
 
 def is_nightly_sync_artifact_basename(filename: str) -> bool:
@@ -404,6 +420,15 @@ def main() -> None:
     )
     parser.add_argument("--dry-run", action="store_true",
                         help="List only, no download")
+    parser.add_argument(
+        "--download-delay",
+        type=non_negative_float,
+        default=os.environ.get("BUILDKITE_ARTIFACT_DOWNLOAD_DELAY_SECONDS", "0.5"),
+        help=(
+            "Seconds to wait after each artifact download to reduce Buildkite API rate-limit pressure "
+            "(default: 0.5 or BUILDKITE_ARTIFACT_DOWNLOAD_DELAY_SECONDS)."
+        ),
+    )
     parser.add_argument(
         "--write-resolved-to-github-output",
         action="store_true",
@@ -517,6 +542,8 @@ def main() -> None:
         print(f"downloading: {path} -> {dest}")
         _download_file(str(download_url), dest, token)
         n_ok += 1
+        if args.download_delay > 0:
+            time.sleep(args.download_delay)
     print(
         f"downloaded file count: {n_ok}; overwritten existing: {overwritten_count}")
 

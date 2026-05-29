@@ -3,12 +3,13 @@
 import io
 import urllib.error
 from pathlib import PurePosixPath
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 
 import pytest
 
 from scripts.fetch_buildkite_nightly_files import (
     _append_matching_builds_until_cap,
+    _download_file,
     _request_json,
     append_resolved_build_github_output,
     build_matches_latest_nightly_criteria,
@@ -121,5 +122,28 @@ def test_request_json_preserves_http_error_detail(monkeypatch) -> None:
 
     with patch("urllib.request.urlopen", side_effect=error), pytest.raises(urllib.error.HTTPError) as exc_info:
         _request_json("https://api.buildkite.com/v2/example", "token")
+
+    assert exc_info.value.retry_detail == detail
+
+
+def test_download_file_preserves_http_error_detail(tmp_path) -> None:
+    """Artifact download errors preserve bodies for retry-layer rate-limit handling."""
+    detail = '{"message":"rate limited","reset":33}'
+    error = urllib.error.HTTPError(
+        "https://api.buildkite.com/v2/artifacts/example/download",
+        429,
+        "Too Many Requests",
+        {},
+        io.BytesIO(detail.encode("utf-8")),
+    )
+    opener = MagicMock()
+    opener.open.side_effect = error
+
+    with patch("urllib.request.build_opener", return_value=opener), pytest.raises(urllib.error.HTTPError) as exc_info:
+        _download_file.__wrapped__(
+            "https://api.buildkite.com/v2/artifacts/example/download",
+            str(tmp_path / "artifact.json"),
+            "token",
+        )
 
     assert exc_info.value.retry_detail == detail
