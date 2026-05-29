@@ -594,6 +594,40 @@
         "throughput_qps": 0.10755672076241206
       },
       "variant_id": "single_device"
+    },
+    {
+      "alerts": [],
+      "date": "2026-05-27",
+      "values": {
+        "latency_mean_ms": 9449.802967626601,
+        "latency_median_ms": 9438.216823618859,
+        "latency_p50_ms": 9438.216823618859,
+        "latency_p95_ms": 9517.737283650786,
+        "latency_p99_ms": 9541.538135576993,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 58270.0,
+        "peak_memory_mb_mean": 58270.0,
+        "peak_memory_mb_median": 58270.0,
+        "throughput_qps": 0.10581987753198052
+      },
+      "variant_id": "single_device"
+    },
+    {
+      "alerts": [],
+      "date": "2026-05-28",
+      "values": {
+        "latency_mean_ms": 9451.637989003211,
+        "latency_median_ms": 9454.920013900846,
+        "latency_p50_ms": 9454.920013900846,
+        "latency_p95_ms": 9489.233788568527,
+        "latency_p99_ms": 9491.281289700419,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 58270.0,
+        "peak_memory_mb_mean": 58270.0,
+        "peak_memory_mb_median": 58270.0,
+        "throughput_qps": 0.10579947356045778
+      },
+      "variant_id": "single_device"
     }
   ],
   "variants": [

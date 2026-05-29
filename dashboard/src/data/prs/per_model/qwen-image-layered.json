@@ -3299,41 +3299,6 @@
       ],
       "title": "[BugFix] Fix unexpected crash when init OmniDiffusion (#1562)",
       "url": "https://github.com/vllm-project/vllm-omni/pull/1562"
-    },
-    {
-      "author": "Yueqian Lin",
-      "merged_at": "2026-02-27T22:49:47-05:00",
-      "number": 1554,
-      "platform_paths": [
-        "vllm_omni/entrypoints/openai/serving_speech.py"
-      ],
-      "title": "fix(qwen3-tts): fix Base ICL voice clone producing corrupted audio (#1554)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1554"
-    },
-    {
-      "author": "Canlin Guo",
-      "merged_at": "2026-02-27T14:41:20+08:00",
-      "number": 1136,
-      "platform_paths": [
-        "vllm_omni/entrypoints/async_omni_diffusion.py",
-        "vllm_omni/entrypoints/omni.py",
-        "vllm_omni/entrypoints/omni_stage.py",
-        "vllm_omni/entrypoints/openai/api_server.py"
-      ],
-      "title": "[Profiler] Support online profiling (#1136)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1136"
-    },
-    {
-      "author": "Sy03",
-      "merged_at": "2026-02-27T14:39:33+08:00",
-      "number": 1087,
-      "platform_paths": [
-        "vllm_omni/core/sched/omni_ar_scheduler.py",
-        "vllm_omni/core/sched/omni_generation_scheduler.py",
-        "vllm_omni/distributed/omni_connectors/transfer_adapter/chunk_transfer_adapter.py"
-      ],
-      "title": "[Feat] : Support Async chunk cleanup (#1087)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1087"
     }
   ]
 }
