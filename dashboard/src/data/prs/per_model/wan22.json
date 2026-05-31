@@ -3268,22 +3268,6 @@
       ],
       "title": "[Bugfix] Import InputPreprocessor into Renderer (#1566)",
       "url": "https://github.com/vllm-project/vllm-omni/pull/1566"
-    },
-    {
-      "author": "\u6c6a\u5fd7\u9e4f",
-      "merged_at": "2026-03-02T13:06:28+08:00",
-      "number": 1422,
-      "platform_paths": [
-        "vllm_omni/distributed/omni_connectors/kv_transfer_manager.py",
-        "vllm_omni/entrypoints/async_omni_diffusion.py",
-        "vllm_omni/entrypoints/cfg_companion_tracker.py",
-        "vllm_omni/entrypoints/omni.py",
-        "vllm_omni/entrypoints/omni_diffusion.py",
-        "vllm_omni/entrypoints/omni_stage.py",
-        "vllm_omni/entrypoints/stage_utils.py"
-      ],
-      "title": "[Feature]: Support cfg kv-cache transfer in multi-stage (#1422)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1422"
     }
   ]
 }
