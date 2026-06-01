@@ -3372,27 +3372,6 @@
       ],
       "title": "[Bugfix] Fix transformers 5.x compat issues in online TTS serving (#1536)",
       "url": "https://github.com/vllm-project/vllm-omni/pull/1536"
-    },
-    {
-      "author": "Samit",
-      "merged_at": "2026-03-02T22:53:25+08:00",
-      "number": 1504,
-      "platform_paths": [
-        "vllm_omni/entrypoints/async_omni.py",
-        "vllm_omni/entrypoints/cli/serve.py"
-      ],
-      "title": "[Feature][Wan2.2] Speed up diffusion model startup by multi-thread weight loading (#1504)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1504"
-    },
-    {
-      "author": "rongfu.leng",
-      "merged_at": "2026-03-02T21:54:15+08:00",
-      "number": 1566,
-      "platform_paths": [
-        "vllm_omni/entrypoints/openai/serving_chat.py"
-      ],
-      "title": "[Bugfix] Import InputPreprocessor into Renderer (#1566)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1566"
     }
   ]
 }
