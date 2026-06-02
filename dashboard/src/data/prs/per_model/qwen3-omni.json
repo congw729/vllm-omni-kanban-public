@@ -363,17 +363,6 @@
       "number": 1656,
       "title": "[Optimize][Qwen3-Omni] Reduce inter-packet latency in async chunk  (#1656)",
       "url": "https://github.com/vllm-project/vllm-omni/pull/1656"
-    },
-    {
-      "author": "Junhong Liu",
-      "files_matched": [
-        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni.py",
-        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni_code2wav.py"
-      ],
-      "merged_at": "2026-03-03T22:06:52+08:00",
-      "number": 1423,
-      "title": "Make chunk_size and left_context_size configurable via YAML for async chunking (#1423)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1423"
     }
   ],
   "inferred": [
@@ -3351,27 +3340,6 @@
       ],
       "title": "[Bugfix] Add TTS request validation to prevent engine crashes (#1641)",
       "url": "https://github.com/vllm-project/vllm-omni/pull/1641"
-    },
-    {
-      "author": "Yuanheng Zhao",
-      "merged_at": "2026-03-03T18:40:53+08:00",
-      "number": 1609,
-      "platform_paths": [
-        "vllm_omni/entrypoints/stage_utils.py"
-      ],
-      "title": "[Bugfix] Fix filepath resolution for model with subdir and GLM-Image generation (#1609)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1609"
-    },
-    {
-      "author": "Yueqian Lin",
-      "merged_at": "2026-03-03T12:28:32-05:00",
-      "number": 1536,
-      "platform_paths": [
-        "vllm_omni/core/sched/omni_generation_scheduler.py",
-        "vllm_omni/engine/output_processor.py"
-      ],
-      "title": "[Bugfix] Fix transformers 5.x compat issues in online TTS serving (#1536)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1536"
     }
   ]
 }
