@@ -3487,36 +3487,6 @@
       ],
       "title": "[Misc] remove logits_processor_pattern this field, because vllm have \u2026 (#1675)",
       "url": "https://github.com/vllm-project/vllm-omni/pull/1675"
-    },
-    {
-      "author": "dsinghvi",
-      "merged_at": "2026-03-05T00:54:59Z",
-      "number": 498,
-      "platform_paths": [
-        "vllm_omni/engine/arg_utils.py"
-      ],
-      "title": "[Model] Fun cosy voice3-0.5-b-2512 (#498)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/498"
-    },
-    {
-      "author": "Alex Brooks",
-      "merged_at": "2026-03-04T07:49:28-07:00",
-      "number": 1391,
-      "platform_paths": [
-        "vllm_omni/entrypoints/omni.py"
-      ],
-      "title": "[Bugfix] Fix Dtype Parsing (#1391)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1391"
-    },
-    {
-      "author": "Yueqian Lin",
-      "merged_at": "2026-03-04T01:27:02-05:00",
-      "number": 1641,
-      "platform_paths": [
-        "vllm_omni/entrypoints/openai/serving_speech.py"
-      ],
-      "title": "[Bugfix] Add TTS request validation to prevent engine crashes (#1641)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1641"
     }
   ]
 }
