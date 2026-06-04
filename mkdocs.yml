@@ -36,9 +36,11 @@ nav:
       - Qwen Image: models/qwen-image.md
       - Qwen Image Layered: models/qwen-image-layered.md
       - Qwen Image Edit: models/qwen-image-edit.md
-      - Qwen Image Edit 2509: models/qwen-image-edit-2509.md
+      - Qwen Image Edit 2511: models/qwen-image-edit-2511.md
       - WAN 2.2: models/wan22.md
       - Hunyuan Image 3: models/hunyuan-image3.md
+      - BAGEL: models/bagel.md
+      - VoxCPM2: models/voxcpm2.md
   - Alerts: alerts.md
   - Reports:
       - Archive: reports/index.md

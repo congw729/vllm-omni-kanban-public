@@ -9,8 +9,11 @@
     "qwen-image-layered",
     "qwen-image-edit",
     "qwen-image-edit-2509",
+    "qwen-image-edit-2511",
     "wan22",
+    "bagel",
     "qwen3-omni",
-    "qwen3-tts"
+    "qwen3-tts",
+    "voxcpm2"
   ]
 }

@@ -13,12 +13,20 @@ models:
     - "vllm_omni/diffusion/qwen_image_edit/**"
   Qwen-Image-edit-2509:
     - "vllm_omni/diffusion/qwen_image_edit_2509/**"
+  Qwen-Image-edit-2511:
+    - "vllm_omni/diffusion/qwen_image_edit_2511/**"
   WAN2.2:
     - "vllm_omni/diffusion/wan*/**"
+  Hunyuan-Image3:
+    - "vllm_omni/diffusion/hunyuan_image*/**"
+  BAGEL:
+    - "vllm_omni/diffusion/bagel/**"
   Qwen3-Omni:
     - "vllm_omni/model_executor/models/qwen3_omni/**"
   Qwen3-TTS:
     - "vllm_omni/model_executor/models/qwen3_tts/**"
+  VoxCPM2:
+    - "vllm_omni/model_executor/models/voxcpm2/**"
 
 # PR is bucketed as "platform" if any changed file matches these.
 # A platform PR is shown (collapsed) on every model page except those where
@@ -42,7 +50,11 @@ title_tags:
   Qwen3-TTS: ["qwen3-tts", "qwen3tts"]
   Qwen-image: ["qwen-image", "qwenimage"]
   Qwen-Image-edit: ["qwen-image-edit", "qwenimageedit"]
+  Qwen-Image-edit-2511: ["qwen-image-edit-2511", "qwenimageedit2511"]
   WAN2.2: ["wan2.2", "wan22"]
+  Hunyuan-Image3: ["hunyuan-image3", "hunyuanimage3", "hunyuan-image", "hunyuanimage"]
+  BAGEL: ["bagel"]
+  VoxCPM2: ["voxcpm2", "vox-cpm2"]
 
 # Source repos. Note: pr_url_base is independent of code_repo because the
 # hsliuustc0106 fork tracks upstream vllm-project/vllm-omni — squash-merge

@@ -65,9 +65,9 @@ This dashboard tracks one daily snapshot per model and hardware combination for 
     <strong>Qwen Image Edit</strong>
     <span>E2E latency, peak memory</span>
   </a>
-  <a class="model-directory-card" href="models/qwen-image-edit-2509/">
+  <a class="model-directory-card" href="models/qwen-image-edit-2511/">
     <span class="model-directory-card__eyebrow">Image Editing</span>
-    <strong>Qwen Image Edit 2509</strong>
+    <strong>Qwen Image Edit 2511</strong>
     <span>E2E latency, peak memory</span>
   </a>
   <a class="model-directory-card" href="models/wan22/">
@@ -80,7 +80,32 @@ This dashboard tracks one daily snapshot per model and hardware combination for 
     <strong>Hunyuan Image 3</strong>
     <span>E2E latency, throughput, peak memory</span>
   </a>
+  <a class="model-directory-card" href="models/bagel/">
+    <span class="model-directory-card__eyebrow">Image Generation</span>
+    <strong>BAGEL</strong>
+    <span>Single-stage and multi-stage image workloads</span>
+  </a>
+  <a class="model-directory-card" href="models/voxcpm2/">
+    <span class="model-directory-card__eyebrow">Audio Synthesis</span>
+    <strong>VoxCPM2</strong>
+    <span>RTF, TTFP, E2E latency, throughput</span>
+  </a>
 </div>
+
+<details class="standalone-panel">
+<summary><strong>Archived / Historical Models</strong></summary>
+
+<p class="section-note">These pages keep historical data available but are not part of the active nightly tracking navigation.</p>
+
+<div class="model-directory-grid">
+  <a class="model-directory-card" href="models/qwen-image-edit-2509/">
+    <span class="model-directory-card__eyebrow">Image Editing</span>
+    <strong>Qwen Image Edit 2509</strong>
+    <span>Historical data only; no new nightly data expected.</span>
+  </a>
+</div>
+
+</details>
 
 ## Pass Rate
 

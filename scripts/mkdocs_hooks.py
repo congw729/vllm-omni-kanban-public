@@ -17,12 +17,15 @@ _BUILDKITE_RAW_SYNCS: tuple[tuple[str, str], ...] = (
     ("qwen_image", "qwen_image"),
     ("qwen_image_edit", "qwen_image_edit"),
     ("qwen_image_edit_2509", "qwen_image_edit_2509"),
+    ("qwen_image_edit_2511", "qwen_image_edit_2511"),
     ("wan22", "wan22"),
     ("hunyuan_image3", "hunyuan_image3"),
+    ("bagel", "bagel"),
+    ("voxcpm2", "voxcpm2"),
 )
 
 _LOCAL_RAW_SYNCS: tuple[tuple[str, str], ...] = (
-    ("hunyuan_image3", "hunyuan_image3"),
+    ("hunyuan_image3", "hunyuan_image"),
 )
 
 

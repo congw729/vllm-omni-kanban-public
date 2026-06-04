@@ -32,6 +32,16 @@ models:
         display_name: "customvoice · text · c=1"
         file_glob: "result_test_qwen3_tts_customvoice_seed-tts-text_1_20_inna_outna_*.json"
 
+  VoxCPM2:
+    type: llm
+    variants:
+      - id: seedtts-c1
+        display_name: "seed-tts · c=1"
+        file_glob: "result_test_voxcpm2_seed-tts_1_20_inna_outna_*.json"
+      - id: seedtts-text-c1
+        display_name: "seed-tts-text · c=1"
+        file_glob: "result_test_voxcpm2_seed-tts-text_1_20_inna_outna_*.json"
+
   Qwen-image:
     type: diffusion
     variants:
@@ -65,6 +75,18 @@ models:
         file_glob: "diffusion_result_test_qwen_image_edit_2509_vllm_omni_*.json"
         inner_test_name: "test_qwen_image_edit_2509_single_device"
 
+  Qwen-Image-edit-2511:
+    type: diffusion
+    variants:
+      - id: single_device
+        display_name: "single device"
+        file_glob: "diffusion_result_test_qwen_image_edit_2511_vllm_omni_*.json"
+        inner_test_name: "test_qwen_image_edit_2511_single_device"
+      - id: ulysses2_cfg2_cache_dit
+        display_name: "ulysses2 · cfg2 · cache DIT"
+        file_glob: "diffusion_result_test_qwen_image_edit_2511_vllm_omni_*.json"
+        inner_test_name: "test_qwen_image_edit_2511_ulysses2_cfg2_cache_dit"
+
   WAN2.2:
     type: diffusion
     variants:
@@ -72,6 +94,46 @@ models:
         display_name: "i2v · single device"
         file_glob: "diffusion_result_test_wan22_i2v_vllm_omni_*.json"
         inner_test_name: "test_wan22_i2v_single_device"
+
+  Hunyuan-Image3:
+    type: diffusion
+    variants:
+      - id: ti2i_tp4_inline
+        display_name: "ti2i · tp4 inline"
+        file_glob: "diffusion_result_test_hunyuan_image3_it2i_*.json"
+        inner_test_name: "test_hunyuan_image3_ti2i_tp4_tp4_inline"
+      - id: t2i_tp4
+        display_name: "t2i · tp4"
+        file_glob: "diffusion_result_test_hunyuan_image_tp4_*.json"
+        inner_test_name: "test_hunyuan_image_tp4"
+      - id: t2i_tp2_sp2
+        display_name: "t2i · tp2 sp2"
+        file_glob: "diffusion_result_test_hunyuan_image_tp2_sp2_*.json"
+        inner_test_name: "test_hunyuan_image_tp2_sp2"
+      - id: t2i_tp2_cfgp2
+        display_name: "t2i · tp2 cfgp2"
+        file_glob: "diffusion_result_test_hunyuan_image_tp2_cfgp2_*.json"
+        inner_test_name: "test_hunyuan_image_tp2_cfgp2"
+
+  BAGEL:
+    type: diffusion
+    variants:
+      - id: single_stage_t2i
+        display_name: "single stage · t2i"
+        file_glob: "diffusion_result_test_bagel_vllm_omni_*.json"
+        inner_test_name: "test_bagel_single_device_single_stage_t2i"
+      - id: single_stage_i2i
+        display_name: "single stage · i2i"
+        file_glob: "diffusion_result_test_bagel_vllm_omni_*.json"
+        inner_test_name: "test_bagel_single_device_single_stage_i2i"
+      - id: multi_stage_t2i
+        display_name: "multi stage · t2i"
+        file_glob: "diffusion_result_test_bagel_vllm_omni_*.json"
+        inner_test_name: "test_bagel_single_device_multi_stage_t2i"
+      - id: multi_stage_i2i
+        display_name: "multi stage · i2i"
+        file_glob: "diffusion_result_test_bagel_vllm_omni_*.json"
+        inner_test_name: "test_bagel_single_device_multi_stage_i2i"
 
 # Stable color palette for variants (cycled in declaration order)
 variant_colors:

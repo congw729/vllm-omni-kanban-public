@@ -1,0 +1,451 @@
+{
+  "alert_thresholds": {},
+  "category": "image_generation",
+  "display_name": "BAGEL",
+  "model_id": "bagel",
+  "optional_metrics": [],
+  "required_metrics": [
+    "pass_rate",
+    "latency_mean_ms",
+    "latency_median_ms",
+    "latency_p50_ms",
+    "latency_p95_ms",
+    "latency_p99_ms",
+    "peak_memory_mb_max",
+    "peak_memory_mb_mean",
+    "peak_memory_mb_median",
+    "throughput_qps"
+  ],
+  "series": [
+    {
+      "alerts": [],
+      "date": "2026-05-28",
+      "values": {
+        "latency_mean_ms": 6871.679456299171,
+        "latency_median_ms": 6847.196851857007,
+        "latency_p50_ms": 6847.196851857007,
+        "latency_p95_ms": 7079.94043068029,
+        "latency_p99_ms": 7104.85780310817,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 30292.0,
+        "peak_memory_mb_mean": 30292.0,
+        "peak_memory_mb_median": 30292.0,
+        "throughput_qps": 0.14552028665445235
+      },
+      "variant_id": "multi_stage_i2i"
+    },
+    {
+      "alerts": [],
+      "date": "2026-05-28",
+      "values": {
+        "latency_mean_ms": 2411.152234300971,
+        "latency_median_ms": 2338.4244269691408,
+        "latency_p50_ms": 2338.4244269691408,
+        "latency_p95_ms": 2699.3612573947757,
+        "latency_p99_ms": 2751.126646278426,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 30070.0,
+        "peak_memory_mb_mean": 30070.0,
+        "peak_memory_mb_median": 30070.0,
+        "throughput_qps": 0.4147044488042504
+      },
+      "variant_id": "multi_stage_t2i"
+    },
+    {
+      "alerts": [],
+      "date": "2026-05-28",
+      "values": {
+        "latency_mean_ms": 2977.5093424133956,
+        "latency_median_ms": 2759.476024657488,
+        "latency_p50_ms": 2759.476024657488,
+        "latency_p95_ms": 3014.7987441159817,
+        "latency_p99_ms": 6262.649928499008,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 30408.0,
+        "peak_memory_mb_mean": 30407.0,
+        "peak_memory_mb_median": 30407.0,
+        "throughput_qps": 0.33582943640517315
+      },
+      "variant_id": "single_stage_i2i"
+    },
+    {
+      "alerts": [],
+      "date": "2026-05-28",
+      "values": {
+        "latency_mean_ms": 2422.857770929113,
+        "latency_median_ms": 2413.257468957454,
+        "latency_p50_ms": 2413.257468957454,
+        "latency_p95_ms": 2492.59728603065,
+        "latency_p99_ms": 2527.5169440358877,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 30076.0,
+        "peak_memory_mb_mean": 30075.0,
+        "peak_memory_mb_median": 30075.0,
+        "throughput_qps": 0.4127015326948146
+      },
+      "variant_id": "single_stage_t2i"
+    },
+    {
+      "alerts": [],
+      "date": "2026-05-29",
+      "values": {
+        "latency_mean_ms": 6890.784590951807,
+        "latency_median_ms": 6873.208553006407,
+        "latency_p50_ms": 6873.208553006407,
+        "latency_p95_ms": 7086.244570027339,
+        "latency_p99_ms": 7290.422857190714,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 30292.0,
+        "peak_memory_mb_mean": 30292.0,
+        "peak_memory_mb_median": 30292.0,
+        "throughput_qps": 0.14511612465412724
+      },
+      "variant_id": "multi_stage_i2i"
+    },
+    {
+      "alerts": [],
+      "date": "2026-05-29",
+      "values": {
+        "latency_mean_ms": 2183.1031545021688,
+        "latency_median_ms": 2113.03664901061,
+        "latency_p50_ms": 2113.03664901061,
+        "latency_p95_ms": 2488.2497610087744,
+        "latency_p99_ms": 2964.9929274019078,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 30070.0,
+        "peak_memory_mb_mean": 30070.0,
+        "peak_memory_mb_median": 30070.0,
+        "throughput_qps": 0.45802047213764346
+      },
+      "variant_id": "multi_stage_t2i"
+    },
+    {
+      "alerts": [],
+      "date": "2026-05-29",
+      "values": {
+        "latency_mean_ms": 2856.539656499808,
+        "latency_median_ms": 2840.7989799889037,
+        "latency_p50_ms": 2840.7989799889037,
+        "latency_p95_ms": 2991.527150757611,
+        "latency_p99_ms": 2992.6815565489233,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 30406.0,
+        "peak_memory_mb_mean": 30406.0,
+        "peak_memory_mb_median": 30406.0,
+        "throughput_qps": 0.3500470095316484
+      },
+      "variant_id": "single_stage_i2i"
+    },
+    {
+      "alerts": [],
+      "date": "2026-05-29",
+      "values": {
+        "latency_mean_ms": 2121.6323088519857,
+        "latency_median_ms": 2100.1787325076293,
+        "latency_p50_ms": 2100.1787325076293,
+        "latency_p95_ms": 2189.145028805069,
+        "latency_p99_ms": 2317.8089673593054,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 30076.0,
+        "peak_memory_mb_mean": 30075.0,
+        "peak_memory_mb_median": 30075.0,
+        "throughput_qps": 0.4712917003895652
+      },
+      "variant_id": "single_stage_t2i"
+    },
+    {
+      "alerts": [],
+      "date": "2026-05-30",
+      "values": {
+        "latency_mean_ms": 6915.980933327228,
+        "latency_median_ms": 6925.607544369996,
+        "latency_p50_ms": 6925.607544369996,
+        "latency_p95_ms": 7024.564644787461,
+        "latency_p99_ms": 7060.976640600711,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 30292.0,
+        "peak_memory_mb_mean": 30292.0,
+        "peak_memory_mb_median": 30292.0,
+        "throughput_qps": 0.1445876033340658
+      },
+      "variant_id": "multi_stage_i2i"
+    },
+    {
+      "alerts": [],
+      "date": "2026-05-30",
+      "values": {
+        "latency_mean_ms": 2193.4986617881805,
+        "latency_median_ms": 2117.5487344153225,
+        "latency_p50_ms": 2117.5487344153225,
+        "latency_p95_ms": 2352.669191127643,
+        "latency_p99_ms": 2774.0615227352823,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 30070.0,
+        "peak_memory_mb_mean": 30070.0,
+        "peak_memory_mb_median": 30070.0,
+        "throughput_qps": 0.45584892459761894
+      },
+      "variant_id": "multi_stage_t2i"
+    },
+    {
+      "alerts": [],
+      "date": "2026-05-30",
+      "values": {
+        "latency_mean_ms": 2869.7363677900285,
+        "latency_median_ms": 2860.9760757535696,
+        "latency_p50_ms": 2860.9760757535696,
+        "latency_p95_ms": 2940.389268985018,
+        "latency_p99_ms": 2959.212907580659,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 30406.0,
+        "peak_memory_mb_mean": 30406.0,
+        "peak_memory_mb_median": 30406.0,
+        "throughput_qps": 0.3484386189589846
+      },
+      "variant_id": "single_stage_i2i"
+    },
+    {
+      "alerts": [],
+      "date": "2026-05-30",
+      "values": {
+        "latency_mean_ms": 2136.7073433939368,
+        "latency_median_ms": 2119.273468386382,
+        "latency_p50_ms": 2119.273468386382,
+        "latency_p95_ms": 2226.5057453420013,
+        "latency_p99_ms": 2356.356538860127,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 30076.0,
+        "peak_memory_mb_mean": 30075.0,
+        "peak_memory_mb_median": 30075.0,
+        "throughput_qps": 0.46796292498763076
+      },
+      "variant_id": "single_stage_t2i"
+    },
+    {
+      "alerts": [],
+      "date": "2026-05-31",
+      "values": {
+        "latency_mean_ms": 7033.866472821683,
+        "latency_median_ms": 6937.697279267013,
+        "latency_p50_ms": 6937.697279267013,
+        "latency_p95_ms": 7333.052949653939,
+        "latency_p99_ms": 7562.334689805284,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 30292.0,
+        "peak_memory_mb_mean": 30292.0,
+        "peak_memory_mb_median": 30292.0,
+        "throughput_qps": 0.1421640208342465
+      },
+      "variant_id": "multi_stage_i2i"
+    },
+    {
+      "alerts": [],
+      "date": "2026-05-31",
+      "values": {
+        "latency_mean_ms": 2183.244286617264,
+        "latency_median_ms": 2137.480248697102,
+        "latency_p50_ms": 2137.480248697102,
+        "latency_p95_ms": 2337.9264167509978,
+        "latency_p99_ms": 2643.0080084316423,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 30070.0,
+        "peak_memory_mb_mean": 30070.0,
+        "peak_memory_mb_median": 30070.0,
+        "throughput_qps": 0.4579853473297932
+      },
+      "variant_id": "multi_stage_t2i"
+    },
+    {
+      "alerts": [],
+      "date": "2026-05-31",
+      "values": {
+        "latency_mean_ms": 2861.5167549811304,
+        "latency_median_ms": 2855.3210091777146,
+        "latency_p50_ms": 2855.3210091777146,
+        "latency_p95_ms": 2885.1709374692296,
+        "latency_p99_ms": 2935.0274296384305,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 30406.0,
+        "peak_memory_mb_mean": 30406.0,
+        "peak_memory_mb_median": 30406.0,
+        "throughput_qps": 0.3494072703284665
+      },
+      "variant_id": "single_stage_i2i"
+    },
+    {
+      "alerts": [],
+      "date": "2026-05-31",
+      "values": {
+        "latency_mean_ms": 2122.0628385897726,
+        "latency_median_ms": 2099.7057096101344,
+        "latency_p50_ms": 2099.7057096101344,
+        "latency_p95_ms": 2161.8863392155617,
+        "latency_p99_ms": 2420.3199478145684,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 30076.0,
+        "peak_memory_mb_mean": 30075.0,
+        "peak_memory_mb_median": 30075.0,
+        "throughput_qps": 0.4711947110410982
+      },
+      "variant_id": "single_stage_t2i"
+    },
+    {
+      "alerts": [],
+      "date": "2026-06-01",
+      "values": {
+        "latency_mean_ms": 8080.43789002113,
+        "latency_median_ms": 7984.412242658436,
+        "latency_p50_ms": 7984.412242658436,
+        "latency_p95_ms": 8554.239230323583,
+        "latency_p99_ms": 9173.06975537911,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 30068.0,
+        "peak_memory_mb_mean": 30068.0,
+        "peak_memory_mb_median": 30068.0,
+        "throughput_qps": 0.1237516150716046
+      },
+      "variant_id": "multi_stage_i2i"
+    },
+    {
+      "alerts": [],
+      "date": "2026-06-01",
+      "values": {
+        "latency_mean_ms": 3535.6595465447754,
+        "latency_median_ms": 3478.605600539595,
+        "latency_p50_ms": 3478.605600539595,
+        "latency_p95_ms": 3941.0690466873352,
+        "latency_p99_ms": 4052.9381146095693,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 30068.0,
+        "peak_memory_mb_mean": 30068.0,
+        "peak_memory_mb_median": 30068.0,
+        "throughput_qps": 0.2828116735899505
+      },
+      "variant_id": "multi_stage_t2i"
+    },
+    {
+      "alerts": [],
+      "date": "2026-06-01",
+      "values": {
+        "latency_mean_ms": 3715.4272390529513,
+        "latency_median_ms": 3682.3883685283363,
+        "latency_p50_ms": 3682.3883685283363,
+        "latency_p95_ms": 3856.1870620585983,
+        "latency_p99_ms": 4003.796539027244,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 30070.0,
+        "peak_memory_mb_mean": 30070.0,
+        "peak_memory_mb_median": 30070.0,
+        "throughput_qps": 0.2691329235120436
+      },
+      "variant_id": "single_stage_i2i"
+    },
+    {
+      "alerts": [],
+      "date": "2026-06-01",
+      "values": {
+        "latency_mean_ms": 3462.957470025867,
+        "latency_median_ms": 3456.050326116383,
+        "latency_p50_ms": 3456.050326116383,
+        "latency_p95_ms": 3514.859416335821,
+        "latency_p99_ms": 3628.968037813902,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 30074.0,
+        "peak_memory_mb_mean": 30073.0,
+        "peak_memory_mb_median": 30073.0,
+        "throughput_qps": 0.2887537048070696
+      },
+      "variant_id": "single_stage_t2i"
+    },
+    {
+      "alerts": [],
+      "date": "2026-06-02",
+      "values": {
+        "latency_mean_ms": 7589.85015275,
+        "latency_median_ms": 7652.487351499985,
+        "latency_p50_ms": 7652.487351499985,
+        "latency_p95_ms": 7818.034517049728,
+        "latency_p99_ms": 7875.426206610118,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 30068.0,
+        "peak_memory_mb_mean": 30068.0,
+        "peak_memory_mb_median": 30068.0,
+        "throughput_qps": 0.13175098035116595
+      },
+      "variant_id": "multi_stage_i2i"
+    },
+    {
+      "alerts": [],
+      "date": "2026-06-02",
+      "values": {
+        "latency_mean_ms": 3111.9652365000093,
+        "latency_median_ms": 3089.2048529999556,
+        "latency_p50_ms": 3089.2048529999556,
+        "latency_p95_ms": 3376.285530150085,
+        "latency_p99_ms": 3528.404092429969,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 30068.0,
+        "peak_memory_mb_mean": 30068.0,
+        "peak_memory_mb_median": 30068.0,
+        "throughput_qps": 0.32131852938746613
+      },
+      "variant_id": "multi_stage_t2i"
+    },
+    {
+      "alerts": [],
+      "date": "2026-06-02",
+      "values": {
+        "latency_mean_ms": 3347.4632917499775,
+        "latency_median_ms": 3328.912484000057,
+        "latency_p50_ms": 3328.912484000057,
+        "latency_p95_ms": 3504.088815050045,
+        "latency_p99_ms": 3532.393115810073,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 30070.0,
+        "peak_memory_mb_mean": 30070.0,
+        "peak_memory_mb_median": 30070.0,
+        "throughput_qps": 0.2987159368063717
+      },
+      "variant_id": "single_stage_i2i"
+    },
+    {
+      "alerts": [],
+      "date": "2026-06-02",
+      "values": {
+        "latency_mean_ms": 3167.5264156000367,
+        "latency_median_ms": 3071.2907854999685,
+        "latency_p50_ms": 3071.2907854999685,
+        "latency_p95_ms": 3567.758978950133,
+        "latency_p99_ms": 3971.3548349900334,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 30074.0,
+        "peak_memory_mb_mean": 30073.0,
+        "peak_memory_mb_median": 30073.0,
+        "throughput_qps": 0.31568391673830876
+      },
+      "variant_id": "single_stage_t2i"
+    }
+  ],
+  "variants": [
+    {
+      "color": "#76b900",
+      "display_name": "single stage \u00b7 t2i",
+      "id": "single_stage_t2i"
+    },
+    {
+      "color": "#ed1c24",
+      "display_name": "single stage \u00b7 i2i",
+      "id": "single_stage_i2i"
+    },
+    {
+      "color": "#3b82f6",
+      "display_name": "multi stage \u00b7 t2i",
+      "id": "multi_stage_t2i"
+    },
+    {
+      "color": "#a855f7",
+      "display_name": "multi stage \u00b7 i2i",
+      "id": "multi_stage_i2i"
+    }
+  ]
+}

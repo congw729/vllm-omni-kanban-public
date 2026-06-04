@@ -26,8 +26,11 @@ QWEN_IMAGE_HISTORY_PATH = CHARTS_DIR / "qwen_image_history.json"
 QWEN_IMAGE_LAYERED_HISTORY_PATH = CHARTS_DIR / "qwen_image_layered_history.json"
 QWEN_IMAGE_EDIT_HISTORY_PATH = CHARTS_DIR / "qwen_image_edit_history.json"
 QWEN_IMAGE_EDIT_2509_HISTORY_PATH = CHARTS_DIR / "qwen_image_edit_2509_history.json"
+QWEN_IMAGE_EDIT_2511_HISTORY_PATH = CHARTS_DIR / "qwen_image_edit_2511_history.json"
 WAN22_HISTORY_PATH = CHARTS_DIR / "wan22_history.json"
 HUNYUAN_IMAGE3_HISTORY_PATH = CHARTS_DIR / "hunyuan_image3_history.json"
+BAGEL_HISTORY_PATH = CHARTS_DIR / "bagel_history.json"
+VOXCPM2_HISTORY_PATH = CHARTS_DIR / "voxcpm2_history.json"
 DEFAULT_RESULT_DATASETS = frozenset({"random", "random-mm"})
 QWEN3_OMNI_DATASETS = set(DEFAULT_RESULT_DATASETS)  # backward compat
 QWEN3_OMNI_GROUP_FIELDS = (
@@ -92,6 +95,10 @@ MODEL_METRICS = {
         ("e2e_latency_ms", None, None),
         ("peak_memory_gb", None, None),
     ],
+    "Qwen-Image-edit-2511": [
+        ("e2e_latency_ms", None, None),
+        ("peak_memory_gb", None, None),
+    ],
     "WAN2.2": [
         ("e2e_latency_ms", None, None),
         ("peak_memory_gb", None, None),
@@ -99,6 +106,15 @@ MODEL_METRICS = {
     "Hunyuan-Image3": [
         ("e2e_latency_ms", None, None),
         ("peak_memory_gb", None, None),
+    ],
+    "BAGEL": [
+        ("e2e_latency_ms", None, None),
+        ("peak_memory_gb", None, None),
+    ],
+    "VoxCPM2": [
+        ("ttfp_ms", None, None),
+        ("real_time_factor", None, None),
+        ("throughput_tokens_per_sec", None, None),
     ],
 }
 RANGE_WINDOWS = {"1d": 1, "7d": 7, "30d": 30}
@@ -603,7 +619,7 @@ def build_qwen_image_family_history_payload(
             slugs = [s for s in slugs if "QwenImageLayeredPipeline_" in s]
         elif page_key == "qwen_image_edit_history":
             slugs = [s for s in slugs if "QwenImageEditPipeline_" in s]
-        elif page_key == "qwen_image_edit_2509_history":
+        elif page_key in {"qwen_image_edit_2509_history", "qwen_image_edit_2511_history"}:
             slugs = [s for s in slugs if "QwenImageEditPlusPipeline_" in s]
         if page_config.get("p99_stage_columns_last", False):
             for slug in slugs:
@@ -655,7 +671,11 @@ def build_qwen_image_edit_history_payload(config: dict[str, Any], source_dir: Pa
         page_key="qwen_image_edit_history",
         model_key="Qwen-Image-edit",
         fallback_display="Qwen Image Edit",
-        test_name_filter=lambda name: "qwen_image_edit_2509" not in name and "qwen_image_edit" in name,
+        test_name_filter=lambda name: (
+            "qwen_image_edit_2509" not in name
+            and "qwen_image_edit_2511" not in name
+            and "qwen_image_edit" in name
+        ),
     )
 
 
@@ -667,6 +687,17 @@ def build_qwen_image_edit_2509_history_payload(config: dict[str, Any], source_di
         model_key="Qwen-Image-edit-2509",
         fallback_display="Qwen Image Edit 2509",
         test_name_filter=lambda name: "qwen_image_edit_2509" in name,
+    )
+
+
+def build_qwen_image_edit_2511_history_payload(config: dict[str, Any], source_dir: Path) -> dict[str, Any]:
+    return build_qwen_image_family_history_payload(
+        config,
+        source_dir,
+        page_key="qwen_image_edit_2511_history",
+        model_key="Qwen-Image-edit-2511",
+        fallback_display="Qwen Image Edit 2511",
+        test_name_filter=lambda name: "qwen_image_edit_2511" in name,
     )
 
 
@@ -688,8 +719,27 @@ def build_hunyuan_image3_history_payload(config: dict[str, Any], source_dir: Pat
         page_key="hunyuan_image3_history",
         model_key="Hunyuan-Image3",
         fallback_display="Hunyuan Image 3",
-        test_name_filter=lambda name: "hunyuan_image3" in name,
+        test_name_filter=lambda name: "hunyuan_image" in name,
     )
+
+
+def build_bagel_history_payload(config: dict[str, Any], source_dir: Path) -> dict[str, Any]:
+    return build_qwen_image_family_history_payload(
+        config,
+        source_dir,
+        page_key="bagel_history",
+        model_key="BAGEL",
+        fallback_display="BAGEL",
+        test_name_filter=lambda name: "bagel" in name,
+    )
+
+
+def build_voxcpm2_history_payload(config: dict[str, Any], source_dir: Path) -> dict[str, Any]:
+    display = config.get("models", {}).get("VoxCPM2", {}).get("display_name", "VoxCPM2")
+    page_config = config.get("kanban_pages", {}).get("voxcpm2_history", {})
+    ds_names = page_config.get("dataset_names", ["seed-tts", "seed-tts-text"])
+    records = load_result_test_history(source_dir, frozenset(ds_names)) if source_dir.is_dir() else []
+    return _history_payload_from_records(config, source_dir, "voxcpm2_history", display, QWEN3_TTS_GROUP_FIELDS, records)
 
 
 def build_multi_series_chart(
@@ -839,10 +889,16 @@ def main() -> int:
     save_json(QWEN_IMAGE_EDIT_HISTORY_PATH, build_qwen_image_edit_history_payload(config, qwen_image_edit_source_dir))
     qwen_image_edit_2509_source_dir = RESULTS_DIR / config.get("kanban_pages", {}).get("qwen_image_edit_2509_history", {}).get("source_dir", "qwen_image_edit_2509")
     save_json(QWEN_IMAGE_EDIT_2509_HISTORY_PATH, build_qwen_image_edit_2509_history_payload(config, qwen_image_edit_2509_source_dir))
+    qwen_image_edit_2511_source_dir = RESULTS_DIR / config.get("kanban_pages", {}).get("qwen_image_edit_2511_history", {}).get("source_dir", "qwen_image_edit_2511")
+    save_json(QWEN_IMAGE_EDIT_2511_HISTORY_PATH, build_qwen_image_edit_2511_history_payload(config, qwen_image_edit_2511_source_dir))
     wan22_source_dir = RESULTS_DIR / config.get("kanban_pages", {}).get("wan22_history", {}).get("source_dir", "wan22")
     save_json(WAN22_HISTORY_PATH, build_wan22_history_payload(config, wan22_source_dir))
     hunyuan_image3_source_dir = RESULTS_DIR / config.get("kanban_pages", {}).get("hunyuan_image3_history", {}).get("source_dir", "hunyuan_image3")
     save_json(HUNYUAN_IMAGE3_HISTORY_PATH, build_hunyuan_image3_history_payload(config, hunyuan_image3_source_dir))
+    bagel_source_dir = RESULTS_DIR / config.get("kanban_pages", {}).get("bagel_history", {}).get("source_dir", "bagel")
+    save_json(BAGEL_HISTORY_PATH, build_bagel_history_payload(config, bagel_source_dir))
+    voxcpm2_source_dir = RESULTS_DIR / config.get("kanban_pages", {}).get("voxcpm2_history", {}).get("source_dir", "voxcpm2")
+    save_json(VOXCPM2_HISTORY_PATH, build_voxcpm2_history_payload(config, voxcpm2_source_dir))
     for model, model_config in config.get("models", {}).items():
         available_metrics = set(model_config["metrics"]["required"]) | set(model_config["metrics"]["optional"])
         for metric, y_min, y_max in MODEL_METRICS.get(model, []):

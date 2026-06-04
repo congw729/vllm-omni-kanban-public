@@ -277,9 +277,11 @@ function modelTopNavItems() {
     { slug: "qwen-image", label: "Qwen Image" },
     { slug: "qwen-image-layered", label: "Qwen Image Layered" },
     { slug: "qwen-image-edit", label: "Qwen Image Edit" },
-    { slug: "qwen-image-edit-2509", label: "Qwen Image Edit 2509" },
+    { slug: "qwen-image-edit-2511", label: "Qwen Image Edit 2511" },
     { slug: "wan22", label: "WAN 2.2" },
     { slug: "hunyuan-image3", label: "Hunyuan Image 3" },
+    { slug: "bagel", label: "BAGEL" },
+    { slug: "voxcpm2", label: "VoxCPM2" },
   ];
 }
 

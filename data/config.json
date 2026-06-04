@@ -45,6 +45,15 @@
       },
       "alert_overrides": {}
     },
+    "Qwen-Image-edit-2511": {
+      "display_name": "Qwen Image Edit 2511",
+      "category": "image_editing",
+      "metrics": {
+        "required": ["pass_rate", "latency_p99_ms"],
+        "optional": ["e2e_latency_ms", "peak_memory_gb", "edit_quality_score", "generation_time_ms"]
+      },
+      "alert_overrides": {}
+    },
     "WAN2.2": {
       "display_name": "WAN 2.2",
       "category": "video_generation",
@@ -63,6 +72,15 @@
       },
       "alert_overrides": {}
     },
+    "BAGEL": {
+      "display_name": "BAGEL",
+      "category": "image_generation",
+      "metrics": {
+        "required": ["pass_rate", "latency_p99_ms"],
+        "optional": ["e2e_latency_ms", "peak_memory_gb", "image_quality_score", "generation_time_ms"]
+      },
+      "alert_overrides": {}
+    },
     "Qwen3-Omni": {
       "display_name": "Qwen3 Omni",
       "category": "multimodal",
@@ -74,6 +92,17 @@
     },
     "Qwen3-TTS": {
       "display_name": "Qwen3 TTS",
+      "category": "audio_synthesis",
+      "metrics": {
+        "required": ["pass_rate", "latency_p99_ms"],
+        "optional": ["ttft_ms", "tpot_ms", "ttfp_ms", "real_time_factor", "throughput_tokens_per_sec", "audio_quality_mos", "speaker_similarity"]
+      },
+      "alert_overrides": {
+        "latency_p99_ms_critical": 2000
+      }
+    },
+    "VoxCPM2": {
+      "display_name": "VoxCPM2",
       "category": "audio_synthesis",
       "metrics": {
         "required": ["pass_rate", "latency_p99_ms"],
@@ -471,8 +500,115 @@
         }
       ]
     },
+    "qwen_image_edit_2511_history": {
+      "source_dir": "qwen_image_edit_2511",
+      "chart_point_per_day": true,
+      "p99_stage_columns_last": false,
+      "filters": [
+        "model_id",
+        "test_name",
+        "dataset_name",
+        "benchmark_name",
+        "backend",
+        "max_concurrency",
+        "num_prompts"
+      ],
+      "table_columns": [
+        "date",
+        "test_name",
+        "backend",
+        "model_id",
+        "benchmark_name",
+        "dataset_name",
+        "task",
+        "width",
+        "height",
+        "max_concurrency",
+        "num_prompts",
+        "completed_requests",
+        "failed_requests",
+        "e2e_latency_ms",
+        "e2e_latency_median_ms",
+        "e2e_latency_p99_ms",
+        "throughput_qps",
+        "peak_memory_gb",
+        "peak_memory_mb_mean",
+        "peak_memory_mb_median",
+        "peak_memory_mb_max"
+      ],
+      "metric_groups": [
+        {
+          "id": "e2e_latency",
+          "title": "E2E Latency",
+          "metrics": ["e2e_latency_ms"]
+        },
+        {
+          "id": "throughput",
+          "title": "Throughput (QPS)",
+          "metrics": ["throughput_qps"]
+        },
+        {
+          "id": "peak_memory",
+          "title": "Peak Memory",
+          "metrics": ["peak_memory_gb"]
+        }
+      ]
+    },
     "wan22_history": {
       "source_dir": "wan22",
+      "chart_point_per_day": true,
+      "filters": [
+        "model_id",
+        "test_name",
+        "dataset_name",
+        "benchmark_name",
+        "backend",
+        "max_concurrency",
+        "num_prompts"
+      ],
+      "table_columns": [
+        "date",
+        "test_name",
+        "backend",
+        "model_id",
+        "benchmark_name",
+        "dataset_name",
+        "task",
+        "width",
+        "height",
+        "max_concurrency",
+        "num_prompts",
+        "completed_requests",
+        "failed_requests",
+        "e2e_latency_ms",
+        "e2e_latency_median_ms",
+        "e2e_latency_p99_ms",
+        "throughput_qps",
+        "peak_memory_gb",
+        "peak_memory_mb_mean",
+        "peak_memory_mb_median",
+        "peak_memory_mb_max"
+      ],
+      "metric_groups": [
+        {
+          "id": "e2e_latency",
+          "title": "E2E Latency",
+          "metrics": ["e2e_latency_ms"]
+        },
+        {
+          "id": "throughput",
+          "title": "Throughput (QPS)",
+          "metrics": ["throughput_qps"]
+        },
+        {
+          "id": "peak_memory",
+          "title": "Peak Memory",
+          "metrics": ["peak_memory_gb"]
+        }
+      ]
+    },
+    "bagel_history": {
+      "source_dir": "bagel",
       "chart_point_per_day": true,
       "filters": [
         "model_id",
@@ -576,6 +712,77 @@
           "id": "peak_memory",
           "title": "Peak Memory",
           "metrics": ["peak_memory_gb"]
+        }
+      ]
+    },
+    "voxcpm2_history": {
+      "source_dir": "voxcpm2",
+      "chart_point_per_day": true,
+      "dataset_names": ["seed-tts", "seed-tts-text"],
+      "filters": [
+        "test_name",
+        "dataset_name",
+        "max_concurrency",
+        "num_prompts",
+        "qps",
+        "input_len",
+        "output_len"
+      ],
+      "table_columns": [
+        "date",
+        "test_name",
+        "dataset_name",
+        "max_concurrency",
+        "max_concurrent_requests",
+        "num_prompts",
+        "request_rate",
+        "random_input_len",
+        "random_output_len",
+        "completed_requests",
+        "failed_requests",
+        "endpoint_type",
+        "backend",
+        "model_id",
+        "request_throughput",
+        "total_token_throughput",
+        "mean_e2el_ms",
+        "median_e2el_ms",
+        "p99_e2el_ms",
+        "mean_audio_rtf",
+        "median_audio_rtf",
+        "p99_audio_rtf",
+        "mean_audio_ttfp_ms",
+        "median_audio_ttfp_ms",
+        "p99_audio_ttfp_ms",
+        "mean_audio_duration_s",
+        "median_audio_duration_s",
+        "p99_audio_duration_s"
+      ],
+      "metric_groups": [
+        {
+          "id": "total_token_throughput",
+          "title": "Total Token Throughput",
+          "metrics": ["total_token_throughput"]
+        },
+        {
+          "id": "e2el",
+          "title": "E2EL",
+          "metrics": ["mean_e2el_ms"]
+        },
+        {
+          "id": "audio_rtf",
+          "title": "Audio RTF",
+          "metrics": ["mean_audio_rtf"]
+        },
+        {
+          "id": "audio_ttfp",
+          "title": "Audio TTFP",
+          "metrics": ["mean_audio_ttfp_ms"]
+        },
+        {
+          "id": "audio_duration",
+          "title": "Audio Duration",
+          "metrics": ["mean_audio_duration_s"]
         }
       ]
     }
