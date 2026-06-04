@@ -269,6 +269,66 @@
         "total_token_throughput": 37.63679056179282
       },
       "variant_id": "seedtts-text-c1"
+    },
+    {
+      "alerts": [],
+      "date": "2026-06-03",
+      "values": {
+        "audio_throughput": 19.47667320582141,
+        "max_output_tokens_per_s": 3.0,
+        "mean_audio_duration_s": 8.864,
+        "mean_audio_rtf": 0.05290038717953473,
+        "mean_audio_ttfp_ms": 151.57221235203906,
+        "mean_e2el_ms": 454.725352202513,
+        "median_audio_duration_s": 8.96,
+        "median_audio_rtf": 0.050760823570072944,
+        "median_audio_ttfp_ms": 141.57479249843163,
+        "median_e2el_ms": 447.7458574983757,
+        "output_throughput": 0.0,
+        "p99_audio_duration_s": 14.156799999999999,
+        "p99_audio_rtf": 0.07917627865960566,
+        "p99_audio_ttfp_ms": 370.2181501869924,
+        "p99_e2el_ms": 696.8757674083462,
+        "pass_rate": 1.0,
+        "request_throughput": 2.197278114375159,
+        "rtfx": 0.0,
+        "total_audio_duration_s": 177.28,
+        "total_audio_frames": 4254720.0,
+        "total_input_tokens": 2921.0,
+        "total_output_tokens": 0.0,
+        "total_token_throughput": 320.91246860449195
+      },
+      "variant_id": "seedtts-c1"
+    },
+    {
+      "alerts": [],
+      "date": "2026-06-03",
+      "values": {
+        "audio_throughput": 22.984973489245572,
+        "max_output_tokens_per_s": 3.0,
+        "mean_audio_duration_s": 8.464,
+        "mean_audio_rtf": 0.043591319895498075,
+        "mean_audio_ttfp_ms": 82.67441989883082,
+        "mean_e2el_ms": 367.888549399504,
+        "median_audio_duration_s": 8.64,
+        "median_audio_rtf": 0.0436837326232358,
+        "median_audio_ttfp_ms": 83.91798099910375,
+        "median_e2el_ms": 376.73821349744685,
+        "output_throughput": 0.0,
+        "p99_audio_duration_s": 10.24,
+        "p99_audio_rtf": 0.04677854213871781,
+        "p99_audio_ttfp_ms": 96.71657705403048,
+        "p99_e2el_ms": 431.60026529410965,
+        "pass_rate": 1.0,
+        "request_throughput": 2.7156159604496186,
+        "rtfx": 0.0,
+        "total_audio_duration_s": 169.28,
+        "total_audio_frames": 4062720.0,
+        "total_input_tokens": 326.0,
+        "total_output_tokens": 0.0,
+        "total_token_throughput": 44.26454015532878
+      },
+      "variant_id": "seedtts-text-c1"
     }
   ],
   "variants": [

@@ -1,16 +1,184 @@
 {
-  "direct": [],
-  "inferred": [
+  "direct": [
     {
-      "author": "lyj-jjj",
-      "merged_at": "2026-04-24T02:25:10+08:00",
-      "number": 3067,
-      "tag_matched": "WAN2.2",
-      "title": "[Perf][Wan2.2] Add fused RMSNorm replace WanRMS_norm on npu (#3067)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/3067"
+      "author": "Nick Cao",
+      "files_matched": [
+        "vllm_omni/model_executor/models/voxcpm2/voxcpm2_talker.py"
+      ],
+      "merged_at": "2026-05-07T11:23:59-04:00",
+      "number": 3365,
+      "title": "[Refactor] Replace and ban a few torch.cuda functions in favor of torch.accelerator replacements. (#3365)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3365"
+    },
+    {
+      "author": "Juan Pablo Zuluaga",
+      "files_matched": [
+        "vllm_omni/model_executor/models/voxcpm2/voxcpm2_talker.py"
+      ],
+      "merged_at": "2026-05-05T16:53:45+02:00",
+      "number": 2630,
+      "title": "[TTS][SpeakerCacheManager] A global speaker cache manager for Voice Cloning (#2630)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2630"
+    },
+    {
+      "author": "Nick Cao",
+      "files_matched": [
+        "vllm_omni/model_executor/models/voxcpm2/voxcpm2_talker.py"
+      ],
+      "merged_at": "2026-05-04T10:17:25-04:00",
+      "number": 3227,
+      "title": "[Cleanup] Use tokens_input() for TTS prompt construction (#3227)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3227"
+    },
+    {
+      "author": "Dan250124",
+      "files_matched": [
+        "vllm_omni/model_executor/models/voxcpm2/voxcpm2_talker.py"
+      ],
+      "merged_at": "2026-05-03T22:29:47+08:00",
+      "number": 3312,
+      "title": "Fixed memory leak and Remove dead code (#3312)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3312"
+    },
+    {
+      "author": "Guanzhe (Leo) Huang",
+      "files_matched": [
+        "vllm_omni/model_executor/models/voxcpm2/voxcpm2_talker.py"
+      ],
+      "merged_at": "2026-05-01T20:13:16-04:00",
+      "number": 3229,
+      "title": "[BugFix] voxcpm2: eager-init tts_model in __init__ so load_format: dummy works (#3229)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3229"
+    },
+    {
+      "author": "Hongsheng Liu",
+      "files_matched": [
+        "vllm_omni/model_executor/models/voxcpm2/voxcpm2_talker.py"
+      ],
+      "merged_at": "2026-04-28T14:29:49+08:00",
+      "number": 3204,
+      "title": "Revert \"[Doc][Frontend][Model][VoxCPM2] Support instructions and per-request cfg_value\" (#3204)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3204"
+    },
+    {
+      "author": "Alfian Firmansyah",
+      "files_matched": [
+        "vllm_omni/model_executor/models/voxcpm2/voxcpm2_talker.py"
+      ],
+      "merged_at": "2026-04-28T10:24:04+07:00",
+      "number": 3118,
+      "title": "[Doc][Frontend][Model][VoxCPM2] Support instructions and per-request cfg_value (#3118)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3118"
+    },
+    {
+      "author": "Nick Cao",
+      "files_matched": [
+        "vllm_omni/model_executor/models/voxcpm2/voxcpm2_talker.py"
+      ],
+      "merged_at": "2026-04-21T12:04:15-04:00",
+      "number": 2996,
+      "title": "[Bugfix] treewide: drop references to librosa (#2996)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2996"
+    },
+    {
+      "author": "Yueqian Lin",
+      "files_matched": [
+        "vllm_omni/model_executor/models/voxcpm2/pipeline.py"
+      ],
+      "merged_at": "2026-04-21T09:17:53-04:00",
+      "number": 2958,
+      "title": "[Config Refactor] Migrate 5 TTS models (VoxCPM2 / CosyVoice3 / MiMo Audio / Voxtral TTS / Fish Speech S2 Pro) to Pipeline + Deploy schema (#2958)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2958"
+    },
+    {
+      "author": "Sy03",
+      "files_matched": [
+        "vllm_omni/model_executor/models/voxcpm2/voxcpm2_talker.py"
+      ],
+      "merged_at": "2026-04-19T16:39:14+08:00",
+      "number": 2903,
+      "title": "[Bugfix][VoxCPM2]: Fix vectorized_gather OOB under concurrent prefill+decode batches (#2903)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2903"
+    },
+    {
+      "author": "Sy03",
+      "files_matched": [
+        "vllm_omni/model_executor/models/voxcpm2/voxcpm2_talker.py"
+      ],
+      "merged_at": "2026-04-18T22:04:44+08:00",
+      "number": 2894,
+      "title": "[Bugfix][VoxCPM2] Fix voice-clone decode loop by padding prefill prompt (#2894)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2894"
+    },
+    {
+      "author": "Sy03",
+      "files_matched": [
+        "vllm_omni/model_executor/models/voxcpm2/voxcpm2_talker.py"
+      ],
+      "merged_at": "2026-04-16T23:07:48+08:00",
+      "number": 2832,
+      "title": "[BugFix][VoxCPM2]: split multichar Chinese tokens to match training tokenization (#2832)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2832"
+    },
+    {
+      "author": "Sy03",
+      "files_matched": [
+        "vllm_omni/model_executor/models/voxcpm2/minicpm4_paged.py",
+        "vllm_omni/model_executor/models/voxcpm2/voxcpm2_talker.py"
+      ],
+      "merged_at": "2026-04-15T14:09:22+08:00",
+      "number": 2803,
+      "title": "[Perf] VoxCPM2: Speedup by manual CUDA Graph capture for scaffold/residual forward (#2803)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2803"
+    },
+    {
+      "author": "Yueqian Lin",
+      "files_matched": [
+        "vllm_omni/model_executor/models/voxcpm2/minicpm4_paged.py",
+        "vllm_omni/model_executor/models/voxcpm2/voxcpm2_talker.py"
+      ],
+      "merged_at": "2026-04-14T21:58:25-04:00",
+      "number": 2758,
+      "title": "[Perf] VoxCPM2: streaming VAE + compile optimization (45% RTF reduction) (#2758)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2758"
+    },
+    {
+      "author": "Sy03",
+      "files_matched": [
+        "vllm_omni/model_executor/models/voxcpm2/minicpm4_hf_compat.py",
+        "vllm_omni/model_executor/models/voxcpm2/minicpm4_paged.py",
+        "vllm_omni/model_executor/models/voxcpm2/voxcpm2_talker.py"
+      ],
+      "merged_at": "2026-04-14T05:16:47+08:00",
+      "number": 2690,
+      "title": "[Perf]: Speedup VoxCPM2 TTS performance and Support PagedAttention (#2690)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2690"
+    },
+    {
+      "author": "Yueqian Lin",
+      "files_matched": [
+        "vllm_omni/model_executor/models/voxcpm2/voxcpm2_talker.py"
+      ],
+      "merged_at": "2026-04-13T02:30:56-04:00",
+      "number": 2720,
+      "title": "[Fix] VoxCPM2: support raw audio for voice cloning via OpenAI API (#2720)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2720"
+    },
+    {
+      "author": "Yueqian Lin",
+      "files_matched": [
+        "vllm_omni/model_executor/models/voxcpm2/__init__.py",
+        "vllm_omni/model_executor/models/voxcpm2/voxcpm2_import_utils.py",
+        "vllm_omni/model_executor/models/voxcpm2/voxcpm2_talker.py"
+      ],
+      "merged_at": "2026-04-10T22:21:26-04:00",
+      "number": 2658,
+      "title": "[Model] VoxCPM2 native AR TTS support (#2658)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2658"
     }
   ],
-  "model_id": "wan22",
+  "inferred": [],
+  "model_id": "voxcpm2",
   "platform": [
     {
       "author": "Mike Qiu",
@@ -372,16 +540,6 @@
       "url": "https://github.com/vllm-project/vllm-omni/pull/3436"
     },
     {
-      "author": "Nick Cao",
-      "merged_at": "2026-05-07T11:23:59-04:00",
-      "number": 3365,
-      "platform_paths": [
-        "vllm_omni/distributed/omni_connectors/connectors/mooncake_transfer_engine_connector.py"
-      ],
-      "title": "[Refactor] Replace and ban a few torch.cuda functions in favor of torch.accelerator replacements. (#3365)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/3365"
-    },
-    {
       "author": "Haco",
       "merged_at": "2026-05-07T06:32:01+08:00",
       "number": 3144,
@@ -496,16 +654,6 @@
       "url": "https://github.com/vllm-project/vllm-omni/pull/2751"
     },
     {
-      "author": "Juan Pablo Zuluaga",
-      "merged_at": "2026-05-05T16:53:45+02:00",
-      "number": 2630,
-      "platform_paths": [
-        "vllm_omni/entrypoints/openai/serving_speech.py"
-      ],
-      "title": "[TTS][SpeakerCacheManager] A global speaker cache manager for Voice Cloning (#2630)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/2630"
-    },
-    {
       "author": "zhanqiuhu",
       "merged_at": "2026-05-05T04:13:30-04:00",
       "number": 1616,
@@ -548,16 +696,6 @@
       "url": "https://github.com/vllm-project/vllm-omni/pull/3189"
     },
     {
-      "author": "Nick Cao",
-      "merged_at": "2026-05-04T10:17:25-04:00",
-      "number": 3227,
-      "platform_paths": [
-        "vllm_omni/entrypoints/openai/serving_speech.py"
-      ],
-      "title": "[Cleanup] Use tokens_input() for TTS prompt construction (#3227)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/3227"
-    },
-    {
       "author": "Alex Brooks",
       "merged_at": "2026-05-03T23:50:31-06:00",
       "number": 3333,
@@ -566,16 +704,6 @@
       ],
       "title": "[Bugfix] Use get_open_ports_list for stage ports in OmniMasterServer (#3333)",
       "url": "https://github.com/vllm-project/vllm-omni/pull/3333"
-    },
-    {
-      "author": "Dan250124",
-      "merged_at": "2026-05-03T22:29:47+08:00",
-      "number": 3312,
-      "platform_paths": [
-        "vllm_omni/engine/orchestrator.py"
-      ],
-      "title": "Fixed memory leak and Remove dead code (#3312)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/3312"
     },
     {
       "author": "\u6c6a\u5fd7\u9e4f",
@@ -713,17 +841,6 @@
       "url": "https://github.com/vllm-project/vllm-omni/pull/3232"
     },
     {
-      "author": "Hongsheng Liu",
-      "merged_at": "2026-04-28T14:29:49+08:00",
-      "number": 3204,
-      "platform_paths": [
-        "vllm_omni/entrypoints/openai/protocol/audio.py",
-        "vllm_omni/entrypoints/openai/serving_speech.py"
-      ],
-      "title": "Revert \"[Doc][Frontend][Model][VoxCPM2] Support instructions and per-request cfg_value\" (#3204)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/3204"
-    },
-    {
       "author": "Ekagra Ranjan",
       "merged_at": "2026-04-28T14:06:57-04:00",
       "number": 1794,
@@ -758,17 +875,6 @@
       ],
       "title": "[perf]Qwen3-Omni performance optimization (#3164)",
       "url": "https://github.com/vllm-project/vllm-omni/pull/3164"
-    },
-    {
-      "author": "Alfian Firmansyah",
-      "merged_at": "2026-04-28T10:24:04+07:00",
-      "number": 3118,
-      "platform_paths": [
-        "vllm_omni/entrypoints/openai/protocol/audio.py",
-        "vllm_omni/entrypoints/openai/serving_speech.py"
-      ],
-      "title": "[Doc][Frontend][Model][VoxCPM2] Support instructions and per-request cfg_value (#3118)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/3118"
     },
     {
       "author": "Reid",
@@ -1136,16 +1242,6 @@
       "url": "https://github.com/vllm-project/vllm-omni/pull/2955"
     },
     {
-      "author": "Yueqian Lin",
-      "merged_at": "2026-04-21T09:17:53-04:00",
-      "number": 2958,
-      "platform_paths": [
-        "vllm_omni/entrypoints/utils.py"
-      ],
-      "title": "[Config Refactor] Migrate 5 TTS models (VoxCPM2 / CosyVoice3 / MiMo Audio / Voxtral TTS / Fish Speech S2 Pro) to Pipeline + Deploy schema (#2958)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/2958"
-    },
-    {
       "author": "Vensen",
       "merged_at": "2026-04-21T07:19:53+07:00",
       "number": 2022,
@@ -1228,16 +1324,6 @@
       ],
       "title": "[Config Refactor][2/N] Pipeline + Deploy Config Schema (#2383)",
       "url": "https://github.com/vllm-project/vllm-omni/pull/2383"
-    },
-    {
-      "author": "Sy03",
-      "merged_at": "2026-04-18T22:04:44+08:00",
-      "number": 2894,
-      "platform_paths": [
-        "vllm_omni/entrypoints/openai/serving_speech.py"
-      ],
-      "title": "[Bugfix][VoxCPM2] Fix voice-clone decode loop by padding prefill prompt (#2894)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/2894"
     },
     {
       "author": "ChenWenjing",
@@ -1363,16 +1449,6 @@
       "url": "https://github.com/vllm-project/vllm-omni/pull/2713"
     },
     {
-      "author": "Sy03",
-      "merged_at": "2026-04-16T23:07:48+08:00",
-      "number": 2832,
-      "platform_paths": [
-        "vllm_omni/entrypoints/openai/serving_speech.py"
-      ],
-      "title": "[BugFix][VoxCPM2]: split multichar Chinese tokens to match training tokenization (#2832)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/2832"
-    },
-    {
       "author": "Mike Qiu",
       "merged_at": "2026-04-16T22:40:34+08:00",
       "number": 2855,
@@ -1475,16 +1551,6 @@
       "url": "https://github.com/vllm-project/vllm-omni/pull/1680"
     },
     {
-      "author": "Yueqian Lin",
-      "merged_at": "2026-04-14T21:58:25-04:00",
-      "number": 2758,
-      "platform_paths": [
-        "vllm_omni/engine/output_processor.py"
-      ],
-      "title": "[Perf] VoxCPM2: streaming VAE + compile optimization (45% RTF reduction) (#2758)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/2758"
-    },
-    {
       "author": "NATURE",
       "merged_at": "2026-04-14T16:06:37+08:00",
       "number": 2731,
@@ -1529,16 +1595,6 @@
       ],
       "title": "[Bugfix] Reject /v1/audio/speech for Qwen omni models (#2763)",
       "url": "https://github.com/vllm-project/vllm-omni/pull/2763"
-    },
-    {
-      "author": "Sy03",
-      "merged_at": "2026-04-14T05:16:47+08:00",
-      "number": 2690,
-      "platform_paths": [
-        "vllm_omni/entrypoints/openai/serving_speech.py"
-      ],
-      "title": "[Perf]: Speedup VoxCPM2 TTS performance and Support PagedAttention (#2690)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/2690"
     },
     {
       "author": "Chenguang Zheng",
@@ -1668,16 +1724,6 @@
       ],
       "title": "[BUG FIX]: prevent EngineCore crash when Qwen TTS Base task is missing ref_text (#2203)",
       "url": "https://github.com/vllm-project/vllm-omni/pull/2203"
-    },
-    {
-      "author": "Yueqian Lin",
-      "merged_at": "2026-04-10T22:21:26-04:00",
-      "number": 2658,
-      "platform_paths": [
-        "vllm_omni/engine/arg_utils.py"
-      ],
-      "title": "[Model] VoxCPM2 native AR TTS support (#2658)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/2658"
     },
     {
       "author": "bjf-frz",

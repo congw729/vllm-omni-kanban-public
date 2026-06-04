@@ -1,16 +1,7 @@
 {
   "direct": [],
-  "inferred": [
-    {
-      "author": "lyj-jjj",
-      "merged_at": "2026-04-24T02:25:10+08:00",
-      "number": 3067,
-      "tag_matched": "WAN2.2",
-      "title": "[Perf][Wan2.2] Add fused RMSNorm replace WanRMS_norm on npu (#3067)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/3067"
-    }
-  ],
-  "model_id": "wan22",
+  "inferred": [],
+  "model_id": "qwen-image-edit-2511",
   "platform": [
     {
       "author": "Mike Qiu",

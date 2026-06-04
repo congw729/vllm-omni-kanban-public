@@ -2,15 +2,63 @@
   "direct": [],
   "inferred": [
     {
-      "author": "lyj-jjj",
-      "merged_at": "2026-04-24T02:25:10+08:00",
-      "number": 3067,
-      "tag_matched": "WAN2.2",
-      "title": "[Perf][Wan2.2] Add fused RMSNorm replace WanRMS_norm on npu (#3067)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/3067"
+      "author": "\u6c6a\u5fd7\u9e4f",
+      "merged_at": "2026-05-01T00:15:16+08:00",
+      "number": 3258,
+      "tag_matched": "BAGEL",
+      "title": "[BugFix][Bagel]: Fix vLLM-Omni as rollout bug: number of trajectory_latents count less (#3258)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/3258"
+    },
+    {
+      "author": "\u6c6a\u5fd7\u9e4f",
+      "merged_at": "2026-04-13T19:15:49+08:00",
+      "number": 2650,
+      "tag_matched": "BAGEL",
+      "title": "[Bagel]: Support `think mode` in single stage deployment of Bagel (#2650)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2650"
+    },
+    {
+      "author": "\u6c6a\u5fd7\u9e4f",
+      "merged_at": "2026-04-07T18:02:51+08:00",
+      "number": 2546,
+      "tag_matched": "BAGEL",
+      "title": "[Bagel]Fused gate_proj and up_proj (#2546)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2546"
+    },
+    {
+      "author": "\u6c6a\u5fd7\u9e4f",
+      "merged_at": "2026-04-03T11:47:57+08:00",
+      "number": 2447,
+      "tag_matched": "BAGEL",
+      "title": "[BAGEL] [Feature]: Add `thinking mode` in Bagel multi-stage serving (#2447)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/2447"
+    },
+    {
+      "author": "\u6c6a\u5fd7\u9e4f",
+      "merged_at": "2026-03-23T21:52:50+08:00",
+      "number": 1903,
+      "tag_matched": "BAGEL",
+      "title": "[Bagel]: Support SP (#1903)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1903"
+    },
+    {
+      "author": "\u6c6a\u5fd7\u9e4f",
+      "merged_at": "2026-03-09T22:23:50+08:00",
+      "number": 1669,
+      "tag_matched": "BAGEL",
+      "title": "[Bagel]: Support multistage img2img (#1669)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1669"
+    },
+    {
+      "author": "Ding Zuhao",
+      "merged_at": "2026-03-09T11:26:21+08:00",
+      "number": 1695,
+      "tag_matched": "BAGEL",
+      "title": "[Bagel] Eliminate broadcast in CFG parallel denoising loop (#1695)",
+      "url": "https://github.com/vllm-project/vllm-omni/pull/1695"
     }
   ],
-  "model_id": "wan22",
+  "model_id": "bagel",
   "platform": [
     {
       "author": "Mike Qiu",
@@ -2049,16 +2097,6 @@
       "url": "https://github.com/vllm-project/vllm-omni/pull/2006"
     },
     {
-      "author": "\u6c6a\u5fd7\u9e4f",
-      "merged_at": "2026-04-03T11:47:57+08:00",
-      "number": 2447,
-      "platform_paths": [
-        "vllm_omni/engine/async_omni_engine.py"
-      ],
-      "title": "[BAGEL] [Feature]: Add `thinking mode` in Bagel multi-stage serving (#2447)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/2447"
-    },
-    {
       "author": "ChenWenjing",
       "merged_at": "2026-04-02T22:51:41+08:00",
       "number": 2208,
@@ -2424,16 +2462,6 @@
       ],
       "title": "[BugFIX] enable Hunyuan image3 with stage selection among text_to_image/image_to_text (#1826)",
       "url": "https://github.com/vllm-project/vllm-omni/pull/1826"
-    },
-    {
-      "author": "\u6c6a\u5fd7\u9e4f",
-      "merged_at": "2026-03-23T21:52:50+08:00",
-      "number": 1903,
-      "platform_paths": [
-        "vllm_omni/distributed/omni_connectors/kv_transfer_manager.py"
-      ],
-      "title": "[Bagel]: Support SP (#1903)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1903"
     },
     {
       "author": "Megha Agarwal",
@@ -2969,18 +2997,6 @@
       ],
       "title": "[Fix][Qwen3-TTS] Preserve ref_code decoder context for Base ICL (#1731)",
       "url": "https://github.com/vllm-project/vllm-omni/pull/1731"
-    },
-    {
-      "author": "\u6c6a\u5fd7\u9e4f",
-      "merged_at": "2026-03-09T22:23:50+08:00",
-      "number": 1669,
-      "platform_paths": [
-        "vllm_omni/distributed/omni_connectors/kv_transfer_manager.py",
-        "vllm_omni/distributed/omni_connectors/utils/kv_utils.py",
-        "vllm_omni/patch.py"
-      ],
-      "title": "[Bagel]: Support multistage img2img (#1669)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1669"
     },
     {
       "author": "Samit",
