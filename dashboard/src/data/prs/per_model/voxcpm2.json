@@ -3132,40 +3132,6 @@
       ],
       "title": "Revert \"[Profile] Adding metrics for Diffusion/DiT Single diffusion Pipeline (#668)\" (#1724)",
       "url": "https://github.com/vllm-project/vllm-omni/pull/1724"
-    },
-    {
-      "author": "Didan Deng",
-      "merged_at": "2026-03-07T01:45:02+08:00",
-      "number": 1716,
-      "platform_paths": [
-        "vllm_omni/entrypoints/async_omni.py",
-        "vllm_omni/entrypoints/cli/serve.py"
-      ],
-      "title": "[Feature]:  Add vae-patch-parallel CLI argument in online serving (#1716)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1716"
-    },
-    {
-      "author": "erfgss",
-      "merged_at": "2026-03-06T15:39:19+08:00",
-      "number": 668,
-      "platform_paths": [
-        "vllm_omni/entrypoints/omni.py",
-        "vllm_omni/metrics/stats.py",
-        "vllm_omni/outputs.py"
-      ],
-      "title": "[Profile] Adding metrics for Diffusion/DiT Single diffusion Pipeline (#668)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/668"
-    },
-    {
-      "author": "Canlin Guo",
-      "merged_at": "2026-03-06T14:45:53+08:00",
-      "number": 1579,
-      "platform_paths": [
-        "vllm_omni/engine/output_processor.py",
-        "vllm_omni/entrypoints/openai/serving_speech.py"
-      ],
-      "title": "[1/N][Refactor] Clean up dead code in output processor (#1579)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1579"
     }
   ]
 }
