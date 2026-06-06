@@ -3120,18 +3120,6 @@
       ],
       "title": "[Bugfix] Use upstream MediaConnector for ref_audio resolution (#1661)",
       "url": "https://github.com/vllm-project/vllm-omni/pull/1661"
-    },
-    {
-      "author": "Canlin Guo",
-      "merged_at": "2026-03-07T19:11:47+08:00",
-      "number": 1724,
-      "platform_paths": [
-        "vllm_omni/entrypoints/omni.py",
-        "vllm_omni/metrics/stats.py",
-        "vllm_omni/outputs.py"
-      ],
-      "title": "Revert \"[Profile] Adding metrics for Diffusion/DiT Single diffusion Pipeline (#668)\" (#1724)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1724"
     }
   ]
 }
