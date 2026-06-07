@@ -544,37 +544,6 @@
       "number": 1731,
       "title": "[Fix][Qwen3-TTS] Preserve ref_code decoder context for Base ICL (#1731)",
       "url": "https://github.com/vllm-project/vllm-omni/pull/1731"
-    },
-    {
-      "author": "zhaotyer",
-      "files_matched": [
-        "vllm_omni/model_executor/models/qwen3_tts/qwen3_tts.py",
-        "vllm_omni/model_executor/models/qwen3_tts/voice_cache_manager.py"
-      ],
-      "merged_at": "2026-03-09T11:02:11+08:00",
-      "number": 1201,
-      "title": "feat(tts): add voice upload API for Qwen3-TTS (#1201)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1201"
-    },
-    {
-      "author": "Roman Koshkin",
-      "files_matched": [
-        "vllm_omni/model_executor/models/qwen3_tts/qwen3_tts.py"
-      ],
-      "merged_at": "2026-03-09T10:17:10+09:00",
-      "number": 1417,
-      "title": "[Bugfix] (qwen3_tts): enable batched offline inference by fixing tens\u2026 (#1417)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1417"
-    },
-    {
-      "author": "Yueqian Lin",
-      "files_matched": [
-        "vllm_omni/model_executor/models/qwen3_tts/qwen3_tts_talker.py"
-      ],
-      "merged_at": "2026-03-08T21:38:26-04:00",
-      "number": 1661,
-      "title": "[Bugfix] Use upstream MediaConnector for ref_audio resolution (#1661)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1661"
     }
   ],
   "inferred": [
@@ -3333,20 +3302,6 @@
       ],
       "title": "Add online serving to Stable Audio Diffusion and introduce `v1/audio/generate` endpoint (#1255)",
       "url": "https://github.com/vllm-project/vllm-omni/pull/1255"
-    },
-    {
-      "author": "knlnguyen1802",
-      "merged_at": "2026-03-09T09:12:43+07:00",
-      "number": 1646,
-      "platform_paths": [
-        "vllm_omni/entrypoints/async_omni.py",
-        "vllm_omni/entrypoints/omni.py",
-        "vllm_omni/entrypoints/omni_stage.py",
-        "vllm_omni/entrypoints/stage_utils.py",
-        "vllm_omni/outputs.py"
-      ],
-      "title": "[RL] Support collective rpc api to entrypoint && Support custom input output  (#1646)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1646"
     }
   ]
 }

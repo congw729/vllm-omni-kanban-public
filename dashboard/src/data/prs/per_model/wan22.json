@@ -3038,42 +3038,6 @@
       ],
       "title": "Add online serving to Stable Audio Diffusion and introduce `v1/audio/generate` endpoint (#1255)",
       "url": "https://github.com/vllm-project/vllm-omni/pull/1255"
-    },
-    {
-      "author": "zhaotyer",
-      "merged_at": "2026-03-09T11:02:11+08:00",
-      "number": 1201,
-      "platform_paths": [
-        "vllm_omni/entrypoints/openai/api_server.py",
-        "vllm_omni/entrypoints/openai/metadata_manager.py",
-        "vllm_omni/entrypoints/openai/serving_speech.py"
-      ],
-      "title": "feat(tts): add voice upload API for Qwen3-TTS (#1201)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1201"
-    },
-    {
-      "author": "knlnguyen1802",
-      "merged_at": "2026-03-09T09:12:43+07:00",
-      "number": 1646,
-      "platform_paths": [
-        "vllm_omni/entrypoints/async_omni.py",
-        "vllm_omni/entrypoints/omni.py",
-        "vllm_omni/entrypoints/omni_stage.py",
-        "vllm_omni/entrypoints/stage_utils.py",
-        "vllm_omni/outputs.py"
-      ],
-      "title": "[RL] Support collective rpc api to entrypoint && Support custom input output  (#1646)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1646"
-    },
-    {
-      "author": "Yueqian Lin",
-      "merged_at": "2026-03-08T21:38:26-04:00",
-      "number": 1661,
-      "platform_paths": [
-        "vllm_omni/entrypoints/openai/serving_speech.py"
-      ],
-      "title": "[Bugfix] Use upstream MediaConnector for ref_audio resolution (#1661)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1661"
     }
   ]
 }
