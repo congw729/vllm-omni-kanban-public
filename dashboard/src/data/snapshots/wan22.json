@@ -764,6 +764,23 @@
         "throughput_qps": 0.04427496646585519
       },
       "variant_id": "i2v_single_device"
+    },
+    {
+      "alerts": [],
+      "date": "2026-06-07",
+      "values": {
+        "latency_mean_ms": 22578.619918599725,
+        "latency_median_ms": 22558.20274350117,
+        "latency_p50_ms": 22558.20274350117,
+        "latency_p95_ms": 22699.831459546112,
+        "latency_p99_ms": 22701.342538300087,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 76378.0,
+        "peak_memory_mb_mean": 76376.4,
+        "peak_memory_mb_median": 76378.0,
+        "throughput_qps": 0.04428929237188607
+      },
+      "variant_id": "i2v_single_device"
     }
   ],
   "variants": [
