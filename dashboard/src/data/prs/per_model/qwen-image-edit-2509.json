@@ -2911,45 +2911,6 @@
       ],
       "title": "[Bugfix] Report supported tasks for omni models to skip unnecessary chat init (#1645)",
       "url": "https://github.com/vllm-project/vllm-omni/pull/1645"
-    },
-    {
-      "author": "Ting FU",
-      "merged_at": "2026-03-11T10:45:36+08:00",
-      "number": 1323,
-      "platform_paths": [
-        "vllm_omni/entrypoints/async_omni.py",
-        "vllm_omni/entrypoints/async_omni_diffusion.py",
-        "vllm_omni/entrypoints/omni_diffusion.py"
-      ],
-      "title": "[Feat] Enable expert parallel for diffusion MoE layers (#1323)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1323"
-    },
-    {
-      "author": "Hongsheng Liu",
-      "merged_at": "2026-03-10T22:40:48+08:00",
-      "number": 1789,
-      "platform_paths": [
-        "vllm_omni/entrypoints/omni_llm.py",
-        "vllm_omni/entrypoints/openai/api_server.py",
-        "vllm_omni/entrypoints/openai/audio_utils_mixin.py",
-        "vllm_omni/entrypoints/openai/protocol/audio.py",
-        "vllm_omni/entrypoints/openai/serving_audio_generate.py",
-        "vllm_omni/entrypoints/openai/serving_speech.py",
-        "vllm_omni/entrypoints/utils.py"
-      ],
-      "title": "Revert \"Add online serving to Stable Audio Diffusion and introduce `v1/audio/generate` endpoint\" (#1789)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1789"
-    },
-    {
-      "author": "Juan Pablo Zuluaga",
-      "merged_at": "2026-03-10T22:02:33+01:00",
-      "number": 1714,
-      "platform_paths": [
-        "vllm_omni/distributed/omni_connectors/transfer_adapter/chunk_transfer_adapter.py",
-        "vllm_omni/entrypoints/openai/protocol/audio.py"
-      ],
-      "title": "[feat][Qwen3TTS] Simple dynamic TTFA based on Code2Wav load (#1714)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1714"
     }
   ]
 }

@@ -524,16 +524,6 @@
       "number": 1890,
       "title": "[NPU] Upgrade to v0.17.0 (#1890)",
       "url": "https://github.com/vllm-project/vllm-omni/pull/1890"
-    },
-    {
-      "author": "Juan Pablo Zuluaga",
-      "files_matched": [
-        "vllm_omni/model_executor/models/qwen3_tts/cuda_graph_decoder_wrapper.py"
-      ],
-      "merged_at": "2026-03-10T22:02:33+01:00",
-      "number": 1714,
-      "title": "[feat][Qwen3TTS] Simple dynamic TTFA based on Code2Wav load (#1714)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1714"
     }
   ],
   "inferred": [
@@ -576,14 +566,6 @@
       "tag_matched": "Qwen3-TTS",
       "title": "[Feat][Qwen3-TTS] Support streaming audio output for websocket  (#1719)",
       "url": "https://github.com/vllm-project/vllm-omni/pull/1719"
-    },
-    {
-      "author": "SYLAR",
-      "merged_at": "2026-03-11T09:36:02+08:00",
-      "number": 1231,
-      "tag_matched": "Qwen3-TTS",
-      "title": "[Feat][Qwen3-tts]: Add Gradio demo for online serving (#1231)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1231"
     }
   ],
   "model_id": "qwen3-tts",
@@ -3195,34 +3177,6 @@
       ],
       "title": "[Bugfix] Report supported tasks for omni models to skip unnecessary chat init (#1645)",
       "url": "https://github.com/vllm-project/vllm-omni/pull/1645"
-    },
-    {
-      "author": "Ting FU",
-      "merged_at": "2026-03-11T10:45:36+08:00",
-      "number": 1323,
-      "platform_paths": [
-        "vllm_omni/entrypoints/async_omni.py",
-        "vllm_omni/entrypoints/async_omni_diffusion.py",
-        "vllm_omni/entrypoints/omni_diffusion.py"
-      ],
-      "title": "[Feat] Enable expert parallel for diffusion MoE layers (#1323)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1323"
-    },
-    {
-      "author": "Hongsheng Liu",
-      "merged_at": "2026-03-10T22:40:48+08:00",
-      "number": 1789,
-      "platform_paths": [
-        "vllm_omni/entrypoints/omni_llm.py",
-        "vllm_omni/entrypoints/openai/api_server.py",
-        "vllm_omni/entrypoints/openai/audio_utils_mixin.py",
-        "vllm_omni/entrypoints/openai/protocol/audio.py",
-        "vllm_omni/entrypoints/openai/serving_audio_generate.py",
-        "vllm_omni/entrypoints/openai/serving_speech.py",
-        "vllm_omni/entrypoints/utils.py"
-      ],
-      "title": "Revert \"Add online serving to Stable Audio Diffusion and introduce `v1/audio/generate` endpoint\" (#1789)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1789"
     }
   ]
 }
