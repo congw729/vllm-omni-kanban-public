@@ -43,6 +43,7 @@ ssh {connection} "ls -lt /rebase/vllm-omni/logs/"
 |----------|------|
 | `/rebase/vllm-omni/logs/20260528/` | 当作 `remote_path` |
 | 「最新」「recent」「上次跑的结果」 | 自动最新含 JSON 目录 |
+| 「第二新」「second newest」 | 按 `ls -lt` 排序取第 N 新含 JSON 的 run 目录 |
 | 「Qwen 那次」「5月28日」 | 列出远程子目录，用户确认后再同步 |
 
 ## model_name 推断
@@ -70,6 +71,45 @@ Get-Content (Get-ChildItem {local_path}\*.json | Select-Object -First 1) -Raw | 
 ### 3. 仍无法确定
 
 询问用户，阻塞 commit。
+
+## pytest 日志同步
+
+每次同步除 JSON 外，**默认**拉取 run 目录根下的 `local_pytest.log`（不是 `logs/` 子目录里的 `nohup*.log`）。
+
+### 远程 run 目录结构示例
+
+```text
+/rebase/vllm-omni/logs/nightly_jobs_local_20260609_061708/
+├── diffusion_result_test_....json   ← 拉取
+├── local_pytest.log                 ← 拉取并重命名
+├── logs/
+│   ├── nohup_test_....log           ← 忽略
+│   └── test_....log                 ← 忽略（非 run 根目录）
+└── jobs/
+```
+
+### 本地重命名规则
+
+从日志内容提取首个 `tests/.../*.py` 路径，取文件名（不含 `.py`）加 `.log`：
+
+| 日志中的路径 | 本地文件名 |
+|-------------|-----------|
+| `tests/e2e/accuracy/test_hunyuan_image3.py` | `test_hunyuan_image3.log` |
+
+远程探测：
+
+```bash
+grep -oE 'tests/[^:]+\.py' /path/to/local_pytest.log | head -1
+```
+
+### git add -f
+
+仓库 `.gitignore` 含 `*.log`，`data/local_nightly_raw/manual_*/` 下的 pytest 日志须强制添加：
+
+```powershell
+git add {local_path}/*.json
+git add -f {local_path}/*.log
+```
 
 ## Commit Message 空格规则
 
@@ -114,6 +154,8 @@ fatal: Not possible to fast-forward
 | 远程目录无 json | 列出 `logs/` 子目录，请用户指定 `remote_path` |
 | `scp: No such file or directory` | 检查 `remote_path` 与 `files` glob |
 | commit 含意外文件 | `git reset HEAD` 后重新 `git add` 仅目标路径 |
+| `.log` 未进 commit | 对 `{local_path}/*.log` 使用 `git add -f` |
+| 无法推断日志文件名 | 列出日志中 `tests/*.py` 候选，请用户确认 |
 
 ## Windows 前置条件
 
@@ -127,7 +169,8 @@ fatal: Not possible to fast-forward
 
 ```text
 data/local_nightly_raw/manual_20260530/
-├── result_test_qwen3_omni_....json
+├── diffusion_result_test_qwen3_omni_....json
+├── test_hunyuan_image3.log
 └── ...
 ```
 
