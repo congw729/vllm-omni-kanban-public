@@ -2,7 +2,7 @@
   {
     "test_name": "test_hunyuan_image_tp2_cfgp2",
     "endpoint": "/v1/chat/completions",
-    "timestamp": "20260609-064008",
+    "timestamp": "20260608-064008",
     "server_params": {
       "model": "tencent/HunyuanImage-3.0-Instruct",
       "serve_args": {

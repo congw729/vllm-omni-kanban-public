@@ -2,7 +2,7 @@
   {
     "test_name": "test_hunyuan_image3_ti2i_inline",
     "endpoint": "/v1/images/edits",
-    "timestamp": "20260609-062542",
+    "timestamp": "20260608-062542",
     "server_params": {
       "model": "tencent/HunyuanImage-3.0-Instruct",
       "serve_args": {
