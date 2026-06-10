@@ -815,6 +815,23 @@
         "throughput_qps": 0.06693382084667875
       },
       "variant_id": "single_device"
+    },
+    {
+      "alerts": [],
+      "date": "2026-06-09",
+      "values": {
+        "latency_mean_ms": 14711.95208397694,
+        "latency_median_ms": 14727.595797972754,
+        "latency_p50_ms": 14727.595797972754,
+        "latency_p95_ms": 14811.930376157397,
+        "latency_p99_ms": 14817.177424031543,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 63730.0,
+        "peak_memory_mb_mean": 63730.0,
+        "peak_memory_mb_median": 63730.0,
+        "throughput_qps": 0.06797082179581927
+      },
+      "variant_id": "single_device"
     }
   ],
   "variants": [
