@@ -1,9 +1,9 @@
 {
   "date_range": {
-    "end": "2026-06-10",
+    "end": "2026-06-11",
     "start": "2026-04-22"
   },
-  "last_updated": "2026-06-11T05:16:11Z",
+  "last_updated": "2026-06-12T05:20:13Z",
   "models": [
     "qwen-image",
     "qwen-image-layered",

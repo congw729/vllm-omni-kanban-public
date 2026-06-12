@@ -2845,54 +2845,6 @@
       ],
       "title": "[Bugfix] Fix cpu offload and quantization compatibility (#1473)",
       "url": "https://github.com/vllm-project/vllm-omni/pull/1473"
-    },
-    {
-      "author": "dengyunyang",
-      "merged_at": "2026-03-13T21:53:06+08:00",
-      "number": 1855,
-      "platform_paths": [
-        "vllm_omni/entrypoints/omni_diffusion.py"
-      ],
-      "title": "[Diffusion] [Model] Dreamid omni (#1855)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1855"
-    },
-    {
-      "author": "\u6c6a\u5fd7\u9e4f",
-      "merged_at": "2026-03-13T16:58:44+08:00",
-      "number": 1804,
-      "platform_paths": [
-        "vllm_omni/entrypoints/async_omni.py",
-        "vllm_omni/entrypoints/openai/serving_chat.py"
-      ],
-      "title": "[BugFix]: Fix bagel online inference bug (#1804)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1804"
-    },
-    {
-      "author": "Yueqian Lin",
-      "merged_at": "2026-03-13T11:37:08-04:00",
-      "number": 1879,
-      "platform_paths": [
-        "vllm_omni/entrypoints/openai/api_server.py"
-      ],
-      "title": "[Bugfix] Restore voice upload API and profiler endpoints reverted by #1719 (#1879)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1879"
-    },
-    {
-      "author": "Ian Eaves",
-      "merged_at": "2026-03-13T04:11:06-05:00",
-      "number": 1665,
-      "platform_paths": [
-        "vllm_omni/entrypoints/openai/api_server.py",
-        "vllm_omni/entrypoints/openai/errors.py",
-        "vllm_omni/entrypoints/openai/protocol/__init__.py",
-        "vllm_omni/entrypoints/openai/protocol/videos.py",
-        "vllm_omni/entrypoints/openai/serving_video.py",
-        "vllm_omni/entrypoints/openai/storage.py",
-        "vllm_omni/entrypoints/openai/stores.py",
-        "vllm_omni/entrypoints/openai/video_api_utils.py"
-      ],
-      "title": "[Frontend] Rewrite video API for async job lifecycle (#1665)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1665"
     }
   ]
 }
