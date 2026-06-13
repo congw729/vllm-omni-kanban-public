@@ -1036,6 +1036,74 @@
         "throughput_qps": 0.32624432672810705
       },
       "variant_id": "single_stage_t2i"
+    },
+    {
+      "alerts": [],
+      "date": "2026-06-12",
+      "values": {
+        "latency_mean_ms": 7092.783421951754,
+        "latency_median_ms": 7084.014113002922,
+        "latency_p50_ms": 7084.014113002922,
+        "latency_p95_ms": 7410.869115550304,
+        "latency_p99_ms": 7428.630095917033,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 0.0,
+        "peak_memory_mb_mean": 0.0,
+        "peak_memory_mb_median": 0.0,
+        "throughput_qps": 0.1409840101108705
+      },
+      "variant_id": "multi_stage_i2i"
+    },
+    {
+      "alerts": [],
+      "date": "2026-06-12",
+      "values": {
+        "latency_mean_ms": 3136.435311951209,
+        "latency_median_ms": 3024.756073995377,
+        "latency_p50_ms": 3024.756073995377,
+        "latency_p95_ms": 3749.9579091570927,
+        "latency_p99_ms": 4068.1728602250214,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 0.0,
+        "peak_memory_mb_mean": 0.0,
+        "peak_memory_mb_median": 0.0,
+        "throughput_qps": 0.31881153488564895
+      },
+      "variant_id": "multi_stage_t2i"
+    },
+    {
+      "alerts": [],
+      "date": "2026-06-12",
+      "values": {
+        "latency_mean_ms": 3493.4449028980453,
+        "latency_median_ms": 3468.428952008253,
+        "latency_p50_ms": 3468.428952008253,
+        "latency_p95_ms": 3652.6148218865274,
+        "latency_p99_ms": 4023.536453181295,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 30070.0,
+        "peak_memory_mb_mean": 30070.0,
+        "peak_memory_mb_median": 30070.0,
+        "throughput_qps": 0.2862339839201017
+      },
+      "variant_id": "single_stage_i2i"
+    },
+    {
+      "alerts": [],
+      "date": "2026-06-12",
+      "values": {
+        "latency_mean_ms": 3508.5639040509705,
+        "latency_median_ms": 3500.239678498474,
+        "latency_p50_ms": 3500.239678498474,
+        "latency_p95_ms": 3940.310691013292,
+        "latency_p99_ms": 4176.388579000776,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 30074.0,
+        "peak_memory_mb_mean": 30073.0,
+        "peak_memory_mb_median": 30073.0,
+        "throughput_qps": 0.28499726731450464
+      },
+      "variant_id": "single_stage_t2i"
     }
   ],
   "variants": [
