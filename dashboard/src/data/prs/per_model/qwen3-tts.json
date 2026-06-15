@@ -665,26 +665,6 @@
       "number": 1945,
       "title": "Fix Base voice clone streaming quality and stop-token crash (#1945)",
       "url": "https://github.com/vllm-project/vllm-omni/pull/1945"
-    },
-    {
-      "author": "rongfu.leng",
-      "files_matched": [
-        "vllm_omni/model_executor/models/qwen3_tts/qwen3_tts.py"
-      ],
-      "merged_at": "2026-03-17T01:09:04+08:00",
-      "number": 1926,
-      "title": "[Misc] removed qwen3_tts.py as it is out-dated (#1926)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1926"
-    },
-    {
-      "author": "Canlin Guo",
-      "files_matched": [
-        "vllm_omni/model_executor/models/qwen3_tts/qwen3_tts_code_predictor_vllm.py"
-      ],
-      "merged_at": "2026-03-16T14:42:59+08:00",
-      "number": 1890,
-      "title": "[NPU] Upgrade to v0.17.0 (#1890)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1890"
     }
   ],
   "inferred": [
@@ -719,14 +699,6 @@
       "tag_matched": "Qwen3-TTS",
       "title": "[Feat][Qwen3-TTS] Better Qwen3-TTS online serving demo (#1857)",
       "url": "https://github.com/vllm-project/vllm-omni/pull/1857"
-    },
-    {
-      "author": "Juan Pablo Zuluaga",
-      "merged_at": "2026-03-16T20:23:09+01:00",
-      "number": 1930,
-      "tag_matched": "Qwen3-TTS",
-      "title": "[Bug][Qwen3TTS][Streaming] remove dynamic initial chunk and only compute on initial request (#1930)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1930"
     }
   ],
   "model_id": "qwen3-tts",
@@ -4084,18 +4056,6 @@
       ],
       "title": "[Bugfix] Set PREEMPTED status when moving requests from running to waiting queue (#1893)",
       "url": "https://github.com/vllm-project/vllm-omni/pull/1893"
-    },
-    {
-      "author": "Jinheng",
-      "merged_at": "2026-03-16T14:05:19+08:00",
-      "number": 1863,
-      "platform_paths": [
-        "vllm_omni/distributed/kv_transfer/__init__.py",
-        "vllm_omni/distributed/kv_transfer/monkey_patch.py",
-        "vllm_omni/entrypoints/pd_utils.py"
-      ],
-      "title": "[Feature] Split #1303 Part 1: PD disaggregation scaffolding (#1863)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1863"
     }
   ]
 }

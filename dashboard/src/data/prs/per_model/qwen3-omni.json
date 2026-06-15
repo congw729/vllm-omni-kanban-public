@@ -411,16 +411,6 @@
       "number": 2009,
       "title": "[Bugfix] revert PR#1758 which introduced the accuracy problem of qwen3-omni (#2009)",
       "url": "https://github.com/vllm-project/vllm-omni/pull/2009"
-    },
-    {
-      "author": "Canlin Guo",
-      "files_matched": [
-        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni_moe_code_predictor_mtp.py"
-      ],
-      "merged_at": "2026-03-16T14:42:59+08:00",
-      "number": 1890,
-      "title": "[NPU] Upgrade to v0.17.0 (#1890)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1890"
     }
   ],
   "inferred": [
@@ -3863,28 +3853,6 @@
       ],
       "title": "[Optim][Qwen3TTS] big boost model throughput+latency high concurrency (#1852)",
       "url": "https://github.com/vllm-project/vllm-omni/pull/1852"
-    },
-    {
-      "author": "Juan Pablo Zuluaga",
-      "merged_at": "2026-03-16T20:23:09+01:00",
-      "number": 1930,
-      "platform_paths": [
-        "vllm_omni/distributed/omni_connectors/transfer_adapter/chunk_transfer_adapter.py"
-      ],
-      "title": "[Bug][Qwen3TTS][Streaming] remove dynamic initial chunk and only compute on initial request (#1930)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1930"
-    },
-    {
-      "author": "Jinheng",
-      "merged_at": "2026-03-16T14:05:19+08:00",
-      "number": 1863,
-      "platform_paths": [
-        "vllm_omni/distributed/kv_transfer/__init__.py",
-        "vllm_omni/distributed/kv_transfer/monkey_patch.py",
-        "vllm_omni/entrypoints/pd_utils.py"
-      ],
-      "title": "[Feature] Split #1303 Part 1: PD disaggregation scaffolding (#1863)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1863"
     }
   ]
 }
