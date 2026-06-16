@@ -655,16 +655,6 @@
       "number": 1852,
       "title": "[Optim][Qwen3TTS] big boost model throughput+latency high concurrency (#1852)",
       "url": "https://github.com/vllm-project/vllm-omni/pull/1852"
-    },
-    {
-      "author": "Yueqian Lin",
-      "files_matched": [
-        "vllm_omni/model_executor/models/qwen3_tts/qwen3_tts_code2wav.py"
-      ],
-      "merged_at": "2026-03-17T18:54:12-04:00",
-      "number": 1945,
-      "title": "Fix Base voice clone streaming quality and stop-token crash (#1945)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1945"
     }
   ],
   "inferred": [
