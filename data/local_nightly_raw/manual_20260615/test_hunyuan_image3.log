@@ -1,0 +1,656 @@
+WARNING 06-15 11:00:14 [patch.py:165] Monkey-patched unregister_vllm_metrics() to scope drops to non-omni vllm:* collectors. Remove this patch once vLLM adds _STAT_LOGGER_METRIC_NAMES.
+============================= test session starts ==============================
+platform linux -- Python 3.12.13, pytest-9.0.3, pluggy-1.6.0 -- /rebase/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: /rebase/vllm-omni
+configfile: pyproject.toml
+plugins: anyio-4.13.0, asyncio-1.4.0, mock-3.15.1, cov-7.1.0, typeguard-4.5.2, hydra-core-1.3.2
+asyncio: mode=Mode.AUTO, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... `Siglip2ImageProcessorFast` is deprecated. The `Fast` suffix for image processors has been removed; use `Siglip2ImageProcessor` instead.
+collected 4 items
+
+tests/e2e/accuracy/test_hunyuan_image3.py::test_image_to_image_alignment_online INFO 06-15 11:00:16 [scheduler.py:239] Chunked prefill is enabled with max_num_batched_tokens=2048.
+INFO 06-15 11:00:16 [vllm.py:999] Asynchronous scheduling is enabled.
+INFO 06-15 11:00:16 [kernel.py:270] Final IR op priority after setting platform defaults: IrOpPriorityConfig(rms_norm=['native'], fused_add_rms_norm=['native'])
+/rebase/vllm-omni/vllm_omni/version.py:55: RuntimeWarning: vLLM and vLLM-Omni appear to have mismatched major/minor versions:
+ --> vLLM-Omni version 0.22.1.dev85+ga693ae67f.d20260615
+ --> vLLM version 0.23.0
+This will likely cause compatibility issues.
+  warn_if_misaligned_vllm_version()
+WARNING 06-15 11:00:25 [patch.py:165] Monkey-patched unregister_vllm_metrics() to scope drops to non-omni vllm:* collectors. Remove this patch once vLLM adds _STAT_LOGGER_METRIC_NAMES.
+/rebase/.venv/lib/python3.12/site-packages/huggingface_hub/utils/_validators.py:205: UserWarning: The `local_dir_use_symlinks` argument is deprecated and ignored in `hf_hub_download`. Downloading to a local directory does not use symlinks anymore.
+  warnings.warn(
+INFO 06-15 11:00:28 [logo.py:52]        [97m█     █     █▄   ▄█[0m    [34m   ▄▀▀[38;5;208m▀▀▄ [0m[97m█▄   ▄█ █▄    █ ▀█▀ [0m
+INFO 06-15 11:00:28 [logo.py:52]  [38;5;208m▄▄[0m [34m▄█[0m [97m█     █     █ ▀▄▀ █[0m[97m  ▄▄▄ [0m[34m █    [38;5;208m█ [0m[97m█ ▀▄▀ █ █ ▀▄  █  █  [0m
+INFO 06-15 11:00:28 [logo.py:52]   [38;5;208m█[0m[34m▄█▀[0m [97m█     █     █     █[0m[97m      [0m[34m █    [38;5;208m█ [0m[97m█     █ █   ▀▄█  █  [0m
+INFO 06-15 11:00:28 [logo.py:52]    [34m▀▀[0m  [97m▀▀▀▀▀ ▀▀▀▀▀ ▀     ▀[0m      [35m  ▀▀▀▀  [0m[97m▀     ▀ ▀     ▀ ▀▀▀ [0m
+INFO 06-15 11:00:28 [logo.py:52] 
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:00:28 [api_utils.py:339] vLLM server version 0.23.0, serving model tencent/HunyuanImage-3.0-Instruct
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:00:28 [api_utils.py:273] non-default args: {'model_tag': 'tencent/HunyuanImage-3.0-Instruct', 'host': '127.0.0.1', 'port': 48255, 'model': 'tencent/HunyuanImage-3.0-Instruct'}
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:00:28 [weight_utils.py:50] Using model weights format ['*']
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:00:28 [omni_base.py:167] [AsyncOmni] Initializing with model tencent/HunyuanImage-3.0-Instruct
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:00:28 [async_omni_engine.py:294] [AsyncOmniEngine] Initializing with model tencent/HunyuanImage-3.0-Instruct
+[0;36m(APIServer pid=2128082)[0;0m You are using a model of type `hunyuan_image_3_moe` to instantiate a model of type `Hunyuan`. This may be expected if you are loading a checkpoint that shares a subset of the architecture (e.g., loading a `sam2_video` checkpoint into `Sam2Model`), but is otherwise not supported and can yield errors. Please verify that the checkpoint is compatible with the model you are instantiating.
+[0;36m(APIServer pid=2128082)[0;0m Missing validation function in 'RotaryEmbeddingConfigMixin' for 'rope_type'='custom'
+[0;36m(APIServer pid=2128082)[0;0m Missing validation function in 'RotaryEmbeddingConfigMixin' for 'rope_type'='custom'
+[0;36m(APIServer pid=2128082)[0;0m Missing validation function in 'RotaryEmbeddingConfigMixin' for 'rope_type'='custom'
+[0;36m(APIServer pid=2128082)[0;0m `Siglip2ImageProcessorFast` is deprecated. The `Fast` suffix for image processors has been removed; use `Siglip2ImageProcessor` instead.
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:00:28 [async_omni_engine.py:364] [AsyncOmniEngine] Launching Orchestrator thread with 2 stages
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:00:28 [initialization.py:364] Loaded OmniTransferConfig with 1 connector configurations
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:00:28 [arg_utils.py:757] HF_HUB_OFFLINE is True, replace model_id [tencent/HunyuanImage-3.0-Instruct] to model_path [/models/hub/models--tencent--HunyuanImage-3.0-Instruct/snapshots/2ec2c78bee7d4b94157341fba86c4c2c7b1858b2]
+[0;36m(APIServer pid=2128082)[0;0m You are using a model of type `hunyuan_image_3_moe` to instantiate a model of type `Hunyuan`. This may be expected if you are loading a checkpoint that shares a subset of the architecture (e.g., loading a `sam2_video` checkpoint into `Sam2Model`), but is otherwise not supported and can yield errors. Please verify that the checkpoint is compatible with the model you are instantiating.
+[0;36m(APIServer pid=2128082)[0;0m Missing validation function in 'RotaryEmbeddingConfigMixin' for 'rope_type'='custom'
+[0;36m(APIServer pid=2128082)[0;0m Missing validation function in 'RotaryEmbeddingConfigMixin' for 'rope_type'='custom'
+[0;36m(APIServer pid=2128082)[0;0m Missing validation function in 'RotaryEmbeddingConfigMixin' for 'rope_type'='custom'
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:00:29 [model.py:611] Resolved architecture: HunyuanImage3ForCausalMM
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:00:29 [model.py:1745] Using max model len 22800
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:00:29 [scheduler.py:239] Chunked prefill is enabled with max_num_batched_tokens=32768.
+[0;36m(APIServer pid=2128082)[0;0m WARNING 06-15 11:00:29 [scheduler.py:281] max_num_batched_tokens (32768) exceeds max_num_seqs * max_model_len (22800). This may lead to unexpected behavior.
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:00:29 [vllm.py:999] Asynchronous scheduling is enabled.
+[0;36m(APIServer pid=2128082)[0;0m WARNING 06-15 11:00:29 [vllm.py:1055] Enforce eager set, disabling torch.compile and CUDAGraphs. This is equivalent to setting -cc.mode=none -cc.cudagraph_mode=none
+[0;36m(APIServer pid=2128082)[0;0m WARNING 06-15 11:00:29 [vllm.py:1097] Inductor compilation was disabled by user settings, optimizations settings that are only active during inductor compilation will be ignored.
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:00:29 [kernel.py:270] Final IR op priority after setting platform defaults: IrOpPriorityConfig(rms_norm=['vllm_c', 'native'], fused_add_rms_norm=['vllm_c', 'native'])
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:00:29 [vllm.py:1273] Cudagraph is disabled under eager mode
+[0;36m(APIServer pid=2128082)[0;0m WARNING 06-15 11:00:29 [cuda.py:243] Forcing --disable_chunked_mm_input for models with multimodal-bidirectional attention.
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:00:29 [compilation.py:321] Enabled custom fusions: norm_quant, act_quant, allreduce_rms
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:00:30 [stage_init_utils.py:655] [stage_init] Stage-0 set runtime devices: 0,1
+/rebase/vllm-omni/vllm_omni/version.py:55: RuntimeWarning: vLLM and vLLM-Omni appear to have mismatched major/minor versions:
+ --> vLLM-Omni version 0.22.1.dev85+ga693ae67f.d20260615
+ --> vLLM version 0.23.0
+This will likely cause compatibility issues.
+  warn_if_misaligned_vllm_version()
+[33mWARNING[0m [90m06-15 11:00:36[0m [90m[patch.py:165][0m Monkey-patched unregister_vllm_metrics() to scope drops to non-omni vllm:* collectors. Remove this patch once vLLM adds _STAT_LOGGER_METRIC_NAMES.
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:00:39 [async_omni_engine.py:925] [AsyncOmniEngine] Stage 0 engine launch started
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:00:39 [stage_init_utils.py:655] [stage_init] Stage-1 set runtime devices: 2,3
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:00:39 [data.py:1306] Parsed attention config from DIFFUSION_ATTENTION_BACKEND 'TORCH_SDPA': default=AttentionSpec(backend='TORCH_SDPA', extra={}), per_role={}
+[0;36m(StageEngineCoreProc pid=2128349)[0;0m [32mINFO[0m [90m06-15 11:00:39[0m [90m[core.py:113][0m Initializing a V1 LLM engine (v0.23.0) with config: model='/models/hub/models--tencent--HunyuanImage-3.0-Instruct/snapshots/2ec2c78bee7d4b94157341fba86c4c2c7b1858b2', speculative_config=None, tokenizer='/models/hub/models--tencent--HunyuanImage-3.0-Instruct/snapshots/2ec2c78bee7d4b94157341fba86c4c2c7b1858b2', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, tokenizer_revision=None, trust_remote_code=True, dtype=torch.bfloat16, max_seq_len=22800, download_dir=None, load_format=auto, tensor_parallel_size=2, pipeline_parallel_size=1, data_parallel_size=1, decode_context_parallel_size=1, dcp_comm_backend=ag_rs, disable_custom_all_reduce=False, quantization=None, quantization_config=None, enforce_eager=True, enable_return_routed_experts=False, kv_cache_dtype=auto, device_config=cuda, structured_outputs_config=StructuredOutputsConfig(backend='auto', disable_any_whitespace=False, disable_additional_properties=False, reasoning_parser='', reasoning_parser_plugin='', enable_in_reasoning=False), observability_config=ObservabilityConfig(show_hidden_metrics_for_version=None, otlp_traces_endpoint=None, collect_detailed_traces=None, kv_cache_metrics=False, kv_cache_metrics_sample=0.01, cudagraph_metrics=False, enable_layerwise_nvtx_tracing=False, enable_mfu_metrics=False, enable_mm_processor_stats=False, enable_logging_iteration_details=False), seed=0, served_model_name=/models/hub/models--tencent--HunyuanImage-3.0-Instruct/snapshots/2ec2c78bee7d4b94157341fba86c4c2c7b1858b2, enable_prefix_caching=True, enable_chunked_prefill=True, pooler_config=None, compilation_config={'mode': <CompilationMode.NONE: 0>, 'debug_dump_path': None, 'cache_dir': '', 'compile_cache_save_format': 'binary', 'backend': 'inductor', 'custom_ops': ['all'], 'ir_enable_torch_wrap': False, 'splitting_ops': [], 'compile_mm_encoder': False, 'cudagraph_mm_encoder': False, 'encoder_cudagraph_token_budgets': [], 'encoder_cudagraph_max_vision_items_per_batch': 0, 'encoder_cudagraph_max_frames_per_batch': None, 'compile_sizes': [], 'compile_ranges_endpoints': [8192, 32768], 'inductor_compile_config': {'enable_auto_functionalized_v2': False, 'size_asserts': False, 'alignment_asserts': False, 'scalar_asserts': False, 'combo_kernels': True, 'benchmark_combo_kernel': True}, 'inductor_passes': {}, 'cudagraph_mode': <CUDAGraphMode.NONE: 0>, 'cudagraph_num_of_warmups': 0, 'cudagraph_capture_sizes': [], 'cudagraph_copy_inputs': False, 'cudagraph_specialize_lora': True, 'use_inductor_graph_partition': False, 'pass_config': {'fuse_norm_quant': True, 'fuse_act_quant': True, 'fuse_attn_quant': False, 'enable_sp': False, 'fuse_gemm_comms': False, 'fuse_allreduce_rms': True, 'fuse_rope_kvcache_cat_mla': False, 'fuse_act_padding': False}, 'max_cudagraph_capture_size': 0, 'dynamic_shapes_config': {'type': <DynamicShapesType.BACKED: 'backed'>, 'evaluate_guards': False, 'assume_32_bit_indexing': False}, 'local_cache_dir': None, 'fast_moe_cold_start': False, 'static_all_moe_layers': []}, kernel_config=KernelConfig(ir_op_priority=IrOpPriorityConfig(rms_norm=['vllm_c', 'native'], fused_add_rms_norm=['vllm_c', 'native']), enable_flashinfer_autotune=True, moe_backend='auto', linear_backend='auto')
+[0;36m(StageEngineCoreProc pid=2128349)[0;0m [33mWARNING[0m [90m06-15 11:00:39[0m [90m[multiproc_executor.py:1054][0m Reducing Torch parallelism from 112 threads to 1 to avoid unnecessary CPU contention. Set OMP_NUM_THREADS in the external environment to tune this value as needed.
+[0;36m(StageEngineCoreProc pid=2128349)[0;0m [32mINFO[0m [90m06-15 11:00:39[0m [90m[multiproc_executor.py:140][0m DP group leader: node_rank=0, node_rank_within_dp=0, master_addr=127.0.0.1, mq_connect_ip=192.168.17.37 (local), world_size=2, local_world_size=2
+/rebase/vllm-omni/vllm_omni/version.py:55: RuntimeWarning: vLLM and vLLM-Omni appear to have mismatched major/minor versions:
+ --> vLLM-Omni version 0.22.1.dev85+ga693ae67f.d20260615
+ --> vLLM version 0.23.0
+This will likely cause compatibility issues.
+  warn_if_misaligned_vllm_version()
+/rebase/vllm-omni/vllm_omni/version.py:55: RuntimeWarning: vLLM and vLLM-Omni appear to have mismatched major/minor versions:
+ --> vLLM-Omni version 0.22.1.dev85+ga693ae67f.d20260615
+ --> vLLM version 0.23.0
+This will likely cause compatibility issues.
+  warn_if_misaligned_vllm_version()
+[33mWARNING[0m [90m06-15 11:00:46[0m [90m[patch.py:165][0m Monkey-patched unregister_vllm_metrics() to scope drops to non-omni vllm:* collectors. Remove this patch once vLLM adds _STAT_LOGGER_METRIC_NAMES.
+[33mWARNING[0m [90m06-15 11:00:46[0m [90m[patch.py:165][0m Monkey-patched unregister_vllm_metrics() to scope drops to non-omni vllm:* collectors. Remove this patch once vLLM adds _STAT_LOGGER_METRIC_NAMES.
+`Siglip2ImageProcessorFast` is deprecated. The `Fast` suffix for image processors has been removed; use `Siglip2ImageProcessor` instead.
+`Siglip2ImageProcessorFast` is deprecated. The `Fast` suffix for image processors has been removed; use `Siglip2ImageProcessor` instead.
+You are using a model of type `hunyuan_image_3_moe` to instantiate a model of type `Hunyuan`. This may be expected if you are loading a checkpoint that shares a subset of the architecture (e.g., loading a `sam2_video` checkpoint into `Sam2Model`), but is otherwise not supported and can yield errors. Please verify that the checkpoint is compatible with the model you are instantiating.
+Missing validation function in 'RotaryEmbeddingConfigMixin' for 'rope_type'='custom'
+Missing validation function in 'RotaryEmbeddingConfigMixin' for 'rope_type'='custom'
+Missing validation function in 'RotaryEmbeddingConfigMixin' for 'rope_type'='custom'
+You are using a model of type `hunyuan_image_3_moe` to instantiate a model of type `Hunyuan`. This may be expected if you are loading a checkpoint that shares a subset of the architecture (e.g., loading a `sam2_video` checkpoint into `Sam2Model`), but is otherwise not supported and can yield errors. Please verify that the checkpoint is compatible with the model you are instantiating.
+Missing validation function in 'RotaryEmbeddingConfigMixin' for 'rope_type'='custom'
+You are using a model of type `hunyuan_image_3_moe` to instantiate a model of type `Hunyuan`. This may be expected if you are loading a checkpoint that shares a subset of the architecture (e.g., loading a `sam2_video` checkpoint into `Sam2Model`), but is otherwise not supported and can yield errors. Please verify that the checkpoint is compatible with the model you are instantiating.
+Missing validation function in 'RotaryEmbeddingConfigMixin' for 'rope_type'='custom'
+Missing validation function in 'RotaryEmbeddingConfigMixin' for 'rope_type'='custom'
+Missing validation function in 'RotaryEmbeddingConfigMixin' for 'rope_type'='custom'
+[32mINFO[0m [90m06-15 11:00:49[0m [90m[multiproc_executor.py:188][0m Starting server...
+[0;36m(Worker pid=2128621)[0;0m [32mINFO[0m [90m06-15 11:00:51[0m [90m[parallel_state.py:1568][0m world_size=2 rank=0 local_rank=0 distributed_init_method=tcp://127.0.0.1:57473 backend=nccl
+/rebase/vllm-omni/vllm_omni/version.py:55: RuntimeWarning: vLLM and vLLM-Omni appear to have mismatched major/minor versions:
+ --> vLLM-Omni version 0.22.1.dev85+ga693ae67f.d20260615
+ --> vLLM version 0.23.0
+This will likely cause compatibility issues.
+  warn_if_misaligned_vllm_version()
+/rebase/vllm-omni/vllm_omni/version.py:55: RuntimeWarning: vLLM and vLLM-Omni appear to have mismatched major/minor versions:
+ --> vLLM-Omni version 0.22.1.dev85+ga693ae67f.d20260615
+ --> vLLM version 0.23.0
+This will likely cause compatibility issues.
+  warn_if_misaligned_vllm_version()
+/rebase/vllm-omni/vllm_omni/version.py:55: RuntimeWarning: vLLM and vLLM-Omni appear to have mismatched major/minor versions:
+ --> vLLM-Omni version 0.22.1.dev85+ga693ae67f.d20260615
+ --> vLLM version 0.23.0
+This will likely cause compatibility issues.
+  warn_if_misaligned_vllm_version()
+[33mWARNING[0m [90m06-15 11:00:56[0m [90m[patch.py:165][0m Monkey-patched unregister_vllm_metrics() to scope drops to non-omni vllm:* collectors. Remove this patch once vLLM adds _STAT_LOGGER_METRIC_NAMES.
+[33mWARNING[0m [90m06-15 11:00:57[0m [90m[patch.py:165][0m Monkey-patched unregister_vllm_metrics() to scope drops to non-omni vllm:* collectors. Remove this patch once vLLM adds _STAT_LOGGER_METRIC_NAMES.
+[33mWARNING[0m [90m06-15 11:00:57[0m [90m[patch.py:165][0m Monkey-patched unregister_vllm_metrics() to scope drops to non-omni vllm:* collectors. Remove this patch once vLLM adds _STAT_LOGGER_METRIC_NAMES.
+`Siglip2ImageProcessorFast` is deprecated. The `Fast` suffix for image processors has been removed; use `Siglip2ImageProcessor` instead.
+You are using a model of type `hunyuan_image_3_moe` to instantiate a model of type `Hunyuan`. This may be expected if you are loading a checkpoint that shares a subset of the architecture (e.g., loading a `sam2_video` checkpoint into `Sam2Model`), but is otherwise not supported and can yield errors. Please verify that the checkpoint is compatible with the model you are instantiating.
+Missing validation function in 'RotaryEmbeddingConfigMixin' for 'rope_type'='custom'
+Missing validation function in 'RotaryEmbeddingConfigMixin' for 'rope_type'='custom'
+Missing validation function in 'RotaryEmbeddingConfigMixin' for 'rope_type'='custom'
+You are using a model of type `hunyuan_image_3_moe` to instantiate a model of type `Hunyuan`. This may be expected if you are loading a checkpoint that shares a subset of the architecture (e.g., loading a `sam2_video` checkpoint into `Sam2Model`), but is otherwise not supported and can yield errors. Please verify that the checkpoint is compatible with the model you are instantiating.
+Missing validation function in 'RotaryEmbeddingConfigMixin' for 'rope_type'='custom'
+[32mINFO[0m [90m06-15 11:01:00[0m [90m[diffusion_worker.py:695][0m Worker 0 created result MessageQueue
+[32mINFO[0m [90m06-15 11:01:00[0m [90m[scheduler.py:239][0m Chunked prefill is enabled with max_num_batched_tokens=2048.
+[32mINFO[0m [90m06-15 11:01:00[0m [90m[scheduler.py:239][0m Chunked prefill is enabled with max_num_batched_tokens=2048.
+[32mINFO[0m [90m06-15 11:01:00[0m [90m[vllm.py:999][0m Asynchronous scheduling is enabled.
+[32mINFO[0m [90m06-15 11:01:00[0m [90m[vllm.py:999][0m Asynchronous scheduling is enabled.
+[32mINFO[0m [90m06-15 11:01:00[0m [90m[kernel.py:270][0m Final IR op priority after setting platform defaults: IrOpPriorityConfig(rms_norm=['native'], fused_add_rms_norm=['native'])
+[32mINFO[0m [90m06-15 11:01:00[0m [90m[kernel.py:270][0m Final IR op priority after setting platform defaults: IrOpPriorityConfig(rms_norm=['native'], fused_add_rms_norm=['native'])
+[32mINFO[0m [90m06-15 11:01:00[0m [90m[diffusion_worker.py:239][0m Final IR op priority after setting vLLM-Omni overrides: IrOpPriorityConfig(rms_norm=['vllm_c', 'native'], fused_add_rms_norm=['vllm_c', 'native'])
+[32mINFO[0m [90m06-15 11:01:00[0m [90m[diffusion_worker.py:239][0m Final IR op priority after setting vLLM-Omni overrides: IrOpPriorityConfig(rms_norm=['vllm_c', 'native'], fused_add_rms_norm=['vllm_c', 'native'])
+[32mINFO[0m [90m06-15 11:01:00[0m [90m[diffusion_worker.py:250][0m Worker 1: Initialized device and distributed environment.
+[32mINFO[0m [90m06-15 11:01:00[0m [90m[diffusion_worker.py:250][0m Worker 0: Initialized device and distributed environment.
+[32mINFO[0m [90m06-15 11:01:00[0m [90m[parallel_state.py:588][0m Building SP subgroups from explicit sp_group_ranks (sp_size=1, ulysses=1, ring=1, use_ulysses_low=True).
+[32mINFO[0m [90m06-15 11:01:00[0m [90m[parallel_state.py:630][0m SP group details for rank 1: sp_group=[1], ulysses_group=[1], ring_group=[1]
+[32mINFO[0m [90m06-15 11:01:00[0m [90m[parallel_state.py:588][0m Building SP subgroups from explicit sp_group_ranks (sp_size=1, ulysses=1, ring=1, use_ulysses_low=True).
+[32mINFO[0m [90m06-15 11:01:00[0m [90m[parallel_state.py:630][0m SP group details for rank 0: sp_group=[0], ulysses_group=[0], ring_group=[0]
+`Siglip2ImageProcessorFast` is deprecated. The `Fast` suffix for image processors has been removed; use `Siglip2ImageProcessor` instead.
+`Siglip2ImageProcessorFast` is deprecated. The `Fast` suffix for image processors has been removed; use `Siglip2ImageProcessor` instead.
+[0;36m(Worker pid=2128892)[0;0m [32mINFO[0m [90m06-15 11:01:01[0m [90m[parallel_state.py:1568][0m world_size=2 rank=1 local_rank=1 distributed_init_method=tcp://127.0.0.1:57473 backend=nccl
+You are using a model of type `hunyuan_image_3_moe` to instantiate a model of type `Hunyuan`. This may be expected if you are loading a checkpoint that shares a subset of the architecture (e.g., loading a `sam2_video` checkpoint into `Sam2Model`), but is otherwise not supported and can yield errors. Please verify that the checkpoint is compatible with the model you are instantiating.
+Missing validation function in 'RotaryEmbeddingConfigMixin' for 'rope_type'='custom'
+You are using a model of type `hunyuan_image_3_moe` to instantiate a model of type `Hunyuan`. This may be expected if you are loading a checkpoint that shares a subset of the architecture (e.g., loading a `sam2_video` checkpoint into `Sam2Model`), but is otherwise not supported and can yield errors. Please verify that the checkpoint is compatible with the model you are instantiating.
+Missing validation function in 'RotaryEmbeddingConfigMixin' for 'rope_type'='custom'
+Missing validation function in 'RotaryEmbeddingConfigMixin' for 'rope_type'='custom'
+Missing validation function in 'RotaryEmbeddingConfigMixin' for 'rope_type'='custom'
+Missing validation function in 'RotaryEmbeddingConfigMixin' for 'rope_type'='custom'
+Missing validation function in 'RotaryEmbeddingConfigMixin' for 'rope_type'='custom'
+[32mINFO[0m [90m06-15 11:01:02[0m [90m[selector.py:87][0m Resolved diffusion attention backend 'SDPA' for role='self' via attention_config.default
+[32mINFO[0m [90m06-15 11:01:02[0m [90m[expert_map_manager.py:245][0m [EP Rank 0/2] Expert parallelism is enabled. Expert placement strategy: linear. Local/global number of experts: 32/64. Experts local to global index map: 0->0, 1->1, 2->2, 3->3, 4->4, 5->5, 6->6, 7->7, 8->8, 9->9, 10->10, 11->11, 12->12, 13->13, 14->14, 15->15, 16->16, 17->17, 18->18, 19->19, 20->20, 21->21, 22->22, 23->23, 24->24, 25->25, 26->26, 27->27, 28->28, 29->29, 30->30, 31->31.
+[32mINFO[0m [90m06-15 11:01:02[0m [90m[unquantized.py:291][0m Using TRITON Unquantized MoE backend out of potential backends: ['TRITON', 'BATCHED_TRITON', 'FlashInfer TRTLLM', 'FlashInfer CUTLASS'].
+[32mINFO[0m [90m06-15 11:01:02[0m [90m[selector.py:87][0m Resolved diffusion attention backend 'SDPA' for role='self' via attention_config.default
+[0;36m(Worker pid=2128621)[0;0m [32mINFO[0m [90m06-15 11:01:02[0m [90m[pynccl.py:113][0m vLLM is using nccl==2.28.9
+The repository tencent/HunyuanImage-3.0-Instruct contains custom code which must be executed to correctly load the model. You can inspect the repository content at https://hf.co/tencent/HunyuanImage-3.0-Instruct .
+ You can inspect the repository content at https://hf.co/tencent/HunyuanImage-3.0-Instruct.
+You can avoid this prompt in future by passing the argument `trust_remote_code=True`.
+
+Do you wish to run the custom code? [y/N] You are using a model of type `hunyuan_image_3_moe` to instantiate a model of type ``. This may be expected if you are loading a checkpoint that shares a subset of the architecture (e.g., loading a `sam2_video` checkpoint into `Sam2Model`), but is otherwise not supported and can yield errors. Please verify that the checkpoint is compatible with the model you are instantiating.
+PreTrainedConfig got `key=rope_scaling` in kwargs but hasn't set it as attribute. For RoPE standardization you need to set `self.rope_parameters` in model's config. 
+Missing validation function in 'RotaryEmbeddingConfigMixin' for 'rope_type'='custom'
+The repository tencent/HunyuanImage-3.0-Instruct contains custom code which must be executed to correctly load the model. You can inspect the repository content at https://hf.co/tencent/HunyuanImage-3.0-Instruct .
+ You can inspect the repository content at https://hf.co/tencent/HunyuanImage-3.0-Instruct.
+You can avoid this prompt in future by passing the argument `trust_remote_code=True`.
+
+Do you wish to run the custom code? [y/N] You are using a model of type `hunyuan_image_3_moe` to instantiate a model of type ``. This may be expected if you are loading a checkpoint that shares a subset of the architecture (e.g., loading a `sam2_video` checkpoint into `Sam2Model`), but is otherwise not supported and can yield errors. Please verify that the checkpoint is compatible with the model you are instantiating.
+PreTrainedConfig got `key=rope_scaling` in kwargs but hasn't set it as attribute. For RoPE standardization you need to set `self.rope_parameters` in model's config. 
+Missing validation function in 'RotaryEmbeddingConfigMixin' for 'rope_type'='custom'
+[0;36m(Worker pid=2128621)[0;0m [32mINFO[0m [90m06-15 11:01:03[0m [90m[cuda_communicator.py:237][0m Using ['CUSTOM', 'SYMM_MEM', 'PYNCCL'] all-reduce backends (in dispatch order) for group 'tp:0' out of potential backends: ['NCCL_SYMM_MEM', 'QUICK_REDUCE', 'FLASHINFER', 'CUSTOM', 'SYMM_MEM', 'PYNCCL'].
+[0;36m(Worker pid=2128621)[0;0m [32mINFO[0m [90m06-15 11:01:03[0m [90m[cuda_communicator.py:237][0m Using ['PYNCCL'] all-reduce backends (in dispatch order) for group 'ep:0' out of potential backends: ['NCCL_SYMM_MEM', 'QUICK_REDUCE', 'FLASHINFER', 'CUSTOM', 'SYMM_MEM', 'PYNCCL'].
+[0;36m(Worker pid=2128621)[0;0m [32mINFO[0m [90m06-15 11:01:03[0m [90m[parallel_state.py:1903][0m rank 0 in world size 2 is assigned as DP rank 0, PP rank 0, PCP rank 0, TP rank 0, EP rank 0, EPLB rank N/A
+[0;36m(Worker pid=2128621)[0;0m [32mINFO[0m [90m06-15 11:01:04[0m [90m[topk_topp_sampler.py:55][0m Using FlashInfer for top-p & top-k sampling.
+[32mINFO[0m [90m06-15 11:01:04[0m [90m[cuda.py:433][0m Using backend AttentionBackendEnum.FLASH_ATTN for vit attention
+[32mINFO[0m [90m06-15 11:01:04[0m [90m[mm_encoder_attention.py:372][0m Using AttentionBackendEnum.FLASH_ATTN for MMEncoderAttention.
+Multi-thread loading shards:   0% Completed | 0/32 [00:00<?, ?it/s]
+[0;36m(Worker pid=2128892)[0;0m [32mINFO[0m [90m06-15 11:01:04[0m [90m[hunyuan_image3.py:954][0m Successfully processed 1 image(s). Final tensor shapes: {'vit_pixel_values': (1, 1024, 768), 'vit_pixel_attention_mask': (1, 1024), 'vit_spatial_shapes': (1, 2), 'vae_token_grid_hw': (1, 2), 'vae_pixel_size': (1,), 'base_size': (1,), 'ratio_index': (1,), 'vae_pixel_values': (3145728,)}
+[0;36m(Worker pid=2128621)[0;0m [32mINFO[0m [90m06-15 11:01:04[0m [90m[hunyuan_image3.py:954][0m Successfully processed 1 image(s). Final tensor shapes: {'vit_pixel_values': (1, 1024, 768), 'vit_pixel_attention_mask': (1, 1024), 'vit_spatial_shapes': (1, 2), 'vae_token_grid_hw': (1, 2), 'vae_pixel_size': (1,), 'base_size': (1,), 'ratio_index': (1,), 'vae_pixel_values': (3145728,)}
+[0;36m(Worker pid=2128892)[0;0m [32mINFO[0m [90m06-15 11:01:05[0m [90m[kv_transfer_manager.py:448][0m Initializing OmniConnector type=SharedMemoryConnector role=sender
+[0;36m(Worker pid=2128892)[0;0m [32mINFO[0m [90m06-15 11:01:05[0m [90m[factory.py:46][0m Created connector: SharedMemoryConnector
+[0;36m(Worker pid=2128892)[0;0m [32mINFO[0m [90m06-15 11:01:05[0m [90m[kv_transfer_manager.py:342][0m Sender connector eagerly initialized
+[0;36m(Worker pid=2128621)[0;0m [32mINFO[0m [90m06-15 11:01:05[0m [90m[kv_transfer_manager.py:448][0m Initializing OmniConnector type=SharedMemoryConnector role=sender
+[0;36m(Worker pid=2128621)[0;0m [32mINFO[0m [90m06-15 11:01:05[0m [90m[factory.py:46][0m Created connector: SharedMemoryConnector
+[0;36m(Worker pid=2128621)[0;0m [32mINFO[0m [90m06-15 11:01:05[0m [90m[kv_transfer_manager.py:342][0m Sender connector eagerly initialized
+[0;36m(Worker_TP1 pid=2128892)[0;0m [33mWARNING[0m [90m06-15 11:01:05[0m [90m[base.py:188][0m [LLM Worker 1] Sleep Mode DISABLED.
+[0;36m(Worker_TP1 pid=2128892)[0;0m [33mWARNING[0m [90m06-15 11:01:05[0m [90m[base.py:188][0m [LLM Worker 1] Sleep Mode DISABLED.
+[0;36m(Worker_TP0 pid=2128621)[0;0m [33mWARNING[0m [90m06-15 11:01:05[0m [90m[base.py:188][0m [LLM Worker 0] Sleep Mode DISABLED.
+[0;36m(Worker_TP0 pid=2128621)[0;0m [33mWARNING[0m [90m06-15 11:01:05[0m [90m[base.py:188][0m [LLM Worker 0] Sleep Mode DISABLED.
+[0;36m(Worker_TP0 pid=2128621)[0;0m [32mINFO[0m [90m06-15 11:01:05[0m [90m[gpu_model_runner.py:5092][0m Starting to load model /models/hub/models--tencent--HunyuanImage-3.0-Instruct/snapshots/2ec2c78bee7d4b94157341fba86c4c2c7b1858b2...
+Multi-thread loading shards:   3% Completed | 1/32 [00:01<00:33,  1.08s/it]
+[0;36m(Worker_TP0 pid=2128621)[0;0m [32mINFO[0m [90m06-15 11:01:05[0m [90m[cuda.py:378][0m Using TRITON_ATTN attention backend out of potential backends: ['TRITON_ATTN', 'FLEX_ATTENTION'].
+[0;36m(Worker_TP0 pid=2128621)[0;0m [32mINFO[0m [90m06-15 11:01:05[0m [90m[unquantized.py:291][0m Using TRITON Unquantized MoE backend out of potential backends: ['TRITON', 'BATCHED_TRITON', 'FlashInfer TRTLLM', 'FlashInfer CUTLASS'].
+[0;36m(Worker_TP0 pid=2128621)[0;0m [32mINFO[0m [90m06-15 11:01:06[0m [90m[cuda.py:433][0m Using backend AttentionBackendEnum.FLASH_ATTN for vit attention
+[0;36m(Worker_TP0 pid=2128621)[0;0m [32mINFO[0m [90m06-15 11:01:06[0m [90m[mm_encoder_attention.py:372][0m Using AttentionBackendEnum.FLASH_ATTN for MMEncoderAttention.
+Multi-thread loading shards:   6% Completed | 2/32 [00:01<00:25,  1.19it/s]
+[0;36m(Worker_TP0 pid=2128621)[0;0m You are using a model of type `hunyuan_image_3_moe` to instantiate a model of type ``. This may be expected if you are loading a checkpoint that shares a subset of the architecture (e.g., loading a `sam2_video` checkpoint into `Sam2Model`), but is otherwise not supported and can yield errors. Please verify that the checkpoint is compatible with the model you are instantiating.
+[0;36m(Worker_TP0 pid=2128621)[0;0m PreTrainedConfig got `key=rope_scaling` in kwargs but hasn't set it as attribute. For RoPE standardization you need to set `self.rope_parameters` in model's config. 
+[0;36m(Worker_TP0 pid=2128621)[0;0m Missing validation function in 'RotaryEmbeddingConfigMixin' for 'rope_type'='custom'
+[0;36m(Worker_TP1 pid=2128892)[0;0m You are using a model of type `hunyuan_image_3_moe` to instantiate a model of type ``. This may be expected if you are loading a checkpoint that shares a subset of the architecture (e.g., loading a `sam2_video` checkpoint into `Sam2Model`), but is otherwise not supported and can yield errors. Please verify that the checkpoint is compatible with the model you are instantiating.
+[0;36m(Worker_TP1 pid=2128892)[0;0m PreTrainedConfig got `key=rope_scaling` in kwargs but hasn't set it as attribute. For RoPE standardization you need to set `self.rope_parameters` in model's config. 
+[0;36m(Worker_TP1 pid=2128892)[0;0m Missing validation function in 'RotaryEmbeddingConfigMixin' for 'rope_type'='custom'
+Multi-thread loading shards:   9% Completed | 3/32 [00:02<00:21,  1.32it/s]
+Multi-thread loading shards:  12% Completed | 4/32 [00:03<00:19,  1.43it/s]
+[0;36m(Worker_TP0 pid=2128621)[0;0m [32mINFO[0m [90m06-15 11:01:07[0m [90m[hunyuan_image3.py:1712][0m Replaced 32 rotary embeddings with HunyuanImage3RotaryEmbedding (interleaved 2D RoPE, head_dim=128, rope_theta=10000.0)
+[0;36m(Worker_TP1 pid=2128892)[0;0m [32mINFO[0m [90m06-15 11:01:08[0m [90m[hunyuan_image3.py:1712][0m Replaced 32 rotary embeddings with HunyuanImage3RotaryEmbedding (interleaved 2D RoPE, head_dim=128, rope_theta=10000.0)
+Multi-thread loading shards:  16% Completed | 5/32 [00:03<00:18,  1.50it/s]
+Multi-thread loading shards:  19% Completed | 6/32 [00:04<00:17,  1.51it/s]
+Multi-thread loading shards:  22% Completed | 7/32 [00:04<00:16,  1.50it/s]
+Multi-thread loading shards:  25% Completed | 8/32 [00:05<00:15,  1.53it/s]
+Multi-thread loading shards:  28% Completed | 9/32 [00:06<00:15,  1.51it/s]
+Multi-thread loading shards:  31% Completed | 10/32 [00:06<00:14,  1.53it/s]
+Multi-thread loading shards:  34% Completed | 11/32 [00:07<00:13,  1.53it/s]
+Multi-thread loading shards:  38% Completed | 12/32 [00:08<00:12,  1.55it/s]
+Multi-thread loading shards:  41% Completed | 13/32 [00:08<00:11,  1.59it/s]
+Multi-thread loading shards:  44% Completed | 14/32 [00:09<00:11,  1.62it/s]
+Multi-thread loading shards:  47% Completed | 15/32 [00:10<00:10,  1.59it/s]
+Multi-thread loading shards:  50% Completed | 16/32 [00:10<00:09,  1.65it/s]
+Multi-thread loading shards:  53% Completed | 17/32 [00:11<00:08,  1.71it/s]
+Multi-thread loading shards:  56% Completed | 18/32 [00:11<00:07,  1.77it/s]
+Multi-thread loading shards:  59% Completed | 19/32 [00:12<00:07,  1.75it/s]
+Multi-thread loading shards:  62% Completed | 20/32 [00:12<00:07,  1.61it/s]
+Multi-thread loading shards:  66% Completed | 21/32 [00:13<00:06,  1.64it/s]
+Multi-thread loading shards:  69% Completed | 22/32 [00:14<00:06,  1.66it/s]
+Multi-thread loading shards:  72% Completed | 23/32 [00:14<00:05,  1.68it/s]
+Multi-thread loading shards:  75% Completed | 24/32 [00:15<00:04,  1.69it/s]
+Multi-thread loading shards:  78% Completed | 25/32 [00:15<00:04,  1.73it/s]
+Multi-thread loading shards:  81% Completed | 26/32 [00:16<00:03,  1.77it/s]
+Multi-thread loading shards:  84% Completed | 27/32 [00:16<00:02,  1.80it/s]
+Multi-thread loading shards:  88% Completed | 28/32 [00:17<00:02,  1.83it/s]
+Multi-thread loading shards:  91% Completed | 29/32 [00:17<00:01,  1.86it/s]
+Multi-thread loading shards:  94% Completed | 30/32 [00:18<00:01,  1.88it/s]
+[0;36m(Worker_TP0 pid=2128621)[0;0m [32mINFO[0m [90m06-15 11:01:23[0m [90m[hunyuan_image3.py:1677][0m Replaced 32 HunYuanSparseMoeBlock layers with HunyuanImage3SparseMoeBlock (fp32 router matching HF reference)
+[0;36m(Worker_TP0 pid=2128621)[0;0m [32mINFO[0m [90m06-15 11:01:23[0m [90m[weight_utils.py:922][0m Filesystem type for checkpoints: FUSE.ALIYUN-ALINAS-EFC. Checkpoint size: 156.97 GiB. Available RAM: 1891.26 GiB.
+[0;36m(Worker_TP0 pid=2128621)[0;0m [32mINFO[0m [90m06-15 11:01:23[0m [90m[weight_utils.py:945][0m Auto-prefetch is disabled because the filesystem (FUSE.ALIYUN-ALINAS-EFC) is not a recognized network FS (NFS/Lustre). If you want to force prefetching, start vLLM with --safetensors-load-strategy=prefetch.
+[0;36m(Worker_TP0 pid=2128621)[0;0m Loading safetensors checkpoint shards:   0% Completed | 0/32 [00:00<?, ?it/s]
+Multi-thread loading shards:  97% Completed | 31/32 [00:19<00:00,  1.78it/s]
+[0;36m(Worker_TP1 pid=2128892)[0;0m [32mINFO[0m [90m06-15 11:01:24[0m [90m[hunyuan_image3.py:1677][0m Replaced 32 HunYuanSparseMoeBlock layers with HunyuanImage3SparseMoeBlock (fp32 router matching HF reference)
+Multi-thread loading shards: 100% Completed | 32/32 [00:20<00:00,  1.32it/s]
+Multi-thread loading shards: 100% Completed | 32/32 [00:20<00:00,  1.58it/s]
+
+[32mINFO[0m [90m06-15 11:01:24[0m [90m[diffusers_loader.py:396][0m Loading weights took 20.47 seconds
+[32mINFO[0m [90m06-15 11:01:24[0m [90m[unquantized.py:347][0m Using MoEPrepareAndFinalizeNoDPEPModular
+[0;36m(Worker_TP0 pid=2128621)[0;0m Loading safetensors checkpoint shards:   3% Completed | 1/32 [00:01<00:47,  1.54s/it]
+[32mINFO[0m [90m06-15 11:01:25[0m [90m[diffusion_model_runner.py:148][0m Model loading took 79.3480 GiB and 24.876714 seconds
+[32mINFO[0m [90m06-15 11:01:25[0m [90m[diffusion_model_runner.py:153][0m Model runner: Model loaded successfully.
+[32mINFO[0m [90m06-15 11:01:25[0m [90m[diffusion_model_runner.py:209][0m Model runner: Initialization complete.
+[0;36m(Worker_TP0 pid=2128621)[0;0m Loading safetensors checkpoint shards:   6% Completed | 2/32 [00:02<00:35,  1.18s/it]
+[32mINFO[0m [90m06-15 11:01:26[0m [90m[diffusion_worker.py:308][0m Worker 0: Process-scoped GPU memory after model loading: 80.03 GiB.
+[32mINFO[0m [90m06-15 11:01:26[0m [90m[manager.py:96][0m Initializing DiffusionLoRAManager: device=cuda:0, dtype=torch.bfloat16, max_cached_adapters=1, static_lora_path=None
+[32mINFO[0m [90m06-15 11:01:26[0m [90m[diffusion_worker.py:209][0m Worker 0: Initialization complete.
+[32mINFO[0m [90m06-15 11:01:26[0m [90m[diffusion_worker.py:931][0m Worker 0: Scheduler loop started.
+[32mINFO[0m [90m06-15 11:01:26[0m [90m[diffusion_worker.py:823][0m Worker 0 ready to receive requests via shared memory
+[0;36m(Worker_TP0 pid=2128621)[0;0m Loading safetensors checkpoint shards:   9% Completed | 3/32 [00:03<00:34,  1.19s/it]
+[32mINFO[0m [90m06-15 11:01:27[0m [90m[diffusion_model_runner.py:148][0m Model loading took 79.3480 GiB and 26.457759 seconds
+[32mINFO[0m [90m06-15 11:01:27[0m [90m[diffusion_model_runner.py:153][0m Model runner: Model loaded successfully.
+[32mINFO[0m [90m06-15 11:01:27[0m [90m[diffusion_model_runner.py:209][0m Model runner: Initialization complete.
+[32mINFO[0m [90m06-15 11:01:27[0m [90m[diffusion_worker.py:308][0m Worker 1: Process-scoped GPU memory after model loading: 80.03 GiB.
+[32mINFO[0m [90m06-15 11:01:27[0m [90m[manager.py:96][0m Initializing DiffusionLoRAManager: device=cuda:1, dtype=torch.bfloat16, max_cached_adapters=1, static_lora_path=None
+[32mINFO[0m [90m06-15 11:01:27[0m [90m[diffusion_worker.py:209][0m Worker 1: Initialization complete.
+[32mINFO[0m [90m06-15 11:01:27[0m [90m[diffusion_worker.py:931][0m Worker 1: Scheduler loop started.
+[32mINFO[0m [90m06-15 11:01:27[0m [90m[diffusion_worker.py:823][0m Worker 1 ready to receive requests via shared memory
+[32mINFO[0m [90m06-15 11:01:27[0m [90m[diffusion_engine.py:755][0m dummy run to warm up the model
+[32mINFO[0m [90m06-15 11:01:27[0m [90m[kv_transfer_manager.py:1306][0m Rank-aware KV receive: rank 0 independently receiving (from_tp=2, to_tp=2)
+[32mINFO[0m [90m06-15 11:01:27[0m [90m[kv_transfer_manager.py:448][0m Initializing OmniConnector type=SharedMemoryConnector role=receiver
+[32mINFO[0m [90m06-15 11:01:27[0m [90m[factory.py:46][0m Created connector: SharedMemoryConnector
+[32mINFO[0m [90m06-15 11:01:27[0m [90m[kv_transfer_manager.py:1020][0m Skip receiving KV cache for dummy warmup request
+[32mINFO[0m [90m06-15 11:01:27[0m [90m[kv_transfer_manager.py:1306][0m Rank-aware KV receive: rank 1 independently receiving (from_tp=2, to_tp=2)
+[32mINFO[0m [90m06-15 11:01:27[0m [90m[kv_transfer_manager.py:448][0m Initializing OmniConnector type=SharedMemoryConnector role=receiver
+[32mINFO[0m [90m06-15 11:01:27[0m [90m[factory.py:46][0m Created connector: SharedMemoryConnector
+[32mINFO[0m [90m06-15 11:01:27[0m [90m[kv_transfer_manager.py:1020][0m Skip receiving KV cache for dummy warmup request
+[0;36m(Worker_TP0 pid=2128621)[0;0m Loading safetensors checkpoint shards:  12% Completed | 4/32 [00:04<00:31,  1.11s/it]
+  0%|          | 0/1 [00:00<?, ?it/s]`use_return_dict` is deprecated! Use `return_dict` instead!
+`use_return_dict` is deprecated! Use `return_dict` instead!
+[0;36m(Worker_TP0 pid=2128621)[0;0m Loading safetensors checkpoint shards:  16% Completed | 5/32 [00:05<00:27,  1.03s/it]
+[0;36m(Worker_TP0 pid=2128621)[0;0m Loading safetensors checkpoint shards:  19% Completed | 6/32 [00:06<00:25,  1.00it/s]
+[0;36m(Worker_TP0 pid=2128621)[0;0m Loading safetensors checkpoint shards:  22% Completed | 7/32 [00:07<00:24,  1.02it/s]
+[33mWARNING[0m [90m06-15 11:01:30[0m [90m[fused_moe.py:1071][0m Using default MoE config. Performance might be sub-optimal! Config file not found at /rebase/.venv/lib/python3.12/site-packages/vllm/model_executor/layers/fused_moe/configs/E=32,N=3072,device_name=NVIDIA_L20X.json
+100%|██████████| 1/1 [00:03<00:00,  3.02s/it]100%|██████████| 1/1 [00:03<00:00,  3.02s/it]
+[32mINFO[0m [90m06-15 11:01:31[0m [90m[stage_diffusion_proc.py:129][0m StageDiffusionProc initialized with model: tencent/HunyuanImage-3.0-Instruct
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:01:31 [stage_diffusion_client.py:159] [StageDiffusionClient] stage-1 [rep-0] initialized (owns_process=True, batch_size=1)
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:01:31 [async_omni_engine.py:1098] [AsyncOmniEngine] Stage 1 replica 0 initialized (diffusion, batch_size=1, devices=2,3)
+[0;36m(Worker_TP0 pid=2128621)[0;0m Loading safetensors checkpoint shards:  25% Completed | 8/32 [00:08<00:23,  1.03it/s]
+[0;36m(Worker_TP0 pid=2128621)[0;0m Loading safetensors checkpoint shards:  28% Completed | 9/32 [00:09<00:21,  1.05it/s]
+[0;36m(Worker_TP0 pid=2128621)[0;0m Loading safetensors checkpoint shards:  31% Completed | 10/32 [00:10<00:20,  1.06it/s]
+[0;36m(Worker_TP0 pid=2128621)[0;0m Loading safetensors checkpoint shards:  34% Completed | 11/32 [00:11<00:19,  1.07it/s]
+[0;36m(Worker_TP0 pid=2128621)[0;0m Loading safetensors checkpoint shards:  38% Completed | 12/32 [00:12<00:18,  1.08it/s]
+[0;36m(Worker_TP0 pid=2128621)[0;0m Loading safetensors checkpoint shards:  41% Completed | 13/32 [00:12<00:17,  1.09it/s]
+[0;36m(Worker_TP0 pid=2128621)[0;0m Loading safetensors checkpoint shards:  44% Completed | 14/32 [00:13<00:16,  1.10it/s]
+[0;36m(Worker_TP0 pid=2128621)[0;0m Loading safetensors checkpoint shards:  47% Completed | 15/32 [00:14<00:15,  1.10it/s]
+[0;36m(Worker_TP0 pid=2128621)[0;0m Loading safetensors checkpoint shards:  50% Completed | 16/32 [00:15<00:14,  1.10it/s]
+[0;36m(Worker_TP0 pid=2128621)[0;0m Loading safetensors checkpoint shards:  53% Completed | 17/32 [00:16<00:13,  1.13it/s]
+[0;36m(Worker_TP0 pid=2128621)[0;0m Loading safetensors checkpoint shards:  56% Completed | 18/32 [00:17<00:12,  1.14it/s]
+[0;36m(Worker_TP0 pid=2128621)[0;0m Loading safetensors checkpoint shards:  59% Completed | 19/32 [00:18<00:11,  1.11it/s]
+[0;36m(Worker_TP0 pid=2128621)[0;0m Loading safetensors checkpoint shards:  62% Completed | 20/32 [00:19<00:10,  1.14it/s]
+[0;36m(Worker_TP0 pid=2128621)[0;0m Loading safetensors checkpoint shards:  66% Completed | 21/32 [00:19<00:09,  1.15it/s]
+[0;36m(Worker_TP0 pid=2128621)[0;0m Loading safetensors checkpoint shards:  69% Completed | 22/32 [00:20<00:08,  1.15it/s]
+[0;36m(Worker_TP0 pid=2128621)[0;0m Loading safetensors checkpoint shards:  72% Completed | 23/32 [00:21<00:07,  1.15it/s]
+[0;36m(Worker_TP0 pid=2128621)[0;0m Loading safetensors checkpoint shards:  75% Completed | 24/32 [00:22<00:06,  1.15it/s]
+[0;36m(Worker_TP0 pid=2128621)[0;0m Loading safetensors checkpoint shards:  78% Completed | 25/32 [00:23<00:06,  1.16it/s]
+[0;36m(Worker_TP0 pid=2128621)[0;0m Loading safetensors checkpoint shards:  81% Completed | 26/32 [00:24<00:05,  1.15it/s]
+[0;36m(Worker_TP0 pid=2128621)[0;0m Loading safetensors checkpoint shards:  84% Completed | 27/32 [00:25<00:04,  1.17it/s]
+[0;36m(Worker_TP0 pid=2128621)[0;0m Loading safetensors checkpoint shards:  88% Completed | 28/32 [00:26<00:03,  1.14it/s]
+[0;36m(Worker_TP0 pid=2128621)[0;0m Loading safetensors checkpoint shards:  91% Completed | 29/32 [00:26<00:02,  1.13it/s]
+[0;36m(Worker_TP0 pid=2128621)[0;0m Loading safetensors checkpoint shards:  94% Completed | 30/32 [00:27<00:01,  1.13it/s]
+[0;36m(Worker_TP0 pid=2128621)[0;0m Loading safetensors checkpoint shards:  97% Completed | 31/32 [00:29<00:01,  1.06s/it]
+[0;36m(Worker_TP0 pid=2128621)[0;0m Loading safetensors checkpoint shards: 100% Completed | 32/32 [00:30<00:00,  1.05s/it]
+[0;36m(Worker_TP0 pid=2128621)[0;0m Loading safetensors checkpoint shards: 100% Completed | 32/32 [00:30<00:00,  1.06it/s]
+[0;36m(Worker_TP0 pid=2128621)[0;0m 
+[0;36m(Worker_TP0 pid=2128621)[0;0m [32mINFO[0m [90m06-15 11:01:53[0m [90m[default_loader.py:397][0m Loading weights took 30.45 seconds
+[0;36m(Worker_TP0 pid=2128621)[0;0m [32mINFO[0m [90m06-15 11:01:53[0m [90m[unquantized.py:347][0m Using MoEPrepareAndFinalizeNoDPEPModular
+[0;36m(Worker_TP0 pid=2128621)[0;0m [32mINFO[0m [90m06-15 11:01:54[0m [90m[gpu_model_runner.py:5187][0m Model loading took 78.71 GiB memory and 48.348245 seconds
+[0;36m(Worker_TP0 pid=2128621)[0;0m [32mINFO[0m [90m06-15 11:01:55[0m [90m[gpu_model_runner.py:6200][0m Encoder cache will be initialized with a budget of 32768 tokens, and profiled with 4 image items of the maximum feature size.
+[0;36m(Worker_TP0 pid=2128621)[0;0m [33mWARNING[0m [90m06-15 11:01:58[0m [90m[fused_moe.py:1071][0m Using default MoE config. Performance might be sub-optimal! Config file not found at /rebase/.venv/lib/python3.12/site-packages/vllm/model_executor/layers/fused_moe/configs/E=64,N=1536,device_name=NVIDIA_L20X.json
+[0;36m(Worker_TP0 pid=2128621)[0;0m [32mINFO[0m [90m06-15 11:02:00[0m [90m[base.py:163][0m Available KV cache memory: 47.32 GiB (profiling fallback)
+[0;36m(StageEngineCoreProc pid=2128349)[0;0m [32mINFO[0m [90m06-15 11:02:00[0m [90m[kv_cache_utils.py:1744][0m GPU KV cache size: 775,248 tokens
+[0;36m(StageEngineCoreProc pid=2128349)[0;0m [32mINFO[0m [90m06-15 11:02:00[0m [90m[kv_cache_utils.py:1745][0m Maximum concurrency for 22,800 tokens per request: 34.00x
+[0;36m(Worker_TP1 pid=2128892)[0;0m [33mWARNING[0m [90m06-15 11:02:00[0m [90m[base.py:188][0m [LLM Worker 1] Sleep Mode DISABLED.
+[0;36m(Worker_TP0 pid=2128621)[0;0m [33mWARNING[0m [90m06-15 11:02:00[0m [90m[base.py:188][0m [LLM Worker 0] Sleep Mode DISABLED.
+[0;36m(Worker_TP0 pid=2128621)[0;0m 2026-06-15 11:02:02,756 - INFO - autotuner.py:622 - flashinfer.jit: [Autotuner]: Autotuning process starts ...
+[0;36m(Worker_TP1 pid=2128892)[0;0m 2026-06-15 11:02:02,756 - INFO - autotuner.py:622 - flashinfer.jit: [Autotuner]: Autotuning process starts ...
+[0;36m(Worker_TP0 pid=2128621)[0;0m 2026-06-15 11:02:03,151 - INFO - autotuner.py:641 - flashinfer.jit: [Autotuner]: Autotuning process ends
+[0;36m(Worker_TP1 pid=2128892)[0;0m 2026-06-15 11:02:03,151 - INFO - autotuner.py:641 - flashinfer.jit: [Autotuner]: Autotuning process ends
+[0;36m(Worker_TP0 pid=2128621)[0;0m [32mINFO[0m [90m06-15 11:02:03[0m [90m[jit_monitor.py:54][0m Kernel JIT monitor activated — Triton JIT compilations during inference will be logged as warnings.
+[0;36m(Worker_TP1 pid=2128892)[0;0m [32mINFO[0m [90m06-15 11:02:03[0m [90m[jit_monitor.py:54][0m Kernel JIT monitor activated — Triton JIT compilations during inference will be logged as warnings.
+[0;36m(StageEngineCoreProc pid=2128349)[0;0m [32mINFO[0m [90m06-15 11:02:04[0m [90m[core.py:313][0m init engine (profile, create kv cache, warmup model) took 8.93 s
+[0;36m(StageEngineCoreProc pid=2128349)[0;0m You are using a model of type `hunyuan_image_3_moe` to instantiate a model of type `Hunyuan`. This may be expected if you are loading a checkpoint that shares a subset of the architecture (e.g., loading a `sam2_video` checkpoint into `Sam2Model`), but is otherwise not supported and can yield errors. Please verify that the checkpoint is compatible with the model you are instantiating.
+[0;36m(StageEngineCoreProc pid=2128349)[0;0m Missing validation function in 'RotaryEmbeddingConfigMixin' for 'rope_type'='custom'
+[0;36m(StageEngineCoreProc pid=2128349)[0;0m Missing validation function in 'RotaryEmbeddingConfigMixin' for 'rope_type'='custom'
+[0;36m(StageEngineCoreProc pid=2128349)[0;0m Missing validation function in 'RotaryEmbeddingConfigMixin' for 'rope_type'='custom'
+[0;36m(StageEngineCoreProc pid=2128349)[0;0m You are using a model of type `hunyuan_image_3_moe` to instantiate a model of type `Hunyuan`. This may be expected if you are loading a checkpoint that shares a subset of the architecture (e.g., loading a `sam2_video` checkpoint into `Sam2Model`), but is otherwise not supported and can yield errors. Please verify that the checkpoint is compatible with the model you are instantiating.
+[0;36m(StageEngineCoreProc pid=2128349)[0;0m Missing validation function in 'RotaryEmbeddingConfigMixin' for 'rope_type'='custom'
+[0;36m(StageEngineCoreProc pid=2128349)[0;0m [33mWARNING[0m [90m06-15 11:02:06[0m [90m[scheduler.py:181][0m Using custom scheduler class vllm_omni.core.sched.omni_ar_scheduler.OmniARAsyncScheduler. This scheduler interface is not public and compatibility may not be maintained.
+[0;36m(StageEngineCoreProc pid=2128349)[0;0m `Siglip2ImageProcessorFast` is deprecated. The `Fast` suffix for image processors has been removed; use `Siglip2ImageProcessor` instead.
+[0;36m(StageEngineCoreProc pid=2128349)[0;0m [32mINFO[0m [90m06-15 11:02:06[0m [90m[hunyuan_image3.py:954][0m Successfully processed 1 image(s). Final tensor shapes: {'vit_pixel_values': (1, 1024, 768), 'vit_pixel_attention_mask': (1, 1024), 'vit_spatial_shapes': (1, 2), 'vae_token_grid_hw': (1, 2), 'vae_pixel_size': (1,), 'base_size': (1,), 'ratio_index': (1,), 'vae_pixel_values': (3145728,)}
+[0;36m(StageEngineCoreProc pid=2128349)[0;0m [32mINFO[0m [90m06-15 11:02:07[0m [90m[vllm.py:999][0m Asynchronous scheduling is enabled.
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:07 [async_omni_engine.py:941] [AsyncOmniEngine] Stage 0 engine startup completed
+[0;36m(StageEngineCoreProc pid=2128349)[0;0m [33mWARNING[0m [90m06-15 11:02:07[0m [90m[vllm.py:1055][0m Enforce eager set, disabling torch.compile and CUDAGraphs. This is equivalent to setting -cc.mode=none -cc.cudagraph_mode=none
+[0;36m(StageEngineCoreProc pid=2128349)[0;0m [33mWARNING[0m [90m06-15 11:02:07[0m [90m[vllm.py:1097][0m Inductor compilation was disabled by user settings, optimizations settings that are only active during inductor compilation will be ignored.
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:07 [stage_engine_core_client.py:174] [StageEngineCoreClient] stage-0 [rep-0] initializing EngineCore
+[0;36m(StageEngineCoreProc pid=2128349)[0;0m [32mINFO[0m [90m06-15 11:02:07[0m [90m[kernel.py:270][0m Final IR op priority after setting platform defaults: IrOpPriorityConfig(rms_norm=['vllm_c', 'native'], fused_add_rms_norm=['vllm_c', 'native'])
+[0;36m(StageEngineCoreProc pid=2128349)[0;0m [32mINFO[0m [90m06-15 11:02:07[0m [90m[vllm.py:1273][0m Cudagraph is disabled under eager mode
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:07 [stage_engine_core_client.py:232] [StageEngineCoreClient] stage-0 [rep-0] EngineCore running
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:07 [async_omni_engine.py:962] [AsyncOmniEngine] Stage 0 initialized
+[0;36m(StageEngineCoreProc pid=2128349)[0;0m [32mINFO[0m [90m06-15 11:02:07[0m [90m[compilation.py:321][0m Enabled custom fusions: norm_quant, act_quant, allreduce_rms
+[0;36m(APIServer pid=2128082)[0;0m You are using a model of type `hunyuan_image_3_moe` to instantiate a model of type `Hunyuan`. This may be expected if you are loading a checkpoint that shares a subset of the architecture (e.g., loading a `sam2_video` checkpoint into `Sam2Model`), but is otherwise not supported and can yield errors. Please verify that the checkpoint is compatible with the model you are instantiating.
+[0;36m(APIServer pid=2128082)[0;0m Missing validation function in 'RotaryEmbeddingConfigMixin' for 'rope_type'='custom'
+[0;36m(APIServer pid=2128082)[0;0m Missing validation function in 'RotaryEmbeddingConfigMixin' for 'rope_type'='custom'
+[0;36m(APIServer pid=2128082)[0;0m Missing validation function in 'RotaryEmbeddingConfigMixin' for 'rope_type'='custom'
+[0;36m(APIServer pid=2128082)[0;0m You are using a model of type `hunyuan_image_3_moe` to instantiate a model of type `Hunyuan`. This may be expected if you are loading a checkpoint that shares a subset of the architecture (e.g., loading a `sam2_video` checkpoint into `Sam2Model`), but is otherwise not supported and can yield errors. Please verify that the checkpoint is compatible with the model you are instantiating.
+[0;36m(APIServer pid=2128082)[0;0m Missing validation function in 'RotaryEmbeddingConfigMixin' for 'rope_type'='custom'
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:10 [hunyuan_image3.py:954] Successfully processed 1 image(s). Final tensor shapes: {'vit_pixel_values': (1, 1024, 768), 'vit_pixel_attention_mask': (1, 1024), 'vit_spatial_shapes': (1, 2), 'vae_token_grid_hw': (1, 2), 'vae_pixel_size': (1,), 'base_size': (1,), 'ratio_index': (1,), 'vae_pixel_values': (3145728,)}
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:12 [orchestrator.py:304] [Orchestrator] Starting event loop
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:12 [async_omni_engine.py:391] [AsyncOmniEngine] Orchestrator ready with 2 stages
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:12 [omni_base.py:185] [AsyncOmni] AsyncOmniEngine initialized in 103.42 seconds
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:12 [omni_base.py:205] [AsyncOmni] Initialized with 2 stages for model tencent/HunyuanImage-3.0-Instruct
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:12 [api_server.py:784] Supported tasks: {'generate'}
+[0;36m(APIServer pid=2128082)[0;0m WARNING 06-15 11:02:12 [model.py:1502] Default vLLM sampling parameters have been overridden by the model's `generation_config.json`: `{'temperature': 0.6, 'top_k': 1024, 'top_p': 0.95, 'max_tokens': 2048}`. If this is not intended, please relaunch vLLM instance with `--generation-config vllm`.
+[0;36m(APIServer pid=2128082)[0;0m You are using a model of type `hunyuan_image_3_moe` to instantiate a model of type `Hunyuan`. This may be expected if you are loading a checkpoint that shares a subset of the architecture (e.g., loading a `sam2_video` checkpoint into `Sam2Model`), but is otherwise not supported and can yield errors. Please verify that the checkpoint is compatible with the model you are instantiating.
+[0;36m(APIServer pid=2128082)[0;0m Missing validation function in 'RotaryEmbeddingConfigMixin' for 'rope_type'='custom'
+[0;36m(APIServer pid=2128082)[0;0m You are using a model of type `hunyuan_image_3_moe` to instantiate a model of type `Hunyuan`. This may be expected if you are loading a checkpoint that shares a subset of the architecture (e.g., loading a `sam2_video` checkpoint into `Sam2Model`), but is otherwise not supported and can yield errors. Please verify that the checkpoint is compatible with the model you are instantiating.
+[0;36m(APIServer pid=2128082)[0;0m Missing validation function in 'RotaryEmbeddingConfigMixin' for 'rope_type'='custom'
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:14 [hf.py:548] Detected the chat template content format to be 'string'. You can set `--chat-template-content-format` to override this.
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:14 [hunyuan_image3.py:954] Successfully processed 1 image(s). Final tensor shapes: {'vit_pixel_values': (1, 1024, 768), 'vit_pixel_attention_mask': (1, 1024), 'vit_spatial_shapes': (1, 2), 'vae_token_grid_hw': (1, 2), 'vae_pixel_size': (1,), 'base_size': (1,), 'ratio_index': (1,), 'vae_pixel_values': (3145728,)}
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:14 [base.py:227] Multi-modal warmup completed in 0.018s
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:14 [hunyuan_image3.py:954] Successfully processed 1 image(s). Final tensor shapes: {'vit_pixel_values': (1, 1024, 768), 'vit_pixel_attention_mask': (1, 1024), 'vit_spatial_shapes': (1, 2), 'vae_token_grid_hw': (1, 2), 'vae_pixel_size': (1,), 'base_size': (1,), 'ratio_index': (1,), 'vae_pixel_values': (3145728,)}
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:14 [base.py:227] Readonly multi-modal warmup completed in 0.010s
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:14 [speaker_cache.py:242] Speaker cache ready (max_bytes=536870912)
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:14 [serving_speech.py:306] Speaker storage: dir=/root/.cache/vllm-omni/speakers, max_speakers=1000, restored=0
+[0;36m(APIServer pid=2128082)[0;0m WARNING 06-15 11:02:14 [serving_speech.py:787] Could not load speakers from model config: 'HunyuanImage3Config' object has no attribute 'talker_config'
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:14 [serving_speech.py:465] Loaded 0 supported speakers: []
+[0;36m(APIServer pid=2128082)[0;0m WARNING 06-15 11:02:14 [serving_speech.py:620] Failed to load codec frame rate from speech tokenizer config: /models/hub/models--tencent--HunyuanImage-3.0-Instruct/snapshots/2ec2c78bee7d4b94157341fba86c4c2c7b1858b2 does not appear to have a file named speech_tokenizer/config.json. Checkout 'https://huggingface.co//models/hub/models--tencent--HunyuanImage-3.0-Instruct/snapshots/2ec2c78bee7d4b94157341fba86c4c2c7b1858b2/tree/main' for available files.
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:14 [serving.py:45] OpenAIServingRealtime initialized for task: realtime
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:14 [api_server.py:493] Starting vLLM API server 0 on http://127.0.0.1:48255
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:14 [launcher.py:37] Available routes are:
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:14 [launcher.py:46] Route: /openapi.json, Methods: HEAD, GET
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:14 [launcher.py:46] Route: /docs, Methods: HEAD, GET
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:14 [launcher.py:46] Route: /docs/oauth2-redirect, Methods: HEAD, GET
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:14 [launcher.py:46] Route: /redoc, Methods: HEAD, GET
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:14 [launcher.py:46] Route: /load, Methods: GET
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:14 [launcher.py:46] Route: /version, Methods: GET
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:14 [launcher.py:46] Route: /health, Methods: GET
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:14 [launcher.py:46] Route: /metrics, Methods: GET
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:14 [launcher.py:46] Route: /tokenize, Methods: POST
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:14 [launcher.py:46] Route: /detokenize, Methods: POST
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:14 [launcher.py:46] Route: /ping, Methods: GET
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:14 [launcher.py:46] Route: /ping, Methods: POST
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:14 [launcher.py:46] Route: /invocations, Methods: POST
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:14 [launcher.py:46] Route: /v1/chat/completions/batch, Methods: POST
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:14 [launcher.py:46] Route: /v1/responses, Methods: POST
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:14 [launcher.py:46] Route: /v1/responses/{response_id}, Methods: GET
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:14 [launcher.py:46] Route: /v1/responses/{response_id}/cancel, Methods: POST
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:14 [launcher.py:46] Route: /v1/completions, Methods: POST
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:14 [launcher.py:46] Route: /v1/messages, Methods: POST
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:14 [launcher.py:46] Route: /v1/messages/count_tokens, Methods: POST
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:14 [launcher.py:46] Route: /generative_scoring, Methods: POST
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:14 [launcher.py:46] Route: /inference/v1/generate, Methods: POST
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:14 [launcher.py:46] Route: /scale_elastic_ep, Methods: POST
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:14 [launcher.py:46] Route: /is_scaling_elastic_ep, Methods: POST
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:14 [launcher.py:46] Route: /v1/chat/completions/render, Methods: POST
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:14 [launcher.py:46] Route: /v1/completions/render, Methods: POST
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:14 [launcher.py:46] Route: /v1/chat/completions, Methods: POST
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:14 [launcher.py:46] Route: /v1/audio/speech, Methods: POST
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:14 [launcher.py:46] Route: /v1/audio/speech/batch, Methods: POST
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:14 [launcher.py:46] Route: /v1/audio/generate, Methods: POST
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:14 [launcher.py:46] Route: /v1/audio/voices, Methods: GET
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:14 [launcher.py:46] Route: /v1/audio/voices, Methods: POST
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:14 [launcher.py:46] Route: /v1/audio/voices/{name}, Methods: DELETE
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:14 [launcher.py:46] Route: /health, Methods: GET
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:14 [launcher.py:46] Route: /v1/models, Methods: GET
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:14 [launcher.py:46] Route: /v1/images/generations, Methods: POST
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:14 [launcher.py:46] Route: /v1/images/edits, Methods: POST
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:14 [launcher.py:46] Route: /v1/videos, Methods: POST
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:14 [launcher.py:46] Route: /v1/videos/sync, Methods: POST
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:14 [launcher.py:46] Route: /v1/videos, Methods: GET
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:14 [launcher.py:46] Route: /v1/videos/{video_id}, Methods: GET
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:14 [launcher.py:46] Route: /v1/videos/{video_id}, Methods: DELETE
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:14 [launcher.py:46] Route: /v1/videos/{video_id}/content, Methods: GET
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:14 [launcher.py:46] Route: /v1/omni/sleep, Methods: POST
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:14 [launcher.py:46] Route: /v1/omni/wakeup, Methods: POST
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:14 [launcher.py:57] Route: /v1/audio/speech/stream, Endpoint: streaming_speech
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:14 [launcher.py:57] Route: /v1/video/chat/stream, Endpoint: streaming_video_chat
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:14 [launcher.py:57] Route: /v1/realtime, Endpoint: realtime_websocket
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:14 [launcher.py:57] Route: /v1/realtime/robot/openpi, Endpoint: realtime_robot_openpi
+[0;36m(APIServer pid=2128082)[0;0m INFO:     Started server process [2128082]
+[0;36m(APIServer pid=2128082)[0;0m INFO:     Waiting for application startup.
+[0;36m(APIServer pid=2128082)[0;0m INFO:     Application startup complete.
+[0;36m(APIServer pid=2128082)[0;0m WARNING 06-15 11:02:17 [input_processor.py:282] Passing raw prompts to InputProcessor is deprecated and will be removed in v0.18. You should instead pass the outputs of Renderer.render_cmpl() or Renderer.render_chat().
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:17 [hunyuan_image3.py:954] Successfully processed 2 image(s). Final tensor shapes: {'vit_pixel_values': (2, 1024, 768), 'vit_pixel_attention_mask': (2, 1024), 'vit_spatial_shapes': (2, 2), 'vae_token_grid_hw': (2, 2), 'vae_pixel_size': (2,), 'base_size': (2,), 'ratio_index': (2,), 'vae_pixel_values': (5910528,)}
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:17 [stage_engine_core_client.py:313] [StageEngineCoreClient] stage-0 [rep-0] add request: img_edit-99d124b82abe1c82-afc63bc2
+[0;36m(Worker_TP0 pid=2128621)[0;0m [33mWARNING[0m [90m06-15 11:02:17[0m [90m[gpu_model_runner.py:573][0m additional_information on request data is deprecated, use model_intermediate_buffer
+[0;36m(Worker_TP0 pid=2128621)[0;0m [33mWARNING[0m [90m06-15 11:02:17[0m [90m[jit_monitor.py:103][0m Triton kernel JIT compilation during inference: _compute_slot_mapping_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.
+[0;36m(Worker_TP0 pid=2128621)[0;0m [33mWARNING[0m [90m06-15 11:02:18[0m [90m[jit_monitor.py:103][0m Triton kernel JIT compilation during inference: kernel_unified_attention. This causes a latency spike; consider extending warmup to cover this shape/config.
+[0;36m(Worker_TP0 pid=2128621)[0;0m [33mWARNING[0m [90m06-15 11:02:19[0m [90m[jit_monitor.py:103][0m Triton kernel JIT compilation during inference: reduce_segments. This causes a latency spike; consider extending warmup to cover this shape/config.
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:56 [hunyuan_image3.py:168] [ar2diffusion] Request 0: AR generated 689 tokens, text length=1174, cot_text length=1174, target size=1024x1024 (from prompt (no AR ratio token))
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:56 [orchestrator.py:1166] [Orchestrator] ar2diffusion req=img_edit-99d124b82abe1c82-afc63bc2 wall_time=0.698ms stage=0->1
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:02:56 [stage_diffusion_client.py:358] [StageDiffusionClient] stage-1 [rep-0] add batch request: img_edit-99d124b82abe1c82-afc63bc2 (1 prompts)
+[32mINFO[0m [90m06-15 11:02:56[0m [90m[kv_transfer_manager.py:1306][0m Rank-aware KV receive: rank 1 independently receiving (from_tp=2, to_tp=2)
+[32mINFO[0m [90m06-15 11:02:56[0m [90m[kv_transfer_manager.py:733][0m Sender info updated: host=192.168.17.37, base_port=50151, adjusted_port=50167 (local_rank=1)
+[32mINFO[0m [90m06-15 11:02:56[0m [90m[kv_transfer_manager.py:1035][0m Wait for KV cache for request img_edit-99d124b82abe1c82-afc63bc2 from stage 0 to 1 via 1 key(s)...
+[32mINFO[0m [90m06-15 11:02:56[0m [90m[kv_transfer_manager.py:1306][0m Rank-aware KV receive: rank 0 independently receiving (from_tp=2, to_tp=2)
+[32mINFO[0m [90m06-15 11:02:56[0m [90m[kv_transfer_manager.py:733][0m Sender info updated: host=192.168.17.37, base_port=50151, adjusted_port=50151 (local_rank=0)
+[32mINFO[0m [90m06-15 11:02:56[0m [90m[kv_transfer_manager.py:1035][0m Wait for KV cache for request img_edit-99d124b82abe1c82-afc63bc2 from stage 0 to 1 via 1 key(s)...
+[0;36m(Worker_TP0 pid=2128621)[0;0m [32mINFO[0m [90m06-15 11:02:57[0m [90m[kv_transfer_manager.py:926][0m KV cache serialized for img_edit-99d124b82abe1c82-afc63bc2 in 1026.7 ms
+[0;36m(Worker_TP1 pid=2128892)[0;0m [32mINFO[0m [90m06-15 11:02:57[0m [90m[kv_transfer_manager.py:926][0m KV cache serialized for img_edit-99d124b82abe1c82-afc63bc2 in 1035.1 ms
+[0;36m(Worker_TP0 pid=2128621)[0;0m [32mINFO[0m [90m06-15 11:02:58[0m [90m[kv_transfer_manager.py:940][0m KV transfer OK: img_edit-99d124b82abe1c82-afc63bc2, 766386589 bytes across 1 key(s), 1.023s, 714.1 MB/s
+[0;36m(Worker_TP1 pid=2128892)[0;0m [32mINFO[0m [90m06-15 11:02:58[0m [90m[kv_transfer_manager.py:940][0m KV transfer OK: img_edit-99d124b82abe1c82-afc63bc2, 766386589 bytes across 1 key(s), 1.027s, 711.7 MB/s
+/rebase/vllm-omni/vllm_omni/distributed/omni_connectors/kv_transfer_manager.py:261: UserWarning: The given buffer is not writable, and PyTorch does not support non-writable tensors. This means you can write to the underlying (supposedly non-writable) buffer using the tensor. You may want to copy the buffer to protect its data or make it writable before converting it to a tensor. This type of warning will be suppressed for the rest of this program. (Triggered internally at /pytorch/torch/csrc/utils/tensor_new.cpp:1586.)
+  return torch.frombuffer(tensor_data_mv, dtype=torch.uint8, offset=offset, count=nbytes)
+/rebase/vllm-omni/vllm_omni/distributed/omni_connectors/kv_transfer_manager.py:261: UserWarning: The given buffer is not writable, and PyTorch does not support non-writable tensors. This means you can write to the underlying (supposedly non-writable) buffer using the tensor. You may want to copy the buffer to protect its data or make it writable before converting it to a tensor. This type of warning will be suppressed for the rest of this program. (Triggered internally at /pytorch/torch/csrc/utils/tensor_new.cpp:1586.)
+  return torch.frombuffer(tensor_data_mv, dtype=torch.uint8, offset=offset, count=nbytes)
+[32mINFO[0m [90m06-15 11:03:00[0m [90m[kv_transfer_manager.py:1128][0m Successfully received KV cache for img_edit-99d124b82abe1c82-afc63bc2, 766386589 bytes across 1 key(s), wait=2.984s, link=1353.6ms
+[32mINFO[0m [90m06-15 11:03:00[0m [90m[kv_transfer_manager.py:1128][0m Successfully received KV cache for img_edit-99d124b82abe1c82-afc63bc2, 766386589 bytes across 1 key(s), wait=2.993s, link=1362.1ms
+[32mINFO[0m [90m06-15 11:03:00[0m [90m[pipeline_hunyuan_image3.py:1384][0m [AR KV Reuse] Extracted 32 layers of AR KV, each with length: torch.Size([11694, 4, 128])
+[32mINFO[0m [90m06-15 11:03:00[0m [90m[pipeline_hunyuan_image3.py:1384][0m [AR KV Reuse] Extracted 32 layers of AR KV, each with length: torch.Size([11694, 4, 128])
+[32mINFO[0m [90m06-15 11:03:00[0m [90m[hunyuan_image3_transformer.py:2920][0m Handling AR KV reuse with positive_reuse_len=11694, negative_reuse_len=10983
+[32mINFO[0m [90m06-15 11:03:00[0m [90m[hunyuan_image3_transformer.py:2920][0m Handling AR KV reuse with positive_reuse_len=11694, negative_reuse_len=10983
+  0%|          | 0/50 [00:00<?, ?it/s]  2%|▏         | 1/50 [00:00<00:32,  1.51it/s]  4%|▍         | 2/50 [00:01<00:26,  1.80it/s]  6%|▌         | 3/50 [00:01<00:24,  1.89it/s]  8%|▊         | 4/50 [00:02<00:23,  1.94it/s] 10%|█         | 5/50 [00:02<00:22,  1.96it/s] 12%|█▏        | 6/50 [00:03<00:22,  1.98it/s] 14%|█▍        | 7/50 [00:03<00:21,  1.99it/s] 16%|█▌        | 8/50 [00:04<00:21,  2.00it/s] 18%|█▊        | 9/50 [00:04<00:20,  2.00it/s] 20%|██        | 10/50 [00:05<00:19,  2.01it/s] 22%|██▏       | 11/50 [00:05<00:19,  2.01it/s] 24%|██▍       | 12/50 [00:06<00:18,  2.01it/s] 26%|██▌       | 13/50 [00:06<00:18,  2.01it/s] 28%|██▊       | 14/50 [00:07<00:17,  2.01it/s] 30%|███       | 15/50 [00:07<00:17,  2.01it/s] 32%|███▏      | 16/50 [00:08<00:16,  2.01it/s] 34%|███▍      | 17/50 [00:08<00:16,  2.01it/s] 36%|███▌      | 18/50 [00:09<00:15,  2.01it/s] 38%|███▊      | 19/50 [00:09<00:15,  2.01it/s] 40%|████      | 20/50 [00:10<00:14,  2.01it/s] 42%|████▏     | 21/50 [00:10<00:14,  2.01it/s] 44%|████▍     | 22/50 [00:11<00:13,  2.01it/s] 46%|████▌     | 23/50 [00:11<00:13,  2.01it/s] 48%|████▊     | 24/50 [00:12<00:12,  2.01it/s] 50%|█████     | 25/50 [00:12<00:12,  2.01it/s] 52%|█████▏    | 26/50 [00:13<00:11,  2.01it/s] 54%|█████▍    | 27/50 [00:13<00:11,  2.01it/s] 56%|█████▌    | 28/50 [00:14<00:10,  2.01it/s] 58%|█████▊    | 29/50 [00:14<00:10,  2.01it/s] 60%|██████    | 30/50 [00:15<00:09,  2.01it/s] 62%|██████▏   | 31/50 [00:15<00:09,  2.01it/s] 64%|██████▍   | 32/50 [00:16<00:08,  2.02it/s] 66%|██████▌   | 33/50 [00:16<00:08,  2.01it/s] 68%|██████▊   | 34/50 [00:17<00:07,  2.01it/s] 70%|███████   | 35/50 [00:17<00:07,  2.01it/s] 72%|███████▏  | 36/50 [00:18<00:06,  2.01it/s] 74%|███████▍  | 37/50 [00:18<00:06,  2.02it/s] 76%|███████▌  | 38/50 [00:19<00:05,  2.01it/s] 78%|███████▊  | 39/50 [00:19<00:05,  2.02it/s] 80%|████████  | 40/50 [00:20<00:04,  2.01it/s] 82%|████████▏ | 41/50 [00:20<00:04,  2.01it/s] 84%|████████▍ | 42/50 [00:21<00:03,  2.01it/s] 86%|████████▌ | 43/50 [00:21<00:03,  2.01it/s] 88%|████████▊ | 44/50 [00:22<00:02,  2.01it/s] 90%|█████████ | 45/50 [00:22<00:02,  2.01it/s] 92%|█████████▏| 46/50 [00:23<00:01,  2.01it/s] 94%|█████████▍| 47/50 [00:23<00:01,  2.01it/s] 96%|█████████▌| 48/50 [00:24<00:00,  2.01it/s] 98%|█████████▊| 49/50 [00:24<00:00,  2.00it/s]100%|██████████| 50/50 [00:25<00:00,  2.00it/s]100%|██████████| 50/50 [00:25<00:00,  2.00it/s]
+[0;36m(APIServer pid=2128082)[0;0m INFO:     127.0.0.1:54138 - "POST /v1/images/edits HTTP/1.1" 200 OK
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:03:26 [launcher.py:100] [shutdown] API server: shutdown triggered
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:03:26 [launcher.py:116] [shutdown] API server: stopping engine client mode=abort timeout=0s
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:03:26 [omni_base.py:601] [AsyncOmni] Shutting down
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:03:26 [async_omni_engine.py:2460] [AsyncOmniEngine] Shutting down Orchestrator
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:03:26 [orchestrator.py:435] [Orchestrator] Received shutdown signal
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:03:26 [orchestrator.py:1628] [Orchestrator] Shutting down all 2 client(s)
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:03:26 [core_client.py:652] [shutdown] MPClient: start timeout=default
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:03:26 [core_client.py:657] [shutdown] MPClient: cleaning up background resources
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:03:26 [core_client.py:659] [shutdown] MPClient: complete
+[0;36m(Worker_TP0 pid=2128621)[0;0m [32mINFO[0m [90m06-15 11:03:26[0m [90m[multiproc_executor.py:790][0m Parent process exited, terminating worker queues
+[0;36m(StageEngineCoreProc pid=2128349)[0;0m [32mINFO[0m [90m06-15 11:03:26[0m [90m[multiproc_executor.py:428][0m [shutdown] Executor: waiting for worker exit count=2
+[0;36m(APIServer pid=2128082)[0;0m INFO:     Shutting down
+[0;36m(APIServer pid=2128082)[0;0m INFO:     Waiting for application shutdown.
+[0;36m(APIServer pid=2128082)[0;0m INFO:     Application shutdown complete.
+[0;36m(APIServer pid=2128082)[0;0m INFO:     Finished server process [2128082]
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:03:26 [omni_base.py:601] [AsyncOmni] Shutting down
+[0;36m(StageEngineCoreProc pid=2128349)[0;0m [33mWARNING[0m [90m06-15 11:03:30[0m [90m[multiproc_executor.py:438][0m [shutdown] Executor: workers still running after grace period; sending SIGTERM count=2
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:03:31 [stage_pool.py:1167] [StagePool] Stage 0 replica 0 shut down
+[32mINFO[0m [90m06-15 11:03:31[0m [90m[diffusion_worker.py:863][0m Worker 0: Received shutdown message
+[32mINFO[0m [90m06-15 11:03:31[0m [90m[diffusion_worker.py:884][0m event loop terminated.
+[32mINFO[0m [90m06-15 11:03:31[0m [90m[diffusion_worker.py:863][0m Worker 1: Received shutdown message
+[32mINFO[0m [90m06-15 11:03:31[0m [90m[diffusion_worker.py:884][0m event loop terminated.
+[32mINFO[0m [90m06-15 11:03:31[0m [90m[diffusion_worker.py:954][0m Worker 0: Shutdown complete.
+[32mINFO[0m [90m06-15 11:03:31[0m [90m[diffusion_worker.py:954][0m Worker 1: Shutdown complete.
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:03:35 [stage_pool.py:1167] [StagePool] Stage 1 replica 0 shut down
+[0;36m(APIServer pid=2128082)[0;0m INFO 06-15 11:03:35 [cumem.py:206] CuMemAllocator: sleep freed 0.00 GiB memory in total, of which 0.00 GiB is backed up in CPU and the rest 0.00 GiB is discarded directly.
+/root/.local/share/uv/python/cpython-3.12.13-linux-x86_64-gnu/lib/python3.12/multiprocessing/resource_tracker.py:279: UserWarning: resource_tracker: There appear to be 1 leaked shared_memory objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '
+--- Running test: test_image_to_image_alignment_online
+Pre-test GPU status:
+[GPU Memory Monitor] Waiting for GPU 0, 1, 2, 3 to free memory, Condition: Memory usage ratio ≤ 5.0%
+[GPU Memory Status] Current usage:
+  GPU 0: 0.6GiB/140.4GiB (0.4%)
+  GPU 1: 0.6GiB/140.4GiB (0.4%)
+  GPU 2: 0.6GiB/140.4GiB (0.4%)
+  GPU 3: 0.6GiB/140.4GiB (0.4%)
+[GPU Memory Freed] Devices 0, 1, 2, 3 meet memory condition
+   Condition: Memory usage ratio ≤ 5.0%
+   Wait time: 0.0 seconds (0.0 minutes)
+Post-test GPU status:
+
+================================================================================
+NVIDIA GPU Information (nvidia-smi)
+================================================================================
+Mon Jun 15 11:00:17 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 570.133.20             Driver Version: 570.133.20     CUDA Version: 13.0     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA L20X                    On  |   00000001:09:00.0 Off |                    0 |
+| N/A   29C    P0             74W /  700W |       4MiB / 143771MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+|   1  NVIDIA L20X                    On  |   00000001:7F:00.0 Off |                    0 |
+| N/A   31C    P0             74W /  700W |       4MiB / 143771MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+|   2  NVIDIA L20X                    On  |   00000001:A3:00.0 Off |                    0 |
+| N/A   32C    P0             77W /  700W |       4MiB / 143771MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+... (showing first 20 of 32 lines)
+
+================================================================================
+Detailed GPU Processes (nvidia-smi pmon)
+================================================================================
+# gpu         pid   type     sm    mem    enc    dec    jpg    ofa    command 
+# Idx           #    C/G      %      %      %      %      %      %    name 
+    0          -     -      -      -      -      -      -      -    -              
+    1          -     -      -      -      -      -      -      -    -              
+    2          -     -      -      -      -      -      -      -    -              
+    3          -     -      -      -      -      -      -      -    -
+
+================================================================================
+System Processes with GPU keywords
+================================================================================
+Launching OmniServer with: /rebase/.venv/bin/python -m vllm_omni.entrypoints.cli.main serve tencent/HunyuanImage-3.0-Instruct --host 127.0.0.1 --port 48255 --omni --stage-configs-path /tmp/tmp8pvze52f/online.yaml --stage-init-timeout 300 --init-timeout 900
+Downloading image 0 from https://raw.githubusercontent.com/Tencent-Hunyuan/HunyuanImage-3.0/main/assets/demo_instruct_imgs/input_1_0.png
+Downloading image 1 from https://raw.githubusercontent.com/Tencent-Hunyuan/HunyuanImage-3.0/main/assets/demo_instruct_imgs/input_1_1.png
+Pre-test GPU status:
+  Removing stale device lock /tmp/vllm_omni_device_0_init.lock (PID 2128082 is dead)
+  Removing stale device lock /tmp/vllm_omni_device_1_init.lock (PID 2128082 is dead)
+[GPU Memory Monitor] Waiting for GPU 0, 1, 2, 3 to free memory, Condition: Memory usage ratio ≤ 5.0%
+[GPU Memory Status] Current usage:
+  GPU 0: 0.6GiB/140.4GiB (0.4%)
+  GPU 1: 0.6GiB/140.4GiB (0.4%)
+  GPU 2: 0.6GiB/140.4GiB (0.4%)
+  GPU 3: 0.6GiB/140.4GiB (0.4%)
+[GPU Memory Freed] Devices 0, 1, 2, 3 meet memory condition
+   Condition: Memory usage ratio ≤ 5.0%
+   Wait time: 0.0 seconds (0.0 minutes)
+Post-test GPU status:
+
+================================================================================
+NVIDIA GPU Information (nvidia-smi)
+================================================================================
+Mon Jun 15 11:03:38 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 570.133.20             Driver Version: 570.133.20     CUDA Version: 13.0     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA L20X                    On  |   00000001:09:00.0 Off |                    0 |
+| N/A   31C    P0             74W /  700W |       4MiB / 143771MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+|   1  NVIDIA L20X                    On  |   00000001:7F:00.0 Off |                    0 |
+| N/A   34C    P0             75W /  700W |       4MiB / 143771MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+|   2  NVIDIA L20X                    On  |   00000001:A3:00.0 Off |                    0 |
+| N/A   40C    P0             80W /  700W |       4MiB / 143771MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+... (showing first 20 of 32 lines)
+
+================================================================================
+Detailed GPU Processes (nvidia-smi pmon)
+================================================================================
+# gpu         pid   type     sm    mem    enc    dec    jpg    ofa    command 
+# Idx           #    C/G      %      %      %      %      %      %    name 
+    0          -     -      -      -      -      -      -      -    -              
+    1          -     -      -      -      -      -      -      -    -              
+    2          -     -      -      -      -      -      -      -    -              
+    3          -     -      -      -      -      -      -      -    -
+
+================================================================================
+System Processes with GPU keywords
+================================================================================
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s]Loading weights: 100%|██████████| 398/398 [00:00<00:00, 58307.13it/s]
+[1mCLIPModel LOAD REPORT[0m from: openai/clip-vit-base-patch16
+Key                                  | Status     |  | 
+-------------------------------------+------------+--+-
+text_model.embeddings.position_ids   | UNEXPECTED |  | 
+vision_model.embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+Loading text similarity model: BAAI/bge-m3
+Loading weights:   0%|          | 0/391 [00:00<?, ?it/s]Loading weights:  99%|█████████▉| 389/391 [00:00<00:00, 3888.94it/s]Loading weights: 100%|██████████| 391/391 [00:00<00:00, 3897.57it/s]
+initial target device:   0%|          | 0/4 [00:00<?, ?it/s]initial target device:  25%|██▌       | 1/4 [00:05<00:16,  5.58s/it]initial target device:  50%|█████     | 2/4 [00:11<00:11,  5.57s/it]initial target device:  75%|███████▌  | 3/4 [00:16<00:05,  5.58s/it]initial target device: 100%|██████████| 4/4 [00:22<00:00,  5.57s/it]initial target device: 100%|██████████| 4/4 [00:22<00:00,  5.57s/it]
+Chunks:   0%|          | 0/1 [00:00<?, ?it/s]Chunks: 100%|██████████| 1/1 [00:01<00:00,  1.63s/it]Chunks: 100%|██████████| 1/1 [00:01<00:00,  1.63s/it]
+Chunks:   0%|          | 0/1 [00:00<?, ?it/s]Chunks: 100%|██████████| 1/1 [00:01<00:00,  1.15s/it]Chunks: 100%|██████████| 1/1 [00:01<00:00,  1.15s/it]
+[ONLINE] +-----------------------------+----------+------------------+
+| Metric                      |    Value |   L20x Reference |
++=============================+==========+==================+
+| COT similarity to reference |   0.9829 |           0.9644 |
++-----------------------------+----------+------------------+
+| COT prefix match            | 127      |          29      |
++-----------------------------+----------+------------------+
+| Image-Image similarity      |  97.2845 |          94.5538 |
++-----------------------------+----------+------------------+
+| SSIM                        |   0.2722 |           0.242  |
++-----------------------------+----------+------------------+
+| PSNR (dB)                   |  14.19   |          14.1    |
++-----------------------------+----------+------------------+
+PASSED
+tests/e2e/accuracy/test_hunyuan_image3.py::test_image_to_image_alignment SKIPPED
+tests/e2e/accuracy/test_hunyuan_image3.py::test_quantized_dit_matches_bf16_accuracy[fp8] SKIPPED
+tests/e2e/accuracy/test_hunyuan_image3.py::test_quantized_dit_matches_bf16_accuracy[mixed_nvfp4] SKIPPED
+
+=============================== warnings summary ===============================
+<frozen importlib._bootstrap>:488
+  <frozen importlib._bootstrap>:488: DeprecationWarning: builtin type SwigPyPacked has no __module__ attribute
+
+<frozen importlib._bootstrap>:488
+  <frozen importlib._bootstrap>:488: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute
+
+../.venv/lib/python3.12/site-packages/torch/jit/_script.py:365: 14 warnings
+  /rebase/.venv/lib/python3.12/site-packages/torch/jit/_script.py:365: DeprecationWarning: `torch.jit.script_method` is deprecated. Please switch to `torch.compile` or `torch.export`.
+    warnings.warn(
+
+vllm_omni/version.py:55
+  /rebase/vllm-omni/vllm_omni/version.py:55: RuntimeWarning: vLLM and vLLM-Omni appear to have mismatched major/minor versions:
+   --> vLLM-Omni version 0.22.1.dev85+ga693ae67f.d20260615
+   --> vLLM version 0.23.0
+  This will likely cause compatibility issues.
+    warn_if_misaligned_vllm_version()
+
+../.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:2383
+  /rebase/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:2383: DeprecationWarning: tcgen05.OperandMajorMode is deprecated, use cute.nvgpu.OperandMajorMode instead
+    a_major_mode: tcgen05.OperandMajorMode,
+
+../.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:2385
+  /rebase/.venv/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:2385: DeprecationWarning: tcgen05.OperandMajorMode is deprecated, use cute.nvgpu.OperandMajorMode instead
+    b_major_mode: tcgen05.OperandMajorMode,
+
+../.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_chunked.py:99
+../.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_chunked.py:99
+  /rebase/.venv/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_chunked.py:99: DeprecationWarning: tcgen05.OperandMajorMode is deprecated, use cute.nvgpu.OperandMajorMode instead
+    from cutlass.cute.nvgpu.tcgen05 import OperandMajorMode
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+--- Running Summary
+============ 1 passed, 3 skipped, 21 warnings in 235.44s (0:03:55) =============
+sys:1: DeprecationWarning: builtin type swigvarlink has no __module__ attribute
+/root/.local/share/uv/python/cpython-3.12.13-linux-x86_64-gnu/lib/python3.12/multiprocessing/resource_tracker.py:279: UserWarning: resource_tracker: There appear to be 2 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '
