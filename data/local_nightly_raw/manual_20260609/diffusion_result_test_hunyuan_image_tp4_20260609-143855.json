@@ -84,7 +84,7 @@
     "Model": "tencent/HunyuanImage-3.0-Instruct",
     "Framework": "vllm-omni",
     "API Endpoint": "/v1/chat/completions",
-    "Hardware": "",
+    "Hardware": "h200",
     "Deployment": "",
     "Task": "t2i",
     "Dataset": "random",
