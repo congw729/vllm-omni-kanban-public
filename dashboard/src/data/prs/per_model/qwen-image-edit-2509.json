@@ -3628,20 +3628,6 @@
       ],
       "title": "[Model] Add Voxtral TTS model (#1803)",
       "url": "https://github.com/vllm-project/vllm-omni/pull/1803"
-    },
-    {
-      "author": "dengyunyang",
-      "merged_at": "2026-03-19T12:26:12+08:00",
-      "number": 1757,
-      "platform_paths": [
-        "vllm_omni/engine/async_omni_engine.py",
-        "vllm_omni/entrypoints/cli/serve.py",
-        "vllm_omni/entrypoints/omni_base.py",
-        "vllm_omni/entrypoints/openai/serving_chat.py",
-        "vllm_omni/outputs.py"
-      ],
-      "title": "[Performance] diffusion timing (#1757)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1757"
     }
   ]
 }
