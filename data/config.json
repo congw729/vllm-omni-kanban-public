@@ -334,7 +334,7 @@
         },
         {
           "id": "peak_memory",
-          "title": "Peak Memory",
+          "title": "Peak Memory (GB)",
           "metrics": ["peak_memory_gb"]
         }
       ]
@@ -387,7 +387,7 @@
         },
         {
           "id": "peak_memory",
-          "title": "Peak Memory",
+          "title": "Peak Memory (GB)",
           "metrics": ["peak_memory_gb"]
         }
       ]
@@ -441,7 +441,7 @@
         },
         {
           "id": "peak_memory",
-          "title": "Peak Memory",
+          "title": "Peak Memory (GB)",
           "metrics": ["peak_memory_gb"]
         }
       ]
@@ -495,7 +495,7 @@
         },
         {
           "id": "peak_memory",
-          "title": "Peak Memory",
+          "title": "Peak Memory (GB)",
           "metrics": ["peak_memory_gb"]
         }
       ]
@@ -549,7 +549,7 @@
         },
         {
           "id": "peak_memory",
-          "title": "Peak Memory",
+          "title": "Peak Memory (GB)",
           "metrics": ["peak_memory_gb"]
         }
       ]
@@ -602,7 +602,7 @@
         },
         {
           "id": "peak_memory",
-          "title": "Peak Memory",
+          "title": "Peak Memory (GB)",
           "metrics": ["peak_memory_gb"]
         }
       ]
@@ -655,7 +655,7 @@
         },
         {
           "id": "peak_memory",
-          "title": "Peak Memory",
+          "title": "Peak Memory (GB)",
           "metrics": ["peak_memory_gb"]
         }
       ]
@@ -710,7 +710,7 @@
         },
         {
           "id": "peak_memory",
-          "title": "Peak Memory",
+          "title": "Peak Memory (GB)",
           "metrics": ["peak_memory_gb"]
         }
       ]

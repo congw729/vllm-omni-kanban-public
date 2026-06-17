@@ -131,21 +131,6 @@ def average_metric(results: list[dict[str, Any]], metric: str) -> float | None:
     return round(sum(values) / len(values), 4)
 
 
-def build_line_chart(
-    dates: list[str],
-    values: list[float | None],
-    y_min: float | None = None,
-    y_max: float | None = None,
-) -> dict[str, Any]:
-    return {
-        "tooltip": {"trigger": "axis"},
-        "grid": {"left": 56, "right": 24, "top": 36, "bottom": 42},
-        "xAxis": {"type": "category", "data": dates, "axisLabel": {"color": "#5b6775"}},
-        "yAxis": {"type": "value", "min": y_min, "max": y_max},
-        "series": [{"type": "line", "data": values, "smooth": True, "symbolSize": 7, "lineStyle": {"width": 3}}],
-    }
-
-
 def chart_slug(value: str) -> str:
     return value.lower().replace(".", "").replace(" ", "_").replace("-", "_")
 
@@ -774,59 +759,6 @@ def build_multi_series_chart(
     }
 
 
-def build_heatmap(config: dict[str, Any], latest_results: list[dict[str, Any]]) -> dict[str, Any]:
-    hardware_keys = list(config["hardware"].keys())
-    hardware_labels = [config["hardware"][hardware]["display_name"] for hardware in hardware_keys]
-    model_keys = list(config["models"].keys())
-    model_labels = [config["models"][model]["display_name"] for model in model_keys]
-    values = []
-    lookup = {(item["model"], item["hardware"]): flatten_metrics(item["metrics"]).get("pass_rate") for item in latest_results}
-    for model_index, model in enumerate(model_keys):
-        for hw_index, hardware in enumerate(hardware_keys):
-            values.append([hw_index, model_index, lookup.get((model, hardware))])
-
-    return {
-        "tooltip": {},
-        "grid": {"left": 128, "right": 96, "top": 18, "bottom": 58},
-        "xAxis": {"type": "category", "data": hardware_labels, "axisLabel": {"interval": 0, "rotate": 18, "fontSize": 11}},
-        "yAxis": {"type": "category", "data": model_labels, "axisLabel": {"fontSize": 11}},
-        "visualMap": {
-            "min": 0,
-            "max": 1,
-            "calculable": True,
-            "orient": "vertical",
-            "right": 18,
-            "top": "middle",
-            "inRange": {"color": ["#c84d57", "#f2d27a", "#60b27c"]},
-        },
-        "series": [{"type": "heatmap", "data": values}],
-    }
-
-
-def build_summary(index: dict[str, Any], latest_results: list[dict[str, Any]], alerts: dict[str, Any]) -> dict[str, Any]:
-    active_alerts = [item for item in alerts.get("alerts", []) if not item.get("resolved")]
-    level_counts = Counter(item.get("level", "warning") for item in active_alerts)
-    if not latest_results:
-        return {
-            "latest_date": None,
-            "overall_pass_rate": None,
-            "overall_latency_p99_ms": None,
-            "latest_commit": None,
-            "recent_alerts": 0,
-            "warning_alerts": 0,
-            "critical_alerts": 0,
-        }
-    return {
-        "latest_date": sorted(index.get("dates", []))[-1],
-        "overall_pass_rate": average_metric(latest_results, "pass_rate"),
-        "overall_latency_p99_ms": average_metric(latest_results, "latency_p99_ms"),
-        "latest_commit": max(latest_results, key=lambda item: item["timestamp"])["commit"],
-        "recent_alerts": len(active_alerts),
-        "warning_alerts": level_counts.get("warning", 0),
-        "critical_alerts": level_counts.get("critical", 0),
-    }
-
-
 def build_hardware_status(config: dict[str, Any], latest_results: list[dict[str, Any]]) -> dict[str, Any]:
     hardware_status = []
     for hardware_key, hardware_config in config.get("hardware", {}).items():
@@ -853,6 +785,30 @@ def build_hardware_status(config: dict[str, Any], latest_results: list[dict[str,
     return {"hardware": hardware_status}
 
 
+def build_summary(index: dict[str, Any], latest_results: list[dict[str, Any]], alerts: dict[str, Any]) -> dict[str, Any]:
+    active_alerts = [item for item in alerts.get("alerts", []) if not item.get("resolved")]
+    level_counts = Counter(item.get("level", "warning") for item in active_alerts)
+    if not latest_results:
+        return {
+            "latest_date": None,
+            "overall_pass_rate": None,
+            "overall_latency_p99_ms": None,
+            "latest_commit": None,
+            "recent_alerts": 0,
+            "warning_alerts": 0,
+            "critical_alerts": 0,
+        }
+    return {
+        "latest_date": sorted(index.get("dates", []))[-1],
+        "overall_pass_rate": average_metric(latest_results, "pass_rate"),
+        "overall_latency_p99_ms": average_metric(latest_results, "latency_p99_ms"),
+        "latest_commit": max(latest_results, key=lambda item: item["timestamp"])["commit"],
+        "recent_alerts": len(active_alerts),
+        "warning_alerts": level_counts.get("warning", 0),
+        "critical_alerts": level_counts.get("critical", 0),
+    }
+
+
 def main() -> int:
     config = load_json(CONFIG_PATH, {})
     index = load_json(INDEX_PATH, {"dates": []})
@@ -860,21 +816,9 @@ def main() -> int:
     dates = sorted(index.get("dates", []))
     day_results = {date: load_json(RESULTS_DIR / f"{date}.json", {"results": []}).get("results", []) for date in dates}
 
-    pass_rate_values = [average_metric(day_results[date], "pass_rate") for date in dates]
-    latency_values = [average_metric(day_results[date], "latency_p99_ms") for date in dates]
     hardware_items = [(key, value["display_name"]) for key, value in config.get("hardware", {}).items()]
 
-    for range_key, window in RANGE_WINDOWS.items():
-        save_chart(
-            f"pass_rate_trend_{range_key}",
-            build_line_chart(dates[-window:], pass_rate_values[-window:], 0, 1),
-        )
-        save_chart(
-            f"latency_p99_trend_{range_key}",
-            build_line_chart(dates[-window:], latency_values[-window:]),
-        )
     latest_results = day_results[dates[-1]] if dates else []
-    save_chart("pass_rate_heatmap", build_heatmap(config, latest_results))
     save_chart("summary", build_summary(index, latest_results, alerts))
     save_chart("hardware_status", build_hardware_status(config, latest_results))
     qwen3_omni_source_dir = RESULTS_DIR / config.get("kanban_pages", {}).get("qwen3_omni_history", {}).get("source_dir", "qwen3omni")

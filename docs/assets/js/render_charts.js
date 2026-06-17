@@ -270,133 +270,6 @@ function railNav() {
   return document.querySelector(".md-sidebar--secondary .md-nav--secondary");
 }
 
-function modelTopNavItems() {
-  return [
-    { slug: "qwen3-omni", label: "Qwen3 Omni" },
-    { slug: "qwen3-tts", label: "Qwen3 TTS" },
-    { slug: "qwen-image", label: "Qwen Image" },
-    { slug: "qwen-image-layered", label: "Qwen Image Layered" },
-    { slug: "qwen-image-edit", label: "Qwen Image Edit" },
-    { slug: "qwen-image-edit-2511", label: "Qwen Image Edit 2511" },
-    { slug: "wan22", label: "WAN 2.2" },
-    { slug: "hunyuan-image3", label: "Hunyuan Image 3" },
-    { slug: "bagel", label: "BAGEL" },
-    { slug: "voxcpm2", label: "VoxCPM2" },
-  ];
-}
-
-function ensureModelsHoverDropdown() {
-  const tabs = document.querySelector(".md-tabs .md-tabs__list");
-  if (!tabs || document.querySelector(".models-hover-dropdown")) {
-    return;
-  }
-
-  const modelsTabItem = [...tabs.querySelectorAll(":scope > .md-tabs__item")]
-    .find((item) => {
-      const link = item.querySelector(":scope > .md-tabs__link");
-      if (!link) {
-        return false;
-      }
-      const href = link.getAttribute("href") || "";
-      const text = (link.textContent || "").trim().toLowerCase();
-      return href.includes("/models/") || text === "models";
-    });
-
-  if (!modelsTabItem) {
-    return;
-  }
-
-  const path = window.location.pathname || "";
-
-  // Derive the site's base path from the FIRST models tab link Material already
-  // rendered. We read its RESOLVED .href (browser-absolute URL) rather than the
-  // raw attribute, because Material emits relative paths like 'models/qwen3-omni/'
-  // — those don't contain '/models/' as a substring, so attribute-string parsing
-  // doesn't work. The browser-resolved .href is always absolute regardless of
-  // base URL or current page depth.
-  function siteBase() {
-    const existingLink = modelsTabItem.querySelector(":scope > .md-tabs__link");
-    if (!existingLink || !existingLink.href) {
-      return "/";
-    }
-    const pathname = new URL(existingLink.href).pathname;
-    const idx = pathname.indexOf("/models/");
-    return idx >= 0 ? pathname.slice(0, idx + 1) : "/";
-  }
-  const base = siteBase();
-
-  const list = document.createElement("ul");
-  list.className = "models-hover-dropdown models-hover-dropdown--floating";
-
-  modelTopNavItems().forEach((item) => {
-    const subItem = document.createElement("li");
-    const subLink = document.createElement("a");
-    const href = `${base}models/${item.slug}/`;
-    const isActive = path.includes(`/models/${item.slug}/`);
-    subLink.className = `md-tabs__link${isActive ? " md-tabs__link--active" : ""}`;
-    subLink.href = href;
-    subLink.textContent = item.label;
-    subItem.append(subLink);
-    list.append(subItem);
-  });
-
-  modelsTabItem.classList.add("models-tab-parent");
-  document.body.append(list);
-
-  let hideTimer = null;
-
-  const clearHide = () => {
-    if (hideTimer) {
-      window.clearTimeout(hideTimer);
-      hideTimer = null;
-    }
-  };
-
-  const positionDropdown = () => {
-    const tabsHost = document.querySelector(".md-tabs .md-grid");
-    const hostRect = (tabsHost || tabs).getBoundingClientRect();
-    const rect = modelsTabItem.getBoundingClientRect();
-    list.style.left = `${Math.round(hostRect.left)}px`;
-    list.style.top = `${Math.round(rect.bottom + 2)}px`;
-    list.style.width = `${Math.round(hostRect.width)}px`;
-  };
-
-  const showDropdown = () => {
-    clearHide();
-    positionDropdown();
-    list.classList.add("models-hover-dropdown--open");
-    modelsTabItem.classList.add("models-tab-parent--open");
-  };
-
-  const hideDropdownSoon = () => {
-    clearHide();
-    hideTimer = window.setTimeout(() => {
-      list.classList.remove("models-hover-dropdown--open");
-      modelsTabItem.classList.remove("models-tab-parent--open");
-    }, 120);
-  };
-
-  modelsTabItem.addEventListener("mouseenter", showDropdown);
-  modelsTabItem.addEventListener("mouseleave", hideDropdownSoon);
-  modelsTabItem.addEventListener("focusin", showDropdown);
-  modelsTabItem.addEventListener("focusout", hideDropdownSoon);
-  list.addEventListener("mouseenter", showDropdown);
-  list.addEventListener("mouseleave", hideDropdownSoon);
-  list.addEventListener("focusin", showDropdown);
-  list.addEventListener("focusout", hideDropdownSoon);
-
-  window.addEventListener("scroll", () => {
-    if (list.classList.contains("models-hover-dropdown--open")) {
-      positionDropdown();
-    }
-  }, { passive: true });
-  window.addEventListener("resize", () => {
-    if (list.classList.contains("models-hover-dropdown--open")) {
-      positionDropdown();
-    }
-  });
-}
-
 function railLinkMap() {
   return new Map(
     [...document.querySelectorAll(".md-sidebar--secondary .md-nav--secondary .md-nav__link[href^='#']")]
@@ -729,9 +602,16 @@ function humanizeToken(value) {
     tpot: "TPOT",
     ttfp: "TTFP",
     itl: "ITL",
+    e2e: "E2E",
     e2el: "E2EL",
     rtf: "RTF",
     qps: "QPS",
+    // Unit suffixes: keep lowercase with parentheses ("TTFT (ms)" not "TTFT Ms").
+    ms: "(ms)",
+    s: "(s)",
+    db: "(dB)",
+    gb: "(GB)",
+    mb: "(MB)",
   };
   return mapping[value.toLowerCase()] || `${value.charAt(0).toUpperCase()}${value.slice(1)}`;
 }
@@ -2068,7 +1948,6 @@ function observeColorScheme() {
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
-  ensureModelsHoverDropdown();
   ensureTechnicalRail();
   renderRailModelNodes();
   bindRangePicker();
