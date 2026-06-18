@@ -94,3 +94,41 @@ Each line is one test case; the L20x reference value is drawn as the baseline.
 </div>
 
 </section>
+
+<section
+  class="omni-history-page"
+  data-omni-history-src="../../assets/charts/hunyuan_image3_accuracy.json"
+  markdown="1"
+>
+
+## Accuracy (local manual runs)
+
+<p class="dashboard-intro">
+Accuracy metrics parsed from local manual pytest logs (the Metric / Value / L20x Reference table).
+Each line is one test case; the L20x reference value is drawn as the baseline.
+</p>
+
+<div class="omni-section">
+  <div class="omni-section__header">
+    <p>Filter by test file and test case.</p>
+  </div>
+  <div class="omni-filter-bar" data-omni-history-filters></div>
+</div>
+
+<div class="omni-summary-grid" data-omni-history-summary></div>
+
+<div class="omni-section">
+  <div class="omni-section__header">
+    <p>Each chart tracks one accuracy metric over time per test case.</p>
+  </div>
+  <div data-omni-history-charts></div>
+</div>
+
+<div class="omni-section">
+  <div class="omni-section__header">
+    <p>Raw parsed values, grouped by run date.</p>
+  </div>
+  <div data-omni-history-table></div>
+</div>
+
+</section>

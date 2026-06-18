@@ -721,6 +721,13 @@
         }
       ]
     },
+    "hunyuan_image3_accuracy": {
+      "chart_point_per_day": true,
+      "filters": [
+        "test_file",
+        "test_name"
+      ]
+    },
     "voxcpm2_history": {
       "source_dir": "voxcpm2",
       "chart_point_per_day": true,

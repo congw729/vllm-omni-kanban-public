@@ -11,7 +11,7 @@ from typing import Any, Callable
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
-from scripts.common import flatten_metrics, load_json, save_json
+from scripts.common import flatten_metrics, load_json, parse_log_metric_tables, save_json
 
 DATA_DIR = ROOT / "data"
 RESULTS_DIR = DATA_DIR / "results"
@@ -27,6 +27,8 @@ QWEN_IMAGE_EDIT_2509_HISTORY_PATH = CHARTS_DIR / "qwen_image_edit_2509_history.j
 QWEN_IMAGE_EDIT_2511_HISTORY_PATH = CHARTS_DIR / "qwen_image_edit_2511_history.json"
 WAN22_HISTORY_PATH = CHARTS_DIR / "wan22_history.json"
 HUNYUAN_IMAGE3_HISTORY_PATH = CHARTS_DIR / "hunyuan_image3_history.json"
+HUNYUAN_IMAGE3_ACCURACY_PATH = CHARTS_DIR / "hunyuan_image3_accuracy.json"
+LOCAL_RAW_DIR = DATA_DIR / "local_nightly_raw"
 BAGEL_HISTORY_PATH = CHARTS_DIR / "bagel_history.json"
 VOXCPM2_HISTORY_PATH = CHARTS_DIR / "voxcpm2_history.json"
 DEFAULT_RESULT_DATASETS = frozenset({"random", "random-mm"})
@@ -65,6 +67,10 @@ QWEN_IMAGE_GROUP_FIELDS = (
     "dataset_name",
     "max_concurrency",
     "num_prompts",
+)
+HUNYUAN_ACCURACY_GROUP_FIELDS = (
+    "test_file",
+    "test_name",
 )
 MODEL_METRICS = {
     "Qwen3-Omni": [
@@ -700,6 +706,83 @@ def build_hunyuan_image3_history_payload(config: dict[str, Any], source_dir: Pat
     )
 
 
+def _metric_field_name(label: str) -> str:
+    """Map a table metric label to a record field key, e.g. "PSNR (dB)" -> "psnr_db"."""
+    return re.sub(r"_+", "_", re.sub(r"[^a-z0-9]+", "_", label.lower())).strip("_")
+
+
+def load_hunyuan_local_accuracy_records(raw_root: Path) -> tuple[list[dict[str, Any]], dict[str, str]]:
+    """Load accuracy metric tables from local manual pytest logs.
+
+    Scans every ``manual_YYYYMMDD/*.log`` under ``raw_root`` (filenames vary, so no
+    name-based filtering) and keeps rows attributed to hunyuan test files. The table
+    reference column (L20x Reference) is stored as ``baseline_<metric>`` so the chart
+    renderer draws it as the baseline line.
+
+    Returns ``(records, metric_labels)`` where ``metric_labels`` maps the sanitized
+    field key back to the original table label for chart titles.
+    """
+    records: list[dict[str, Any]] = []
+    metric_labels: dict[str, str] = {}
+    if not raw_root.is_dir():
+        return records, metric_labels
+
+    for log_path in sorted(raw_root.glob("manual_*/*.log")):
+        date_match = re.fullmatch(r"manual_(\d{8})", log_path.parent.name)
+        if not date_match:
+            continue
+        raw_date = date_match.group(1)
+        date = f"{raw_date[:4]}-{raw_date[4:6]}-{raw_date[6:8]}"
+        try:
+            text = log_path.read_text(encoding="utf-8", errors="ignore")
+        except OSError:
+            continue
+
+        by_case: dict[tuple[str, str], list[dict[str, Any]]] = {}
+        for row in parse_log_metric_tables(text):
+            test_file = str(row.get("test_file") or "")
+            if "hunyuan" not in test_file:
+                continue
+            by_case.setdefault((test_file, str(row.get("test_name") or "")), []).append(row)
+
+        for (test_file, test_name), case_rows in sorted(by_case.items()):
+            record: dict[str, Any] = {
+                "date": date,
+                "sort_timestamp": f"{date}T00:00:00",
+                "test_file": test_file,
+                "test_name": test_name,
+                "source_file": log_path.name,
+                "config_key": f"{test_file}::{test_name}",
+            }
+            for row in case_rows:
+                field = _metric_field_name(row["metric"])
+                metric_labels[field] = row["metric"]
+                record[field] = row["value"]
+                if row["reference"] is not None:
+                    record[f"baseline_{field}"] = row["reference"]
+            records.append(record)
+
+    return records, metric_labels
+
+
+def build_hunyuan_image3_accuracy_payload(config: dict[str, Any], raw_root: Path) -> dict[str, Any]:
+    records, metric_labels = load_hunyuan_local_accuracy_records(raw_root)
+    payload = _history_payload_from_records(
+        config,
+        raw_root,
+        "hunyuan_image3_accuracy",
+        "Hunyuan Image 3 - Local Accuracy",
+        HUNYUAN_ACCURACY_GROUP_FIELDS,
+        records,
+    )
+    metric_fields = sorted(metric_labels)
+    payload["metric_groups"] = [
+        {"id": field, "title": metric_labels[field], "metrics": [field]} for field in metric_fields
+    ]
+    payload["table_columns"] = ["date", "test_file", "test_name", *metric_fields, "source_file"]
+    return payload
+
+
 def build_bagel_history_payload(config: dict[str, Any], source_dir: Path) -> dict[str, Any]:
     return build_qwen_image_family_history_payload(
         config,
@@ -805,6 +888,7 @@ def main() -> int:
     save_json(WAN22_HISTORY_PATH, build_wan22_history_payload(config, wan22_source_dir))
     hunyuan_image3_source_dir = RESULTS_DIR / config.get("kanban_pages", {}).get("hunyuan_image3_history", {}).get("source_dir", "hunyuan_image3")
     save_json(HUNYUAN_IMAGE3_HISTORY_PATH, build_hunyuan_image3_history_payload(config, hunyuan_image3_source_dir))
+    save_json(HUNYUAN_IMAGE3_ACCURACY_PATH, build_hunyuan_image3_accuracy_payload(config, LOCAL_RAW_DIR))
     bagel_source_dir = RESULTS_DIR / config.get("kanban_pages", {}).get("bagel_history", {}).get("source_dir", "bagel")
     save_json(BAGEL_HISTORY_PATH, build_bagel_history_payload(config, bagel_source_dir))
     voxcpm2_source_dir = RESULTS_DIR / config.get("kanban_pages", {}).get("voxcpm2_history", {}).get("source_dir", "voxcpm2")
