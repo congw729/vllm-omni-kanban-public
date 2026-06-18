@@ -4,7 +4,6 @@ import json
 import math
 import re
 import sys
-from collections import Counter
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Callable
@@ -18,7 +17,6 @@ DATA_DIR = ROOT / "data"
 RESULTS_DIR = DATA_DIR / "results"
 INDEX_PATH = DATA_DIR / "index.json"
 CONFIG_PATH = DATA_DIR / "config.json"
-ALERTS_PATH = DATA_DIR / "alerts.json"
 CHARTS_DIR = ROOT / "docs" / "assets" / "charts"
 QWEN3_OMNI_HISTORY_PATH = CHARTS_DIR / "qwen3_omni_history.json"
 QWEN3_TTS_HISTORY_PATH = CHARTS_DIR / "qwen3_tts_history.json"
@@ -475,14 +473,7 @@ def _history_payload_from_records(
     def _normalize_filter_fields(item: dict[str, Any]) -> dict[str, Any]:
         normalized = dict(item)
         if normalized.get("qps") in (None, ""):
-            normalized["qps"] = next(
-                (
-                    normalized.get(field)
-                    for field in ("request_throughput", "throughput_qps", "output_throughput")
-                    if normalized.get(field) not in (None, "")
-                ),
-                None,
-            )
+            normalized["qps"] = normalized.get("request_rate")
         if normalized.get("input_len") in (None, ""):
             normalized["input_len"] = normalized.get("random_input_len")
         if normalized.get("output_len") in (None, ""):
@@ -532,6 +523,7 @@ def _history_payload_from_records(
         "metric_groups": page_config.get("metric_groups", []),
         "group_fields": list(group_fields),
         "chart_point_per_day": bool(page_config.get("chart_point_per_day", True)),
+        "default_visible_series": page_config.get("default_visible_series"),
         "record_count": len(records),
         "group_count": len(grouped_payload),
         "records": records,
@@ -785,41 +777,15 @@ def build_hardware_status(config: dict[str, Any], latest_results: list[dict[str,
     return {"hardware": hardware_status}
 
 
-def build_summary(index: dict[str, Any], latest_results: list[dict[str, Any]], alerts: dict[str, Any]) -> dict[str, Any]:
-    active_alerts = [item for item in alerts.get("alerts", []) if not item.get("resolved")]
-    level_counts = Counter(item.get("level", "warning") for item in active_alerts)
-    if not latest_results:
-        return {
-            "latest_date": None,
-            "overall_pass_rate": None,
-            "overall_latency_p99_ms": None,
-            "latest_commit": None,
-            "recent_alerts": 0,
-            "warning_alerts": 0,
-            "critical_alerts": 0,
-        }
-    return {
-        "latest_date": sorted(index.get("dates", []))[-1],
-        "overall_pass_rate": average_metric(latest_results, "pass_rate"),
-        "overall_latency_p99_ms": average_metric(latest_results, "latency_p99_ms"),
-        "latest_commit": max(latest_results, key=lambda item: item["timestamp"])["commit"],
-        "recent_alerts": len(active_alerts),
-        "warning_alerts": level_counts.get("warning", 0),
-        "critical_alerts": level_counts.get("critical", 0),
-    }
-
-
 def main() -> int:
     config = load_json(CONFIG_PATH, {})
     index = load_json(INDEX_PATH, {"dates": []})
-    alerts = load_json(ALERTS_PATH, {"alerts": []})
     dates = sorted(index.get("dates", []))
     day_results = {date: load_json(RESULTS_DIR / f"{date}.json", {"results": []}).get("results", []) for date in dates}
 
     hardware_items = [(key, value["display_name"]) for key, value in config.get("hardware", {}).items()]
 
     latest_results = day_results[dates[-1]] if dates else []
-    save_chart("summary", build_summary(index, latest_results, alerts))
     save_chart("hardware_status", build_hardware_status(config, latest_results))
     qwen3_omni_source_dir = RESULTS_DIR / config.get("kanban_pages", {}).get("qwen3_omni_history", {}).get("source_dir", "qwen3omni")
     save_json(QWEN3_OMNI_HISTORY_PATH, build_qwen3_omni_history_payload(config, qwen3_omni_source_dir))

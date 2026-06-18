@@ -9,16 +9,6 @@ hide:
 This dashboard tracks one daily snapshot per model and hardware combination for vLLM-omni multimodal CI. Open the dedicated model pages for metric-specific performance analysis.
 </p>
 
-<section class="health-banner" data-dashboard-home data-summary-src="assets/charts/summary.json">
-  <span class="health-banner__dot" aria-hidden="true"></span>
-  <div>
-    <p class="health-banner__eyebrow">Global Health</p>
-    <strong class="health-banner__headline" data-health-title>Loading status...</strong>
-    <p class="health-banner__meta" data-health-meta>Checking the latest snapshot and active alerts.</p>
-  </div>
-  <a class="health-banner__link" href="alerts/">View Alerts</a>
-</section>
-
 ## Model Performance
 
 <p class="section-note">Open a dedicated page for each model family to inspect the metrics that matter for that workload.</p>

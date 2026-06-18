@@ -596,6 +596,28 @@ body.dashboard-home .technical-rail__sublink--active {
   white-space: nowrap;
 }
 
+.omni-chart-card__series-toggle {
+  margin-left: 0.5rem;
+  border: 1px solid rgba(59, 130, 246, 0.45);
+  background: transparent;
+  color: var(--dashboard-text);
+  border-radius: 999px;
+  padding: 0.2rem 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.omni-chart-card__series-toggle:hover {
+  background: rgba(59, 130, 246, 0.1);
+}
+
+.omni-chart-range__btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
 .omni-chart-frame {
   min-height: 24rem;
 }

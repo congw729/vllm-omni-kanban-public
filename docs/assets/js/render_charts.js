@@ -605,7 +605,7 @@ function humanizeToken(value) {
     e2e: "E2E",
     e2el: "E2EL",
     rtf: "RTF",
-    qps: "QPS",
+    qps: "Request Rate",
     // Unit suffixes: keep lowercase with parentheses ("TTFT (ms)" not "TTFT Ms").
     ms: "(ms)",
     s: "(s)",
@@ -635,7 +635,7 @@ function humanizeField(field) {
   const fixedLabels = {
     input_len: "INPUT LEN",
     output_len: "OUTPUT LEN",
-    qps: "QPS",
+    qps: "Request Rate",
     benchmark_name: "Benchmark Params Name",
     // Distinct from "Num Prompts": many filenames use two ints (e.g. …_10_10_…) so values can match by coincidence.
     max_concurrency: "Max concurrency (config)",
@@ -1437,11 +1437,85 @@ function timeExtentFromOmniSeries(seriesList) {
   return { minT, maxT };
 }
 
-function buildOmniChartOption(metricGroup, records, groupFields, chartPointPerDay) {
+/** First point meta of a line series (carries scenario fields like max_concurrency). */
+function omniSeriesScenarioMeta(series) {
+  const point = (series.data || []).find((p) => p?.meta);
+  return point?.meta || {};
+}
+
+function compareNullableNumber(a, b, direction = "asc") {
+  const aMissing = a === null;
+  const bMissing = b === null;
+  if (aMissing || bMissing) {
+    if (aMissing && bMissing) {
+      return 0;
+    }
+    return aMissing ? 1 : -1;
+  }
+  if (a === b) {
+    return 0;
+  }
+  return direction === "desc" ? b - a : a - b;
+}
+
+/**
+ * Pick at most `cap` default-visible series, spread across the three scenarios that
+ * matter for capacity planning: long sequence (large input len), high throughput
+ * (high concurrency) and low latency (low concurrency). Remaining slots are filled
+ * in original order; everything else stays hidden until "Show all" is clicked.
+ */
+function selectDefaultVisibleSeriesKeys(lineSeries, cap) {
+  const entries = lineSeries.map((s, index) => {
+    const meta = omniSeriesScenarioMeta(s);
+    const conc = Number(meta.max_concurrency);
+    const inputLen = Number(meta.random_input_len);
+    return {
+      key: s.__omniSeriesKey,
+      index,
+      conc: Number.isFinite(conc) ? conc : null,
+      inputLen: Number.isFinite(inputLen) ? inputLen : null,
+    };
+  });
+  const isLongSequence = (entry) => entry.inputLen !== null && entry.inputLen >= 1000;
+  const longSeq = entries.filter(isLongSequence)
+    .sort((a, b) => (
+      compareNullableNumber(a.inputLen, b.inputLen, "desc")
+      || compareNullableNumber(a.conc, b.conc, "desc")
+      || a.index - b.index
+    ));
+  const shortSeq = entries.filter((entry) => !isLongSequence(entry));
+  const highThroughput = [...shortSeq].sort((a, b) => (
+    compareNullableNumber(a.conc, b.conc, "desc") || a.index - b.index
+  ));
+  const lowLatency = [...shortSeq].sort((a, b) => (
+    compareNullableNumber(a.conc, b.conc, "asc") || a.index - b.index
+  ));
+
+  const selected = new Set();
+  const perScenario = Math.max(1, Math.floor(cap / 3));
+  [longSeq, highThroughput, lowLatency].forEach((bucket) => {
+    let taken = 0;
+    bucket.forEach((entry) => {
+      if (taken < perScenario && selected.size < cap && !selected.has(entry.key)) {
+        selected.add(entry.key);
+        taken += 1;
+      }
+    });
+  });
+  entries.forEach((entry) => {
+    if (selected.size < cap) {
+      selected.add(entry.key);
+    }
+  });
+  return selected;
+}
+
+function buildOmniChartOption(metricGroup, records, groupFields, chartPointPerDay, visibleKeys) {
   const opts = { pointPerDay: chartPointPerDay !== false };
-  const series = applyOmniLineSeriesColors(
+  const rawSeries = applyOmniLineSeriesColors(
     metricGroup.metrics.flatMap((metric) => buildOmniMetricSeries(records, metric, groupFields, opts)),
   );
+  const series = visibleKeys ? rawSeries.filter((s) => visibleKeys.has(s.__omniSeriesKey)) : rawSeries;
   const maxPoints = series.reduce((maxCount, s) => {
     if (s.__omniBadMarkers) {
       return maxCount;
@@ -1581,6 +1655,7 @@ function renderOmniFilterBar(payload, filters, root, options = {}) {
   bindOmniFilterOutsideClick();
   const openField = options.openField ?? null;
   const hid = ensureHistoryInstanceId(root);
+  const dateRange = currentOmniDateRange(root);
   container.innerHTML = payload.filters.map((field) => {
     const selected = new Set(normalizeFilterSelection(filters[field]));
     const options = (payload.filter_options?.[field] || [])
@@ -1627,6 +1702,14 @@ function renderOmniFilterBar(payload, filters, root, options = {}) {
       </div>
     `;
   }).join("") + `
+    <label class="omni-filter">
+      <span class="omni-filter__label">From Date</span>
+      <input class="omni-filter__input" type="date" data-omni-date-range="from" value="${escapeHtml(dateRange.from)}">
+    </label>
+    <label class="omni-filter">
+      <span class="omni-filter__label">To Date</span>
+      <input class="omni-filter__input" type="date" data-omni-date-range="to" value="${escapeHtml(dateRange.to)}">
+    </label>
     <button type="button" class="omni-filter__reset" data-omni-filter-reset>Reset filters</button>
   `;
 
@@ -1654,9 +1737,17 @@ function renderOmniFilterBar(payload, filters, root, options = {}) {
       });
     });
   });
+  container.querySelectorAll("[data-omni-date-range]").forEach((input) => {
+    input.addEventListener("change", () => {
+      renderQwen3OmniHistory(payload, root);
+    });
+  });
   container.querySelector("[data-omni-filter-reset]")?.addEventListener("click", () => {
     container.querySelectorAll("[data-omni-filter-option]").forEach((input) => {
       input.checked = false;
+    });
+    container.querySelectorAll("[data-omni-date-range]").forEach((input) => {
+      input.value = "";
     });
     renderQwen3OmniHistory(payload, root);
   });
@@ -1684,6 +1775,32 @@ function currentOmniFilters(payload, root) {
       .filter(Boolean);
     return acc;
   }, {});
+}
+
+function currentOmniDateRange(root) {
+  const read = (kind) => root.querySelector(`[data-omni-date-range="${kind}"]`)?.value?.trim() || "";
+  return { from: read("from"), to: read("to") };
+}
+
+/** Keep records whose calendar day falls inside the inclusive [from, to] range. */
+function filterRecordsByDateRange(records, dateRange) {
+  const { from, to } = dateRange || {};
+  if (!from && !to) {
+    return records;
+  }
+  return records.filter((record) => {
+    const day = recordCalendarDay(record);
+    if (!day) {
+      return false;
+    }
+    if (from && day < from) {
+      return false;
+    }
+    if (to && day > to) {
+      return false;
+    }
+    return true;
+  });
 }
 
 function renderOmniSummary(records, groupFields, root) {
@@ -1750,11 +1867,13 @@ function renderOmniTable(payload, records, root) {
   container.innerHTML = `<div class="omni-history-by-date">${blocks}</div>`;
 }
 
-function renderOmniChartSection(section, metricGroup, records, groupFields, chartPointPerDay) {
+function renderOmniChartSection(section, metricGroup, records, groupFields, chartPointPerDay, seriesCap) {
   const opts = { pointPerDay: chartPointPerDay !== false };
   const chartRoot = document.createElement("section");
   chartRoot.className = "omni-chart-card";
   const allSeries = metricGroup.metrics.flatMap((metric) => buildOmniMetricSeries(records, metric, groupFields, opts));
+  const lineSeries = allSeries.filter((s) => !s.__omniBadMarkers);
+  const capped = Number.isFinite(seriesCap) && seriesCap > 0 && lineSeries.length > seriesCap;
 
   chartRoot.innerHTML = `
     <div class="omni-chart-card__header">
@@ -1762,7 +1881,7 @@ function renderOmniChartSection(section, metricGroup, records, groupFields, char
         <h3>${escapeHtml(metricGroup.title)}</h3>
         <p>${metricGroup.metrics.map(humanizeField).join(" · ")}</p>
       </div>
-      <span class="omni-chart-card__badge">${allSeries.length} series</span>
+      <span class="omni-chart-card__badge" data-omni-series-badge>${lineSeries.length} series</span>
     </div>
   `;
 
@@ -1779,7 +1898,32 @@ function renderOmniChartSection(section, metricGroup, records, groupFields, char
   chart.className = "chart-frame omni-chart-frame";
   chartRoot.append(chart);
   section.append(chartRoot);
-  setChart(chart, buildOmniChartOption(metricGroup, records, groupFields, chartPointPerDay));
+
+  if (!capped) {
+    setChart(chart, buildOmniChartOption(metricGroup, records, groupFields, chartPointPerDay));
+    return;
+  }
+
+  // Capped default view: representative long-sequence / high-throughput / low-latency configs.
+  const visibleKeys = selectDefaultVisibleSeriesKeys(lineSeries, seriesCap);
+  const badge = chartRoot.querySelector("[data-omni-series-badge]");
+  const toggle = document.createElement("button");
+  toggle.type = "button";
+  toggle.className = "omni-chart-card__series-toggle";
+  let showAll = false;
+  const applyView = () => {
+    badge.textContent = showAll
+      ? `${lineSeries.length} series`
+      : `${visibleKeys.size} of ${lineSeries.length} series`;
+    toggle.textContent = showAll ? "Show key scenarios" : `Show all ${lineSeries.length}`;
+    setChart(chart, buildOmniChartOption(metricGroup, records, groupFields, chartPointPerDay, showAll ? null : visibleKeys));
+  };
+  toggle.addEventListener("click", () => {
+    showAll = !showAll;
+    applyView();
+  });
+  chartRoot.querySelector(".omni-chart-card__header")?.append(toggle);
+  applyView();
 }
 
 function parseIsoDate(value) {
@@ -1810,7 +1954,7 @@ function filterRecordsByRecentDays(records, days) {
   });
 }
 
-function ensureOmniTrendRangeControl(root, onChange) {
+function ensureOmniTrendRangeControl(root, onChange, disabled = false) {
   const container = root.querySelector("[data-omni-history-charts]");
   if (!container) {
     return 7;
@@ -1846,9 +1990,27 @@ function ensureOmniTrendRangeControl(root, onChange) {
 
   control.querySelectorAll("[data-omni-trend-days]").forEach((btn) => {
     const days = Number(btn.dataset.omniTrendDays || "7");
-    btn.classList.toggle("omni-chart-range__btn--active", days === activeDays);
+    btn.classList.toggle("omni-chart-range__btn--active", !disabled && days === activeDays);
+    btn.disabled = disabled;
+    btn.title = disabled ? "Disabled while a From/To date filter is active" : "";
   });
   return activeDays;
+}
+
+/** Split metric groups into always-visible and collapsed ("More charts") sets.
+ * Groups flagged `collapsed: true` in config drive the split; without flags,
+ * fall back to the historical first-N behavior. */
+function splitOmniMetricGroups(metricGroups) {
+  if (metricGroups.some((group) => group.collapsed === true)) {
+    return {
+      primary: metricGroups.filter((group) => !group.collapsed),
+      extra: metricGroups.filter((group) => group.collapsed),
+    };
+  }
+  return {
+    primary: metricGroups.slice(0, OMNI_HISTORY_PRIMARY_CHART_COUNT),
+    extra: metricGroups.slice(OMNI_HISTORY_PRIMARY_CHART_COUNT),
+  };
 }
 
 function renderOmniCharts(payload, records, root, renderFn) {
@@ -1856,20 +2018,26 @@ function renderOmniCharts(payload, records, root, renderFn) {
   if (!container) {
     return;
   }
-  const selectedDays = ensureOmniTrendRangeControl(root, () => renderFn(payload, root));
-  const chartRecords = filterRecordsByRecentDays(records, selectedDays);
+  const dateRange = currentOmniDateRange(root);
+  const hasDateRange = Boolean(dateRange.from || dateRange.to);
+  const selectedDays = ensureOmniTrendRangeControl(root, () => renderFn(payload, root), hasDateRange);
+  // An explicit date range replaces the relative trend window.
+  const chartRecords = hasDateRange ? records : filterRecordsByRecentDays(records, selectedDays);
   const chartPointPerDay = payload.chart_point_per_day !== false;
+  const seriesCap = Number(payload.default_visible_series) || null;
   disposeChartsWithin(container);
   container.innerHTML = "";
+
+  const { primary: primaryGroups, extra: extraGroups } = splitOmniMetricGroups(payload.metric_groups);
 
   const primary = document.createElement("div");
   primary.className = "omni-chart-grid";
   container.append(primary);
-  payload.metric_groups.slice(0, OMNI_HISTORY_PRIMARY_CHART_COUNT).forEach((metricGroup) => {
-    renderOmniChartSection(primary, metricGroup, chartRecords, payload.group_fields, chartPointPerDay);
+  primaryGroups.forEach((metricGroup) => {
+    renderOmniChartSection(primary, metricGroup, chartRecords, payload.group_fields, chartPointPerDay, seriesCap);
   });
 
-  if (payload.metric_groups.length > OMNI_HISTORY_PRIMARY_CHART_COUNT) {
+  if (extraGroups.length > 0) {
     const details = document.createElement("details");
     details.className = "omni-more-charts";
     details.innerHTML = '<summary>More charts</summary>';
@@ -1882,8 +2050,8 @@ function renderOmniCharts(payload, records, root, renderFn) {
       if (extraRendered) {
         return;
       }
-      payload.metric_groups.slice(OMNI_HISTORY_PRIMARY_CHART_COUNT).forEach((metricGroup) => {
-        renderOmniChartSection(extra, metricGroup, chartRecords, payload.group_fields, chartPointPerDay);
+      extraGroups.forEach((metricGroup) => {
+        renderOmniChartSection(extra, metricGroup, chartRecords, payload.group_fields, chartPointPerDay, seriesCap);
       });
       extraRendered = true;
     };
@@ -1897,9 +2065,13 @@ function renderOmniCharts(payload, records, root, renderFn) {
 
 function renderQwen3OmniHistory(payload, root, options = {}) {
   const filters = currentOmniFilters(payload, root);
+  const dateRange = currentOmniDateRange(root);
   const openField = options.preserveOpenFilter ?? getOpenOmniFilterField(root);
   renderOmniFilterBar(payload, filters, root, { openField });
-  const filtered = sortRecordsByTimeDesc(filterRecords(payload.records, filters));
+  const filtered = filterRecordsByDateRange(
+    sortRecordsByTimeDesc(filterRecords(payload.records, filters)),
+    dateRange,
+  );
   renderOmniSummary(filtered, payload.group_fields, root);
   renderOmniCharts(payload, filtered, root, renderQwen3OmniHistory);
   renderOmniTable(payload, filtered, root);
@@ -1947,11 +2119,21 @@ function observeColorScheme() {
   observer.observe(target, { attributes: true, attributeFilter: ["data-md-color-scheme"] });
 }
 
-document.addEventListener("DOMContentLoaded", async () => {
-  ensureTechnicalRail();
-  renderRailModelNodes();
-  bindRangePicker();
-  bindRailSpy();
-  observeColorScheme();
-  await Promise.all([loadHealth(), loadHardwareStatus(), reloadCharts(), loadQwen3OmniHistory()]);
-});
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = {
+    buildOmniChartOption,
+    compareNullableNumber,
+    selectDefaultVisibleSeriesKeys,
+  };
+}
+
+if (typeof document !== "undefined") {
+  document.addEventListener("DOMContentLoaded", async () => {
+    ensureTechnicalRail();
+    renderRailModelNodes();
+    bindRangePicker();
+    bindRailSpy();
+    observeColorScheme();
+    await Promise.all([loadHealth(), loadHardwareStatus(), reloadCharts(), loadQwen3OmniHistory()]);
+  });
+}
