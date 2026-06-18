@@ -855,6 +855,12 @@ function setChart(container, option) {
     : new Set();
   chart.setOption(applyTheme(option), true);
   charts.set(container, chart);
+  if (!resizeBound) {
+    window.addEventListener("resize", () => {
+      charts.forEach((instance) => instance.resize());
+    });
+    resizeBound = true;
+  }
   if (omniOptionHasMarkLineSeries(option)) {
     wireOmniBaselineHover(chart);
   }
@@ -1867,11 +1873,46 @@ function renderOmniTable(payload, records, root) {
   container.innerHTML = `<div class="omni-history-by-date">${blocks}</div>`;
 }
 
+/** Series values pivoted to a day-by-series table (InferenceX-style "Table" view). */
+function buildOmniSeriesTableHtml(lineSeries, visibleKeySet) {
+  const visible = lineSeries.filter((s) => visibleKeySet.has(s.__omniSeriesKey));
+  if (visible.length === 0) {
+    return '<div class="omni-empty-state">没有可见的数据系列。</div>';
+  }
+  const days = [...new Set(
+    visible.flatMap((s) => (s.data || [])
+      .filter((p) => p?.meta && !p.meta.missing_day && isNumeric(p.meta.actual_metric_y))
+      .map((p) => String(p.value?.[0] || "").slice(0, 10))),
+  )].filter(Boolean).sort();
+  const header = ['<th scope="col">Series</th>', ...days.map((day) => `<th scope="col">${escapeHtml(day)}</th>`)].join("");
+  const rows = visible.map((s) => {
+    const byDay = new Map((s.data || [])
+      .filter((p) => p?.meta && !p.meta.missing_day)
+      .map((p) => [String(p.value?.[0] || "").slice(0, 10), p.meta.actual_metric_y]));
+    const cells = days.map((day) => {
+      const value = byDay.get(day);
+      return `<td class="omni-history-table__cell omni-history-table__cell--numeric">${isNumeric(value) ? formatMetricValue(value) : "--"}</td>`;
+    }).join("");
+    return `<tr><td class="omni-history-table__cell omni-series-table__name"><span class="omni-series-dot" style="background:${escapeHtml(s.color || "#888")}"></span>${escapeHtml(s.name)}</td>${cells}</tr>`;
+  }).join("");
+  return `
+    <div class="omni-history-table__wrap">
+      <table class="omni-history-table">
+        <thead><tr>${header}</tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>
+  `;
+}
+
 function renderOmniChartSection(section, metricGroup, records, groupFields, chartPointPerDay, seriesCap) {
   const opts = { pointPerDay: chartPointPerDay !== false };
   const chartRoot = document.createElement("section");
   chartRoot.className = "omni-chart-card";
-  const allSeries = metricGroup.metrics.flatMap((metric) => buildOmniMetricSeries(records, metric, groupFields, opts));
+  // Colors assigned on the full list so they stay stable across visibility changes.
+  const allSeries = applyOmniLineSeriesColors(
+    metricGroup.metrics.flatMap((metric) => buildOmniMetricSeries(records, metric, groupFields, opts)),
+  );
   const lineSeries = allSeries.filter((s) => !s.__omniBadMarkers);
   const capped = Number.isFinite(seriesCap) && seriesCap > 0 && lineSeries.length > seriesCap;
 
@@ -1881,11 +1922,17 @@ function renderOmniChartSection(section, metricGroup, records, groupFields, char
         <h3>${escapeHtml(metricGroup.title)}</h3>
         <p>${metricGroup.metrics.map(humanizeField).join(" · ")}</p>
       </div>
-      <span class="omni-chart-card__badge" data-omni-series-badge>${lineSeries.length} series</span>
+      <span class="omni-chart-card__badge" data-omni-series-badge></span>
+      <div class="omni-view-toggle" data-omni-view-toggle>
+        <button type="button" class="omni-view-toggle__btn omni-view-toggle__btn--active" data-omni-view="chart">Chart</button>
+        <button type="button" class="omni-view-toggle__btn" data-omni-view="table">Table</button>
+      </div>
     </div>
   `;
 
-  if (allSeries.length === 0) {
+  if (lineSeries.length === 0) {
+    chartRoot.querySelector("[data-omni-view-toggle]")?.remove();
+    chartRoot.querySelector("[data-omni-series-badge]")?.remove();
     const empty = document.createElement("div");
     empty.className = "omni-empty-state";
     empty.textContent = "当前筛选条件下没有数据。";
@@ -1896,33 +1943,114 @@ function renderOmniChartSection(section, metricGroup, records, groupFields, char
 
   const chart = document.createElement("div");
   chart.className = "chart-frame omni-chart-frame";
-  chartRoot.append(chart);
+  const tableWrap = document.createElement("div");
+  tableWrap.className = "omni-series-table";
+  tableWrap.hidden = true;
+  chartRoot.append(chart, tableWrap);
   section.append(chartRoot);
 
-  if (!capped) {
-    setChart(chart, buildOmniChartOption(metricGroup, records, groupFields, chartPointPerDay));
-    return;
-  }
+  // Visibility state: capped charts start with representative scenarios only.
+  const allKeys = lineSeries.map((s) => s.__omniSeriesKey);
+  const defaultVisible = capped ? selectDefaultVisibleSeriesKeys(lineSeries, seriesCap) : new Set(allKeys);
+  const hiddenKeys = new Set(allKeys.filter((key) => !defaultVisible.has(key)));
+  let view = "chart";
 
-  // Capped default view: representative long-sequence / high-throughput / low-latency configs.
-  const visibleKeys = selectDefaultVisibleSeriesKeys(lineSeries, seriesCap);
   const badge = chartRoot.querySelector("[data-omni-series-badge]");
-  const toggle = document.createElement("button");
-  toggle.type = "button";
-  toggle.className = "omni-chart-card__series-toggle";
-  let showAll = false;
+  const legend = document.createElement("details");
+  legend.className = "omni-series-legend";
+  legend.innerHTML = `
+    <summary data-omni-legend-summary></summary>
+    <div class="omni-series-legend__tools">
+      <input type="search" class="omni-series-legend__search" placeholder="Search series..." data-omni-legend-search>
+      <button type="button" class="omni-series-legend__btn" data-omni-legend-all>All</button>
+      <button type="button" class="omni-series-legend__btn" data-omni-legend-none>None</button>
+      ${capped ? '<button type="button" class="omni-series-legend__btn" data-omni-legend-default>Key scenarios</button>' : ""}
+    </div>
+    <ul class="omni-series-legend__list">
+      ${lineSeries.map((s) => `
+        <li class="omni-series-legend__item" data-omni-legend-key="${escapeHtml(s.__omniSeriesKey)}">
+          <span class="omni-series-dot" style="background:${escapeHtml(s.color || "#888")}"></span>
+          <span class="omni-series-legend__name">${escapeHtml(s.name)}</span>
+        </li>
+      `).join("")}
+    </ul>
+  `;
+  chartRoot.append(legend);
+
+  const visibleKeySet = () => new Set(allKeys.filter((key) => !hiddenKeys.has(key)));
   const applyView = () => {
-    badge.textContent = showAll
-      ? `${lineSeries.length} series`
-      : `${visibleKeys.size} of ${lineSeries.length} series`;
-    toggle.textContent = showAll ? "Show key scenarios" : `Show all ${lineSeries.length}`;
-    setChart(chart, buildOmniChartOption(metricGroup, records, groupFields, chartPointPerDay, showAll ? null : visibleKeys));
+    const visibleCount = allKeys.length - hiddenKeys.size;
+    badge.textContent = hiddenKeys.size === 0
+      ? `${allKeys.length} series`
+      : `${visibleCount} of ${allKeys.length} series`;
+    legend.querySelector("[data-omni-legend-summary]").textContent =
+      `Legend (${visibleCount}/${allKeys.length} visible)`;
+    legend.querySelectorAll("[data-omni-legend-key]").forEach((item) => {
+      item.classList.toggle("omni-series-legend__item--hidden", hiddenKeys.has(item.dataset.omniLegendKey));
+    });
+    if (view === "chart") {
+      chart.hidden = false;
+      tableWrap.hidden = true;
+      setChart(chart, buildOmniChartOption(
+        metricGroup, records, groupFields, chartPointPerDay,
+        hiddenKeys.size === 0 ? null : visibleKeySet(),
+      ));
+      charts.get(chart)?.resize();
+    } else {
+      chart.hidden = true;
+      tableWrap.hidden = false;
+      tableWrap.innerHTML = buildOmniSeriesTableHtml(lineSeries, visibleKeySet());
+    }
+    chartRoot.querySelectorAll("[data-omni-view]").forEach((btn) => {
+      btn.classList.toggle("omni-view-toggle__btn--active", btn.dataset.omniView === view);
+    });
   };
-  toggle.addEventListener("click", () => {
-    showAll = !showAll;
+
+  chartRoot.querySelector("[data-omni-view-toggle]").addEventListener("click", (event) => {
+    const btn = event.target.closest("[data-omni-view]");
+    if (btn && btn.dataset.omniView !== view) {
+      view = btn.dataset.omniView;
+      applyView();
+    }
+  });
+  legend.querySelector("[data-omni-legend-search]").addEventListener("input", (event) => {
+    const query = event.target.value.trim().toLowerCase();
+    legend.querySelectorAll("[data-omni-legend-key]").forEach((item) => {
+      const name = item.querySelector(".omni-series-legend__name")?.textContent?.toLowerCase() || "";
+      item.hidden = Boolean(query) && !name.includes(query);
+    });
+  });
+  legend.querySelector("[data-omni-legend-all]").addEventListener("click", () => {
+    hiddenKeys.clear();
     applyView();
   });
-  chartRoot.querySelector(".omni-chart-card__header")?.append(toggle);
+  legend.querySelector("[data-omni-legend-none]").addEventListener("click", () => {
+    allKeys.forEach((key) => hiddenKeys.add(key));
+    applyView();
+  });
+  legend.querySelector("[data-omni-legend-default]")?.addEventListener("click", () => {
+    hiddenKeys.clear();
+    allKeys.forEach((key) => {
+      if (!defaultVisible.has(key)) {
+        hiddenKeys.add(key);
+      }
+    });
+    applyView();
+  });
+  legend.querySelector(".omni-series-legend__list").addEventListener("click", (event) => {
+    const item = event.target.closest("[data-omni-legend-key]");
+    if (!item) {
+      return;
+    }
+    const key = item.dataset.omniLegendKey;
+    if (hiddenKeys.has(key)) {
+      hiddenKeys.delete(key);
+    } else {
+      hiddenKeys.add(key);
+    }
+    applyView();
+  });
+
   applyView();
 }
 
@@ -2119,6 +2247,54 @@ function observeColorScheme() {
   observer.observe(target, { attributes: true, attributeFilter: ["data-md-color-scheme"] });
 }
 
+/**
+ * InferenceX-style page view tabs. Markdown wraps page regions in
+ * `<div data-omni-tab="Performance">…</div>`; the nav (`[data-omni-page-tabs]`)
+ * is filled with one button per region, in document order.
+ */
+function initOmniPageTabs() {
+  const nav = document.querySelector("[data-omni-page-tabs]");
+  const panels = [...document.querySelectorAll("[data-omni-tab]")];
+  if (!nav || panels.length === 0) {
+    return;
+  }
+  const found = [...new Set(panels.map((panel) => panel.dataset.omniTab).filter(Boolean))];
+  // Optional explicit order: <nav data-omni-page-tabs="Performance,Accuracy,History">.
+  const explicit = (nav.dataset.omniPageTabs || "").split(",").map((s) => s.trim()).filter(Boolean);
+  const names = explicit.length
+    ? [...explicit.filter((name) => found.includes(name)), ...found.filter((name) => !explicit.includes(name))]
+    : found;
+  if (names.length < 2) {
+    nav.hidden = true;
+    return;
+  }
+  nav.innerHTML = names.map((name) => `
+    <button type="button" class="omni-page-tabs__btn" data-omni-tab-target="${escapeHtml(name)}">${escapeHtml(name)}</button>
+  `).join("");
+
+  const activate = (name) => {
+    nav.querySelectorAll("[data-omni-tab-target]").forEach((btn) => {
+      btn.classList.toggle("omni-page-tabs__btn--active", btn.dataset.omniTabTarget === name);
+    });
+    panels.forEach((panel) => {
+      panel.hidden = panel.dataset.omniTab !== name;
+    });
+    // Charts initialized while hidden have zero size; re-measure the visible ones.
+    charts.forEach((instance, container) => {
+      if (container.offsetParent !== null) {
+        instance.resize();
+      }
+    });
+  };
+  nav.addEventListener("click", (event) => {
+    const btn = event.target.closest("[data-omni-tab-target]");
+    if (btn) {
+      activate(btn.dataset.omniTabTarget);
+    }
+  });
+  activate(names[0]);
+}
+
 if (typeof module !== "undefined" && module.exports) {
   module.exports = {
     buildOmniChartOption,
@@ -2134,6 +2310,7 @@ if (typeof document !== "undefined") {
     bindRangePicker();
     bindRailSpy();
     observeColorScheme();
+    initOmniPageTabs();
     await Promise.all([loadHealth(), loadHardwareStatus(), reloadCharts(), loadQwen3OmniHistory()]);
   });
 }
