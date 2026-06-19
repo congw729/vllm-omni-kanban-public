@@ -387,18 +387,6 @@
       "number": 2037,
       "title": "[Rebase] Rebase to vllm v0.18.0 (#2037)",
       "url": "https://github.com/vllm-project/vllm-omni/pull/2037"
-    },
-    {
-      "author": "Junhong Liu",
-      "files_matched": [
-        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni.py",
-        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni_moe_code_predictor_mtp.py",
-        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni_moe_talker.py"
-      ],
-      "merged_at": "2026-03-20T19:33:52+08:00",
-      "number": 2012,
-      "title": "[Fixbug][Perf] Qwen3-omni: code predictor with re-prefill + SDPA and eliminate decode hot-path CPU round-trips (#2012)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/2012"
     }
   ],
   "inferred": [
@@ -3707,17 +3695,6 @@
       ],
       "title": "[Bugfix] Fix Fish Speech and CosyVoice3 online serving - missing is_comprehension and broken model detection (#2058)",
       "url": "https://github.com/vllm-project/vllm-omni/pull/2058"
-    },
-    {
-      "author": "Zhou Taichang",
-      "merged_at": "2026-03-20T16:13:24+08:00",
-      "number": 1851,
-      "platform_paths": [
-        "vllm_omni/engine/async_omni_engine.py",
-        "vllm_omni/entrypoints/utils.py"
-      ],
-      "title": "[Bugfix] Remove duplicated config keyword max batch size (#1851)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1851"
     }
   ]
 }

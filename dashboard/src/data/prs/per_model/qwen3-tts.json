@@ -592,16 +592,6 @@
       "number": 2059,
       "title": "[BugFix][Qwen3TTS] CodePredictor CudaGraph Pool (#2059)",
       "url": "https://github.com/vllm-project/vllm-omni/pull/2059"
-    },
-    {
-      "author": "Zhou Taichang",
-      "files_matched": [
-        "vllm_omni/model_executor/models/qwen3_tts/pipeline.yaml"
-      ],
-      "merged_at": "2026-03-20T16:13:24+08:00",
-      "number": 1851,
-      "title": "[Bugfix] Remove duplicated config keyword max batch size (#1851)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1851"
     }
   ],
   "inferred": [
