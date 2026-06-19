@@ -3557,16 +3557,6 @@
       "url": "https://github.com/vllm-project/vllm-omni/pull/2042"
     },
     {
-      "author": "Sy03",
-      "merged_at": "2026-03-21T13:15:02+08:00",
-      "number": 1859,
-      "platform_paths": [
-        "vllm_omni/distributed/omni_connectors/transfer_adapter/chunk_transfer_adapter.py"
-      ],
-      "title": "[Perf] Improve Fish Speech S2 Pro inference performance (#1859)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1859"
-    },
-    {
       "author": "Yueqian Lin",
       "merged_at": "2026-03-21T10:18:10-04:00",
       "number": 2058,
