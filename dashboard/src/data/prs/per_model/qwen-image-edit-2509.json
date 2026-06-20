@@ -3517,54 +3517,6 @@
       ],
       "title": "[Core] Simplify OmniModelConfig Initialization (#1768)",
       "url": "https://github.com/vllm-project/vllm-omni/pull/1768"
-    },
-    {
-      "author": "\u6c6a\u5fd7\u9e4f",
-      "merged_at": "2026-03-21T22:32:00+08:00",
-      "number": 2062,
-      "platform_paths": [
-        "vllm_omni/patch.py"
-      ],
-      "title": "Remove mm_prefix_lm patch because vllm==0.18.0 already support (#2062)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/2062"
-    },
-    {
-      "author": "Zhou Taichang",
-      "merged_at": "2026-03-21T20:37:38+08:00",
-      "number": 2037,
-      "platform_paths": [
-        "vllm_omni/core/sched/omni_ar_scheduler.py",
-        "vllm_omni/core/sched/omni_generation_scheduler.py",
-        "vllm_omni/distributed/kv_transfer/monkey_patch.py",
-        "vllm_omni/engine/stage_engine_core_client.py",
-        "vllm_omni/entrypoints/async_omni.py",
-        "vllm_omni/entrypoints/cli/benchmark/main.py",
-        "vllm_omni/entrypoints/omni_base.py",
-        "vllm_omni/entrypoints/openai/api_server.py",
-        "vllm_omni/entrypoints/openai/serving_chat.py"
-      ],
-      "title": "[Rebase] Rebase to vllm v0.18.0 (#2037)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/2037"
-    },
-    {
-      "author": "Zeyu Huang | \u9ec3\u6fa4\u5b87",
-      "merged_at": "2026-03-21T15:53:04+08:00",
-      "number": 2042,
-      "platform_paths": [
-        "vllm_omni/entrypoints/openai/serving_chat.py"
-      ],
-      "title": "[bugfix] /chat/completion doesn't read extra_body for diffusion model (#2042)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/2042"
-    },
-    {
-      "author": "Yueqian Lin",
-      "merged_at": "2026-03-21T10:18:10-04:00",
-      "number": 2058,
-      "platform_paths": [
-        "vllm_omni/entrypoints/openai/serving_speech.py"
-      ],
-      "title": "[Bugfix] Fix Fish Speech and CosyVoice3 online serving - missing is_comprehension and broken model detection (#2058)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/2058"
     }
   ]
 }

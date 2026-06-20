@@ -764,6 +764,40 @@
         "throughput_qps": 0.2610324706381414
       },
       "variant_id": "ulysses2_cfg2_cache_dit"
+    },
+    {
+      "alerts": [],
+      "date": "2026-06-19",
+      "values": {
+        "latency_mean_ms": 14552.22110208124,
+        "latency_median_ms": 14530.165393021889,
+        "latency_p50_ms": 14530.165393021889,
+        "latency_p95_ms": 14629.535819613375,
+        "latency_p99_ms": 14639.943543118425,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 57612.0,
+        "peak_memory_mb_mean": 57612.0,
+        "peak_memory_mb_median": 57612.0,
+        "throughput_qps": 0.06871702166806902
+      },
+      "variant_id": "single_device"
+    },
+    {
+      "alerts": [],
+      "date": "2026-06-19",
+      "values": {
+        "latency_mean_ms": 3708.2594200153835,
+        "latency_median_ms": 3636.634372000117,
+        "latency_p50_ms": 3636.634372000117,
+        "latency_p95_ms": 4153.71337714605,
+        "latency_p99_ms": 4229.592929026112,
+        "pass_rate": 1.0,
+        "peak_memory_mb_max": 58120.0,
+        "peak_memory_mb_mean": 58081.0,
+        "peak_memory_mb_median": 58120.0,
+        "throughput_qps": 0.2696542450094987
+      },
+      "variant_id": "ulysses2_cfg2_cache_dit"
     }
   ],
   "variants": [
