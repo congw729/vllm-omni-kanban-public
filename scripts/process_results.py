@@ -3,7 +3,6 @@ from __future__ import annotations
 import argparse
 import os
 import sys
-from collections import defaultdict
 from datetime import date, datetime, timedelta
 from pathlib import Path
 from typing import Any
@@ -17,8 +16,6 @@ DATA_DIR = ROOT / "data"
 RESULTS_DIR = DATA_DIR / "results"
 INDEX_PATH = DATA_DIR / "index.json"
 CONFIG_PATH = DATA_DIR / "config.json"
-REPORTS_DIR = ROOT / "docs" / "reports"
-REPORTS_INDEX_PATH = REPORTS_DIR / "index.md"
 
 def ensure_number(name: str, value: Any) -> None:
     if not isinstance(value, (int, float)):
@@ -142,92 +139,6 @@ def update_index(touched_dates: set[str], config: dict[str, Any], last_updated: 
     return index
 
 
-def collect_day_results(date_str: str) -> list[dict[str, Any]]:
-    return load_json(RESULTS_DIR / f"{date_str}.json", {"results": []}).get("results", [])
-
-
-def build_summary(results: list[dict[str, Any]]) -> dict[str, Any]:
-    if not results:
-        return {"count": 0, "avg_pass_rate": None, "avg_latency_p99_ms": None, "latest_commit": None}
-    flattened = [flatten_metrics(result["metrics"]) for result in results]
-    pass_rates = [flat["pass_rate"] for flat in flattened if isinstance(flat.get("pass_rate"), (int, float))]
-    latencies = [flat["latency_p99_ms"] for flat in flattened if isinstance(flat.get("latency_p99_ms"), (int, float))]
-    return {
-        "count": len(results),
-        "avg_pass_rate": round(sum(pass_rates) / len(pass_rates), 4) if pass_rates else None,
-        "avg_latency_p99_ms": round(sum(latencies) / len(latencies), 2) if latencies else None,
-        "latest_commit": max(results, key=lambda item: parse_timestamp(item["timestamp"]))["commit"],
-    }
-
-
-def generate_report(date_str: str, results: list[dict[str, Any]], config: dict[str, Any]) -> None:
-    REPORTS_DIR.mkdir(parents=True, exist_ok=True)
-    report_path = REPORTS_DIR / f"{date_str}.md"
-    by_hardware: dict[str, list[dict[str, Any]]] = defaultdict(list)
-    for result in results:
-        by_hardware[result["hardware"]].append(result)
-
-    summary = build_summary(results)
-    lines = [
-        f"# Daily Report: {date_str}",
-        "",
-        f"- Results: {summary['count']}",
-        f"- Average pass rate: {summary['avg_pass_rate']}",
-        f"- Average P99 latency: {summary['avg_latency_p99_ms']}",
-        f"- Latest commit: `{summary['latest_commit']}`",
-        "",
-    ]
-
-    lines.append("## Model x Hardware Snapshot")
-    lines.append("")
-    header = ["Model"] + [config["hardware"][hardware]["display_name"] for hardware in config["hardware"]]
-    lines.append("| " + " | ".join(header) + " |")
-    lines.append("|" + "|".join(["------"] * len(header)) + "|")
-    for model in config["models"]:
-        row = [model]
-        for hardware in config["hardware"]:
-            match = next((item for item in results if item["model"] == model and item["hardware"] == hardware), None)
-            row.append(str(flatten_metrics(match["metrics"]).get("pass_rate", "n/a")) if match else "n/a")
-        lines.append("| " + " | ".join(row) + " |")
-    lines.append("")
-
-    for hardware in config["hardware"]:
-        lines.append(f"## {config['hardware'][hardware]['display_name']}")
-        lines.append("")
-        items = sorted(by_hardware.get(hardware, []), key=lambda item: item["model"])
-        if not items:
-            lines.append("_No results_")
-            lines.append("")
-            continue
-        lines.append("| Model | Pass Rate | P99 Latency (ms) | Throughput | TTFT (ms) |")
-        lines.append("|------|-----------|------------------|------------|-----------|")
-        for result in items:
-            flat = flatten_metrics(result["metrics"])
-            lines.append(
-                "| "
-                + " | ".join(
-                    [
-                        result["model"],
-                        str(flat.get("pass_rate", "n/a")),
-                        str(flat.get("latency_p99_ms", "n/a")),
-                        str(flat.get("throughput_tokens_per_sec", "n/a")),
-                        str(flat.get("ttft_ms", "n/a")),
-                    ]
-                )
-                + " |"
-            )
-        lines.append("")
-
-    report_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
-
-
-def generate_reports_index(index: dict[str, Any]) -> None:
-    REPORTS_DIR.mkdir(parents=True, exist_ok=True)
-    lines = ["# Reports", "", "Generated daily reports:", ""]
-    lines.extend([f"- [{date_str}]({date_str}.md)" for date_str in sorted(index["dates"], reverse=True)] or ["_No reports yet_"])
-    REPORTS_INDEX_PATH.write_text("\n".join(lines) + "\n", encoding="utf-8")
-
-
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Process daily vLLM-omni results.")
     parser.add_argument("--validate-only", action="store_true")
@@ -249,7 +160,6 @@ def main() -> int:
         return 0
 
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
-    REPORTS_DIR.mkdir(parents=True, exist_ok=True)
     touched_dates: set[str] = set()
     for result in results:
         date_str, changed = upsert_result(result, args.source)
@@ -260,9 +170,6 @@ def main() -> int:
 
     latest_timestamp = max(result["timestamp"] for result in results)
     index = update_index(touched_dates, config, latest_timestamp)
-    for date_str in touched_dates:
-        generate_report(date_str, collect_day_results(date_str), config)
-    generate_reports_index(index)
 
     print(f"processed {len(results)} results across {len(index['dates'])} dates")
     return 0

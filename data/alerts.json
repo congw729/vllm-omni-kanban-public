@@ -11,9 +11,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 100.0,
-      "delta": 2.8357
+      "delta": 2.8357,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "nvidia-a100-qwen-image-ttft_ms-warning-regression",
@@ -26,9 +27,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 118.5357,
-      "delta": 0.2492
+      "delta": 0.2492,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "nvidia-a100-qwen-image-throughput_tokens_per_sec-warning-regression",
@@ -41,9 +43,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 1221.1557,
-      "delta": -0.2109
+      "delta": -0.2109,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "nvidia-a100-qwen-image-benchmark_score-warning-regression",
@@ -56,9 +59,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 0.8506,
-      "delta": -0.0936
+      "delta": -0.0936,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "nvidia-h100-qwen-image-latency_p99_ms-warning-regression",
@@ -71,9 +75,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 100.0,
-      "delta": 5.8163
+      "delta": 5.8163,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "nvidia-h100-qwen-image-throughput_tokens_per_sec-warning-regression",
@@ -86,9 +91,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 1581.6514,
-      "delta": -0.4011
+      "delta": -0.4011,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "nvidia-h100-qwen-image-benchmark_score-warning-regression",
@@ -117,9 +123,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 1326.5057,
-      "delta": -0.269
+      "delta": -0.269,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "ascend-a2-qwen-image-pass_rate-warning-absolute",
@@ -131,7 +138,7 @@
       "first_triggered": "2026-03-14T06:00:00+08:00",
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
-      "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
+      "suppressed_until": "2026-06-21T08:57:54.885482+00:00",
       "resolved": false
     },
     {
@@ -145,9 +152,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 96.1343,
-      "delta": 0.6031
+      "delta": 0.6031,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "ascend-a3-qwen-image-ttft_ms-warning-regression",
@@ -160,9 +168,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 98.23,
-      "delta": 0.3309
+      "delta": 0.3309,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "ascend-a3-qwen-image-benchmark_score-warning-regression",
@@ -175,9 +184,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 0.7958,
-      "delta": -0.0665
+      "delta": -0.0665,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "nvidia-a100-qwen-image-edit-latency_p99_ms-warning-regression",
@@ -190,9 +200,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 100.0,
-      "delta": 5.7775
+      "delta": 5.7775,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "nvidia-a100-qwen-image-edit-throughput_tokens_per_sec-warning-regression",
@@ -205,9 +216,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 1210.2029,
-      "delta": -0.2029
+      "delta": -0.2029,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "nvidia-a100-qwen-image-edit-benchmark_score-warning-regression",
@@ -220,9 +232,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 0.8589,
-      "delta": -0.0643
+      "delta": -0.0643,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "nvidia-h100-qwen-image-edit-latency_p99_ms-warning-regression",
@@ -235,9 +248,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 100.0,
-      "delta": 5.8082
+      "delta": 5.8082,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "nvidia-h100-qwen-image-edit-ttft_ms-warning-regression",
@@ -250,9 +264,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 93.23,
-      "delta": 0.4337
+      "delta": 0.4337,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "nvidia-h20-qwen-image-edit-latency_p99_ms-warning-regression",
@@ -265,9 +280,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 100.0,
-      "delta": 5.1936
+      "delta": 5.1936,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "amd-mi300x-qwen-image-edit-throughput_tokens_per_sec-warning-regression",
@@ -280,9 +296,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 1461.2514,
-      "delta": -0.1557
+      "delta": -0.1557,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "amd-mi300x-qwen-image-edit-benchmark_score-warning-regression",
@@ -311,9 +328,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 100.0,
-      "delta": 5.741
+      "delta": 5.741,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "ascend-a2-qwen-image-edit-ttft_ms-warning-regression",
@@ -326,9 +344,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 104.73,
-      "delta": 0.5215
+      "delta": 0.5215,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "ascend-a3-qwen-image-edit-ttft_ms-warning-regression",
@@ -341,9 +360,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 103.0171,
-      "delta": 0.582
+      "delta": 0.582,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "ascend-a3-qwen-image-edit-benchmark_score-warning-regression",
@@ -372,9 +392,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 100.0,
-      "delta": 4.8957
+      "delta": 4.8957,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "nvidia-h100-wan22-throughput_tokens_per_sec-warning-regression",
@@ -387,9 +408,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 1331.1957,
-      "delta": -0.3205
+      "delta": -0.3205,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "nvidia-h100-wan22-benchmark_score-warning-regression",
@@ -402,9 +424,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 0.8141,
-      "delta": -0.0638
+      "delta": -0.0638,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "ascend-a2-wan22-throughput_tokens_per_sec-warning-regression",
@@ -417,9 +440,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 1378.45,
-      "delta": -0.2617
+      "delta": -0.2617,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "ascend-a2-wan22-benchmark_score-warning-regression",
@@ -447,7 +471,7 @@
       "first_triggered": "2026-03-14T06:00:00+08:00",
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
-      "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
+      "suppressed_until": "2026-06-21T08:57:54.885482+00:00",
       "resolved": false
     },
     {
@@ -461,9 +485,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 100.0,
-      "delta": 4.8946
+      "delta": 4.8946,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "ascend-a3-wan22-throughput_tokens_per_sec-warning-regression",
@@ -476,9 +501,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 1326.3957,
-      "delta": -0.186
+      "delta": -0.186,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "nvidia-a100-qwen3-omni-latency_p99_ms-warning-regression",
@@ -491,9 +517,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 100.0,
-      "delta": 5.9398
+      "delta": 5.9398,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "nvidia-a100-qwen3-omni-ttft_ms-warning-regression",
@@ -506,9 +533,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 89.3071,
-      "delta": 0.5682
+      "delta": 0.5682,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "nvidia-a100-qwen3-omni-benchmark_score-warning-regression",
@@ -537,9 +565,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 87.4943,
-      "delta": 0.7824
+      "delta": 0.7824,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "nvidia-h100-qwen3-omni-benchmark_score-warning-regression",
@@ -568,9 +597,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 100.0,
-      "delta": 5.908
+      "delta": 5.908,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "nvidia-h20-qwen3-omni-throughput_tokens_per_sec-warning-regression",
@@ -583,9 +613,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 1277.6343,
-      "delta": -0.2825
+      "delta": -0.2825,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "amd-mi300x-qwen3-omni-benchmark_score-warning-regression",
@@ -598,9 +629,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 0.854,
-      "delta": -0.1314
+      "delta": -0.1314,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "ascend-a2-qwen3-omni-latency_p99_ms-warning-regression",
@@ -613,9 +645,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 100.0,
-      "delta": 4.9391
+      "delta": 4.9391,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "ascend-a3-qwen3-omni-throughput_tokens_per_sec-warning-regression",
@@ -628,9 +661,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 1446.6929,
-      "delta": -0.3089
+      "delta": -0.3089,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "ascend-a3-qwen3-omni-benchmark_score-warning-regression",
@@ -643,9 +677,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 0.8809,
-      "delta": -0.1271
+      "delta": -0.1271,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "nvidia-a100-qwen3-tts-latency_p99_ms-warning-regression",
@@ -658,9 +693,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 100.0,
-      "delta": 5.7825
+      "delta": 5.7825,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "nvidia-a100-qwen3-tts-ttft_ms-warning-regression",
@@ -673,9 +709,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 109.6,
-      "delta": 0.487
+      "delta": 0.487,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "nvidia-h100-qwen3-tts-latency_p99_ms-warning-regression",
@@ -688,9 +725,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 100.0,
-      "delta": 5.3834
+      "delta": 5.3834,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "nvidia-h20-qwen3-tts-pass_rate-warning-absolute",
@@ -702,7 +740,7 @@
       "first_triggered": "2026-03-14T06:00:00+08:00",
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
-      "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
+      "suppressed_until": "2026-06-21T08:57:54.885482+00:00",
       "resolved": false
     },
     {
@@ -716,9 +754,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 0.9476,
-      "delta": -0.0687
+      "delta": -0.0687,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "nvidia-h20-qwen3-tts-latency_p99_ms-warning-regression",
@@ -731,9 +770,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 100.0,
-      "delta": 4.7983
+      "delta": 4.7983,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "nvidia-h20-qwen3-tts-throughput_tokens_per_sec-warning-regression",
@@ -746,9 +786,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 1371.2186,
-      "delta": -0.2258
+      "delta": -0.2258,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "nvidia-h20-qwen3-tts-benchmark_score-warning-regression",
@@ -761,9 +802,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 0.8584,
-      "delta": -0.0581
+      "delta": -0.0581,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "amd-mi300x-qwen3-tts-pass_rate-warning-regression",
@@ -776,9 +818,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 0.9631,
-      "delta": -0.0563
+      "delta": -0.0563,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "amd-mi300x-qwen3-tts-throughput_tokens_per_sec-warning-regression",
@@ -791,9 +834,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 1280.4229,
-      "delta": -0.2715
+      "delta": -0.2715,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "ascend-a2-qwen3-tts-pass_rate-warning-absolute",
@@ -805,7 +849,7 @@
       "first_triggered": "2026-03-14T06:00:00+08:00",
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
-      "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
+      "suppressed_until": "2026-06-21T08:57:54.885482+00:00",
       "resolved": false
     },
     {
@@ -819,9 +863,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 0.9575,
-      "delta": -0.0603
+      "delta": -0.0603,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "ascend-a3-qwen3-tts-pass_rate-warning-absolute",
@@ -833,7 +878,7 @@
       "first_triggered": "2026-03-14T06:00:00+08:00",
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
-      "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
+      "suppressed_until": "2026-06-21T08:57:54.885482+00:00",
       "resolved": false
     },
     {
@@ -847,9 +892,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 0.9539,
-      "delta": -0.0692
+      "delta": -0.0692,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "ascend-a3-qwen3-tts-ttft_ms-warning-regression",
@@ -862,9 +908,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 106.8729,
-      "delta": 0.4893
+      "delta": 0.4893,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "nvidia-h20-qwen-image-latency_p99_ms-warning-regression",
@@ -877,9 +924,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 100.0,
-      "delta": 2.2958
+      "delta": 2.2958,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "amd-mi300x-qwen-image-latency_p99_ms-warning-regression",
@@ -892,9 +940,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 100.0,
-      "delta": 3.2664
+      "delta": 3.2664,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "ascend-a2-qwen-image-latency_p99_ms-warning-regression",
@@ -907,9 +956,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 100.0,
-      "delta": 1.8146
+      "delta": 1.8146,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "ascend-a3-qwen-image-latency_p99_ms-warning-regression",
@@ -922,9 +972,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 100.0,
-      "delta": 0.944
+      "delta": 0.944,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "amd-mi300x-qwen-image-edit-latency_p99_ms-warning-regression",
@@ -937,9 +988,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 100.0,
-      "delta": 3.1788
+      "delta": 3.1788,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "ascend-a3-qwen-image-edit-latency_p99_ms-warning-regression",
@@ -952,9 +1004,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 100.0,
-      "delta": 4.5844
+      "delta": 4.5844,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "nvidia-a100-wan22-latency_p99_ms-warning-regression",
@@ -967,9 +1020,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 100.0,
-      "delta": 1.5437
+      "delta": 1.5437,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "nvidia-h20-wan22-latency_p99_ms-warning-regression",
@@ -982,9 +1036,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 100.0,
-      "delta": 2.6235
+      "delta": 2.6235,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "amd-mi300x-wan22-latency_p99_ms-warning-regression",
@@ -997,9 +1052,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 100.0,
-      "delta": 2.2911
+      "delta": 2.2911,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "ascend-a2-wan22-latency_p99_ms-warning-regression",
@@ -1012,9 +1068,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 100.0,
-      "delta": 2.408
+      "delta": 2.408,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "nvidia-h100-qwen3-omni-latency_p99_ms-warning-regression",
@@ -1027,9 +1084,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 100.0,
-      "delta": 4.8955
+      "delta": 4.8955,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "amd-mi300x-qwen3-omni-latency_p99_ms-warning-regression",
@@ -1042,9 +1100,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 100.0,
-      "delta": 2.3751
+      "delta": 2.3751,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "ascend-a3-qwen3-omni-latency_p99_ms-warning-regression",
@@ -1057,9 +1116,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 100.0,
-      "delta": 2.8434
+      "delta": 2.8434,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "amd-mi300x-qwen3-tts-latency_p99_ms-warning-regression",
@@ -1072,9 +1132,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 100.0,
-      "delta": 1.9687
+      "delta": 1.9687,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "ascend-a2-qwen3-tts-latency_p99_ms-warning-regression",
@@ -1087,9 +1148,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 100.0,
-      "delta": 2.4297
+      "delta": 2.4297,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "ascend-a3-qwen3-tts-latency_p99_ms-warning-regression",
@@ -1102,9 +1164,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 100.0,
-      "delta": 0.9795
+      "delta": 0.9795,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "ascend-a2-qwen-image-edit-benchmark_score-warning-regression",
@@ -1117,9 +1180,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 0.8565,
-      "delta": -0.0811
+      "delta": -0.0811,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "nvidia-h20-qwen3-omni-benchmark_score-warning-regression",
@@ -1132,9 +1196,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 0.8419,
-      "delta": -0.0534
+      "delta": -0.0534,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "ascend-a2-qwen3-omni-benchmark_score-warning-regression",
@@ -1147,9 +1212,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 0.8443,
-      "delta": -0.0895
+      "delta": -0.0895,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "nvidia-a100-qwen3-tts-benchmark_score-warning-regression",
@@ -1162,9 +1228,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 0.8353,
-      "delta": -0.1097
+      "delta": -0.1097,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     },
     {
       "id": "amd-mi300x-qwen3-tts-benchmark_score-warning-regression",
@@ -1177,9 +1244,10 @@
       "last_triggered": "2026-03-14T06:00:00+08:00",
       "last_seen": "2026-03-14T06:00:00+08:00",
       "suppressed_until": "2026-06-16T08:04:33.861281+00:00",
-      "resolved": false,
+      "resolved": true,
       "baseline": 0.8062,
-      "delta": -0.0527
+      "delta": -0.0527,
+      "resolved_at": "2026-03-14T06:00:00+08:00"
     }
   ]
 }

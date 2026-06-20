@@ -43,13 +43,10 @@ nav:
       - BAGEL: models/bagel.md
       - VoxCPM2: models/voxcpm2.md
   - Alerts: alerts.md
-  # Individual report pages are intentionally not listed: docs/reports/index.md is
-  # regenerated at build time (see scripts/mkdocs_hooks.py) and links every report,
-  # so external repos can drop in YYYY-MM-DD.md files without touching this nav.
-  - Reports:
-      - Archive: reports/index.md
+  - Reports: reports.md
 extra_javascript:
   - https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js
   - assets/js/render_charts.js
+  - assets/js/test_reports.js
 extra_css:
   - assets/stylesheets/dashboard.css

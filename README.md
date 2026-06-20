@@ -32,10 +32,7 @@ Core scripts:
 
 ## Docs
 
-- [PRD](docs/plans/2026-03-13-prd.md)
-- [Kanban Design](docs/plans/2025-03-13-kanban-design.md)
-- [TDD Plan](docs/plans/2025-03-13-tdd-plan-design.md)
-- [Implementation Plan](docs/plans/2026-03-13-implementation-plan.md)
+Run `mkdocs serve` to preview the site locally, or `mkdocs build --strict` for a production build.
 
 ## Dashboard
 
