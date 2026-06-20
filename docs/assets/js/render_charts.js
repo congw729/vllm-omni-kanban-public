@@ -1625,6 +1625,49 @@ function ensureHistoryInstanceId(root) {
   return root.dataset.historyInstance;
 }
 
+function resetOmniFilterDropdownStyle(dropdown) {
+  if (!dropdown) {
+    return;
+  }
+  dropdown.classList.remove("is-fixed");
+  dropdown.style.position = "";
+  dropdown.style.left = "";
+  dropdown.style.top = "";
+  dropdown.style.width = "";
+  dropdown.style.right = "";
+  dropdown.style.zIndex = "";
+}
+
+function positionOmniFilterDropdown(multiselect) {
+  const button = multiselect.querySelector(".omni-filter__trigger");
+  const dropdown = multiselect.querySelector(".omni-filter__dropdown");
+  if (!button || !dropdown) {
+    return;
+  }
+  const rect = button.getBoundingClientRect();
+  dropdown.classList.add("is-fixed");
+  dropdown.style.position = "fixed";
+  dropdown.style.left = `${Math.max(8, rect.left)}px`;
+  dropdown.style.top = `${rect.bottom + 4}px`;
+  dropdown.style.width = `${rect.width}px`;
+  dropdown.style.right = "auto";
+  dropdown.style.zIndex = "40";
+}
+
+function syncOpenOmniFilterDropdownPositions() {
+  document.querySelectorAll(".omni-filter__multiselect.is-open").forEach((multiselect) => {
+    positionOmniFilterDropdown(multiselect);
+  });
+}
+
+function bindOmniFilterBarScroll(container) {
+  if (container.dataset.omniFilterScrollBound === "1") {
+    return;
+  }
+  container.dataset.omniFilterScrollBound = "1";
+  container.addEventListener("scroll", () => syncOpenOmniFilterDropdownPositions(), { passive: true });
+}
+
 function bindOmniFilterOutsideClick() {
   if (_omniFilterOutsideClickBound) {
     return;
@@ -1634,14 +1677,17 @@ function bindOmniFilterOutsideClick() {
     document.querySelectorAll(".omni-filter__multiselect.is-open").forEach((multiselect) => {
       multiselect.classList.remove("is-open");
       multiselect.querySelector(".omni-filter__trigger")?.setAttribute("aria-expanded", "false");
+      resetOmniFilterDropdownStyle(multiselect.querySelector(".omni-filter__dropdown"));
     });
   });
+  window.addEventListener("resize", () => syncOpenOmniFilterDropdownPositions(), { passive: true });
 }
 
 function closeOmniFilterDropdowns(container) {
   container.querySelectorAll(".omni-filter__multiselect.is-open").forEach((multiselect) => {
     multiselect.classList.remove("is-open");
     multiselect.querySelector(".omni-filter__trigger")?.setAttribute("aria-expanded", "false");
+    resetOmniFilterDropdownStyle(multiselect.querySelector(".omni-filter__dropdown"));
   });
 }
 
@@ -1728,6 +1774,7 @@ function renderOmniFilterBar(payload, filters, root, options = {}) {
       if (!wasOpen) {
         multiselect.classList.add("is-open");
         button.setAttribute("aria-expanded", "true");
+        positionOmniFilterDropdown(multiselect);
       }
     });
   });
@@ -1765,8 +1812,11 @@ function renderOmniFilterBar(payload, filters, root, options = {}) {
     if (multiselect && trigger) {
       multiselect.classList.add("is-open");
       trigger.setAttribute("aria-expanded", "true");
+      positionOmniFilterDropdown(multiselect);
     }
   }
+
+  bindOmniFilterBarScroll(container);
 }
 
 function currentOmniFilters(payload, root) {

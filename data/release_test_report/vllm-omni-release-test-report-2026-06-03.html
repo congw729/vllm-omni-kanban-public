@@ -1,0 +1,2504 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>vLLM-Omni Test Report - Scheduled Nightly</title>
+<style>
+
+:root {
+  /* Dashboard palette (aligned with omni docs / slate home — cool gray, blue accent) */
+  --dashboard-bg: #f5f8fb;
+  --dashboard-panel-bg: #ffffff;
+  --dashboard-panel-strong: #f1f5f9;
+  --dashboard-border: #d9e2ec;
+  --dashboard-border-strong: #d6dde6;
+  --dashboard-text: #26323f;
+  --dashboard-muted: #607080;
+  --dashboard-soft-text: #52606d;
+  --dashboard-shadow: 0 18px 38px rgba(15, 23, 42, 0.08);
+  --dashboard-badge-bg: #edf3f8;
+  --dashboard-badge-text: #435466;
+  --dashboard-chart-text: #5b6775;
+  --dashboard-chart-grid: rgba(148, 163, 184, 0.2);
+  --omni-baseline-line: #64748b;
+  --omni-baseline-label-bg: rgba(241, 245, 249, 0.96);
+  --omni-baseline-label-fg: #0f172a;
+  --omni-baseline-label-border: rgba(100, 116, 139, 0.45);
+  --dashboard-tooltip-bg: rgba(15, 23, 42, 0.92);
+  --dashboard-tooltip-border: rgba(148, 163, 184, 0.28);
+  --dashboard-tooltip-text: #f8fafc;
+  --dashboard-healthy: #1f9d63;
+  --dashboard-alert: #d14343;
+  --dashboard-healthy-bg: rgba(31, 157, 99, 0.1);
+  --dashboard-alert-bg: rgba(209, 67, 67, 0.11);
+  --dashboard-warning: #d97706;
+  --dashboard-warning-bg: rgba(217, 119, 6, 0.12);
+  --dashboard-violet: #4f46e5;
+  --dashboard-violet-bg: rgba(79, 70, 229, 0.1);
+  /* Internal aliases (report markup) */
+  --bg: var(--dashboard-bg);
+  --surface: var(--dashboard-panel-bg);
+  --surface-muted: #edf3f8;
+  --text: var(--dashboard-text);
+  --muted: var(--dashboard-muted);
+  --border: var(--dashboard-border);
+  --shadow: var(--dashboard-shadow);
+  --accent: #3b82f6;
+  --accent-hover: #2563eb;
+  --accent-soft: rgba(59, 130, 246, 0.22);
+  --accent-tint: rgba(59, 130, 246, 0.08);
+  --ci: #2563eb;
+  --ci-soft: rgba(59, 130, 246, 0.16);
+  --danger: var(--dashboard-alert);
+  --danger-strong: #b91c1c;
+  --danger-bg: rgba(209, 67, 67, 0.08);
+  --danger-edge: var(--dashboard-alert);
+  --ok: var(--dashboard-healthy);
+  --ok-bg: var(--dashboard-healthy-bg);
+  --ok-edge: var(--dashboard-healthy);
+  --fail-bg: var(--dashboard-alert-bg);
+  --fail-edge: var(--dashboard-alert);
+  --unknown-bg: rgba(148, 163, 184, 0.08);
+  --unknown-edge: #64748b;
+  --code-bg-top: #334155;
+  --code-bg-bottom: #1e293b;
+  --code-fg: #e2e8f0;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow-bar: none;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --dashboard-bg: #111827;
+    --dashboard-panel-bg: #162130;
+    --dashboard-panel-strong: #131d2b;
+    --dashboard-border: rgba(148, 163, 184, 0.18);
+    --dashboard-border-strong: rgba(148, 163, 184, 0.22);
+    --dashboard-text: #edf3fb;
+    --dashboard-muted: #b6c4d5;
+    --dashboard-soft-text: #c6d3e1;
+    --dashboard-shadow: 0 20px 40px rgba(2, 6, 23, 0.35);
+    --dashboard-badge-bg: rgba(148, 163, 184, 0.12);
+    --dashboard-badge-text: #d5dfeb;
+    --dashboard-chart-text: #c8d4e3;
+    --dashboard-chart-grid: rgba(148, 163, 184, 0.16);
+    --omni-baseline-line: #94a3b8;
+    --omni-baseline-label-bg: rgba(30, 41, 55, 0.94);
+    --omni-baseline-label-fg: #f1f5f9;
+    --omni-baseline-label-border: rgba(148, 163, 184, 0.4);
+    --dashboard-tooltip-bg: rgba(15, 23, 42, 0.96);
+    --dashboard-tooltip-border: rgba(148, 163, 184, 0.24);
+    --dashboard-tooltip-text: #f8fafc;
+    --dashboard-healthy-bg: rgba(31, 157, 99, 0.16);
+    --dashboard-alert-bg: rgba(209, 67, 67, 0.18);
+    --dashboard-warning: #fbbf24;
+    --dashboard-warning-bg: rgba(251, 191, 36, 0.14);
+    --dashboard-violet: #818cf8;
+    --dashboard-violet-bg: rgba(129, 140, 248, 0.14);
+    --surface-muted: rgba(148, 163, 184, 0.1);
+    --accent: #60a5fa;
+    --accent-hover: #3b82f6;
+    --accent-soft: rgba(96, 165, 250, 0.28);
+    --accent-tint: rgba(96, 165, 250, 0.12);
+    --ci: #60a5fa;
+    --ci-soft: rgba(96, 165, 250, 0.2);
+    --danger-strong: #fecaca;
+    --danger-bg: rgba(209, 67, 67, 0.14);
+    --unknown-bg: rgba(148, 163, 184, 0.08);
+    --unknown-edge: #94a3b8;
+  }
+}
+* { box-sizing: border-box; }
+body {
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  font-size: 15px;
+}
+.top-bar {
+  background: var(--dashboard-panel-bg);
+  color: var(--dashboard-text);
+  padding: 0;
+  box-shadow: 0 1px 0 rgba(148, 163, 184, 0.18);
+  border-bottom: 3px solid var(--accent);
+}
+.top-bar-inner {
+  padding: 1.4rem 1.25rem 1.55rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+}
+.brand-mark {
+  width: 3.2rem;
+  height: 3.2rem;
+  border-radius: var(--radius-sm);
+  background: var(--dashboard-badge-bg);
+  border: 1px solid var(--dashboard-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05);
+}
+.brand-mark .ico { stroke: var(--accent); }
+.brand-copy h1 {
+  margin: 0;
+  font-size: 1.65rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  color: var(--dashboard-text);
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+.tagline {
+  margin: 0.35rem 0 0;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.top-bar .tagline {
+  color: var(--dashboard-muted);
+}
+.shell {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem 3rem;
+}
+.panel {
+  background: var(--dashboard-panel-bg);
+  border-radius: var(--radius);
+  border: 1px solid var(--dashboard-border);
+  box-shadow: var(--dashboard-shadow);
+  padding: 1.15rem 1.3rem;
+  margin-bottom: 1.35rem;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.panel:hover {
+  box-shadow: 0 16px 28px rgba(15, 23, 42, 0.1);
+  border-color: rgba(59, 130, 246, 0.28);
+}
+.panel h2 {
+  margin: 0 0 1rem;
+  font-size: 1.12rem;
+  font-weight: 800;
+  color: var(--dashboard-text);
+  letter-spacing: -0.02em;
+  border-bottom: 2px solid var(--dashboard-border);
+  padding-bottom: 0.55rem;
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+.panel-bk h2 {
+  border-bottom-color: var(--ci-soft);
+}
+.heading-row {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+}
+.heading-ico {
+  display: flex;
+  margin-top: 0.12rem;
+  color: var(--accent);
+}
+.panel-bk .heading-ico {
+  color: var(--ci);
+}
+.heading-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.12rem;
+  min-width: 0;
+}
+.heading-sub {
+  font-size: 0.78em;
+  font-weight: 500;
+  color: var(--muted);
+}
+h3.panel-sub {
+  margin: 1.2rem 0 0.65rem;
+  font-size: 1.04rem;
+  color: var(--dashboard-soft-text);
+  font-weight: 700;
+}
+h3.panel-sub:first-child {
+  margin-top: 0;
+}
+h3.panel-sub .heading-ico {
+  color: var(--dashboard-muted);
+}
+h3.section-failures {
+  margin: 0 0 0.85rem;
+  font-size: 1.02rem;
+  font-weight: 700;
+  color: var(--danger-strong);
+}
+h3.section-failures .heading-ico {
+  color: var(--danger);
+}
+section.job-fail-bk h3.section-failures .heading-ico {
+  color: var(--ci);
+}
+.panel-fail-analysis {
+  border-top: 3px solid var(--dashboard-warning);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--dashboard-warning-bg) 65%, var(--dashboard-panel-bg)) 0%, var(--dashboard-panel-bg) 42%);
+}
+.panel-fail-analysis > h2 {
+  border-bottom-color: color-mix(in srgb, var(--dashboard-warning) 35%, transparent);
+}
+.panel-fail-analysis .heading-ico {
+  color: var(--dashboard-warning);
+}
+.panel-perf-manual {
+  border-top: 3px solid var(--dashboard-violet);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--dashboard-violet-bg) 55%, var(--dashboard-panel-bg)) 0%, var(--dashboard-panel-bg) 45%);
+}
+.panel-perf-manual > h2 {
+  border-bottom-color: color-mix(in srgb, var(--dashboard-violet) 30%, transparent);
+}
+.panel-perf-manual .heading-ico {
+  color: var(--dashboard-violet);
+}
+h3.perf-sheet-title {
+  margin: 1.25rem 0 0.55rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--dashboard-violet);
+}
+h3.perf-sheet-title:first-of-type {
+  margin-top: 0.35rem;
+}
+.perf-truncate-hint {
+  margin: 0 0 0.5rem !important;
+}
+table.perf-manual {
+  font-size: 0.86rem;
+}
+table.perf-manual th {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--dashboard-violet-bg) 85%, var(--dashboard-panel-bg)) 0%, var(--dashboard-panel-strong));
+  color: var(--dashboard-text);
+}
+table.perf-manual td {
+  background: color-mix(in srgb, var(--dashboard-panel-bg) 96%, var(--dashboard-badge-bg));
+}
+.perf-delta {
+  font-size: 0.78em;
+  font-weight: 750;
+  margin-left: 0.35rem;
+  white-space: nowrap;
+}
+.perf-delta--up {
+  color: var(--dashboard-warning);
+}
+.perf-delta--down {
+  color: var(--dashboard-healthy);
+}
+details.job-fail-details {
+  margin-bottom: 1.25rem;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  border-left: 4px solid var(--danger-edge);
+  background: var(--surface);
+}
+details.job-fail-details:last-child {
+  margin-bottom: 0;
+}
+summary.job-fail-details-summary {
+  list-style: none;
+  cursor: pointer;
+  background: var(--danger-bg);
+  padding: 1.05rem 1.1rem 1.05rem 2.65rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--dashboard-warning) 38%, transparent);
+  position: relative;
+}
+summary.job-fail-details-summary::-webkit-details-marker {
+  display: none;
+}
+summary.job-fail-details-summary::before {
+  content: "▸";
+  position: absolute;
+  left: 0.95rem;
+  top: 1.2rem;
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--danger-strong);
+  line-height: 1;
+  pointer-events: none;
+}
+details.job-fail-details[open] > summary.job-fail-details-summary::before {
+  content: "▾";
+}
+summary.job-fail-details-summary h2 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 750;
+  color: var(--danger-strong);
+}
+summary.job-fail-details-summary .heading-ico {
+  color: var(--danger-strong);
+}
+summary.job-fail-details-summary .meta {
+  margin: 0.5rem 0 0;
+}
+.job-fail-details-body {
+  padding: 1.1rem 1.35rem 1.35rem;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--dashboard-alert-bg) 40%, var(--dashboard-panel-bg)) 0%, var(--dashboard-panel-bg) 48%);
+}
+.full-log-wrap {
+  margin: 0.55rem 0 0;
+  padding-top: 0.4rem;
+  border-top: 1px dashed color-mix(in srgb, var(--dashboard-warning) 42%, transparent);
+}
+.btn-view-full-log {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.42rem 0.88rem;
+  border-radius: 9px;
+  border: 1px solid color-mix(in srgb, var(--dashboard-warning) 45%, var(--dashboard-border));
+  background: linear-gradient(180deg, var(--dashboard-panel-bg) 0%, color-mix(in srgb, var(--dashboard-warning-bg) 55%, var(--dashboard-panel-bg)) 100%);
+  color: var(--danger-strong);
+  font-size: 0.86rem;
+  font-weight: 650;
+  cursor: pointer;
+  box-shadow: 0 1px 2px color-mix(in srgb, var(--dashboard-warning) 12%, transparent);
+}
+.btn-view-full-log:hover {
+  border-color: var(--dashboard-warning);
+  background: var(--dashboard-panel-bg);
+}
+.full-log-panel {
+  margin-top: 0.65rem;
+}
+pre.log-full {
+  margin: 0;
+  padding: 0.85rem 1rem;
+  background: linear-gradient(180deg, var(--code-bg-top) 0%, var(--code-bg-bottom) 100%);
+  color: var(--code-fg);
+  border-radius: var(--radius-sm);
+  border: 1px solid color-mix(in srgb, var(--dashboard-muted) 38%, transparent);
+  font-size: 0.78rem;
+  line-height: 1.48;
+  max-height: min(75vh, 42rem);
+  overflow: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+ul.full-log-paths {
+  margin: 0.35rem 0 0;
+  padding-left: 1.25rem;
+  font-size: 0.88rem;
+  color: var(--text);
+}
+.full-log-oversize {
+  margin: 0;
+}
+summary.job-fail-details-summary-bk {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--ci-soft) 65%, var(--dashboard-panel-bg)) 0%, var(--dashboard-panel-strong));
+  border-bottom-color: color-mix(in srgb, var(--ci) 42%, transparent);
+}
+summary.job-fail-details-summary-bk::before {
+  color: var(--ci);
+}
+details.job-fail-details-bk {
+  border-left-color: var(--ci);
+}
+summary.job-fail-details-summary-bk h2 {
+  color: var(--dashboard-chart-text);
+}
+summary.job-fail-details-summary-bk .heading-ico {
+  color: var(--ci);
+}
+.meta {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin: 0.4rem 0;
+}
+.meta strong {
+  color: var(--dashboard-badge-text);
+  font-weight: 650;
+}
+.meta a {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px solid var(--accent-soft);
+}
+.meta a:hover {
+  color: var(--accent-hover);
+  border-bottom-color: var(--accent);
+}
+.hint {
+  color: var(--muted);
+  font-size: 0.88rem;
+  margin: 0.55rem 0 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.45rem;
+}
+.hint::before {
+  content: "→";
+  color: var(--accent);
+  font-weight: 800;
+  flex-shrink: 0;
+  margin-top: 0.08rem;
+}
+p.summary-legend {
+  margin: 0.35rem 0 0;
+  font-size: 0.84rem;
+}
+.summary-legend strong.summary-legend--ok { color: var(--dashboard-healthy); }
+.summary-legend strong.summary-legend--fail { color: var(--dashboard-alert); }
+.summary-legend strong.summary-legend--unk { color: var(--omni-baseline-line); }
+.table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: var(--radius-sm);
+  margin: 0.65rem 0 0;
+  border: 1px solid var(--border);
+  background: var(--surface-muted);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--dashboard-panel-bg) 65%, transparent);
+}
+.table-scroll > table {
+  width: 100%;
+  min-width: 620px;
+}
+table.summary {
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+table.summary th, table.summary td {
+  border: 1px solid var(--border);
+  padding: 0.65rem 0.8rem;
+  text-align: left;
+  vertical-align: top;
+}
+table.summary th {
+  background: var(--dashboard-panel-strong);
+  font-weight: 650;
+  color: var(--dashboard-chart-text);
+  white-space: nowrap;
+}
+table.summary tbody tr.summary-row--ok td {
+  background: color-mix(in srgb, var(--dashboard-healthy-bg) 92%, var(--dashboard-panel-bg));
+}
+table.summary tbody tr.summary-row--ok td:first-child {
+  border-left: 4px solid var(--ok-edge);
+  padding-left: calc(0.8rem - 3px);
+  font-weight: 650;
+  color: var(--dashboard-healthy);
+}
+table.summary tbody tr.summary-row--fail td {
+  background: color-mix(in srgb, var(--dashboard-alert-bg) 88%, var(--dashboard-panel-bg));
+}
+table.summary tbody tr.summary-row--fail td:first-child {
+  border-left: 4px solid var(--fail-edge);
+  padding-left: calc(0.8rem - 3px);
+  font-weight: 650;
+  color: var(--danger-strong);
+}
+table.summary tbody tr.summary-row--unknown td {
+  background: var(--unknown-bg);
+}
+table.summary tbody tr.summary-row--unknown td:first-child {
+  border-left: 4px solid var(--unknown-edge);
+  padding-left: calc(0.8rem - 3px);
+  color: var(--dashboard-chart-text);
+}
+table.summary tbody tr.summary-row--ok:hover td {
+  background: color-mix(in srgb, var(--dashboard-healthy-bg) 98%, var(--dashboard-panel-bg));
+}
+table.summary tbody tr.summary-row--fail:hover td {
+  background: color-mix(in srgb, var(--dashboard-alert-bg) 95%, var(--dashboard-panel-bg));
+}
+table.summary tbody tr.summary-row--unknown:hover td {
+  background: var(--dashboard-badge-bg);
+}
+section.job-fail {
+  background: var(--surface);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+  border-left: 4px solid var(--danger-edge);
+}
+section.job-fail header {
+  background: var(--danger-bg);
+  padding: 1.05rem 1.35rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--dashboard-warning) 38%, transparent);
+}
+section.job-fail header .heading-ico {
+  color: var(--danger-strong);
+}
+section.job-fail h2 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 750;
+  color: var(--danger-strong);
+}
+section.job-fail .body {
+  padding: 1.1rem 1.35rem 1.35rem;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--dashboard-alert-bg) 35%, var(--dashboard-panel-bg)) 0%, var(--dashboard-panel-bg) 48%);
+}
+table.fail-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+table.fail-table th, table.fail-table td {
+  border: 1px solid var(--border);
+  padding: 0.72rem 0.8rem;
+  vertical-align: top;
+}
+table.fail-table th {
+  background: var(--dashboard-panel-strong);
+  font-weight: 650;
+  text-align: left;
+  color: var(--dashboard-text);
+}
+.th-lbl {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+.th-ico {
+  flex-shrink: 0;
+  opacity: 0.88;
+  color: var(--dashboard-chart-text);
+}
+table.fail-table tr.row-error {
+  background: linear-gradient(90deg, color-mix(in srgb, var(--dashboard-warning-bg) 70%, var(--dashboard-panel-bg)) 0%, var(--dashboard-panel-bg) 100%);
+}
+td.mono {
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 0.84rem;
+  word-break: break-all;
+}
+td.reason {
+  color: var(--dashboard-text);
+}
+td.analysis {
+  color: var(--dashboard-healthy);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--dashboard-healthy-bg) 55%, var(--dashboard-panel-bg)) 0%, color-mix(in srgb, var(--dashboard-healthy-bg) 88%, var(--dashboard-panel-bg)) 100%);
+  font-size: 0.86rem;
+  border-left: 3px solid var(--dashboard-healthy) !important;
+}
+td.excerpt-cell {
+  padding: 0.5rem !important;
+  background: var(--surface-muted);
+}
+pre.log-excerpt {
+  margin: 0;
+  padding: 0.85rem 1rem;
+  background: linear-gradient(180deg, var(--code-bg-top) 0%, var(--code-bg-bottom) 100%);
+  color: var(--code-fg);
+  border-radius: var(--radius-sm);
+  border: 1px solid color-mix(in srgb, var(--dashboard-muted) 38%, transparent);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--dashboard-panel-bg) 18%, transparent);
+  font-size: 0.78rem;
+  line-height: 1.48;
+  max-height: 28rem;
+  overflow: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.note {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-top: 0.35rem;
+}
+.panel-bk {
+  border-top: 4px solid var(--ci);
+  background: linear-gradient(180deg, var(--dashboard-panel-bg) 0%, color-mix(in srgb, var(--ci-soft) 35%, var(--dashboard-panel-bg)) 100%);
+}
+section.job-fail-bk {
+  border-left-color: var(--ci);
+}
+section.job-fail-bk header {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--ci-soft) 55%, var(--dashboard-panel-bg)) 0%, var(--dashboard-panel-strong));
+  border-bottom: 1px solid color-mix(in srgb, var(--ci) 38%, transparent);
+}
+section.job-fail-bk header .heading-ico {
+  color: var(--ci);
+}
+section.job-fail-bk h2 {
+  color: var(--dashboard-chart-text);
+  font-weight: 750;
+}
+.issue-action-cell {
+  width: 7.5rem;
+  text-align: center;
+  vertical-align: middle !important;
+  background: var(--surface-muted);
+}
+.btn-github-issue {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.65rem;
+  border-radius: 9px;
+  border: 1px solid var(--border);
+  background: var(--dashboard-panel-strong);
+  color: var(--dashboard-text);
+  font-size: 0.82rem;
+  font-weight: 650;
+  cursor: pointer;
+  box-shadow: 0 1px 2px color-mix(in srgb, var(--dashboard-shadow) 25%, transparent);
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+}
+.btn-github-issue:hover {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--accent-tint) 90%, var(--dashboard-panel-bg)) 0%, var(--dashboard-panel-strong));
+  border-color: color-mix(in srgb, var(--accent) 35%, var(--dashboard-border));
+  color: var(--accent-hover);
+}
+.btn-github-issue:active { transform: scale(0.98); }
+.btn-issue-ico { stroke: var(--accent); }
+.btn-issue-text { white-space: nowrap; }
+.gh-modal[hidden] { display: none !important; }
+.gh-modal:not([hidden]) {
+  position: fixed;
+  inset: 0;
+  z-index: 99990;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+.gh-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: color-mix(in srgb, var(--dashboard-tooltip-bg) 55%, transparent);
+  backdrop-filter: blur(3px);
+}
+.gh-modal-panel {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+  width: 100%;
+  max-height: min(92vh, 920px);
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: var(--dashboard-shadow);
+  overflow: hidden;
+}
+.gh-modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.15rem;
+  background: var(--dashboard-panel-strong);
+  border-bottom: 1px solid var(--border);
+}
+.gh-modal-head h2 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 750;
+  color: var(--dashboard-text);
+}
+.gh-modal-x {
+  border: none;
+  background: transparent;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--muted);
+  padding: 0 0.25rem;
+}
+.gh-modal-x:hover { color: var(--danger-strong); }
+.gh-modal-hint {
+  margin: 0;
+  padding: 0.85rem 1.15rem 0;
+  font-size: 0.88rem;
+  color: var(--muted);
+  line-height: 1.55;
+}
+.gh-modal-hint a { color: var(--accent); font-weight: 600; }
+.gh-issue-textarea {
+  margin: 0.75rem 1.15rem;
+  flex: 1;
+  min-height: 200px;
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  padding: 0.75rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  resize: vertical;
+  color: var(--dashboard-text);
+  background: color-mix(in srgb, var(--dashboard-badge-bg) 40%, var(--dashboard-panel-bg));
+}
+.gh-modal-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  padding: 0.85rem 1.15rem 1.1rem;
+  border-top: 1px solid var(--border);
+  background: var(--surface-muted);
+}
+.btn-gh-copy {
+  padding: 0.5rem 1rem;
+  border-radius: 9px;
+  border: 1px solid var(--border);
+  background: var(--dashboard-panel-bg);
+  font-weight: 650;
+  cursor: pointer;
+  color: var(--dashboard-soft-text);
+}
+.btn-gh-copy:hover { border-color: var(--dashboard-border-strong); }
+.btn-gh-open {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1.1rem;
+  border-radius: var(--radius-sm);
+  background: var(--accent);
+  color: var(--dashboard-tooltip-text) !important;
+  font-weight: 700;
+  text-decoration: none !important;
+  border: 1px solid var(--accent-hover);
+  box-shadow: none;
+}
+.btn-gh-open:hover { background: var(--accent-hover); filter: none; }
+/* Nightly report: Buildkite Test / Local Test outer cards + collapsible subcards */
+.nightly-root.panel {
+  margin-bottom: 1.35rem;
+}
+.nightly-root--buildkite {
+  border-top: 4px solid var(--ci);
+  background: linear-gradient(180deg, var(--dashboard-panel-bg) 0%, color-mix(in srgb, var(--ci-soft) 28%, var(--dashboard-panel-bg)) 100%);
+}
+.nightly-root--local {
+  border-top: 4px solid var(--accent);
+  background: linear-gradient(180deg, var(--dashboard-panel-bg) 0%, color-mix(in srgb, var(--accent-tint) 70%, var(--dashboard-panel-bg)) 100%);
+}
+details.report-subcard {
+  margin-bottom: 0.9rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--dashboard-border);
+  background: var(--dashboard-panel-bg);
+  box-shadow: var(--dashboard-shadow);
+  overflow: hidden;
+}
+details.report-subcard:last-child {
+  margin-bottom: 0;
+}
+summary.report-subcard-summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 0.78rem 1rem 0.78rem 2.45rem;
+  position: relative;
+  font-weight: 780;
+  font-size: 1.02rem;
+  color: var(--dashboard-text);
+  background: linear-gradient(180deg, var(--dashboard-panel-strong) 0%, var(--dashboard-panel-bg) 100%);
+  border-bottom: 1px solid var(--dashboard-border);
+}
+.report-subcard-summary-inner {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-width: 0;
+}
+.report-subcard-summary-inner .report-subcard-ico {
+  flex-shrink: 0;
+  opacity: 0.92;
+}
+.report-subcard-title {
+  font-weight: inherit;
+}
+.report-subcard-summary .report-subcard-ico {
+  color: var(--accent);
+}
+.report-subcard--bk .report-subcard-summary .report-subcard-ico {
+  color: var(--ci);
+}
+.report-subcard--bk-fail .report-subcard-summary .report-subcard-ico {
+  color: var(--dashboard-warning);
+}
+.report-subcard--perf .report-subcard-summary .report-subcard-ico {
+  color: var(--dashboard-violet);
+}
+.report-subcard--bk-perf .report-subcard-summary .report-subcard-ico,
+.report-subcard--bk-perf-model .report-subcard-summary .report-subcard-ico {
+  color: var(--ci);
+}
+.report-subcard--local-fail .report-subcard-summary .report-subcard-ico {
+  color: var(--danger-strong);
+}
+summary.report-subcard-summary::-webkit-details-marker {
+  display: none;
+}
+summary.report-subcard-summary::before {
+  content: "▸";
+  position: absolute;
+  left: 0.88rem;
+  top: 0.9rem;
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--accent);
+  line-height: 1;
+  pointer-events: none;
+}
+details.report-subcard[open] > summary.report-subcard-summary::before {
+  content: "▾";
+}
+.report-subcard--bk summary.report-subcard-summary::before {
+  color: var(--ci);
+}
+.report-subcard--bk-fail summary.report-subcard-summary::before {
+  color: var(--dashboard-warning);
+}
+.report-subcard--perf summary.report-subcard-summary::before {
+  color: var(--dashboard-violet);
+}
+.report-subcard--bk-perf summary.report-subcard-summary::before,
+.report-subcard--bk-perf-model summary.report-subcard-summary::before {
+  color: var(--ci);
+}
+.report-subcard--local-fail summary.report-subcard-summary::before {
+  color: var(--danger-strong);
+}
+.report-subcard-body {
+  padding: 1rem 1.2rem 1.2rem;
+  background: var(--dashboard-panel-bg);
+}
+.report-subcard-body > .table-scroll:first-child {
+  margin-top: 0;
+}
+.local-summary-pillar-body {
+  padding: 0.35rem 0.15rem 0.65rem;
+}
+details.local-summary-pillar {
+  margin-bottom: 0.75rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--dashboard-border);
+  background: color-mix(in srgb, var(--dashboard-panel-bg) 90%, var(--accent) 10%);
+}
+details.local-summary-pillar:last-child {
+  margin-bottom: 0;
+}
+summary.local-summary-pillar-summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 0.55rem 0.85rem 0.55rem 2rem;
+  position: relative;
+  font-weight: 750;
+  font-size: 0.98rem;
+  color: var(--dashboard-text);
+  background: var(--dashboard-panel-strong);
+  border-bottom: 1px solid var(--dashboard-border);
+}
+summary.local-summary-pillar-summary::-webkit-details-marker {
+  display: none;
+}
+summary.local-summary-pillar-summary::before {
+  content: "▸";
+  position: absolute;
+  left: 0.52rem;
+  top: 0.62rem;
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: var(--accent);
+  line-height: 1;
+  pointer-events: none;
+}
+details.local-summary-pillar[open] > summary.local-summary-pillar-summary::before {
+  content: "▾";
+}
+details.local-summary-dim {
+  margin: 0.5rem 0.35rem 0.45rem 0.65rem;
+  border-radius: var(--radius-sm);
+  border: 1px dashed color-mix(in srgb, var(--dashboard-border) 82%, var(--accent) 18%);
+  background: var(--dashboard-panel-bg);
+}
+summary.local-summary-dim-summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 0.42rem 0.75rem 0.42rem 1.85rem;
+  position: relative;
+  font-weight: 680;
+  font-size: 0.9rem;
+  color: var(--dashboard-muted);
+  background: color-mix(in srgb, var(--dashboard-panel-bg) 96%, var(--accent) 4%);
+  border-bottom: 1px solid var(--dashboard-border);
+}
+summary.local-summary-dim-summary::-webkit-details-marker {
+  display: none;
+}
+summary.local-summary-dim-summary::before {
+  content: "▸";
+  position: absolute;
+  left: 0.45rem;
+  top: 0.48rem;
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--accent);
+  line-height: 1;
+  pointer-events: none;
+}
+details.local-summary-dim[open] > summary.local-summary-dim-summary::before {
+  content: "▾";
+}
+.local-summary-dim-body {
+  padding: 0.55rem 0.45rem 0.65rem;
+}
+.local-summary-dim-body > .table-scroll:first-child {
+  margin-top: 0;
+}
+.report-subcard--bk-perf-model {
+  background: color-mix(in srgb, var(--dashboard-panel-bg) 94%, var(--ci-soft) 6%);
+}
+.perf-filter-scope {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.perf-filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 0.65rem;
+  padding: 0.75rem;
+  border: 1px solid color-mix(in srgb, var(--dashboard-border) 82%, var(--ci) 18%);
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--dashboard-panel-strong) 88%, var(--ci-soft) 12%);
+}
+.perf-filter-label {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 10rem;
+  font-size: 0.78rem;
+  font-weight: 720;
+  color: var(--dashboard-muted);
+}
+.perf-filter-select {
+  min-height: 2rem;
+  max-width: min(22rem, 70vw);
+  padding: 0.35rem 2rem 0.35rem 0.55rem;
+  border: 1px solid var(--dashboard-border);
+  border-radius: 0.55rem;
+  background: var(--dashboard-panel-bg);
+  color: var(--dashboard-text);
+  font: inherit;
+}
+.perf-filter-select:focus {
+  outline: 2px solid color-mix(in srgb, var(--ci) 45%, transparent);
+  outline-offset: 2px;
+}
+.perf-filter-table td,
+.perf-filter-table th {
+  white-space: nowrap;
+}
+.perf-filter-empty {
+  margin: 0;
+}
+.ico {
+  display: block;
+}
+
+
+.top-bar-actions {
+  flex-shrink: 0;
+}
+.btn-release-archive {
+  margin-top: 0.2rem;
+  padding: 0.52rem 1.05rem;
+  border-radius: 999px;
+  border: 1px solid rgba(59, 130, 246, 0.35);
+  background: rgba(59, 130, 246, 0.12);
+  color: var(--accent-hover);
+  font-weight: 700;
+  font-size: 0.88rem;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+.btn-release-archive:hover {
+  background: rgba(59, 130, 246, 0.2);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.release-doc {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+.release-doc .release-section-card {
+  margin-bottom: 0;
+}
+.release-doc .release-section-h2 {
+  margin: 0 0 1rem;
+  padding-bottom: 0.65rem;
+  border-bottom: 2px solid
+    color-mix(
+      in srgb,
+      var(--section-accent, var(--dashboard-border)) 42%,
+      var(--dashboard-border)
+    );
+  font-size: 1.12rem;
+  font-weight: 800;
+  color: var(--dashboard-text);
+  letter-spacing: -0.02em;
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+}
+.release-doc .release-section-h2-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+}
+.release-doc .release-section-h2-ico {
+  flex-shrink: 0;
+  width: 2.65rem;
+  height: 2.65rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  background: color-mix(
+    in srgb,
+    var(--section-ico-bg, var(--dashboard-badge-bg)) 100%,
+    transparent
+  );
+  color: var(--section-accent, var(--accent));
+  border: 1px solid
+    color-mix(
+      in srgb,
+      var(--section-accent, var(--border)) 25%,
+      var(--dashboard-border)
+    );
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+}
+.release-doc .release-section-h2-label {
+  min-width: 0;
+  line-height: 1.28;
+}
+.release-doc .release-section-card--intro {
+  border-top: 3px dashed
+    color-mix(in srgb, var(--dashboard-muted) 52%, var(--dashboard-border));
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--dashboard-badge-bg) 72%, var(--dashboard-panel-bg)) 0%,
+    var(--dashboard-panel-bg) 48%
+  );
+}
+.release-doc .release-section-card--conclusion {
+  --section-accent: var(--ok);
+  --section-ico-bg: var(--ok-bg);
+  border-top: 4px solid var(--section-accent);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--section-ico-bg) 48%, var(--dashboard-panel-bg)) 0%,
+    var(--dashboard-panel-bg) 46%
+  );
+}
+.release-doc .release-section-card--metrics {
+  --section-accent: var(--ci);
+  --section-ico-bg: var(--ci-soft);
+  border-top: 4px solid var(--section-accent);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--ci-soft) 34%, var(--dashboard-panel-bg)) 0%,
+    var(--dashboard-panel-bg) 46%
+  );
+}
+.release-doc .release-section-card--tests {
+  --section-accent: var(--dashboard-violet);
+  --section-ico-bg: var(--dashboard-violet-bg);
+  border-top: 4px solid var(--section-accent);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--dashboard-violet-bg) 42%, var(--dashboard-panel-bg)) 0%,
+    var(--dashboard-panel-bg) 46%
+  );
+}
+.release-doc .release-section-card--tracking {
+  --section-accent: var(--dashboard-warning);
+  --section-ico-bg: var(--dashboard-warning-bg);
+  border-top: 4px solid var(--section-accent);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--dashboard-warning-bg) 52%, var(--dashboard-panel-bg)) 0%,
+    var(--dashboard-panel-bg) 46%
+  );
+}
+.release-doc .release-section-card--open-issues {
+  --section-accent: color-mix(in srgb, var(--danger) 82%, #991b1b);
+  --section-ico-bg: var(--danger-bg);
+  border-top: 4px solid var(--section-accent);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--danger-bg) 52%, var(--dashboard-panel-bg)) 0%,
+    var(--dashboard-panel-bg) 46%
+  );
+}
+.release-doc .release-section-card--data {
+  --section-accent: #64748b;
+  --section-ico-bg: rgba(148, 163, 184, 0.18);
+  border-top: 4px solid var(--section-accent);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--section-ico-bg) 75%, var(--dashboard-panel-bg)) 0%,
+    var(--dashboard-panel-bg) 46%
+  );
+}
+.release-doc .release-section-card--default {
+  --section-accent: var(--accent);
+  --section-ico-bg: var(--accent-tint);
+  border-top: 4px solid var(--section-accent);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--accent-tint) 88%, var(--dashboard-panel-bg)) 0%,
+    var(--dashboard-panel-bg) 46%
+  );
+}
+/* H2 大章（测试结论 / Metrics / Test Result / …）：整块可折叠 */
+.release-doc details.panel.release-section-card.release-section-details {
+  padding: 0;
+  overflow: hidden;
+}
+.release-doc summary.release-section-fold-summary {
+  list-style: none;
+  cursor: pointer;
+  margin: 0;
+  padding: 0.95rem 1.2rem 0.95rem 3rem;
+  position: relative;
+}
+.release-doc summary.release-section-fold-summary::-webkit-details-marker {
+  display: none;
+}
+.release-doc summary.release-section-fold-summary::before {
+  content: "▸";
+  position: absolute;
+  left: 0.82rem;
+  top: 1.05rem;
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--section-accent, var(--accent));
+  line-height: 1;
+  pointer-events: none;
+}
+.release-doc details.release-section-details[open] > summary.release-section-fold-summary::before {
+  content: "▾";
+}
+.release-doc details.release-section-details[open] > summary.release-section-fold-summary {
+  border-bottom: 1px solid var(--dashboard-border);
+}
+.release-doc details.release-section-details > summary.release-section-fold-summary .release-section-h2 {
+  margin: 0 0 0.35rem;
+  padding-bottom: 0.5rem;
+}
+.release-doc .release-section-fold-body {
+  padding: 1rem 1.3rem 1.25rem;
+}
+.release-doc .release-section-fold-body > *:first-child,
+.release-doc .release-section-fold-body > details:first-child {
+  margin-top: 0;
+}
+.release-doc .release-gpu-summary-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-width: 0;
+}
+.release-doc .release-gpu-summary-ico {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  color: var(--release-gpu-ico, var(--accent));
+}
+.release-doc .release-h4-fold {
+  border-left: 3px solid
+    color-mix(in srgb, var(--accent) 50%, var(--dashboard-border));
+}
+.release-doc .release-h4-fold > summary.report-subcard-summary {
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--accent-soft) 22%, var(--dashboard-panel-strong)) 0%,
+    var(--dashboard-panel-bg) 100%
+  );
+}
+.release-doc .release-h5-fold {
+  border-left: 3px solid
+    color-mix(in srgb, var(--dashboard-violet) 55%, var(--dashboard-border));
+  background: color-mix(
+    in srgb,
+    var(--dashboard-violet-bg) 14%,
+    var(--dashboard-panel-bg)
+  );
+}
+.release-doc .release-h5-fold > summary.report-subcard-summary {
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--dashboard-violet-bg) 55%, var(--dashboard-panel-strong)) 0%,
+    var(--dashboard-panel-bg) 100%
+  );
+}
+.release-doc .release-h5-fold > summary.report-subcard-summary::before {
+  color: var(--dashboard-violet);
+}
+/* GPU rows: ``details.panel`` inherited global ``.panel`` padding — inset summary looked flat. Reset + accent edge. */
+.release-doc details.panel.test-result-gpu-card.release-gpu-details {
+  padding: 0;
+  overflow: hidden;
+  margin: 0 0 0.95rem;
+  background: var(--dashboard-panel-bg);
+  border-radius: var(--radius);
+  border: 1px solid
+    color-mix(in srgb, var(--release-gpu-ico, var(--accent)) 28%, var(--dashboard-border));
+  border-left: 4px solid var(--release-gpu-ico, var(--accent));
+  box-shadow: 0 10px 26px rgba(15, 23, 42, 0.09);
+  --release-gpu-ico: var(--accent);
+}
+.release-doc details.panel.test-result-gpu-card.release-gpu-details.release-gpu-details--h200 {
+  --release-gpu-ico: #7c3aed;
+}
+.release-doc details.panel.test-result-gpu-card.release-gpu-details.release-gpu-details--h800 {
+  --release-gpu-ico: #2563eb;
+}
+.release-doc details.panel.test-result-gpu-card.release-gpu-details.release-gpu-details--a100 {
+  --release-gpu-ico: #059669;
+}
+.release-doc details.panel.test-result-gpu-card.release-gpu-details.release-gpu-details--h100 {
+  --release-gpu-ico: var(--ci);
+}
+.release-doc details.panel.test-result-gpu-card.release-gpu-details:last-child {
+  margin-bottom: 0;
+}
+.release-doc details.panel.test-result-gpu-card.release-gpu-details:hover {
+  border-color: color-mix(in srgb, var(--release-gpu-ico, var(--accent)) 45%, var(--dashboard-border));
+  border-left-color: var(--release-gpu-ico, var(--accent));
+  box-shadow: 0 14px 32px rgba(15, 23, 42, 0.12);
+}
+.release-doc details.release-gpu-details[open] > summary.release-gpu-details-summary {
+  border-bottom: 1px solid var(--dashboard-border);
+}
+.release-doc summary.release-gpu-details-summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 0.92rem 1.05rem 0.92rem 3.15rem;
+  position: relative;
+  font-weight: 800;
+  font-size: 1.08rem;
+  color: var(--dashboard-text);
+  letter-spacing: -0.02em;
+  background: linear-gradient(
+    105deg,
+    color-mix(in srgb, var(--release-gpu-ico, var(--accent)) 14%, var(--dashboard-panel-strong)) 0%,
+    var(--dashboard-panel-bg) 62%
+  );
+  margin: 0;
+}
+.release-doc summary.release-gpu-details-summary::-webkit-details-marker {
+  display: none;
+}
+.release-doc summary.release-gpu-details-summary::before {
+  content: "▸";
+  position: absolute;
+  left: 0.88rem;
+  top: 0.98rem;
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--release-gpu-ico, var(--accent));
+  line-height: 1;
+  pointer-events: none;
+}
+.release-doc details.release-gpu-details[open] > summary.release-gpu-details-summary::before {
+  content: "▾";
+}
+.release-doc .release-gpu-details-body {
+  padding: 1rem 1.2rem 1.2rem;
+  background: color-mix(in srgb, var(--dashboard-badge-bg) 32%, var(--dashboard-panel-bg));
+}
+.release-doc .release-gpu-details-body > .release-h4-fold:first-child,
+.release-doc .release-gpu-details-body > p:first-child {
+  margin-top: 0;
+}
+.release-doc .release-h5-fold .report-subcard-body {
+  font-size: 0.98rem;
+}
+/* Clicks must reach <summary>; decorative SVGs must not steal the toggle. */
+.release-doc details > summary svg,
+.release-doc details > summary .ico {
+  pointer-events: none;
+}
+.release-doc > .meta.generated-meta {
+  margin: 0;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px dashed color-mix(in srgb, var(--dashboard-border-strong) 55%, transparent);
+  flex-shrink: 0;
+}
+.release-doc h3 {
+  margin: 1.15rem 0 0.55rem;
+  font-size: 1.04rem;
+  color: var(--dashboard-soft-text);
+  font-weight: 700;
+}
+.release-doc h4, .release-doc h5, .release-doc h6 {
+  margin: 1rem 0 0.45rem;
+  font-size: 1rem;
+  color: var(--dashboard-soft-text);
+  font-weight: 700;
+}
+.release-doc p {
+  margin: 0.65rem 0;
+}
+.release-doc p:first-of-type {
+  margin-top: 0;
+}
+.release-doc ul {
+  margin: 0.5rem 0 0.85rem 1.25rem;
+  padding: 0;
+}
+.release-doc li {
+  margin: 0.3rem 0;
+}
+.release-doc .table-scroll {
+  margin: 0.85rem 0;
+}
+.release-doc .table-scroll > table {
+  min-width: 480px;
+}
+.release-doc table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 0;
+  font-size: 0.92rem;
+}
+.release-doc th, .release-doc td {
+  border: 1px solid var(--border);
+  padding: 0.65rem 0.8rem;
+  text-align: left;
+  vertical-align: top;
+}
+.release-doc th {
+  background: var(--dashboard-panel-strong);
+  font-weight: 650;
+  color: var(--dashboard-chart-text);
+}
+.release-doc tbody tr:nth-child(even) td {
+  background: color-mix(in srgb, var(--dashboard-badge-bg) 45%, var(--dashboard-panel-bg));
+}
+.release-doc code {
+  background: color-mix(in srgb, var(--dashboard-badge-bg) 55%, var(--dashboard-panel-bg));
+  padding: 0.12em 0.38em;
+  border-radius: 4px;
+  font-size: 0.92em;
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+}
+.release-doc a {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px solid var(--accent-soft);
+}
+.release-doc a:hover {
+  color: var(--accent-hover);
+  border-bottom-color: var(--accent);
+}
+.release-conclusion-wrap {
+  margin: 0.5rem 0 1rem;
+}
+.release-conclusion-table {
+  min-width: 320px;
+}
+.release-conclusion-table td:last-child {
+  white-space: normal;
+}
+.conc-btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  align-items: center;
+}
+.conc-btns.conc-auto {
+  pointer-events: none;
+  opacity: 0.9;
+}
+.conc-auto-hint {
+  margin-top: 0.35rem;
+  font-size: 0.82rem;
+  line-height: 1.35;
+  color: color-mix(in srgb, var(--dashboard-text) 65%, transparent);
+}
+.conc-btn {
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 650;
+  padding: 0.38rem 0.95rem;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--dashboard-panel-bg) 88%, var(--dashboard-badge-bg));
+  color: var(--dashboard-text);
+  transition: background 0.12s ease, border-color 0.12s ease, color 0.12s ease;
+}
+.conc-btn:hover {
+  border-color: var(--accent-soft);
+}
+.conc-btn.conc-pass.is-on {
+  background: color-mix(in srgb, #16a34a 22%, var(--dashboard-panel-bg));
+  border-color: color-mix(in srgb, #16a34a 45%, var(--border));
+  color: #15803d;
+}
+.conc-btn.conc-fail.is-on {
+  background: color-mix(in srgb, #dc2626 20%, var(--dashboard-panel-bg));
+  border-color: color-mix(in srgb, #dc2626 42%, var(--border));
+  color: #b91c1c;
+}
+.release-verdict-line {
+  margin: 1rem 0 0.25rem;
+  font-size: 1.02rem;
+  font-weight: 650;
+}
+.release-verdict {
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+</style>
+</head>
+<body>
+<div class="top-bar"><div class="shell top-bar-inner"><div class="brand"><div class="brand-mark"><svg class="ico brand-ico" width="30" height="30" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg></div><div class="brand-copy"><h1>vLLM-Omni Test Report - Scheduled Nightly</h1><p class="tagline">Release · CI test report</p></div></div><div class="top-bar-actions"><button type="button" class="btn-release-archive" id="release-archive-md-btn" data-download-name="vllm-omni-release-test-report-2026-06-03.md" title="下载与当前报告内容一致的 Markdown 文件（供归档或 patch_report_*.py）">归档 Markdown</button></div></div></div>
+<div class="shell"><div class="release-doc"><p class="meta generated-meta">Generated: 2026-06-03 02:35 UTC</p>
+<details class="panel release-section-card release-section-card--conclusion release-section-details">
+<summary class="release-section-fold-summary">
+<h2 class="release-section-h2"><span class="release-section-h2-row"><span class="release-section-h2-ico" aria-hidden="true"><svg class="ico release-section-ico" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span><span class="release-section-h2-label">测试结论</span></span></h2>
+</summary>
+<div class="release-section-fold-body">
+<div class="release-conclusion-wrap">
+<table class="release-conclusion-table">
+<thead><tr><th>检查项</th><th>检查结果</th></tr></thead>
+<tbody>
+<tr data-conc-row="0" data-conc-auto="0"><td>UT覆盖率达到本迭代要求</td><td><div class="conc-btns" role="group" aria-label="检查结果"><button type="button" class="conc-btn conc-pass is-on" data-conc="pass" aria-pressed="true">通过</button><button type="button" class="conc-btn conc-fail " data-conc="fail" aria-pressed="false">不通过</button></div></td></tr>
+<tr data-conc-row="1" data-conc-auto="1"><td>L2&amp;L3最新一次通过率为100%</td><td><div class="conc-btns conc-auto" role="group" aria-label="检查结果"><button type="button" class="conc-btn conc-pass " data-conc="pass" aria-pressed="false">通过</button><button type="button" class="conc-btn conc-fail is-on" data-conc="fail" aria-pressed="true">不通过</button></div><div class="conc-auto-hint">ready #10933 存在失败 job：Upload Ready Pipeline、:full_moon: Omni · Function Test with H100、:full_moon: Omni · Function Test with L4、:full_moon: Omni · Doc Test with L4、:full_moon: Omni · Doc Test with H100、:full_moon: Omni · Accuracy Test、:full_moon: Omni · Perf Test · No Async Chunk、:full_moon: Omni · Perf Test · Async Chunk 等共 32 个；merge #10928 存在失败 job：Upload Ready Pipeline、Upload Nightly Pipeline、Upload Weekly Pipeline</div></td></tr>
+<tr data-conc-row="2" data-conc-auto="0"><td>需求完成率大于85%</td><td><div class="conc-btns" role="group" aria-label="检查结果"><button type="button" class="conc-btn conc-pass is-on" data-conc="pass" aria-pressed="true">通过</button><button type="button" class="conc-btn conc-fail " data-conc="fail" aria-pressed="false">不通过</button></div></td></tr>
+<tr data-conc-row="3" data-conc-auto="0"><td>性能劣化小于5%</td><td><div class="conc-btns" role="group" aria-label="检查结果"><button type="button" class="conc-btn conc-pass is-on" data-conc="pass" aria-pressed="true">通过</button><button type="button" class="conc-btn conc-fail " data-conc="fail" aria-pressed="false">不通过</button></div></td></tr>
+<tr data-conc-row="4" data-conc-auto="1"><td>遗留DI小于30</td><td><div class="conc-btns conc-auto" role="group" aria-label="检查结果"><button type="button" class="conc-btn conc-pass is-on" data-conc="pass" aria-pressed="true">通过</button><button type="button" class="conc-btn conc-fail " data-conc="fail" aria-pressed="false">不通过</button></div><div class="conc-auto-hint">自动 DI=18.5（high priority=2, medium priority=12, low priority=5, unclassified=6）</div></td></tr>
+<tr data-conc-row="5" data-conc-auto="1"><td>致命issue遗留个数为0</td><td><div class="conc-btns conc-auto" role="group" aria-label="检查结果"><button type="button" class="conc-btn conc-pass is-on" data-conc="pass" aria-pressed="true">通过</button><button type="button" class="conc-btn conc-fail " data-conc="fail" aria-pressed="false">不通过</button></div></td></tr>
+<tr data-conc-row="6" data-conc-auto="1"><td>所有遗留bug均已分配责任人</td><td><div class="conc-btns conc-auto" role="group" aria-label="检查结果"><button type="button" class="conc-btn conc-pass " data-conc="pass" aria-pressed="false">通过</button><button type="button" class="conc-btn conc-fail is-on" data-conc="fail" aria-pressed="true">不通过</button></div><div class="conc-auto-hint">以下 open bug 未分配责任人：#2408、#3016、#3136、#3236、#3493、#3714、#3856、#3966、#4000、#4039、#4064、#4071、#4072、#4086、#4087 等共 17 个</div></td></tr>
+</tbody>
+</table>
+<p class="release-verdict-line">测试结论： <strong class="release-verdict" id="release-verdict-label">Go</strong></p>
+</div>
+<script>
+(function () {
+  var wrap = document.querySelector('.release-conclusion-wrap');
+  if (!wrap) return;
+  function allPass() {
+    var rows = wrap.querySelectorAll('tbody tr');
+    for (var i = 0; i < rows.length; i++) {
+      var tr = rows[i];
+      var on = tr.querySelector('.conc-btn.conc-pass.is-on');
+      if (!on) return false;
+    }
+    return rows.length > 0;
+  }
+  function syncVerdict() {
+    var el = document.getElementById('release-verdict-label');
+    if (el) el.textContent = allPass() ? 'Go' : 'Rejected';
+  }
+  wrap.addEventListener('click', function (e) {
+    var t = e.target;
+    if (!t.classList || !t.classList.contains('conc-btn')) return;
+    var tr = t.closest('tr');
+    if (!tr) return;
+    if (tr.getAttribute('data-conc-auto') === '1') return;
+    var pass = t.classList.contains('conc-pass');
+    var bp = tr.querySelector('.conc-pass');
+    var bf = tr.querySelector('.conc-fail');
+    if (!bp || !bf) return;
+    if (pass) {
+      bp.classList.add('is-on');
+      bf.classList.remove('is-on');
+      bp.setAttribute('aria-pressed', 'true');
+      bf.setAttribute('aria-pressed', 'false');
+    } else {
+      bf.classList.add('is-on');
+      bp.classList.remove('is-on');
+      bf.setAttribute('aria-pressed', 'true');
+      bp.setAttribute('aria-pressed', 'false');
+    }
+    syncVerdict();
+  });
+  syncVerdict();
+})();
+</script>
+</div>
+</details>
+
+<details class="panel release-section-card release-section-card--metrics release-section-details">
+<summary class="release-section-fold-summary">
+<h2 class="release-section-h2"><span class="release-section-h2-row"><span class="release-section-h2-ico" aria-hidden="true"><svg class="ico release-section-ico" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span><span class="release-section-h2-label">Metrics overview</span></span></h2>
+</summary>
+<div class="release-section-fold-body">
+<p>Source: <code>scripts/buildkite_build_stats.py</code>; window (Buildkite <code>created_at</code>, UTC): <code>2026-05-01</code> - <code>2026-06-03</code>.</p>
+<div class="table-scroll">
+<table>
+<thead><tr>
+<th>CI category</th>
+<th>Success rate/UT coverage</th>
+<th>Avg duration</th>
+<th>Other finished count</th>
+<th>Bug avg first response</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>ready</td>
+<td>53.3% (658/1234)</td>
+<td>1h12m2s (1234 builds)</td>
+<td>713</td>
+<td>-</td>
+</tr>
+<tr>
+<td>merge</td>
+<td>60.6% (214/353)</td>
+<td>1h6m52s (353 builds)</td>
+<td>0</td>
+<td>-</td>
+</tr>
+<tr>
+<td>nightly</td>
+<td>17.4% (8/46)</td>
+<td>3h19m43s (46 builds)</td>
+<td>0</td>
+<td>-</td>
+</tr>
+<tr>
+<td>weekly</td>
+<td>100.0% (5/5)</td>
+<td>1h59m12s (5 builds)</td>
+<td>0</td>
+<td>-</td>
+</tr>
+<tr>
+<td>ut</td>
+<td><em>N/A</em> (no <code>TOTAL</code> ... <code>NN%</code> in Simple Unit Test log)</td>
+<td><em>N/A</em> (no pytest summary line with <code>passed</code> and <code>in ...s</code> in log)</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>ut (exclude models)</td>
+<td><em>N/A</em> (no per-file coverage table in log)</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>bugs (first response, 2026-05-01..2026-06-03)</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td><strong>17h55m50s</strong> (avg, n=120/129 issues)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</details>
+
+<details class="panel release-section-card release-section-card--tests release-section-details">
+<summary class="release-section-fold-summary">
+<h2 class="release-section-h2"><span class="release-section-h2-row"><span class="release-section-h2-ico" aria-hidden="true"><svg class="ico release-section-ico" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></span><span class="release-section-h2-label">Test Result</span></span></h2>
+</summary>
+<div class="release-section-fold-body">
+<p>布局说明：<code>### Common stack</code> 来自 reference；<code>### H200</code> / <code>### H800</code> / <code>### A100</code> 与 <strong>nightly</strong> 报告中本地 <strong>Summary</strong> 分组一致（需传入对应 <code>--log-dir-*</code>）；<code>### H100</code> 为 <strong>Buildkite scheduled nightly</strong>（Build / Summary / 失败 Job 表；不含 per-job pytest 与 bug+ci-failure 分析）。</p>
+<h3>Common stack (all rows)</h3>
+<p>Torch <strong>2.11.0</strong>, Python <strong>3.12</strong>, Diffusers <strong>0.37.1</strong>, transformers <strong>5.8.0</strong>, huggingface_hub <strong>1.13.0</strong>.</p>
+<details class="panel test-result-gpu-card release-gpu-details release-gpu-details--h200"><summary class="release-gpu-details-summary"><span class="release-gpu-summary-row"><span class="release-gpu-summary-ico" aria-hidden="true"><svg class="ico release-gpu-summary-ico" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"/><rect x="2" y="14" width="20" height="8" rx="2" ry="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg></span><span class="release-gpu-details-title">H200</span></span></summary><div class="release-gpu-details-body"><p><em>日志根目录:</em> <code>/Users/congwang/Documents/logs/H200_0602/nightly_jobs_all</code>（布局见 <a href="references/nightly-local-log-layout.md">references/nightly-local-log-layout.md</a>）。</p>
+<p>与 <strong>nightly</strong> HTML/Markdown 报告中本地 <strong>Summary</strong> 相同的分组方式（Omni / TTS / Diffusion × Perf / Acc / …）：</p>
+<details class="report-subcard release-h-fold release-h4-fold"><summary class="report-subcard-summary"><span class="report-subcard-title">Omni</span></summary><div class="report-subcard-body"><details class="report-subcard release-h-fold release-h5-fold"><summary class="report-subcard-summary"><span class="report-subcard-title">Perf</span></summary><div class="report-subcard-body"><div class="table-scroll">
+<table>
+<thead><tr>
+<th>Job</th>
+<th>Total</th>
+<th>Passed</th>
+<th>Failed</th>
+<th>Skipped</th>
+<th>Errors</th>
+<th>执行时间</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>nightly-omni-performance-async-chunk</td>
+<td>8</td>
+<td>8</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>3874.80s</td>
+</tr>
+<tr>
+<td>nightly-omni-performance-multi-replicas</td>
+<td>4</td>
+<td>4</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>2860.27s</td>
+</tr>
+<tr>
+<td>nightly-omni-performance-no-async-chunk</td>
+<td>4</td>
+<td>4</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>2036.86s</td>
+</tr>
+<tr>
+<td>nightly-omni-performance-vllm-text</td>
+<td>4</td>
+<td>4</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1315.00s</td>
+</tr>
+</tbody>
+</table>
+</div></div></details></div></details>
+<details class="report-subcard release-h-fold release-h4-fold"><summary class="report-subcard-summary"><span class="report-subcard-title">TTS</span></summary><div class="report-subcard-body"><details class="report-subcard release-h-fold release-h5-fold"><summary class="report-subcard-summary"><span class="report-subcard-title">Perf</span></summary><div class="report-subcard-body"><div class="table-scroll">
+<table>
+<thead><tr>
+<th>Job</th>
+<th>Total</th>
+<th>Passed</th>
+<th>Failed</th>
+<th>Skipped</th>
+<th>Errors</th>
+<th>执行时间</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>nightly-tts-performance</td>
+<td>16</td>
+<td>6</td>
+<td>0</td>
+<td>2</td>
+<td>8</td>
+<td>1124.48s</td>
+</tr>
+</tbody>
+</table>
+</div></div></details></div></details>
+<details class="report-subcard release-h-fold release-h4-fold"><summary class="report-subcard-summary"><span class="report-subcard-title">Diffusion</span></summary><div class="report-subcard-body"><details class="report-subcard release-h-fold release-h5-fold"><summary class="report-subcard-summary"><span class="report-subcard-title">Perf</span></summary><div class="report-subcard-body"><div class="table-scroll">
+<table>
+<thead><tr>
+<th>Job</th>
+<th>Total</th>
+<th>Passed</th>
+<th>Failed</th>
+<th>Skipped</th>
+<th>Errors</th>
+<th>执行时间</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>nightly-diffusion-x2iat-performance-bagel</td>
+<td>4</td>
+<td>4</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1271.19s</td>
+</tr>
+<tr>
+<td>nightly-diffusion-x2iat-performance-qwen-image</td>
+<td>10</td>
+<td>8</td>
+<td>0</td>
+<td>2</td>
+<td>0</td>
+<td>1976.87s</td>
+</tr>
+<tr>
+<td>nightly-diffusion-x2iat-performance-qwen-image-edit</td>
+<td>6</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>6</td>
+<td>375.04s</td>
+</tr>
+<tr>
+<td>nightly-diffusion-x2iat-performance-qwen-image-edit-2511</td>
+<td>6</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>6</td>
+<td>346.79s</td>
+</tr>
+<tr>
+<td>nightly-diffusion-x2iat-performance-qwen-image-layered</td>
+<td>2</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>2</td>
+<td>140.95s</td>
+</tr>
+<tr>
+<td>nightly-diffusion-x2v-performance</td>
+<td>4</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>4</td>
+<td>246.89s</td>
+</tr>
+</tbody>
+</table>
+</div></div></details>
+<details class="report-subcard release-h-fold release-h5-fold"><summary class="report-subcard-summary"><span class="report-subcard-title">Acc</span></summary><div class="report-subcard-body"><div class="table-scroll">
+<table>
+<thead><tr>
+<th>Job</th>
+<th>Total</th>
+<th>Passed</th>
+<th>Failed</th>
+<th>Skipped</th>
+<th>Errors</th>
+<th>执行时间</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>full_moon_Diffusion_X2I_A_T_Accuracy_Test</td>
+<td>5</td>
+<td>1</td>
+<td>4</td>
+<td>0</td>
+<td>0</td>
+<td>852.48s</td>
+</tr>
+<tr>
+<td>full_moon_Diffusion_X2V_Accuracy_Test</td>
+<td>16</td>
+<td>14</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>637.81s</td>
+</tr>
+</tbody>
+</table>
+</div></div></details>
+<details class="report-subcard release-h-fold release-h5-fold"><summary class="report-subcard-summary"><span class="report-subcard-title">Function</span></summary><div class="report-subcard-body"><div class="table-scroll">
+<table>
+<thead><tr>
+<th>Job</th>
+<th>Total</th>
+<th>Passed</th>
+<th>Failed</th>
+<th>Skipped</th>
+<th>Errors</th>
+<th>执行时间</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>full_moon_Diffusion_X2I_A_T_Function_Test_with_H100_Multi-GPU_Bagel</td>
+<td>5</td>
+<td>5</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>2145.56s</td>
+</tr>
+<tr>
+<td>full_moon_Diffusion_X2I_A_T_Function_Test_with_H100_Multi-GPU_Layered_LongCat_FLUX</td>
+<td>10</td>
+<td>7</td>
+<td>0</td>
+<td>0</td>
+<td>3</td>
+<td>2750.18s</td>
+</tr>
+<tr>
+<td>full_moon_Diffusion_X2I_A_T_Function_Test_with_H100_Multi-GPU_Qwen-Image</td>
+<td>25</td>
+<td>10</td>
+<td>0</td>
+<td>0</td>
+<td>15</td>
+<td>2905.87s</td>
+</tr>
+<tr>
+<td>full_moon_Diffusion_X2I_A_T_Function_Test_with_H100_Single-GPU</td>
+<td>17</td>
+<td>11</td>
+<td>0</td>
+<td>0</td>
+<td>6</td>
+<td>3603.80s</td>
+</tr>
+<tr>
+<td>full_moon_Diffusion_X2I_A_T_Function_Test_with_L4</td>
+<td>17</td>
+<td>5</td>
+<td>1</td>
+<td>3</td>
+<td>8</td>
+<td>1160.82s</td>
+</tr>
+<tr>
+<td>full_moon_Diffusion_X2V_Function_Test</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+</div></div></details>
+<details class="report-subcard release-h-fold release-h5-fold"><summary class="report-subcard-summary"><span class="report-subcard-title">doc</span></summary><div class="report-subcard-body"><div class="table-scroll">
+<table>
+<thead><tr>
+<th>Job</th>
+<th>Total</th>
+<th>Passed</th>
+<th>Failed</th>
+<th>Skipped</th>
+<th>Errors</th>
+<th>执行时间</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>full_moon_Diffusion_X2I_A_T_Doc_Test</td>
+<td>17</td>
+<td>9</td>
+<td>4</td>
+<td>3</td>
+<td>1</td>
+<td>2371.57s</td>
+</tr>
+</tbody>
+</table>
+</div></div></details></div></details>
+<details class="report-subcard release-h-fold release-h4-fold"><summary class="report-subcard-summary"><span class="report-subcard-title">其他</span></summary><div class="report-subcard-body"><div class="table-scroll">
+<table>
+<thead><tr>
+<th>Job</th>
+<th>Total</th>
+<th>Passed</th>
+<th>Failed</th>
+<th>Skipped</th>
+<th>Errors</th>
+<th>执行时间</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>nightly-voxcpm2-performance</td>
+<td>5</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>5</td>
+<td>108.48s</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>*失败 / 错误 Job 的逐条摘录仅在 <strong>nightly</strong> 完整报告中展开；此处仅保留汇总表。*</p></div></details></div></details>
+<details class="panel test-result-gpu-card release-gpu-details release-gpu-details--h800"><summary class="release-gpu-details-summary"><span class="release-gpu-summary-row"><span class="release-gpu-summary-ico" aria-hidden="true"><svg class="ico release-gpu-summary-ico" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"/><rect x="2" y="14" width="20" height="8" rx="2" ry="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg></span><span class="release-gpu-details-title">H800</span></span></summary><div class="release-gpu-details-body"><p><em>日志根目录:</em> <code>/Users/congwang/Documents/logs/H800_0602/nightly_jobs_20260602</code>（布局见 <a href="references/nightly-local-log-layout.md">references/nightly-local-log-layout.md</a>）。</p>
+<p>与 <strong>nightly</strong> HTML/Markdown 报告中本地 <strong>Summary</strong> 相同的分组方式（Omni / TTS / Diffusion × Perf / Acc / …）：</p>
+<details class="report-subcard release-h-fold release-h4-fold"><summary class="report-subcard-summary"><span class="report-subcard-title">Omni</span></summary><div class="report-subcard-body"><details class="report-subcard release-h-fold release-h5-fold"><summary class="report-subcard-summary"><span class="report-subcard-title">Perf</span></summary><div class="report-subcard-body"><div class="table-scroll">
+<table>
+<thead><tr>
+<th>Job</th>
+<th>Total</th>
+<th>Passed</th>
+<th>Failed</th>
+<th>Skipped</th>
+<th>Errors</th>
+<th>执行时间</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>nightly-omni-performance-async-chunk</td>
+<td>8</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>8</td>
+<td>168.40s</td>
+</tr>
+<tr>
+<td>nightly-omni-performance-multi-replicas</td>
+<td>4</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>4</td>
+<td>180.28s</td>
+</tr>
+<tr>
+<td>nightly-omni-performance-no-async-chunk</td>
+<td>4</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>4</td>
+<td>924.29s</td>
+</tr>
+<tr>
+<td>nightly-omni-performance-vllm-text</td>
+<td>4</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>4</td>
+<td>96.32s</td>
+</tr>
+</tbody>
+</table>
+</div></div></details></div></details>
+<details class="report-subcard release-h-fold release-h4-fold"><summary class="report-subcard-summary"><span class="report-subcard-title">TTS</span></summary><div class="report-subcard-body"><details class="report-subcard release-h-fold release-h5-fold"><summary class="report-subcard-summary"><span class="report-subcard-title">Perf</span></summary><div class="report-subcard-body"><div class="table-scroll">
+<table>
+<thead><tr>
+<th>Job</th>
+<th>Total</th>
+<th>Passed</th>
+<th>Failed</th>
+<th>Skipped</th>
+<th>Errors</th>
+<th>执行时间</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>nightly-tts-performance</td>
+<td>16</td>
+<td>0</td>
+<td>8</td>
+<td>8</td>
+<td>0</td>
+<td>568.29s</td>
+</tr>
+</tbody>
+</table>
+</div></div></details></div></details>
+<details class="report-subcard release-h-fold release-h4-fold"><summary class="report-subcard-summary"><span class="report-subcard-title">Diffusion</span></summary><div class="report-subcard-body"><details class="report-subcard release-h-fold release-h5-fold"><summary class="report-subcard-summary"><span class="report-subcard-title">Perf</span></summary><div class="report-subcard-body"><div class="table-scroll">
+<table>
+<thead><tr>
+<th>Job</th>
+<th>Total</th>
+<th>Passed</th>
+<th>Failed</th>
+<th>Skipped</th>
+<th>Errors</th>
+<th>执行时间</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>nightly-diffusion-x2iat-performance-bagel</td>
+<td>4</td>
+<td>4</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1143.89s</td>
+</tr>
+<tr>
+<td>nightly-diffusion-x2iat-performance-qwen-image</td>
+<td>10</td>
+<td>8</td>
+<td>0</td>
+<td>2</td>
+<td>0</td>
+<td>1685.76s</td>
+</tr>
+<tr>
+<td>nightly-diffusion-x2iat-performance-qwen-image-edit</td>
+<td>6</td>
+<td>5</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1176.24s</td>
+</tr>
+<tr>
+<td>nightly-diffusion-x2iat-performance-qwen-image-edit-2511</td>
+<td>6</td>
+<td>5</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1460.59s</td>
+</tr>
+<tr>
+<td>nightly-diffusion-x2iat-performance-qwen-image-layered</td>
+<td>2</td>
+<td>2</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>532.53s</td>
+</tr>
+<tr>
+<td>nightly-diffusion-x2v-performance</td>
+<td>4</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>4</td>
+<td>1390.36s</td>
+</tr>
+</tbody>
+</table>
+</div></div></details></div></details>
+<details class="report-subcard release-h-fold release-h4-fold"><summary class="report-subcard-summary"><span class="report-subcard-title">其他</span></summary><div class="report-subcard-body"><div class="table-scroll">
+<table>
+<thead><tr>
+<th>Job</th>
+<th>Total</th>
+<th>Passed</th>
+<th>Failed</th>
+<th>Skipped</th>
+<th>Errors</th>
+<th>执行时间</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>nightly-voxcpm2-performance</td>
+<td>5</td>
+<td>0</td>
+<td>5</td>
+<td>0</td>
+<td>0</td>
+<td>307.30s</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>*失败 / 错误 Job 的逐条摘录仅在 <strong>nightly</strong> 完整报告中展开；此处仅保留汇总表。*</p></div></details></div></details>
+<details class="panel test-result-gpu-card release-gpu-details release-gpu-details--a100"><summary class="release-gpu-details-summary"><span class="release-gpu-summary-row"><span class="release-gpu-summary-ico" aria-hidden="true"><svg class="ico release-gpu-summary-ico" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"/><rect x="2" y="14" width="20" height="8" rx="2" ry="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg></span><span class="release-gpu-details-title">A100</span></span></summary><div class="release-gpu-details-body"><p>*未传入 <code>--log-dir-a100</code>：无与 nightly 本地章节同结构的汇总表。* 请将集群/单机上的 <code>nightly_jobs</code> 日志根目录传给 compose（见 <code>--help</code>）。</p></div></details>
+<details class="panel test-result-gpu-card release-gpu-details release-gpu-details--h100"><summary class="release-gpu-details-summary"><span class="release-gpu-summary-row"><span class="release-gpu-summary-ico" aria-hidden="true"><svg class="ico release-gpu-summary-ico" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 22h9a5 5 0 1 0 0-12z"/></svg></span><span class="release-gpu-details-title">H100（CI — Buildkite scheduled nightly）</span></span></summary><div class="release-gpu-details-body"><details class="report-subcard release-h-fold release-h4-fold"><summary class="report-subcard-summary"><span class="report-subcard-title">Build</span></summary><div class="report-subcard-body"><div class="table-scroll">
+<table>
+<thead><tr>
+<th>Field</th>
+<th>Value</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><strong>Build</strong></td>
+<td><a href="https://buildkite.com/vllm/vllm-omni/builds/10912">10912</a></td>
+</tr>
+<tr>
+<td><strong>Branch</strong></td>
+<td>main</td>
+</tr>
+<tr>
+<td><strong>Commit</strong></td>
+<td><code>e35cd21</code> (<a href="https://github.com/vllm-project/vllm-omni/commit/e35cd213d716831afd43ebc9889ef9c7cc380a1e">full</a>)</td>
+</tr>
+</tbody>
+</table>
+</div></div></details>
+<details class="report-subcard release-h-fold release-h4-fold"><summary class="report-subcard-summary"><span class="report-subcard-title">Summary (reportable jobs only)</span></summary><div class="report-subcard-body"><ul>
+<li><strong>Passed</strong>: 28 jobs</li>
+<li><strong>Failed / broken</strong>: 6 jobs</li>
+<li><strong>Skipped / blocked / not_run</strong>: 0 (if any)</li>
+</ul></div></details>
+<details class="report-subcard release-h-fold release-h4-fold"><summary class="report-subcard-summary"><span class="report-subcard-title">Failed test jobs (if any)</span></summary><div class="report-subcard-body"><div class="table-scroll">
+<table>
+<thead><tr>
+<th>Step / Job</th>
+<th>State</th>
+<th>Notes</th>
+<th>Step link</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>:full_moon: Omni · Function Test with H100</td>
+<td>failed</td>
+<td>See step log</td>
+<td><a href="https://buildkite.com/vllm/vllm-omni/builds/10912#019e8989-7b0a-421f-8688-935b6ed076aa">open</a></td>
+</tr>
+<tr>
+<td>:full_moon: Omni · Accuracy Test</td>
+<td>failed</td>
+<td>See step log</td>
+<td><a href="https://buildkite.com/vllm/vllm-omni/builds/10912#019e8989-7b19-4f2b-86d0-22af3b422166">open</a></td>
+</tr>
+<tr>
+<td>:full_moon: Omni · Perf Test · vLLM Text</td>
+<td>failed</td>
+<td>See step log</td>
+<td><a href="https://buildkite.com/vllm/vllm-omni/builds/10912#019e8989-7b1d-4794-8d56-f10c7a384af8">open</a></td>
+</tr>
+<tr>
+<td>:full_moon: TTS · Perf Test</td>
+<td>failed</td>
+<td>See step log</td>
+<td><a href="https://buildkite.com/vllm/vllm-omni/builds/10912#019e8989-7b28-4342-91a2-6722a41f0e1a">open</a></td>
+</tr>
+<tr>
+<td>:full_moon: VoxCPM2 · Perf Test</td>
+<td>failed</td>
+<td>See step log</td>
+<td><a href="https://buildkite.com/vllm/vllm-omni/builds/10912#019e8989-7b29-437a-a323-be40706b55d6">open</a></td>
+</tr>
+<tr>
+<td>:email: Nightly Collection &amp; Email</td>
+<td>broken</td>
+<td>See step log</td>
+<td><a href="https://buildkite.com/vllm/vllm-omni/builds/10912#019e8989-7b49-45a2-86b8-1e545b814bca">open</a></td>
+</tr>
+</tbody>
+</table>
+</div></div></details></div></details>
+</div>
+</details>
+
+<details class="panel release-section-card release-section-card--tracking release-section-details">
+<summary class="release-section-fold-summary">
+<h2 class="release-section-h2"><span class="release-section-h2-row"><span class="release-section-h2-ico" aria-hidden="true"><svg class="ico release-section-ico" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span><span class="release-section-h2-label">Issue tracking</span></span></h2>
+</summary>
+<div class="release-section-fold-body">
+<p><strong>Filter:</strong> GitHub Search — <code>label:ci-failure</code>, <code>created</code> (UTC) <strong>2026-05-01</strong> … <strong>2026-06-03</strong>, title contains <code>local test</code> (case-insensitive). <strong>Cross-check:</strong> <a href="https://github.com/search?q=repo%3Avllm-project%2Fvllm-omni+is%3Aissue+label%3Aci-failure+local+test+in%3Atitle&amp;type=issues">search · ci-failure + local in title</a>.</p>
+<p><em>本窗口内无匹配 issue。</em></p>
+</div>
+</details>
+
+<details class="panel release-section-card release-section-card--open-issues release-section-details">
+<summary class="release-section-fold-summary">
+<h2 class="release-section-h2"><span class="release-section-h2-row"><span class="release-section-h2-ico" aria-hidden="true"><svg class="ico release-section-ico" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span><span class="release-section-h2-label">Open issues (stats window)</span></span></h2>
+</summary>
+<div class="release-section-fold-body">
+<p>Open issues labeled <strong>bug</strong>, state <strong>open</strong>, excluding PRs, with <code>created_at</code> (UTC date) in <strong>2026-05-01</strong> … <strong>2026-06-03</strong> (same as Buildkite <code>--stats-from</code> / <code>--stats-to</code>): <strong>25</strong> (total open <code>bug</code> issues when fetched: <strong>42</strong>). DI uses priority labels: <code>critical</code> = 10, <code>high priority</code> = 3, <code>medium priority</code> = 1, <code>low priority</code> = 0.1, <code>invalid</code> = 0.</p>
+<div class="table-scroll">
+<table>
+<thead><tr>
+<th>Issue</th>
+<th>Title</th>
+<th>Opened at</th>
+<th>Priority</th>
+<th>DI</th>
+<th>Status</th>
+<th>Owner</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><a href="https://github.com/vllm-project/vllm-omni/issues/4090">#4090</a></td>
+<td>[Bug]: Nightly / CI failed - tests/e2e/offline_inference/test_moss_tts.py::test_moss_tts_delay_chinese</td>
+<td>2026-06-03</td>
+<td>low priority</td>
+<td>0.1</td>
+<td>open</td>
+<td>@congw729</td>
+</tr>
+<tr>
+<td><a href="https://github.com/vllm-project/vllm-omni/issues/4089">#4089</a></td>
+<td>[Bug]: CI failures due to vllm bench serve --dataset-name invalid choice for daily-omni and seed-tts</td>
+<td>2026-06-03</td>
+<td>unclassified</td>
+<td>0</td>
+<td>open</td>
+<td>@Gaohan123</td>
+</tr>
+<tr>
+<td><a href="https://github.com/vllm-project/vllm-omni/issues/4087">#4087</a></td>
+<td>[Bug]: CI fails with StageEngineCoreProc died during READY (exit code 1) for moss model</td>
+<td>2026-06-03</td>
+<td>unclassified</td>
+<td>0</td>
+<td>open</td>
+<td>@Gaohan123</td>
+</tr>
+<tr>
+<td><a href="https://github.com/vllm-project/vllm-omni/issues/4086">#4086</a></td>
+<td>[Bug]: CI Failure in test_qwen3_omni_expansion.py::test_text_audio_to_text_audio_002[batch_token_64]</td>
+<td>2026-06-03</td>
+<td>unclassified</td>
+<td>0</td>
+<td>open</td>
+<td>@Gaohan123</td>
+</tr>
+<tr>
+<td><a href="https://github.com/vllm-project/vllm-omni/issues/4072">#4072</a></td>
+<td>[Bug]: Seed-TTS WER eval needs jiwer and zhon (No module named &#x27;jiwer&#x27;).</td>
+<td>2026-06-02</td>
+<td>medium priority</td>
+<td>1</td>
+<td>open</td>
+<td>@zhumingjue138</td>
+</tr>
+<tr>
+<td><a href="https://github.com/vllm-project/vllm-omni/issues/4071">#4071</a></td>
+<td>[Bug]: Unable to specify the GPU device for job nightly-omni-performance-multi-replicas</td>
+<td>2026-06-02</td>
+<td>unclassified</td>
+<td>0</td>
+<td>open</td>
+<td>@zhumingjue138</td>
+</tr>
+<tr>
+<td><a href="https://github.com/vllm-project/vllm-omni/issues/4064">#4064</a></td>
+<td>[Bug]: Nightly / CI failed - Omni · Perf Test · vLLM Text tests/dfx/perf/scripts/run_benchmark.py::test_performance_benchmark</td>
+<td>2026-06-02</td>
+<td>high priority</td>
+<td>3</td>
+<td>open</td>
+<td>@congw729</td>
+</tr>
+<tr>
+<td><a href="https://github.com/vllm-project/vllm-omni/issues/4049">#4049</a></td>
+<td>[Bug]: SenseNova-U1 image understanding seems to have problems with the support for streaming output.</td>
+<td>2026-06-01</td>
+<td>low priority</td>
+<td>0.1</td>
+<td>open</td>
+<td>@doggycoder</td>
+</tr>
+<tr>
+<td><a href="https://github.com/vllm-project/vllm-omni/issues/4040">#4040</a></td>
+<td>[Bug]: CLI diffusion flags for multi-stage models no longer works after v0.22 rebase (TP still works)</td>
+<td>2026-06-01</td>
+<td>unclassified</td>
+<td>0</td>
+<td>open</td>
+<td>@herotai214</td>
+</tr>
+<tr>
+<td><a href="https://github.com/vllm-project/vllm-omni/issues/4039">#4039</a></td>
+<td>[Bug]: qwen-tts模型部署在vllm-omni=0.20.0版本，curl请求不稳定</td>
+<td>2026-06-01</td>
+<td>unclassified</td>
+<td>0</td>
+<td>open</td>
+<td>@x-summer-code</td>
+</tr>
+<tr>
+<td><a href="https://github.com/vllm-project/vllm-omni/issues/4000">#4000</a></td>
+<td>[Bug]: HunyuanImage under TP2+SP2 shows a performance degradation compared to TP4.</td>
+<td>2026-05-30</td>
+<td>medium priority</td>
+<td>1</td>
+<td>open</td>
+<td>@Bounty-hunter</td>
+</tr>
+<tr>
+<td><a href="https://github.com/vllm-project/vllm-omni/issues/3977">#3977</a></td>
+<td>[Bug]: Test failures due to pixel value mismatch in Bagel connectors</td>
+<td>2026-05-29</td>
+<td>high priority</td>
+<td>3</td>
+<td>open</td>
+<td>@Gaohan123</td>
+</tr>
+<tr>
+<td><a href="https://github.com/vllm-project/vllm-omni/issues/3966">#3966</a></td>
+<td>[Bug]: OSError: model does not appear to have a file named xx.   Root Reason: HF shared cache concurrent shard materialization race under multi-worker/HSDP startup</td>
+<td>2026-05-29</td>
+<td>medium priority</td>
+<td>1</td>
+<td>open</td>
+<td>@congw729</td>
+</tr>
+<tr>
+<td><a href="https://github.com/vllm-project/vllm-omni/issues/3952">#3952</a></td>
+<td>ModuleNotFoundError: No module named &#x27;pyaudioop&#x27;</td>
+<td>2026-05-28</td>
+<td>low priority</td>
+<td>0.1</td>
+<td>open</td>
+<td>@zhanghui-china</td>
+</tr>
+<tr>
+<td><a href="https://github.com/vllm-project/vllm-omni/issues/3912">#3912</a></td>
+<td>[Bug]: Local test lack of dependencies</td>
+<td>2026-05-27</td>
+<td>medium priority</td>
+<td>1</td>
+<td>open</td>
+<td>@congw729</td>
+</tr>
+<tr>
+<td><a href="https://github.com/vllm-project/vllm-omni/issues/3877">#3877</a></td>
+<td>[Bug]: HunyuanImage3 DiT on NPU with EP+SP fails in fused MoE token dispatcher reshape</td>
+<td>2026-05-26</td>
+<td>medium priority</td>
+<td>1</td>
+<td>open</td>
+<td>@fan2956</td>
+</tr>
+<tr>
+<td><a href="https://github.com/vllm-project/vllm-omni/issues/3856">#3856</a></td>
+<td>[Bug]: qwen3-tts (1.7B-Base) triton backend</td>
+<td>2026-05-25</td>
+<td>medium priority</td>
+<td>1</td>
+<td>open</td>
+<td>@Plopmenz</td>
+</tr>
+<tr>
+<td><a href="https://github.com/vllm-project/vllm-omni/issues/3833">#3833</a></td>
+<td>[Bug]: Async chunk requests can stay in WAITING_FOR_CHUNK indefinitely if upstream chunk never arrives</td>
+<td>2026-05-24</td>
+<td>medium priority</td>
+<td>1</td>
+<td>open</td>
+<td>@Ronnie-Rui</td>
+</tr>
+<tr>
+<td><a href="https://github.com/vllm-project/vllm-omni/issues/3757">#3757</a></td>
+<td>[Bug]: AttributeError: &#x27;Qwen3OmniMoeTalkerConfig&#x27; object has no attribute &#x27;spatial_merge_size&#x27;</td>
+<td>2026-05-20</td>
+<td>medium priority</td>
+<td>1</td>
+<td>open</td>
+<td>@Tian14267</td>
+</tr>
+<tr>
+<td><a href="https://github.com/vllm-project/vllm-omni/issues/3725">#3725</a></td>
+<td>[Bug]: worker process remains after SIGKILL serve process for Wan2.2 model</td>
+<td>2026-05-19</td>
+<td>medium priority</td>
+<td>1</td>
+<td>open</td>
+<td>@zhumingjue138</td>
+</tr>
+<tr>
+<td><a href="https://github.com/vllm-project/vllm-omni/issues/3714">#3714</a></td>
+<td>[Bug]: cyankiwi/Qwen3-Omni-30B-A3B-Instruct-AWQ-4bit Error ExllamaLinearKernel cannot implement due to: Group size (32) does not evenly divide the number of input features (4304)</td>
+<td>2026-05-18</td>
+<td>medium priority</td>
+<td>1</td>
+<td>open</td>
+<td>@nyfon</td>
+</tr>
+<tr>
+<td><a href="https://github.com/vllm-project/vllm-omni/issues/3649">#3649</a></td>
+<td>[Bug]: Summary of Parameter Issues in Entrypoints Interface Exceptions</td>
+<td>2026-05-15</td>
+<td>low priority</td>
+<td>0.1</td>
+<td>open</td>
+<td>@yenuo26</td>
+</tr>
+<tr>
+<td><a href="https://github.com/vllm-project/vllm-omni/issues/3493">#3493</a></td>
+<td>[Bug]: ref text will be included in the final audio output</td>
+<td>2026-05-11</td>
+<td>low priority</td>
+<td>0.1</td>
+<td>open</td>
+<td>@benpjq2000</td>
+</tr>
+<tr>
+<td><a href="https://github.com/vllm-project/vllm-omni/issues/3382">#3382</a></td>
+<td>[Bug]: GLM-Image CFG Parallel is not working</td>
+<td>2026-05-06</td>
+<td>medium priority</td>
+<td>1</td>
+<td>open</td>
+<td>@herotai214</td>
+</tr>
+<tr>
+<td><a href="https://github.com/vllm-project/vllm-omni/issues/3375">#3375</a></td>
+<td>[Bug]: --stage-overrides hangs orchestrator init for Qwen3-TTS multi-stage post-#3306</td>
+<td>2026-05-06</td>
+<td>medium priority</td>
+<td>1</td>
+<td>open</td>
+<td>@ischencheng</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</details>
+
+<details class="panel release-section-card release-section-card--data release-section-details">
+<summary class="release-section-fold-summary">
+<h2 class="release-section-h2"><span class="release-section-h2-row"><span class="release-section-h2-ico" aria-hidden="true"><svg class="ico release-section-ico" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg></span><span class="release-section-h2-label">Data source</span></span></h2>
+</summary>
+<div class="release-section-fold-body">
+<ul>
+<li><strong>测试结论（自动）：</strong> (1) Buildkite <strong>ready</strong>（non-main）与 <strong>merge</strong>（main 非 nightly/weekly）各自<strong>最近一次已结束</strong>构建中无 <code>failed</code>/<code>broken</code> job；</li>
+</ul>
+<p>(2) stats window 内 open <code>label:bug</code> 按 priority labels 加权后 <strong>DI &lt; 30</strong>；(3) 无 open <code>critical</code>；(4) open <code>label:bug</code> 均有 assignee</p>
+<ul>
+<li><strong>Test Result:</strong> Common stack from <code>references/local-test-matrix.md</code>; H200/H800/A100 via <code>--log-dir-h200</code> / <code>--log-dir-h800</code> / <code>--log-dir-a100</code>;</li>
+</ul>
+<p>H100 = Buildkite scheduled nightly (this build #10912: <strong>Build</strong> 表仅链接/分支/commit + Summary + failed jobs)</p>
+<ul>
+<li><strong>Issue tracking:</strong> GitHub Search — <code>label:ci-failure</code>, <code>local test</code> in:title, <code>created</code> in <code>2026-05-01</code>..<code>2026-06-03</code> (UTC)</li>
+<li><strong>Open issues:</strong> REST <code>label:bug</code>, <code>created_at</code> UTC date in <code>2026-05-01</code>..<code>2026-06-03</code></li>
+<li>Buildkite API: <code>vllm/vllm-omni</code> branch <code>main</code></li>
+<li><code>scripts/buildkite_build_stats.py --from 2026-05-01 --to 2026-06-03 --markdown</code> (<strong>bugs (first response, …)</strong> =</li>
+</ul>
+<p>GitHub <code>label:bug</code> issues with <code>created_at</code> UTC date in the same <code>--from</code>..<code>--to</code> window)</p>
+</div>
+</details>
+</div></div>
+<script type="application/json" id="release-archive-md-b64">"IyB2TExNLU9tbmkgVGVzdCBSZXBvcnQgLSBTY2hlZHVsZWQgTmlnaHRseQoKIyMg5rWL6K+V57uT6K66Cgp8IOajgOafpemhuSB8IOajgOafpee7k+aenCB8CnwgLS0tIHwgLS0tIHwKfCBVVOimhueblueOh+i+vuWIsOacrOi/reS7o+imgeaxgiB8IOmAmui/hyB8CnwgTDImTDPmnIDmlrDkuIDmrKHpgJrov4fnjofkuLoxMDAlIHwg5LiN6YCa6L+H77yIcmVhZHkgIzEwOTMzIOWtmOWcqOWksei0pSBqb2LvvJpVcGxvYWQgUmVhZHkgUGlwZWxpbmXjgIE6ZnVsbF9tb29uOiBPbW5pIMK3IEZ1bmN0aW9uIFRlc3Qgd2l0aCBIMTAw44CBOmZ1bGxfbW9vbjogT21uaSDCtyBGdW5jdGlvbiBUZXN0IHdpdGggTDTjgIE6ZnVsbF9tb29uOiBPbW5pIMK3IERvYyBUZXN0IHdpdGggTDTjgIE6ZnVsbF9tb29uOiBPbW5pIMK3IERvYyBUZXN0IHdpdGggSDEwMOOAgTpmdWxsX21vb246IE9tbmkgwrcgQWNjdXJhY3kgVGVzdOOAgTpmdWxsX21vb246IE9tbmkgwrcgUGVyZiBUZXN0IMK3IE5vIEFzeW5jIENodW5r44CBOmZ1bGxfbW9vbjogT21uaSDCtyBQZXJmIFRlc3QgwrcgQXN5bmMgQ2h1bmsg562J5YWxIDMyIOS4qu+8m21lcmdlICMxMDkyOCDlrZjlnKjlpLHotKUgam9i77yaVXBsb2FkIFJlYWR5IFBpcGVsaW5l44CBVXBsb2FkIE5pZ2h0bHkgUGlwZWxpbmXjgIFVcGxvYWQgV2Vla2x5IFBpcGVsaW5l77yJIHwKfCDpnIDmsYLlrozmiJDnjoflpKfkuo44NSUgfCDpgJrov4cgfAp8IOaAp+iDveWKo+WMluWwj+S6jjUlIHwg6YCa6L+HIHwKfCDpgZfnlZlESeWwj+S6jjMwIHwg6YCa6L+H77yI6Ieq5YqoIERJPTE4LjXvvIhoaWdoIHByaW9yaXR5PTIsIG1lZGl1bSBwcmlvcml0eT0xMiwgbG93IHByaW9yaXR5PTUsIHVuY2xhc3NpZmllZD0277yJ77yJIHwKfCDoh7Tlkb1pc3N1ZemBl+eVmeS4quaVsOS4ujAgfCDpgJrov4cgfAp8IOaJgOaciemBl+eVmWJ1Z+Wdh+W3suWIhumFjei0o+S7u+S6uiB8IOS4jemAmui/h++8iOS7peS4iyBvcGVuIGJ1ZyDmnKrliIbphY3otKPku7vkurrvvJojMjQwOOOAgSMzMDE244CBIzMxMzbjgIEjMzIzNuOAgSMzNDkz44CBIzM3MTTjgIEjMzg1NuOAgSMzOTY244CBIzQwMDDjgIEjNDAzOeOAgSM0MDY044CBIzQwNzHjgIEjNDA3MuOAgSM0MDg244CBIzQwODcg562J5YWxIDE3IOS4qu+8iSB8CgoqKua1i+ivlee7k+iuuu+8mioqIFJlamVjdGVkCgoKIyMgTWV0cmljcyBvdmVydmlldwoKU291cmNlOiBgc2NyaXB0cy9idWlsZGtpdGVfYnVpbGRfc3RhdHMucHlgOyB3aW5kb3cgKEJ1aWxka2l0ZSBgY3JlYXRlZF9hdGAsIFVUQyk6IGAyMDI2LTA1LTAxYCAtIGAyMDI2LTA2LTAzYC4KCnwgQ0kgY2F0ZWdvcnkgfCBTdWNjZXNzIHJhdGUvVVQgY292ZXJhZ2UgfCBBdmcgZHVyYXRpb24gfCBPdGhlciBmaW5pc2hlZCBjb3VudCB8IEJ1ZyBhdmcgZmlyc3QgcmVzcG9uc2UgfAp8IC0tLSB8IC0tLSB8IC0tLSB8IC0tLSB8IC0tLSB8CnwgcmVhZHkgfCA1My4zJSAoNjU4LzEyMzQpIHwgMWgxMm0ycyAoMTIzNCBidWlsZHMpIHwgNzEzIHwgLSB8CnwgbWVyZ2UgfCA2MC42JSAoMjE0LzM1MykgfCAxaDZtNTJzICgzNTMgYnVpbGRzKSB8IDAgfCAtIHwKfCBuaWdodGx5IHwgMTcuNCUgKDgvNDYpIHwgM2gxOW00M3MgKDQ2IGJ1aWxkcykgfCAwIHwgLSB8Cnwgd2Vla2x5IHwgMTAwLjAlICg1LzUpIHwgMWg1OW0xMnMgKDUgYnVpbGRzKSB8IDAgfCAtIHwKfCB1dCB8ICpOL0EqIChubyBgVE9UQUxgIC4uLiBgTk4lYCBpbiBTaW1wbGUgVW5pdCBUZXN0IGxvZykgfCAqTi9BKiAobm8gcHl0ZXN0IHN1bW1hcnkgbGluZSB3aXRoIGBwYXNzZWRgIGFuZCBgaW4gLi4uc2AgaW4gbG9nKSB8IC0gfCAtIHwKfCB1dCAoZXhjbHVkZSBtb2RlbHMpIHwgKk4vQSogKG5vIHBlci1maWxlIGNvdmVyYWdlIHRhYmxlIGluIGxvZykgfCAtIHwgLSB8IC0gfAp8IGJ1Z3MgKGZpcnN0IHJlc3BvbnNlLCAyMDI2LTA1LTAxLi4yMDI2LTA2LTAzKSB8IC0gfCAtIHwgLSB8ICoqMTdoNTVtNTBzKiogKGF2Zywgbj0xMjAvMTI5IGlzc3VlcykgfAoKIyMgVGVzdCBSZXN1bHQKCuW4g+WxgOivtOaYju+8mmAjIyMgQ29tbW9uIHN0YWNrYCDmnaXoh6ogcmVmZXJlbmNl77ybYCMjIyBIMjAwYCAvIGAjIyMgSDgwMGAgLyBgIyMjIEExMDBgIOS4jiAqKm5pZ2h0bHkqKiDmiqXlkYrkuK3mnKzlnLAgKipTdW1tYXJ5Kiog5YiG57uE5LiA6Ie077yI6ZyA5Lyg5YWl5a+55bqUIGAtLWxvZy1kaXItKmDvvInvvJtgIyMjIEgxMDBgIOS4uiAqKkJ1aWxka2l0ZSBzY2hlZHVsZWQgbmlnaHRseSoq77yIQnVpbGQgLyBTdW1tYXJ5IC8g5aSx6LSlIEpvYiDooajvvJvkuI3lkKsgcGVyLWpvYiBweXRlc3Qg5LiOIGJ1ZytjaS1mYWlsdXJlIOWIhuaekO+8ieOAggoKIyMjIENvbW1vbiBzdGFjayAoYWxsIHJvd3MpCgpUb3JjaCAqKjIuMTEuMCoqLCBQeXRob24gKiozLjEyKiosIERpZmZ1c2VycyAqKjAuMzcuMSoqLCB0cmFuc2Zvcm1lcnMgKio1LjguMCoqLCBodWdnaW5nZmFjZV9odWIgKioxLjEzLjAqKi4KCiMjIyBIMjAwCgoq5pel5b+X5qC555uu5b2VOiogYC9Vc2Vycy9jb25nd2FuZy9Eb2N1bWVudHMvbG9ncy9IMjAwXzA2MDIvbmlnaHRseV9qb2JzX2FsbGDvvIjluIPlsYDop4EgW3JlZmVyZW5jZXMvbmlnaHRseS1sb2NhbC1sb2ctbGF5b3V0Lm1kXShyZWZlcmVuY2VzL25pZ2h0bHktbG9jYWwtbG9nLWxheW91dC5tZCnvvInjgIIKCuS4jiAqKm5pZ2h0bHkqKiBIVE1ML01hcmtkb3duIOaKpeWRiuS4reacrOWcsCAqKlN1bW1hcnkqKiDnm7jlkIznmoTliIbnu4TmlrnlvI/vvIhPbW5pIC8gVFRTIC8gRGlmZnVzaW9uIMOXIFBlcmYgLyBBY2MgLyDigKbvvInvvJoKCiMjIyMgT21uaQoKIyMjIyMgUGVyZgoKfCBKb2IgfCBUb3RhbCB8IFBhc3NlZCB8IEZhaWxlZCB8IFNraXBwZWQgfCBFcnJvcnMgfCDmiafooYzml7bpl7QgfAp8IC0tLSB8IC0tLSB8IC0tLSB8IC0tLSB8IC0tLSB8IC0tLSB8IC0tLSB8CnwgbmlnaHRseS1vbW5pLXBlcmZvcm1hbmNlLWFzeW5jLWNodW5rIHwgOCB8IDggfCAwIHwgMCB8IDAgfCAzODc0LjgwcyB8CnwgbmlnaHRseS1vbW5pLXBlcmZvcm1hbmNlLW11bHRpLXJlcGxpY2FzIHwgNCB8IDQgfCAwIHwgMCB8IDAgfCAyODYwLjI3cyB8CnwgbmlnaHRseS1vbW5pLXBlcmZvcm1hbmNlLW5vLWFzeW5jLWNodW5rIHwgNCB8IDQgfCAwIHwgMCB8IDAgfCAyMDM2Ljg2cyB8CnwgbmlnaHRseS1vbW5pLXBlcmZvcm1hbmNlLXZsbG0tdGV4dCB8IDQgfCA0IHwgMCB8IDAgfCAwIHwgMTMxNS4wMHMgfAoKIyMjIyBUVFMKCiMjIyMjIFBlcmYKCnwgSm9iIHwgVG90YWwgfCBQYXNzZWQgfCBGYWlsZWQgfCBTa2lwcGVkIHwgRXJyb3JzIHwg5omn6KGM5pe26Ze0IHwKfCAtLS0gfCAtLS0gfCAtLS0gfCAtLS0gfCAtLS0gfCAtLS0gfCAtLS0gfAp8IG5pZ2h0bHktdHRzLXBlcmZvcm1hbmNlIHwgMTYgfCA2IHwgMCB8IDIgfCA4IHwgMTEyNC40OHMgfAoKIyMjIyBEaWZmdXNpb24KCiMjIyMjIFBlcmYKCnwgSm9iIHwgVG90YWwgfCBQYXNzZWQgfCBGYWlsZWQgfCBTa2lwcGVkIHwgRXJyb3JzIHwg5omn6KGM5pe26Ze0IHwKfCAtLS0gfCAtLS0gfCAtLS0gfCAtLS0gfCAtLS0gfCAtLS0gfCAtLS0gfAp8IG5pZ2h0bHktZGlmZnVzaW9uLXgyaWF0LXBlcmZvcm1hbmNlLWJhZ2VsIHwgNCB8IDQgfCAwIHwgMCB8IDAgfCAxMjcxLjE5cyB8CnwgbmlnaHRseS1kaWZmdXNpb24teDJpYXQtcGVyZm9ybWFuY2UtcXdlbi1pbWFnZSB8IDEwIHwgOCB8IDAgfCAyIHwgMCB8IDE5NzYuODdzIHwKfCBuaWdodGx5LWRpZmZ1c2lvbi14MmlhdC1wZXJmb3JtYW5jZS1xd2VuLWltYWdlLWVkaXQgfCA2IHwgMCB8IDAgfCAwIHwgNiB8IDM3NS4wNHMgfAp8IG5pZ2h0bHktZGlmZnVzaW9uLXgyaWF0LXBlcmZvcm1hbmNlLXF3ZW4taW1hZ2UtZWRpdC0yNTExIHwgNiB8IDAgfCAwIHwgMCB8IDYgfCAzNDYuNzlzIHwKfCBuaWdodGx5LWRpZmZ1c2lvbi14MmlhdC1wZXJmb3JtYW5jZS1xd2VuLWltYWdlLWxheWVyZWQgfCAyIHwgMCB8IDAgfCAwIHwgMiB8IDE0MC45NXMgfAp8IG5pZ2h0bHktZGlmZnVzaW9uLXgydi1wZXJmb3JtYW5jZSB8IDQgfCAwIHwgMCB8IDAgfCA0IHwgMjQ2Ljg5cyB8CgojIyMjIyBBY2MKCnwgSm9iIHwgVG90YWwgfCBQYXNzZWQgfCBGYWlsZWQgfCBTa2lwcGVkIHwgRXJyb3JzIHwg5omn6KGM5pe26Ze0IHwKfCAtLS0gfCAtLS0gfCAtLS0gfCAtLS0gfCAtLS0gfCAtLS0gfCAtLS0gfAp8IGZ1bGxfbW9vbl9EaWZmdXNpb25fWDJJX0FfVF9BY2N1cmFjeV9UZXN0IHwgNSB8IDEgfCA0IHwgMCB8IDAgfCA4NTIuNDhzIHwKfCBmdWxsX21vb25fRGlmZnVzaW9uX1gyVl9BY2N1cmFjeV9UZXN0IHwgMTYgfCAxNCB8IDAgfCAxIHwgMSB8IDYzNy44MXMgfAoKIyMjIyMgRnVuY3Rpb24KCnwgSm9iIHwgVG90YWwgfCBQYXNzZWQgfCBGYWlsZWQgfCBTa2lwcGVkIHwgRXJyb3JzIHwg5omn6KGM5pe26Ze0IHwKfCAtLS0gfCAtLS0gfCAtLS0gfCAtLS0gfCAtLS0gfCAtLS0gfCAtLS0gfAp8IGZ1bGxfbW9vbl9EaWZmdXNpb25fWDJJX0FfVF9GdW5jdGlvbl9UZXN0X3dpdGhfSDEwMF9NdWx0aS1HUFVfQmFnZWwgfCA1IHwgNSB8IDAgfCAwIHwgMCB8IDIxNDUuNTZzIHwKfCBmdWxsX21vb25fRGlmZnVzaW9uX1gySV9BX1RfRnVuY3Rpb25fVGVzdF93aXRoX0gxMDBfTXVsdGktR1BVX0xheWVyZWRfTG9uZ0NhdF9GTFVYIHwgMTAgfCA3IHwgMCB8IDAgfCAzIHwgMjc1MC4xOHMgfAp8IGZ1bGxfbW9vbl9EaWZmdXNpb25fWDJJX0FfVF9GdW5jdGlvbl9UZXN0X3dpdGhfSDEwMF9NdWx0aS1HUFVfUXdlbi1JbWFnZSB8IDI1IHwgMTAgfCAwIHwgMCB8IDE1IHwgMjkwNS44N3MgfAp8IGZ1bGxfbW9vbl9EaWZmdXNpb25fWDJJX0FfVF9GdW5jdGlvbl9UZXN0X3dpdGhfSDEwMF9TaW5nbGUtR1BVIHwgMTcgfCAxMSB8IDAgfCAwIHwgNiB8IDM2MDMuODBzIHwKfCBmdWxsX21vb25fRGlmZnVzaW9uX1gySV9BX1RfRnVuY3Rpb25fVGVzdF93aXRoX0w0IHwgMTcgfCA1IHwgMSB8IDMgfCA4IHwgMTE2MC44MnMgfAp8IGZ1bGxfbW9vbl9EaWZmdXNpb25fWDJWX0Z1bmN0aW9uX1Rlc3QgfCAgfCAgfCAgfCAgfCAgfCDigJQgfAoKIyMjIyMgZG9jCgp8IEpvYiB8IFRvdGFsIHwgUGFzc2VkIHwgRmFpbGVkIHwgU2tpcHBlZCB8IEVycm9ycyB8IOaJp+ihjOaXtumXtCB8CnwgLS0tIHwgLS0tIHwgLS0tIHwgLS0tIHwgLS0tIHwgLS0tIHwgLS0tIHwKfCBmdWxsX21vb25fRGlmZnVzaW9uX1gySV9BX1RfRG9jX1Rlc3QgfCAxNyB8IDkgfCA0IHwgMyB8IDEgfCAyMzcxLjU3cyB8CgojIyMjIOWFtuS7lgoKfCBKb2IgfCBUb3RhbCB8IFBhc3NlZCB8IEZhaWxlZCB8IFNraXBwZWQgfCBFcnJvcnMgfCDmiafooYzml7bpl7QgfAp8IC0tLSB8IC0tLSB8IC0tLSB8IC0tLSB8IC0tLSB8IC0tLSB8IC0tLSB8CnwgbmlnaHRseS12b3hjcG0yLXBlcmZvcm1hbmNlIHwgNSB8IDAgfCAwIHwgMCB8IDUgfCAxMDguNDhzIHwKCirlpLHotKUgLyDplJnor68gSm9iIOeahOmAkOadoeaRmOW9leS7heWcqCAqKm5pZ2h0bHkqKiDlrozmlbTmiqXlkYrkuK3lsZXlvIDvvJvmraTlpITku4Xkv53nlZnmsYfmgLvooajjgIIqCgoKIyMjIEg4MDAKCirml6Xlv5fmoLnnm67lvZU6KiBgL1VzZXJzL2Nvbmd3YW5nL0RvY3VtZW50cy9sb2dzL0g4MDBfMDYwMi9uaWdodGx5X2pvYnNfMjAyNjA2MDJg77yI5biD5bGA6KeBIFtyZWZlcmVuY2VzL25pZ2h0bHktbG9jYWwtbG9nLWxheW91dC5tZF0ocmVmZXJlbmNlcy9uaWdodGx5LWxvY2FsLWxvZy1sYXlvdXQubWQp77yJ44CCCgrkuI4gKipuaWdodGx5KiogSFRNTC9NYXJrZG93biDmiqXlkYrkuK3mnKzlnLAgKipTdW1tYXJ5Kiog55u45ZCM55qE5YiG57uE5pa55byP77yIT21uaSAvIFRUUyAvIERpZmZ1c2lvbiDDlyBQZXJmIC8gQWNjIC8g4oCm77yJ77yaCgojIyMjIE9tbmkKCiMjIyMjIFBlcmYKCnwgSm9iIHwgVG90YWwgfCBQYXNzZWQgfCBGYWlsZWQgfCBTa2lwcGVkIHwgRXJyb3JzIHwg5omn6KGM5pe26Ze0IHwKfCAtLS0gfCAtLS0gfCAtLS0gfCAtLS0gfCAtLS0gfCAtLS0gfCAtLS0gfAp8IG5pZ2h0bHktb21uaS1wZXJmb3JtYW5jZS1hc3luYy1jaHVuayB8IDggfCAwIHwgMCB8IDAgfCA4IHwgMTY4LjQwcyB8CnwgbmlnaHRseS1vbW5pLXBlcmZvcm1hbmNlLW11bHRpLXJlcGxpY2FzIHwgNCB8IDAgfCAwIHwgMCB8IDQgfCAxODAuMjhzIHwKfCBuaWdodGx5LW9tbmktcGVyZm9ybWFuY2Utbm8tYXN5bmMtY2h1bmsgfCA0IHwgMCB8IDAgfCAwIHwgNCB8IDkyNC4yOXMgfAp8IG5pZ2h0bHktb21uaS1wZXJmb3JtYW5jZS12bGxtLXRleHQgfCA0IHwgMCB8IDAgfCAwIHwgNCB8IDk2LjMycyB8CgojIyMjIFRUUwoKIyMjIyMgUGVyZgoKfCBKb2IgfCBUb3RhbCB8IFBhc3NlZCB8IEZhaWxlZCB8IFNraXBwZWQgfCBFcnJvcnMgfCDmiafooYzml7bpl7QgfAp8IC0tLSB8IC0tLSB8IC0tLSB8IC0tLSB8IC0tLSB8IC0tLSB8IC0tLSB8CnwgbmlnaHRseS10dHMtcGVyZm9ybWFuY2UgfCAxNiB8IDAgfCA4IHwgOCB8IDAgfCA1NjguMjlzIHwKCiMjIyMgRGlmZnVzaW9uCgojIyMjIyBQZXJmCgp8IEpvYiB8IFRvdGFsIHwgUGFzc2VkIHwgRmFpbGVkIHwgU2tpcHBlZCB8IEVycm9ycyB8IOaJp+ihjOaXtumXtCB8CnwgLS0tIHwgLS0tIHwgLS0tIHwgLS0tIHwgLS0tIHwgLS0tIHwgLS0tIHwKfCBuaWdodGx5LWRpZmZ1c2lvbi14MmlhdC1wZXJmb3JtYW5jZS1iYWdlbCB8IDQgfCA0IHwgMCB8IDAgfCAwIHwgMTE0My44OXMgfAp8IG5pZ2h0bHktZGlmZnVzaW9uLXgyaWF0LXBlcmZvcm1hbmNlLXF3ZW4taW1hZ2UgfCAxMCB8IDggfCAwIHwgMiB8IDAgfCAxNjg1Ljc2cyB8CnwgbmlnaHRseS1kaWZmdXNpb24teDJpYXQtcGVyZm9ybWFuY2UtcXdlbi1pbWFnZS1lZGl0IHwgNiB8IDUgfCAwIHwgMSB8IDAgfCAxMTc2LjI0cyB8CnwgbmlnaHRseS1kaWZmdXNpb24teDJpYXQtcGVyZm9ybWFuY2UtcXdlbi1pbWFnZS1lZGl0LTI1MTEgfCA2IHwgNSB8IDAgfCAxIHwgMCB8IDE0NjAuNTlzIHwKfCBuaWdodGx5LWRpZmZ1c2lvbi14MmlhdC1wZXJmb3JtYW5jZS1xd2VuLWltYWdlLWxheWVyZWQgfCAyIHwgMiB8IDAgfCAwIHwgMCB8IDUzMi41M3MgfAp8IG5pZ2h0bHktZGlmZnVzaW9uLXgydi1wZXJmb3JtYW5jZSB8IDQgfCAwIHwgMCB8IDAgfCA0IHwgMTM5MC4zNnMgfAoKIyMjIyDlhbbku5YKCnwgSm9iIHwgVG90YWwgfCBQYXNzZWQgfCBGYWlsZWQgfCBTa2lwcGVkIHwgRXJyb3JzIHwg5omn6KGM5pe26Ze0IHwKfCAtLS0gfCAtLS0gfCAtLS0gfCAtLS0gfCAtLS0gfCAtLS0gfCAtLS0gfAp8IG5pZ2h0bHktdm94Y3BtMi1wZXJmb3JtYW5jZSB8IDUgfCAwIHwgNSB8IDAgfCAwIHwgMzA3LjMwcyB8Cgoq5aSx6LSlIC8g6ZSZ6K+vIEpvYiDnmoTpgJDmnaHmkZjlvZXku4XlnKggKipuaWdodGx5Kiog5a6M5pW05oql5ZGK5Lit5bGV5byA77yb5q2k5aSE5LuF5L+d55WZ5rGH5oC76KGo44CCKgoKCiMjIyBBMTAwCgoq5pyq5Lyg5YWlIGAtLWxvZy1kaXItYTEwMGDvvJrml6DkuI4gbmlnaHRseSDmnKzlnLDnq6DoioLlkIznu5PmnoTnmoTmsYfmgLvooajjgIIqIOivt+Wwhumbhue+pC/ljZXmnLrkuIrnmoQgYG5pZ2h0bHlfam9ic2Ag5pel5b+X5qC555uu5b2V5Lyg57uZIGNvbXBvc2XvvIjop4EgYC0taGVscGDvvInjgIIKCiMjIyBIMTAw77yIQ0kg4oCUIEJ1aWxka2l0ZSBzY2hlZHVsZWQgbmlnaHRsee+8iQoKIyMjIyBCdWlsZAoKfCBGaWVsZCB8IFZhbHVlIHwKfCAtLS0gfCAtLS0gfAp8ICoqQnVpbGQqKiB8IFsxMDkxMl0oaHR0cHM6Ly9idWlsZGtpdGUuY29tL3ZsbG0vdmxsbS1vbW5pL2J1aWxkcy8xMDkxMikgfAp8ICoqQnJhbmNoKiogfCBtYWluIHwKfCAqKkNvbW1pdCoqIHwgYGUzNWNkMjFgIChbZnVsbF0oaHR0cHM6Ly9naXRodWIuY29tL3ZsbG0tcHJvamVjdC92bGxtLW9tbmkvY29tbWl0L2UzNWNkMjEzZDcxNjgzMWFmZDQzZWJjOTg4OWVmOWM3Y2MzODBhMWUpKSB8CgojIyMjIFN1bW1hcnkgKHJlcG9ydGFibGUgam9icyBvbmx5KQoKLSAqKlBhc3NlZCoqOiAyOCBqb2JzCi0gKipGYWlsZWQgLyBicm9rZW4qKjogNiBqb2JzCi0gKipTa2lwcGVkIC8gYmxvY2tlZCAvIG5vdF9ydW4qKjogMCAoaWYgYW55KQoKIyMjIyBGYWlsZWQgdGVzdCBqb2JzIChpZiBhbnkpCgp8IFN0ZXAgLyBKb2IgfCBTdGF0ZSB8IE5vdGVzIHwgU3RlcCBsaW5rIHwKfCAtLS0gfCAtLS0gfCAtLS0gfCAtLS0gfAp8IDpmdWxsX21vb246IE9tbmkgwrcgRnVuY3Rpb24gVGVzdCB3aXRoIEgxMDAgfCBmYWlsZWQgfCBTZWUgc3RlcCBsb2cgfCBbb3Blbl0oaHR0cHM6Ly9idWlsZGtpdGUuY29tL3ZsbG0vdmxsbS1vbW5pL2J1aWxkcy8xMDkxMiMwMTllODk4OS03YjBhLTQyMWYtODY4OC05MzViNmVkMDc2YWEpIHwKfCA6ZnVsbF9tb29uOiBPbW5pIMK3IEFjY3VyYWN5IFRlc3QgfCBmYWlsZWQgfCBTZWUgc3RlcCBsb2cgfCBbb3Blbl0oaHR0cHM6Ly9idWlsZGtpdGUuY29tL3ZsbG0vdmxsbS1vbW5pL2J1aWxkcy8xMDkxMiMwMTllODk4OS03YjE5LTRmMmItODZkMC0yMmFmM2I0MjIxNjYpIHwKfCA6ZnVsbF9tb29uOiBPbW5pIMK3IFBlcmYgVGVzdCDCtyB2TExNIFRleHQgfCBmYWlsZWQgfCBTZWUgc3RlcCBsb2cgfCBbb3Blbl0oaHR0cHM6Ly9idWlsZGtpdGUuY29tL3ZsbG0vdmxsbS1vbW5pL2J1aWxkcy8xMDkxMiMwMTllODk4OS03YjFkLTQ3OTQtOGQ1Ni1mMTBjN2EzODRhZjgpIHwKfCA6ZnVsbF9tb29uOiBUVFMgwrcgUGVyZiBUZXN0IHwgZmFpbGVkIHwgU2VlIHN0ZXAgbG9nIHwgW29wZW5dKGh0dHBzOi8vYnVpbGRraXRlLmNvbS92bGxtL3ZsbG0tb21uaS9idWlsZHMvMTA5MTIjMDE5ZTg5ODktN2IyOC00MzQyLTkxYTItNjcyMmE0MWYwZTFhKSB8CnwgOmZ1bGxfbW9vbjogVm94Q1BNMiDCtyBQZXJmIFRlc3QgfCBmYWlsZWQgfCBTZWUgc3RlcCBsb2cgfCBbb3Blbl0oaHR0cHM6Ly9idWlsZGtpdGUuY29tL3ZsbG0vdmxsbS1vbW5pL2J1aWxkcy8xMDkxMiMwMTllODk4OS03YjI5LTQzN2EtYTMyMy1iZTQwNzA2YjU1ZDYpIHwKfCA6ZW1haWw6IE5pZ2h0bHkgQ29sbGVjdGlvbiAmIEVtYWlsIHwgYnJva2VuIHwgU2VlIHN0ZXAgbG9nIHwgW29wZW5dKGh0dHBzOi8vYnVpbGRraXRlLmNvbS92bGxtL3ZsbG0tb21uaS9idWlsZHMvMTA5MTIjMDE5ZTg5ODktN2I0OS00NWEyLTg2YjgtMWU1NDViODE0YmNhKSB8CgojIyBJc3N1ZSB0cmFja2luZwoKKipGaWx0ZXI6KiogR2l0SHViIFNlYXJjaCDigJQgYGxhYmVsOmNpLWZhaWx1cmVgLCBgY3JlYXRlZGAgKFVUQykgKioyMDI2LTA1LTAxKiog4oCmICoqMjAyNi0wNi0wMyoqLCB0aXRsZSBjb250YWlucyBgbG9jYWwgdGVzdGAgKGNhc2UtaW5zZW5zaXRpdmUpLiAqKkNyb3NzLWNoZWNrOioqIFtzZWFyY2ggwrcgY2ktZmFpbHVyZSArIGxvY2FsIGluIHRpdGxlXShodHRwczovL2dpdGh1Yi5jb20vc2VhcmNoP3E9cmVwbyUzQXZsbG0tcHJvamVjdCUyRnZsbG0tb21uaStpcyUzQWlzc3VlK2xhYmVsJTNBY2ktZmFpbHVyZStsb2NhbCt0ZXN0K2luJTNBdGl0bGUmdHlwZT1pc3N1ZXMpLgoKKuacrOeql+WPo+WGheaXoOWMuemFjSBpc3N1ZeOAgioKIyMgT3BlbiBpc3N1ZXMgKHN0YXRzIHdpbmRvdykKCk9wZW4gaXNzdWVzIGxhYmVsZWQgKipidWcqKiwgc3RhdGUgKipvcGVuKiosIGV4Y2x1ZGluZyBQUnMsIHdpdGggYGNyZWF0ZWRfYXRgIChVVEMgZGF0ZSkgaW4gKioyMDI2LTA1LTAxKiog4oCmICoqMjAyNi0wNi0wMyoqIChzYW1lIGFzIEJ1aWxka2l0ZSBgLS1zdGF0cy1mcm9tYCAvIGAtLXN0YXRzLXRvYCk6ICoqMjUqKiAodG90YWwgb3BlbiBgYnVnYCBpc3N1ZXMgd2hlbiBmZXRjaGVkOiAqKjQyKiopLiBESSB1c2VzIHByaW9yaXR5IGxhYmVsczogYGNyaXRpY2FsYCA9IDEwLCBgaGlnaCBwcmlvcml0eWAgPSAzLCBgbWVkaXVtIHByaW9yaXR5YCA9IDEsIGBsb3cgcHJpb3JpdHlgID0gMC4xLCBgaW52YWxpZGAgPSAwLgoKfCBJc3N1ZSB8IFRpdGxlIHwgT3BlbmVkIGF0IHwgUHJpb3JpdHkgfCBESSB8IFN0YXR1cyB8IE93bmVyIHwKfCAtLS0gfCAtLS0gfCAtLS0gfCAtLS0gfCAtLS0gfCAtLS0gfCAtLS0gfAp8IFsjNDA5MF0oaHR0cHM6Ly9naXRodWIuY29tL3ZsbG0tcHJvamVjdC92bGxtLW9tbmkvaXNzdWVzLzQwOTApIHwgW0J1Z106IE5pZ2h0bHkgLyBDSSBmYWlsZWQgLSB0ZXN0cy9lMmUvb2ZmbGluZV9pbmZlcmVuY2UvdGVzdF9tb3NzX3R0cy5weTo6dGVzdF9tb3NzX3R0c19kZWxheV9jaGluZXNlIHwgMjAyNi0wNi0wMyB8IGxvdyBwcmlvcml0eSB8IDAuMSB8IG9wZW4gfCBAY29uZ3c3MjkgfAp8IFsjNDA4OV0oaHR0cHM6Ly9naXRodWIuY29tL3ZsbG0tcHJvamVjdC92bGxtLW9tbmkvaXNzdWVzLzQwODkpIHwgW0J1Z106IENJIGZhaWx1cmVzIGR1ZSB0byB2bGxtIGJlbmNoIHNlcnZlIC0tZGF0YXNldC1uYW1lIGludmFsaWQgY2hvaWNlIGZvciBkYWlseS1vbW5pIGFuZCBzZWVkLXR0cyB8IDIwMjYtMDYtMDMgfCB1bmNsYXNzaWZpZWQgfCAwIHwgb3BlbiB8IEBHYW9oYW4xMjMgfAp8IFsjNDA4N10oaHR0cHM6Ly9naXRodWIuY29tL3ZsbG0tcHJvamVjdC92bGxtLW9tbmkvaXNzdWVzLzQwODcpIHwgW0J1Z106IENJIGZhaWxzIHdpdGggU3RhZ2VFbmdpbmVDb3JlUHJvYyBkaWVkIGR1cmluZyBSRUFEWSAoZXhpdCBjb2RlIDEpIGZvciBtb3NzIG1vZGVsIHwgMjAyNi0wNi0wMyB8IHVuY2xhc3NpZmllZCB8IDAgfCBvcGVuIHwgQEdhb2hhbjEyMyB8CnwgWyM0MDg2XShodHRwczovL2dpdGh1Yi5jb20vdmxsbS1wcm9qZWN0L3ZsbG0tb21uaS9pc3N1ZXMvNDA4NikgfCBbQnVnXTogQ0kgRmFpbHVyZSBpbiB0ZXN0X3F3ZW4zX29tbmlfZXhwYW5zaW9uLnB5Ojp0ZXN0X3RleHRfYXVkaW9fdG9fdGV4dF9hdWRpb18wMDJbYmF0Y2hfdG9rZW5fNjRdIHwgMjAyNi0wNi0wMyB8IHVuY2xhc3NpZmllZCB8IDAgfCBvcGVuIHwgQEdhb2hhbjEyMyB8CnwgWyM0MDcyXShodHRwczovL2dpdGh1Yi5jb20vdmxsbS1wcm9qZWN0L3ZsbG0tb21uaS9pc3N1ZXMvNDA3MikgfCBbQnVnXTogU2VlZC1UVFMgV0VSIGV2YWwgbmVlZHMgaml3ZXIgYW5kIHpob24gKE5vIG1vZHVsZSBuYW1lZCAnaml3ZXInKS4gfCAyMDI2LTA2LTAyIHwgbWVkaXVtIHByaW9yaXR5IHwgMSB8IG9wZW4gfCBAemh1bWluZ2p1ZTEzOCB8CnwgWyM0MDcxXShodHRwczovL2dpdGh1Yi5jb20vdmxsbS1wcm9qZWN0L3ZsbG0tb21uaS9pc3N1ZXMvNDA3MSkgfCBbQnVnXTogVW5hYmxlIHRvIHNwZWNpZnkgdGhlIEdQVSBkZXZpY2UgZm9yIGpvYiBuaWdodGx5LW9tbmktcGVyZm9ybWFuY2UtbXVsdGktcmVwbGljYXMgfCAyMDI2LTA2LTAyIHwgdW5jbGFzc2lmaWVkIHwgMCB8IG9wZW4gfCBAemh1bWluZ2p1ZTEzOCB8CnwgWyM0MDY0XShodHRwczovL2dpdGh1Yi5jb20vdmxsbS1wcm9qZWN0L3ZsbG0tb21uaS9pc3N1ZXMvNDA2NCkgfCBbQnVnXTogTmlnaHRseSAvIENJIGZhaWxlZCAtIBsHT21uaSDCtyBQZXJmIFRlc3QgwrcgdkxMTSBUZXh0IHRlc3RzL2RmeC9wZXJmL3NjcmlwdHMvcnVuX2JlbmNobWFyay5weTo6dGVzdF9wZXJmb3JtYW5jZV9iZW5jaG1hcmsgfCAyMDI2LTA2LTAyIHwgaGlnaCBwcmlvcml0eSB8IDMgfCBvcGVuIHwgQGNvbmd3NzI5IHwKfCBbIzQwNDldKGh0dHBzOi8vZ2l0aHViLmNvbS92bGxtLXByb2plY3QvdmxsbS1vbW5pL2lzc3Vlcy80MDQ5KSB8IFtCdWddOiBTZW5zZU5vdmEtVTEgaW1hZ2UgdW5kZXJzdGFuZGluZyBzZWVtcyB0byBoYXZlIHByb2JsZW1zIHdpdGggdGhlIHN1cHBvcnQgZm9yIHN0cmVhbWluZyBvdXRwdXQuIHwgMjAyNi0wNi0wMSB8IGxvdyBwcmlvcml0eSB8IDAuMSB8IG9wZW4gfCBAZG9nZ3ljb2RlciB8CnwgWyM0MDQwXShodHRwczovL2dpdGh1Yi5jb20vdmxsbS1wcm9qZWN0L3ZsbG0tb21uaS9pc3N1ZXMvNDA0MCkgfCBbQnVnXTogQ0xJIGRpZmZ1c2lvbiBmbGFncyBmb3IgbXVsdGktc3RhZ2UgbW9kZWxzIG5vIGxvbmdlciB3b3JrcyBhZnRlciB2MC4yMiByZWJhc2UgKFRQIHN0aWxsIHdvcmtzKSB8IDIwMjYtMDYtMDEgfCB1bmNsYXNzaWZpZWQgfCAwIHwgb3BlbiB8IEBoZXJvdGFpMjE0IHwKfCBbIzQwMzldKGh0dHBzOi8vZ2l0aHViLmNvbS92bGxtLXByb2plY3QvdmxsbS1vbW5pL2lzc3Vlcy80MDM5KSB8IFtCdWddOiBxd2VuLXR0c+aooeWei+mDqOe9suWcqHZsbG0tb21uaT0wLjIwLjDniYjmnKzvvIxjdXJs6K+35rGC5LiN56iz5a6aIHwgMjAyNi0wNi0wMSB8IHVuY2xhc3NpZmllZCB8IDAgfCBvcGVuIHwgQHgtc3VtbWVyLWNvZGUgfAp8IFsjNDAwMF0oaHR0cHM6Ly9naXRodWIuY29tL3ZsbG0tcHJvamVjdC92bGxtLW9tbmkvaXNzdWVzLzQwMDApIHwgW0J1Z106IEh1bnl1YW5JbWFnZSB1bmRlciBUUDIrU1AyIHNob3dzIGEgcGVyZm9ybWFuY2UgZGVncmFkYXRpb24gY29tcGFyZWQgdG8gVFA0LiB8IDIwMjYtMDUtMzAgfCBtZWRpdW0gcHJpb3JpdHkgfCAxIHwgb3BlbiB8IEBCb3VudHktaHVudGVyIHwKfCBbIzM5NzddKGh0dHBzOi8vZ2l0aHViLmNvbS92bGxtLXByb2plY3QvdmxsbS1vbW5pL2lzc3Vlcy8zOTc3KSB8IFtCdWddOiBUZXN0IGZhaWx1cmVzIGR1ZSB0byBwaXhlbCB2YWx1ZSBtaXNtYXRjaCBpbiBCYWdlbCBjb25uZWN0b3JzIHwgMjAyNi0wNS0yOSB8IGhpZ2ggcHJpb3JpdHkgfCAzIHwgb3BlbiB8IEBHYW9oYW4xMjMgfAp8IFsjMzk2Nl0oaHR0cHM6Ly9naXRodWIuY29tL3ZsbG0tcHJvamVjdC92bGxtLW9tbmkvaXNzdWVzLzM5NjYpIHwgW0J1Z106IE9TRXJyb3I6IG1vZGVsIGRvZXMgbm90IGFwcGVhciB0byBoYXZlIGEgZmlsZSBuYW1lZCB4eC4gICBSb290IFJlYXNvbjogSEYgc2hhcmVkIGNhY2hlIGNvbmN1cnJlbnQgc2hhcmQgbWF0ZXJpYWxpemF0aW9uIHJhY2UgdW5kZXIgbXVsdGktd29ya2VyL0hTRFAgc3RhcnR1cCB8IDIwMjYtMDUtMjkgfCBtZWRpdW0gcHJpb3JpdHkgfCAxIHwgb3BlbiB8IEBjb25ndzcyOSB8CnwgWyMzOTUyXShodHRwczovL2dpdGh1Yi5jb20vdmxsbS1wcm9qZWN0L3ZsbG0tb21uaS9pc3N1ZXMvMzk1MikgfCBNb2R1bGVOb3RGb3VuZEVycm9yOiBObyBtb2R1bGUgbmFtZWQgJ3B5YXVkaW9vcCcgfCAyMDI2LTA1LTI4IHwgbG93IHByaW9yaXR5IHwgMC4xIHwgb3BlbiB8IEB6aGFuZ2h1aS1jaGluYSB8CnwgWyMzOTEyXShodHRwczovL2dpdGh1Yi5jb20vdmxsbS1wcm9qZWN0L3ZsbG0tb21uaS9pc3N1ZXMvMzkxMikgfCBbQnVnXTogTG9jYWwgdGVzdCBsYWNrIG9mIGRlcGVuZGVuY2llcyB8IDIwMjYtMDUtMjcgfCBtZWRpdW0gcHJpb3JpdHkgfCAxIHwgb3BlbiB8IEBjb25ndzcyOSB8CnwgWyMzODc3XShodHRwczovL2dpdGh1Yi5jb20vdmxsbS1wcm9qZWN0L3ZsbG0tb21uaS9pc3N1ZXMvMzg3NykgfCBbQnVnXTogSHVueXVhbkltYWdlMyBEaVQgb24gTlBVIHdpdGggRVArU1AgZmFpbHMgaW4gZnVzZWQgTW9FIHRva2VuIGRpc3BhdGNoZXIgcmVzaGFwZSB8IDIwMjYtMDUtMjYgfCBtZWRpdW0gcHJpb3JpdHkgfCAxIHwgb3BlbiB8IEBmYW4yOTU2IHwKfCBbIzM4NTZdKGh0dHBzOi8vZ2l0aHViLmNvbS92bGxtLXByb2plY3QvdmxsbS1vbW5pL2lzc3Vlcy8zODU2KSB8IFtCdWddOiBxd2VuMy10dHMgKDEuN0ItQmFzZSkgdHJpdG9uIGJhY2tlbmQgfCAyMDI2LTA1LTI1IHwgbWVkaXVtIHByaW9yaXR5IHwgMSB8IG9wZW4gfCBAUGxvcG1lbnogfAp8IFsjMzgzM10oaHR0cHM6Ly9naXRodWIuY29tL3ZsbG0tcHJvamVjdC92bGxtLW9tbmkvaXNzdWVzLzM4MzMpIHwgW0J1Z106IEFzeW5jIGNodW5rIHJlcXVlc3RzIGNhbiBzdGF5IGluIFdBSVRJTkdfRk9SX0NIVU5LIGluZGVmaW5pdGVseSBpZiB1cHN0cmVhbSBjaHVuayBuZXZlciBhcnJpdmVzIHwgMjAyNi0wNS0yNCB8IG1lZGl1bSBwcmlvcml0eSB8IDEgfCBvcGVuIHwgQFJvbm5pZS1SdWkgfAp8IFsjMzc1N10oaHR0cHM6Ly9naXRodWIuY29tL3ZsbG0tcHJvamVjdC92bGxtLW9tbmkvaXNzdWVzLzM3NTcpIHwgW0J1Z106IEF0dHJpYnV0ZUVycm9yOiAnUXdlbjNPbW5pTW9lVGFsa2VyQ29uZmlnJyBvYmplY3QgaGFzIG5vIGF0dHJpYnV0ZSAnc3BhdGlhbF9tZXJnZV9zaXplJyB8IDIwMjYtMDUtMjAgfCBtZWRpdW0gcHJpb3JpdHkgfCAxIHwgb3BlbiB8IEBUaWFuMTQyNjcgfAp8IFsjMzcyNV0oaHR0cHM6Ly9naXRodWIuY29tL3ZsbG0tcHJvamVjdC92bGxtLW9tbmkvaXNzdWVzLzM3MjUpIHwgW0J1Z106IHdvcmtlciBwcm9jZXNzIHJlbWFpbnMgYWZ0ZXIgU0lHS0lMTCBzZXJ2ZSBwcm9jZXNzIGZvciBXYW4yLjIgbW9kZWwgfCAyMDI2LTA1LTE5IHwgbWVkaXVtIHByaW9yaXR5IHwgMSB8IG9wZW4gfCBAemh1bWluZ2p1ZTEzOCB8CnwgWyMzNzE0XShodHRwczovL2dpdGh1Yi5jb20vdmxsbS1wcm9qZWN0L3ZsbG0tb21uaS9pc3N1ZXMvMzcxNCkgfCBbQnVnXTogY3lhbmtpd2kvUXdlbjMtT21uaS0zMEItQTNCLUluc3RydWN0LUFXUS00Yml0IEVycm9yIEV4bGxhbWFMaW5lYXJLZXJuZWwgY2Fubm90IGltcGxlbWVudCBkdWUgdG86IEdyb3VwIHNpemUgKDMyKSBkb2VzIG5vdCBldmVubHkgZGl2aWRlIHRoZSBudW1iZXIgb2YgaW5wdXQgZmVhdHVyZXMgKDQzMDQpIHwgMjAyNi0wNS0xOCB8IG1lZGl1bSBwcmlvcml0eSB8IDEgfCBvcGVuIHwgQG55Zm9uIHwKfCBbIzM2NDldKGh0dHBzOi8vZ2l0aHViLmNvbS92bGxtLXByb2plY3QvdmxsbS1vbW5pL2lzc3Vlcy8zNjQ5KSB8IFtCdWddOiBTdW1tYXJ5IG9mIFBhcmFtZXRlciBJc3N1ZXMgaW4gRW50cnlwb2ludHMgSW50ZXJmYWNlIEV4Y2VwdGlvbnMgfCAyMDI2LTA1LTE1IHwgbG93IHByaW9yaXR5IHwgMC4xIHwgb3BlbiB8IEB5ZW51bzI2IHwKfCBbIzM0OTNdKGh0dHBzOi8vZ2l0aHViLmNvbS92bGxtLXByb2plY3QvdmxsbS1vbW5pL2lzc3Vlcy8zNDkzKSB8IFtCdWddOiByZWYgdGV4dCB3aWxsIGJlIGluY2x1ZGVkIGluIHRoZSBmaW5hbCBhdWRpbyBvdXRwdXQgfCAyMDI2LTA1LTExIHwgbG93IHByaW9yaXR5IHwgMC4xIHwgb3BlbiB8IEBiZW5wanEyMDAwIHwKfCBbIzMzODJdKGh0dHBzOi8vZ2l0aHViLmNvbS92bGxtLXByb2plY3QvdmxsbS1vbW5pL2lzc3Vlcy8zMzgyKSB8IFtCdWddOiBHTE0tSW1hZ2UgQ0ZHIFBhcmFsbGVsIGlzIG5vdCB3b3JraW5nIHwgMjAyNi0wNS0wNiB8IG1lZGl1bSBwcmlvcml0eSB8IDEgfCBvcGVuIHwgQGhlcm90YWkyMTQgfAp8IFsjMzM3NV0oaHR0cHM6Ly9naXRodWIuY29tL3ZsbG0tcHJvamVjdC92bGxtLW9tbmkvaXNzdWVzLzMzNzUpIHwgW0J1Z106IC0tc3RhZ2Utb3ZlcnJpZGVzIGhhbmdzIG9yY2hlc3RyYXRvciBpbml0IGZvciBRd2VuMy1UVFMgbXVsdGktc3RhZ2UgcG9zdC0jMzMwNiB8IDIwMjYtMDUtMDYgfCBtZWRpdW0gcHJpb3JpdHkgfCAxIHwgb3BlbiB8IEBpc2NoZW5jaGVuZyB8CgojIyBEYXRhIHNvdXJjZQoKLSAqKua1i+ivlee7k+iuuu+8iOiHquWKqO+8ie+8mioqICgxKSBCdWlsZGtpdGUgKipyZWFkeSoq77yIbm9uLW1haW7vvInkuI4gKiptZXJnZSoq77yIbWFpbiDpnZ4gbmlnaHRseS93ZWVrbHnvvInlkIToh6oqKuacgOi/keS4gOasoeW3sue7k+adnyoq5p6E5bu65Lit5pegIGBmYWlsZWRgL2Bicm9rZW5gIGpvYu+8mwogICgyKSBzdGF0cyB3aW5kb3cg5YaFIG9wZW4gYGxhYmVsOmJ1Z2Ag5oyJIHByaW9yaXR5IGxhYmVscyDliqDmnYPlkI4gKipESSA8IDMwKirvvJsoMykg5pegIG9wZW4gYGNyaXRpY2FsYO+8myg0KSBvcGVuIGBsYWJlbDpidWdgIOWdh+aciSBhc3NpZ25lZQotICoqVGVzdCBSZXN1bHQ6KiogQ29tbW9uIHN0YWNrIGZyb20gYHJlZmVyZW5jZXMvbG9jYWwtdGVzdC1tYXRyaXgubWRgOyBIMjAwL0g4MDAvQTEwMCB2aWEgYC0tbG9nLWRpci1oMjAwYCAvIGAtLWxvZy1kaXItaDgwMGAgLyBgLS1sb2ctZGlyLWExMDBgOwogIEgxMDAgPSBCdWlsZGtpdGUgc2NoZWR1bGVkIG5pZ2h0bHkgKHRoaXMgYnVpbGQgIzEwOTEyOiAqKkJ1aWxkKiog6KGo5LuF6ZO+5o6lL+WIhuaUry9jb21taXQgKyBTdW1tYXJ5ICsgZmFpbGVkIGpvYnMpCi0gKipJc3N1ZSB0cmFja2luZzoqKiBHaXRIdWIgU2VhcmNoIOKAlCBgbGFiZWw6Y2ktZmFpbHVyZWAsIGBsb2NhbCB0ZXN0YCBpbjp0aXRsZSwgYGNyZWF0ZWRgIGluIGAyMDI2LTA1LTAxYC4uYDIwMjYtMDYtMDNgIChVVEMpCi0gKipPcGVuIGlzc3VlczoqKiBSRVNUIGBsYWJlbDpidWdgLCBgY3JlYXRlZF9hdGAgVVRDIGRhdGUgaW4gYDIwMjYtMDUtMDFgLi5gMjAyNi0wNi0wM2AKLSBCdWlsZGtpdGUgQVBJOiBgdmxsbS92bGxtLW9tbmlgIGJyYW5jaCBgbWFpbmAKLSBgc2NyaXB0cy9idWlsZGtpdGVfYnVpbGRfc3RhdHMucHkgLS1mcm9tIDIwMjYtMDUtMDEgLS10byAyMDI2LTA2LTAzIC0tbWFya2Rvd25gICgqKmJ1Z3MgKGZpcnN0IHJlc3BvbnNlLCDigKYpKiogPQogIEdpdEh1YiBgbGFiZWw6YnVnYCBpc3N1ZXMgd2l0aCBgY3JlYXRlZF9hdGAgVVRDIGRhdGUgaW4gdGhlIHNhbWUgYC0tZnJvbWAuLmAtLXRvYCB3aW5kb3cpCg=="</script>
+<script>
+(function () {
+  var btn = document.getElementById("release-archive-md-btn");
+  var el = document.getElementById("release-archive-md-b64");
+  if (!btn || !el) return;
+  btn.addEventListener("click", function () {
+    try {
+      var b64 = JSON.parse(el.textContent || '""');
+      var bin = atob(b64);
+      var bytes = new Uint8Array(bin.length);
+      for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+      var text = new TextDecoder("utf-8").decode(bytes);
+      var blob = new Blob([text], { type: "text/markdown;charset=utf-8" });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement("a");
+      a.href = url;
+      a.download = btn.getAttribute("data-download-name") || "vllm-omni-test-report.md";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } catch (e) {
+      alert("归档失败: " + e);
+    }
+  });
+})();
+</script>
+<script>
+(function () {
+  document.querySelectorAll(".release-doc details").forEach(function (d) {
+    var s = d.querySelector(":scope > summary");
+    if (!s || s.getAttribute("data-release-sum-tog") === "1") return;
+    s.setAttribute("data-release-sum-tog", "1");
+    s.addEventListener(
+      "click",
+      function (ev) {
+        if (ev.button !== 0) return;
+        if (ev.target && ev.target.closest && ev.target.closest("a, button")) return;
+        ev.preventDefault();
+        d.open = !d.open;
+      },
+      true
+    );
+  });
+})();
+</script>
+</body>
+</html>
