@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pytest
 
-from scripts.sync_test_reports import sync_test_reports
+from scripts.sync_test_reports import _copy_if_changed, sync_test_reports
 
 
 def test_sync_test_reports_copies_and_manifest(tmp_path: Path) -> None:
@@ -54,3 +54,23 @@ def test_sync_test_reports_removes_stale_copies(tmp_path: Path) -> None:
 def test_sync_test_reports_empty_sources(tmp_path: Path) -> None:
     payload = sync_test_reports(tmp_path)
     assert payload == {"nightly": [], "release": []}
+
+
+def test_copy_if_changed_skips_identical_files(tmp_path: Path) -> None:
+    src = tmp_path / "src.html"
+    dest = tmp_path / "dest.html"
+    payload = b"<html>report</html>"
+    src.write_bytes(payload)
+    dest.write_bytes(payload)
+
+    assert _copy_if_changed(src, dest) is False
+
+
+def test_copy_if_changed_copies_when_size_differs(tmp_path: Path) -> None:
+    src = tmp_path / "src.html"
+    dest = tmp_path / "dest.html"
+    src.write_bytes(b"updated-report")
+    dest.write_bytes(b"old")
+
+    assert _copy_if_changed(src, dest) is True
+    assert dest.read_bytes() == b"updated-report"

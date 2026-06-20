@@ -1655,17 +1655,13 @@ function positionOmniFilterDropdown(multiselect) {
 }
 
 function syncOpenOmniFilterDropdownPositions() {
-  document.querySelectorAll(".omni-filter__multiselect.is-open").forEach((multiselect) => {
-    positionOmniFilterDropdown(multiselect);
-  });
-}
-
-function bindOmniFilterBarScroll(container) {
-  if (container.dataset.omniFilterScrollBound === "1") {
+  const open = document.querySelectorAll(".omni-filter__multiselect.is-open");
+  if (!open.length) {
     return;
   }
-  container.dataset.omniFilterScrollBound = "1";
-  container.addEventListener("scroll", () => syncOpenOmniFilterDropdownPositions(), { passive: true });
+  open.forEach((multiselect) => {
+    positionOmniFilterDropdown(multiselect);
+  });
 }
 
 function bindOmniFilterOutsideClick() {
@@ -1681,6 +1677,11 @@ function bindOmniFilterOutsideClick() {
     });
   });
   window.addEventListener("resize", () => syncOpenOmniFilterDropdownPositions(), { passive: true });
+  document.addEventListener(
+    "scroll",
+    () => syncOpenOmniFilterDropdownPositions(),
+    { passive: true, capture: true },
+  );
 }
 
 function closeOmniFilterDropdowns(container) {
@@ -1815,8 +1816,6 @@ function renderOmniFilterBar(payload, filters, root, options = {}) {
       positionOmniFilterDropdown(multiselect);
     }
   }
-
-  bindOmniFilterBarScroll(container);
 }
 
 function currentOmniFilters(payload, root) {

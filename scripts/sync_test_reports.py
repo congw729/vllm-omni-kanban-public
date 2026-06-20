@@ -32,7 +32,7 @@ def _collect_report_dates(source_dir: Path, pattern: re.Pattern[str]) -> dict[st
 def _copy_if_changed(src: Path, dest: Path) -> bool:
     dest.parent.mkdir(parents=True, exist_ok=True)
     if dest.exists():
-        if dest.read_bytes() == src.read_bytes():
+        if dest.stat().st_size == src.stat().st_size and dest.read_bytes() == src.read_bytes():
             return False
     shutil.copy2(src, dest)
     return True

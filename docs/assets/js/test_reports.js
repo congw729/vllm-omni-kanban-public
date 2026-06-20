@@ -20,6 +20,13 @@
     return new URL(relativePath, window.location.href).href;
   }
 
+  function manifestDirectoryUrl(resolvedManifestUrl) {
+    const url = new URL(resolvedManifestUrl);
+    const slash = url.pathname.lastIndexOf("/");
+    const dir = slash >= 0 ? url.pathname.slice(0, slash + 1) : "/";
+    return `${url.origin}${dir}`;
+  }
+
   function reportAssetPath(type, date) {
     return `${manifestBaseUrl}${type}/${date}.html`;
   }
@@ -110,7 +117,7 @@
     }
     try {
       const manifestUrl = resolveAssetUrl(manifestSrc);
-      manifestBaseUrl = manifestUrl.replace(/manifest\.json$/, "");
+      manifestBaseUrl = manifestDirectoryUrl(manifestUrl);
       const response = await fetch(manifestUrl);
       if (!response.ok) {
         throw new Error(`failed to load ${manifestUrl}`);
