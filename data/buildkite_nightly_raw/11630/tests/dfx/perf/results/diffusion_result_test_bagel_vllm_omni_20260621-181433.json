@@ -1,0 +1,498 @@
+[
+  {
+    "test_name": "test_bagel_single_device_single_stage_t2i",
+    "endpoint": "/v1/chat/completions",
+    "timestamp": "20260621-181658",
+    "server_params": {
+      "model": "ByteDance-Seed/BAGEL-7B-MoT",
+      "serve_args": {
+        "enable-diffusion-pipeline-profiler": true,
+        "deploy-config": "../vllm_omni/deploy/bagel_single_stage.yaml",
+        "no-async-chunk": true,
+        "tensor-parallel-size": 1,
+        "cfg-parallel-size": 1,
+        "gpu-memory-utilization": 0.9,
+        "max-model-len": 8192,
+        "max-num-batched-tokens": 9216
+      }
+    },
+    "benchmark_params": {
+      "name": "512x512_t2i_steps20",
+      "dataset": "random",
+      "task": "t2i",
+      "width": 512,
+      "height": 512,
+      "num-inference-steps": 20,
+      "enable-negative-prompt": true,
+      "baseline": {
+        "throughput_qps": 0.3678,
+        "latency_mean": 2.691,
+        "peak_memory_mb_max": 33083.6,
+        "peak_memory_mb_mean": 33082.5
+      },
+      "num-prompts": 20,
+      "request-rate": "inf",
+      "max-concurrency": 1
+    },
+    "result": {
+      "duration": 60.73526142898481,
+      "completed_requests": 20,
+      "failed_requests": 0,
+      "throughput_qps": 0.3292979980564529,
+      "latency_mean": 3.036575936252484,
+      "latency_median": 3.004189588536974,
+      "latency_p99": 3.4364447928790463,
+      "latency_p95": 3.100618648255477,
+      "latency_p50": 3.004189588536974,
+      "peak_memory_mb_max": 29390.0,
+      "peak_memory_mb_mean": 29390.0,
+      "peak_memory_mb_median": 29390.0,
+      "stage_durations_mean": {
+        "BagelPipeline.vae.decode": 0.023301175952656194,
+        "queue_wait_ms": 0.22544630337506533,
+        "stage_0_gen_ms": 2935.5040311813354
+      },
+      "stage_durations_p50": {
+        "BagelPipeline.vae.decode": 0.023154844995588064,
+        "queue_wait_ms": 0.1978524960577488,
+        "stage_0_gen_ms": 2908.929705619812
+      },
+      "stage_durations_p99": {
+        "BagelPipeline.vae.decode": 0.02452589014195837,
+        "queue_wait_ms": 0.4439994099084286,
+        "stage_0_gen_ms": 3341.6449522972102
+      },
+      "endpoint": "/v1/chat/completions",
+      "model": "ByteDance-Seed/BAGEL-7B-MoT",
+      "dataset": "random",
+      "task": "t2i"
+    },
+    "log_file": "tests/dfx/perf/results/logs/test_bagel_single_device_single_stage_t2i_v1_chat_completions_20260621-181658.log",
+    "Model": "ByteDance-Seed/BAGEL-7B-MoT",
+    "Framework": "vllm-omni",
+    "API Endpoint": "/v1/chat/completions",
+    "Hardware": "",
+    "Deployment": "",
+    "Task": "t2i",
+    "Dataset": "random",
+    "resolution": "512x512",
+    "Parallelism": "cfg-parallel-size=1,tensor-parallel-size=1",
+    "max_concurrency": 1,
+    "Cache": "disabled",
+    "Quantization": "disabled",
+    "offload": "disabled",
+    "compile": "enabled",
+    "Attn_backend": "FLASH_ATTN",
+    "num_inference_steps": 20,
+    "completed": 20,
+    "failed": 0,
+    "throughput_qps": 0.3292979980564529,
+    "latency_mean": 3.036575936252484,
+    "latency_median": 3.004189588536974,
+    "latency_p99": 3.4364447928790463,
+    "latency_p95": 3.100618648255477,
+    "latency_p50": 3.004189588536974,
+    "peak_memory_mb_max": 29390.0,
+    "peak_memory_mb_mean": 29390.0,
+    "peak_memory_mb_median": 29390.0,
+    "stage_durations_mean": {
+      "BagelPipeline.vae.decode": 0.023301175952656194,
+      "queue_wait_ms": 0.22544630337506533,
+      "stage_0_gen_ms": 2935.5040311813354
+    },
+    "stage_durations_p50": {
+      "BagelPipeline.vae.decode": 0.023154844995588064,
+      "queue_wait_ms": 0.1978524960577488,
+      "stage_0_gen_ms": 2908.929705619812
+    },
+    "stage_durations_p99": {
+      "BagelPipeline.vae.decode": 0.02452589014195837,
+      "queue_wait_ms": 0.4439994099084286,
+      "stage_0_gen_ms": 3341.6449522972102
+    },
+    "commit_sha": "fc32d9fe6f90843fdadceee593da79206b4e018d",
+    "build_id": "019eeb56-f07b-4c7d-89a8-ae72dd2f5684",
+    "build_url": "https://buildkite.com/vllm/vllm-omni/builds/11630",
+    "source_file": "tests/dfx/perf/tests/test_bagel_vllm_omni.json"
+  },
+  {
+    "test_name": "test_bagel_single_device_single_stage_i2i",
+    "endpoint": "/v1/chat/completions",
+    "timestamp": "20260621-182036",
+    "server_params": {
+      "model": "ByteDance-Seed/BAGEL-7B-MoT",
+      "serve_args": {
+        "enable-diffusion-pipeline-profiler": true,
+        "deploy-config": "../vllm_omni/deploy/bagel_single_stage.yaml",
+        "no-async-chunk": true,
+        "tensor-parallel-size": 1,
+        "cfg-parallel-size": 1,
+        "gpu-memory-utilization": 0.9,
+        "max-model-len": 8192,
+        "max-num-batched-tokens": 9216
+      }
+    },
+    "benchmark_params": {
+      "name": "512x512_i2i_steps20",
+      "dataset": "random",
+      "task": "i2i",
+      "width": 512,
+      "height": 512,
+      "num-inference-steps": 20,
+      "enable-negative-prompt": true,
+      "num-input-images": 1,
+      "baseline": {
+        "throughput_qps": 0.3124,
+        "latency_mean": 3.1686,
+        "peak_memory_mb_max": 33448.8,
+        "peak_memory_mb_mean": 33447.7
+      },
+      "num-prompts": 20,
+      "request-rate": "inf",
+      "max-concurrency": 1
+    },
+    "result": {
+      "duration": 68.73977713298518,
+      "completed_requests": 20,
+      "failed_requests": 0,
+      "throughput_qps": 0.29095235443239287,
+      "latency_mean": 3.436789549747482,
+      "latency_median": 3.372696600505151,
+      "latency_p99": 3.907365319898817,
+      "latency_p95": 3.712117359612603,
+      "latency_p50": 3.372696600505151,
+      "peak_memory_mb_max": 29994.0,
+      "peak_memory_mb_mean": 29994.0,
+      "peak_memory_mb_median": 29994.0,
+      "stage_durations_mean": {
+        "BagelPipeline.vae.encode": 0.01536917065968737,
+        "BagelPipeline.vae.decode": 0.023443229007534684,
+        "queue_wait_ms": 0.18326010322198272,
+        "stage_0_gen_ms": 3319.1482067108154
+      },
+      "stage_durations_p50": {
+        "BagelPipeline.vae.encode": 0.015333879506215453,
+        "BagelPipeline.vae.decode": 0.023457639443222433,
+        "queue_wait_ms": 0.1728429924696684,
+        "stage_0_gen_ms": 3254.2738914489746
+      },
+      "stage_durations_p99": {
+        "BagelPipeline.vae.encode": 0.015941261212574317,
+        "BagelPipeline.vae.decode": 0.02374467589543201,
+        "queue_wait_ms": 0.3189125494100152,
+        "stage_0_gen_ms": 3770.218923091888
+      },
+      "endpoint": "/v1/chat/completions",
+      "model": "ByteDance-Seed/BAGEL-7B-MoT",
+      "dataset": "random",
+      "task": "i2i"
+    },
+    "log_file": "tests/dfx/perf/results/logs/test_bagel_single_device_single_stage_i2i_v1_chat_completions_20260621-182036.log",
+    "Model": "ByteDance-Seed/BAGEL-7B-MoT",
+    "Framework": "vllm-omni",
+    "API Endpoint": "/v1/chat/completions",
+    "Hardware": "",
+    "Deployment": "",
+    "Task": "i2i",
+    "Dataset": "random",
+    "resolution": "512x512",
+    "Parallelism": "cfg-parallel-size=1,tensor-parallel-size=1",
+    "max_concurrency": 1,
+    "Cache": "disabled",
+    "Quantization": "disabled",
+    "offload": "disabled",
+    "compile": "enabled",
+    "Attn_backend": "FLASH_ATTN",
+    "num_inference_steps": 20,
+    "completed": 20,
+    "failed": 0,
+    "throughput_qps": 0.29095235443239287,
+    "latency_mean": 3.436789549747482,
+    "latency_median": 3.372696600505151,
+    "latency_p99": 3.907365319898817,
+    "latency_p95": 3.712117359612603,
+    "latency_p50": 3.372696600505151,
+    "peak_memory_mb_max": 29994.0,
+    "peak_memory_mb_mean": 29994.0,
+    "peak_memory_mb_median": 29994.0,
+    "stage_durations_mean": {
+      "BagelPipeline.vae.encode": 0.01536917065968737,
+      "BagelPipeline.vae.decode": 0.023443229007534684,
+      "queue_wait_ms": 0.18326010322198272,
+      "stage_0_gen_ms": 3319.1482067108154
+    },
+    "stage_durations_p50": {
+      "BagelPipeline.vae.encode": 0.015333879506215453,
+      "BagelPipeline.vae.decode": 0.023457639443222433,
+      "queue_wait_ms": 0.1728429924696684,
+      "stage_0_gen_ms": 3254.2738914489746
+    },
+    "stage_durations_p99": {
+      "BagelPipeline.vae.encode": 0.015941261212574317,
+      "BagelPipeline.vae.decode": 0.02374467589543201,
+      "queue_wait_ms": 0.3189125494100152,
+      "stage_0_gen_ms": 3770.218923091888
+    },
+    "commit_sha": "fc32d9fe6f90843fdadceee593da79206b4e018d",
+    "build_id": "019eeb56-f07b-4c7d-89a8-ae72dd2f5684",
+    "build_url": "https://buildkite.com/vllm/vllm-omni/builds/11630",
+    "source_file": "tests/dfx/perf/tests/test_bagel_vllm_omni.json"
+  },
+  {
+    "test_name": "test_bagel_single_device_multi_stage_t2i",
+    "endpoint": "/v1/chat/completions",
+    "timestamp": "20260621-182852",
+    "server_params": {
+      "model": "ByteDance-Seed/BAGEL-7B-MoT",
+      "serve_args": {
+        "enable-diffusion-pipeline-profiler": true,
+        "deploy-config": "../vllm_omni/deploy/bagel.yaml",
+        "no-async-chunk": true,
+        "tensor-parallel-size": 1,
+        "cfg-parallel-size": 1,
+        "gpu-memory-utilization": 0.45,
+        "max-model-len": 8192,
+        "max-num-batched-tokens": 9216
+      }
+    },
+    "benchmark_params": {
+      "name": "512x512_t2i_steps20",
+      "dataset": "random",
+      "task": "t2i",
+      "width": 512,
+      "height": 512,
+      "num-inference-steps": 20,
+      "enable-negative-prompt": true,
+      "baseline": {
+        "throughput_qps": 0.3746,
+        "latency_mean": 2.6425,
+        "peak_memory_mb_max": 33077.0,
+        "peak_memory_mb_mean": 33077.0
+      },
+      "num-prompts": 20,
+      "request-rate": "inf",
+      "max-concurrency": 1
+    },
+    "result": {
+      "duration": 58.06524428492412,
+      "completed_requests": 20,
+      "failed_requests": 0,
+      "throughput_qps": 0.34444012500594506,
+      "latency_mean": 2.903075318725314,
+      "latency_median": 2.8848454779945314,
+      "latency_p99": 3.081241690638708,
+      "latency_p95": 3.0397600410098677,
+      "latency_p50": 2.8848454779945314,
+      "peak_memory_mb_max": 29378.0,
+      "peak_memory_mb_mean": 29378.0,
+      "peak_memory_mb_median": 29378.0,
+      "stage_durations_mean": {
+        "BagelPipeline.vae.decode": 0.023283763061044738,
+        "queue_wait_ms": 0.37146363174542785,
+        "preprocess_ms": 1.172978652175516,
+        "stage_0_gen_ms": 35.16509532928467,
+        "stage_1_gen_ms": 2790.8257246017456
+      },
+      "stage_durations_p50": {
+        "BagelPipeline.vae.decode": 0.023236718960106373,
+        "queue_wait_ms": 0.41245948523283005,
+        "preprocess_ms": 1.1097485548816621,
+        "stage_0_gen_ms": 31.589865684509277,
+        "stage_1_gen_ms": 2777.3040533065796
+      },
+      "stage_durations_p99": {
+        "BagelPipeline.vae.decode": 0.02364842812065035,
+        "queue_wait_ms": 0.637708306312561,
+        "preprocess_ms": 1.810428276658058,
+        "stage_0_gen_ms": 45.89609622955322,
+        "stage_1_gen_ms": 2977.919647693634
+      },
+      "endpoint": "/v1/chat/completions",
+      "model": "ByteDance-Seed/BAGEL-7B-MoT",
+      "dataset": "random",
+      "task": "t2i"
+    },
+    "log_file": "tests/dfx/perf/results/logs/test_bagel_single_device_multi_stage_t2i_v1_chat_completions_20260621-182852.log",
+    "Model": "ByteDance-Seed/BAGEL-7B-MoT",
+    "Framework": "vllm-omni",
+    "API Endpoint": "/v1/chat/completions",
+    "Hardware": "",
+    "Deployment": "",
+    "Task": "t2i",
+    "Dataset": "random",
+    "resolution": "512x512",
+    "Parallelism": "cfg-parallel-size=1,tensor-parallel-size=1",
+    "max_concurrency": 1,
+    "Cache": "disabled",
+    "Quantization": "disabled",
+    "offload": "disabled",
+    "compile": "enabled",
+    "Attn_backend": "FLASH_ATTN",
+    "num_inference_steps": 20,
+    "completed": 20,
+    "failed": 0,
+    "throughput_qps": 0.34444012500594506,
+    "latency_mean": 2.903075318725314,
+    "latency_median": 2.8848454779945314,
+    "latency_p99": 3.081241690638708,
+    "latency_p95": 3.0397600410098677,
+    "latency_p50": 2.8848454779945314,
+    "peak_memory_mb_max": 29378.0,
+    "peak_memory_mb_mean": 29378.0,
+    "peak_memory_mb_median": 29378.0,
+    "stage_durations_mean": {
+      "BagelPipeline.vae.decode": 0.023283763061044738,
+      "queue_wait_ms": 0.37146363174542785,
+      "preprocess_ms": 1.172978652175516,
+      "stage_0_gen_ms": 35.16509532928467,
+      "stage_1_gen_ms": 2790.8257246017456
+    },
+    "stage_durations_p50": {
+      "BagelPipeline.vae.decode": 0.023236718960106373,
+      "queue_wait_ms": 0.41245948523283005,
+      "preprocess_ms": 1.1097485548816621,
+      "stage_0_gen_ms": 31.589865684509277,
+      "stage_1_gen_ms": 2777.3040533065796
+    },
+    "stage_durations_p99": {
+      "BagelPipeline.vae.decode": 0.02364842812065035,
+      "queue_wait_ms": 0.637708306312561,
+      "preprocess_ms": 1.810428276658058,
+      "stage_0_gen_ms": 45.89609622955322,
+      "stage_1_gen_ms": 2977.919647693634
+    },
+    "commit_sha": "fc32d9fe6f90843fdadceee593da79206b4e018d",
+    "build_id": "019eeb56-f07b-4c7d-89a8-ae72dd2f5684",
+    "build_url": "https://buildkite.com/vllm/vllm-omni/builds/11630",
+    "source_file": "tests/dfx/perf/tests/test_bagel_vllm_omni.json"
+  },
+  {
+    "test_name": "test_bagel_single_device_multi_stage_i2i",
+    "endpoint": "/v1/chat/completions",
+    "timestamp": "20260621-183704",
+    "server_params": {
+      "model": "ByteDance-Seed/BAGEL-7B-MoT",
+      "serve_args": {
+        "enable-diffusion-pipeline-profiler": true,
+        "deploy-config": "../vllm_omni/deploy/bagel.yaml",
+        "no-async-chunk": true,
+        "tensor-parallel-size": 1,
+        "cfg-parallel-size": 1,
+        "gpu-memory-utilization": 0.45,
+        "max-model-len": 8192,
+        "max-num-batched-tokens": 9216
+      }
+    },
+    "benchmark_params": {
+      "name": "512x512_i2i_steps20",
+      "dataset": "random",
+      "task": "i2i",
+      "width": 512,
+      "height": 512,
+      "num-inference-steps": 20,
+      "enable-negative-prompt": true,
+      "num-input-images": 1,
+      "baseline": {
+        "throughput_qps": 0.1349,
+        "latency_mean": 7.339,
+        "peak_memory_mb_max": 33321.2,
+        "peak_memory_mb_mean": 33321.2
+      },
+      "num-prompts": 20,
+      "request-rate": "inf",
+      "max-concurrency": 1
+    },
+    "result": {
+      "duration": 142.3870661020046,
+      "completed_requests": 20,
+      "failed_requests": 0,
+      "throughput_qps": 0.14046219609351462,
+      "latency_mean": 7.119166135473643,
+      "latency_median": 7.173979650542606,
+      "latency_p99": 7.5052100532420445,
+      "latency_p95": 7.346552546002203,
+      "latency_p50": 7.173979650542606,
+      "peak_memory_mb_max": 29830.0,
+      "peak_memory_mb_mean": 29830.0,
+      "peak_memory_mb_median": 29830.0,
+      "stage_durations_mean": {
+        "BagelPipeline.vae.decode": 0.023210487421602012,
+        "queue_wait_ms": 0.8952973468694836,
+        "preprocess_ms": 7.638294750358909,
+        "stage_0_gen_ms": 2138.6675119400024,
+        "stage_1_gen_ms": 3881.4091324806213
+      },
+      "stage_durations_p50": {
+        "BagelPipeline.vae.decode": 0.023116472526453435,
+        "queue_wait_ms": 0.8943270076997578,
+        "preprocess_ms": 7.664949982427061,
+        "stage_0_gen_ms": 2126.931309700012,
+        "stage_1_gen_ms": 3876.0393857955933
+      },
+      "stage_durations_p99": {
+        "BagelPipeline.vae.decode": 0.024107573881046847,
+        "queue_wait_ms": 1.1118273285683244,
+        "preprocess_ms": 9.629643755033612,
+        "stage_0_gen_ms": 2249.9060773849487,
+        "stage_1_gen_ms": 4244.472515583038
+      },
+      "endpoint": "/v1/chat/completions",
+      "model": "ByteDance-Seed/BAGEL-7B-MoT",
+      "dataset": "random",
+      "task": "i2i"
+    },
+    "log_file": "tests/dfx/perf/results/logs/test_bagel_single_device_multi_stage_i2i_v1_chat_completions_20260621-183704.log",
+    "Model": "ByteDance-Seed/BAGEL-7B-MoT",
+    "Framework": "vllm-omni",
+    "API Endpoint": "/v1/chat/completions",
+    "Hardware": "",
+    "Deployment": "",
+    "Task": "i2i",
+    "Dataset": "random",
+    "resolution": "512x512",
+    "Parallelism": "cfg-parallel-size=1,tensor-parallel-size=1",
+    "max_concurrency": 1,
+    "Cache": "disabled",
+    "Quantization": "disabled",
+    "offload": "disabled",
+    "compile": "enabled",
+    "Attn_backend": "FLASH_ATTN",
+    "num_inference_steps": 20,
+    "completed": 20,
+    "failed": 0,
+    "throughput_qps": 0.14046219609351462,
+    "latency_mean": 7.119166135473643,
+    "latency_median": 7.173979650542606,
+    "latency_p99": 7.5052100532420445,
+    "latency_p95": 7.346552546002203,
+    "latency_p50": 7.173979650542606,
+    "peak_memory_mb_max": 29830.0,
+    "peak_memory_mb_mean": 29830.0,
+    "peak_memory_mb_median": 29830.0,
+    "stage_durations_mean": {
+      "BagelPipeline.vae.decode": 0.023210487421602012,
+      "queue_wait_ms": 0.8952973468694836,
+      "preprocess_ms": 7.638294750358909,
+      "stage_0_gen_ms": 2138.6675119400024,
+      "stage_1_gen_ms": 3881.4091324806213
+    },
+    "stage_durations_p50": {
+      "BagelPipeline.vae.decode": 0.023116472526453435,
+      "queue_wait_ms": 0.8943270076997578,
+      "preprocess_ms": 7.664949982427061,
+      "stage_0_gen_ms": 2126.931309700012,
+      "stage_1_gen_ms": 3876.0393857955933
+    },
+    "stage_durations_p99": {
+      "BagelPipeline.vae.decode": 0.024107573881046847,
+      "queue_wait_ms": 1.1118273285683244,
+      "preprocess_ms": 9.629643755033612,
+      "stage_0_gen_ms": 2249.9060773849487,
+      "stage_1_gen_ms": 4244.472515583038
+    },
+    "commit_sha": "fc32d9fe6f90843fdadceee593da79206b4e018d",
+    "build_id": "019eeb56-f07b-4c7d-89a8-ae72dd2f5684",
+    "build_url": "https://buildkite.com/vllm/vllm-omni/builds/11630",
+    "source_file": "tests/dfx/perf/tests/test_bagel_vllm_omni.json"
+  }
+]
