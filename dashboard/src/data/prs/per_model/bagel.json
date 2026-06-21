@@ -3516,36 +3516,6 @@
       ],
       "title": "[Feature][RL] Support batching for QwenImage in async mode (#1593)",
       "url": "https://github.com/vllm-project/vllm-omni/pull/1593"
-    },
-    {
-      "author": "Du Bin",
-      "merged_at": "2026-03-22T14:32:51+08:00",
-      "number": 1691,
-      "platform_paths": [
-        "vllm_omni/core/sched/omni_generation_scheduler.py"
-      ],
-      "title": "[Bugfix] Restore chunk-waiting requests on OmniNewRequestData rewrap failure (#1691)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1691"
-    },
-    {
-      "author": "zJ",
-      "merged_at": "2026-03-22T10:13:01+01:00",
-      "number": 2050,
-      "platform_paths": [
-        "vllm_omni/entrypoints/openai/api_server.py"
-      ],
-      "title": "[Fix] Fix non-unique request IDs in /v1/images/edits endpoint (#2050)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/2050"
-    },
-    {
-      "author": "Alex Brooks",
-      "merged_at": "2026-03-22T04:27:28-06:00",
-      "number": 1768,
-      "platform_paths": [
-        "vllm_omni/engine/arg_utils.py"
-      ],
-      "title": "[Core] Simplify OmniModelConfig Initialization (#1768)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1768"
     }
   ]
 }
