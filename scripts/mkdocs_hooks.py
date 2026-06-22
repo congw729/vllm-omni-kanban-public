@@ -31,6 +31,7 @@ _BUILDKITE_RAW_SYNCS: tuple[tuple[str, str], ...] = (
     ("hunyuan_image3", "hunyuan_image3"),
     ("bagel", "bagel"),
     ("voxcpm2", "voxcpm2"),
+    ("higgs_audio_v3", "higgs_audio_v3"),
 )
 
 _LOCAL_RAW_SYNCS: tuple[tuple[str, str], ...] = (

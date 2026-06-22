@@ -31,6 +31,7 @@ HUNYUAN_IMAGE3_ACCURACY_PATH = CHARTS_DIR / "hunyuan_image3_accuracy.json"
 LOCAL_RAW_DIR = DATA_DIR / "local_nightly_raw"
 BAGEL_HISTORY_PATH = CHARTS_DIR / "bagel_history.json"
 VOXCPM2_HISTORY_PATH = CHARTS_DIR / "voxcpm2_history.json"
+HIGGS_AUDIO_V3_HISTORY_PATH = CHARTS_DIR / "higgs_audio_v3_history.json"
 DEFAULT_RESULT_DATASETS = frozenset({"random", "random-mm"})
 QWEN3_OMNI_DATASETS = set(DEFAULT_RESULT_DATASETS)  # backward compat
 QWEN3_OMNI_GROUP_FIELDS = (
@@ -116,6 +117,11 @@ MODEL_METRICS = {
         ("peak_memory_gb", None, None),
     ],
     "VoxCPM2": [
+        ("ttfp_ms", None, None),
+        ("real_time_factor", None, None),
+        ("throughput_tokens_per_sec", None, None),
+    ],
+    "Higgs-Audio-V3": [
         ("ttfp_ms", None, None),
         ("real_time_factor", None, None),
         ("throughput_tokens_per_sec", None, None),
@@ -802,6 +808,14 @@ def build_voxcpm2_history_payload(config: dict[str, Any], source_dir: Path) -> d
     return _history_payload_from_records(config, source_dir, "voxcpm2_history", display, QWEN3_TTS_GROUP_FIELDS, records)
 
 
+def build_higgs_audio_v3_history_payload(config: dict[str, Any], source_dir: Path) -> dict[str, Any]:
+    display = config.get("models", {}).get("Higgs-Audio-V3", {}).get("display_name", "Higgs Audio V3")
+    page_config = config.get("kanban_pages", {}).get("higgs_audio_v3_history", {})
+    ds_names = page_config.get("dataset_names", ["seed-tts-text"])
+    records = load_result_test_history(source_dir, frozenset(ds_names)) if source_dir.is_dir() else []
+    return _history_payload_from_records(config, source_dir, "higgs_audio_v3_history", display, QWEN3_TTS_GROUP_FIELDS, records)
+
+
 def build_multi_series_chart(
     dates: list[str],
     hardware_items: list[tuple[str, str]],
@@ -893,6 +907,8 @@ def main() -> int:
     save_json(BAGEL_HISTORY_PATH, build_bagel_history_payload(config, bagel_source_dir))
     voxcpm2_source_dir = RESULTS_DIR / config.get("kanban_pages", {}).get("voxcpm2_history", {}).get("source_dir", "voxcpm2")
     save_json(VOXCPM2_HISTORY_PATH, build_voxcpm2_history_payload(config, voxcpm2_source_dir))
+    higgs_audio_v3_source_dir = RESULTS_DIR / config.get("kanban_pages", {}).get("higgs_audio_v3_history", {}).get("source_dir", "higgs_audio_v3")
+    save_json(HIGGS_AUDIO_V3_HISTORY_PATH, build_higgs_audio_v3_history_payload(config, higgs_audio_v3_source_dir))
     for model, model_config in config.get("models", {}).items():
         available_metrics = set(model_config["metrics"]["required"]) | set(model_config["metrics"]["optional"])
         for metric, y_min, y_max in MODEL_METRICS.get(model, []):

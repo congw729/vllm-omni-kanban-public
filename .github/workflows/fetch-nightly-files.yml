@@ -142,6 +142,10 @@ jobs:
           pip install -r requirements.txt 2>/dev/null || pip install mkdocs-material
           mkdocs build
 
+      - name: Check MkDocs model coverage
+        if: hashFiles('mkdocs.yml') != '' && steps.commit_push.outputs.changed == 'true'
+        run: python scripts/check_mkdocs_model_coverage.py || true
+
       - name: Deploy MkDocs to gh-pages (preserves /dashboard/ and other subpaths)
         if: hashFiles('mkdocs.yml') != '' && steps.commit_push.outputs.changed == 'true'
         # Was `mkdocs gh-deploy --force`, which orphan-force-pushed gh-pages and

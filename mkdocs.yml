@@ -42,6 +42,7 @@ nav:
       - Hunyuan Image 3: models/hunyuan-image3.md
       - BAGEL: models/bagel.md
       - VoxCPM2: models/voxcpm2.md
+      - Higgs Audio V3: models/higgs-audio-v3.md
   - Alerts: alerts.md
   - Reports: reports.md
 extra_javascript:

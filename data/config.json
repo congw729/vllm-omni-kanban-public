@@ -111,6 +111,17 @@
       "alert_overrides": {
         "latency_p99_ms_critical": 2000
       }
+    },
+    "Higgs-Audio-V3": {
+      "display_name": "Higgs Audio V3",
+      "category": "audio_synthesis",
+      "metrics": {
+        "required": ["pass_rate", "latency_p99_ms"],
+        "optional": ["ttft_ms", "tpot_ms", "ttfp_ms", "real_time_factor", "throughput_tokens_per_sec", "audio_quality_mos", "speaker_similarity"]
+      },
+      "alert_overrides": {
+        "latency_p99_ms_critical": 2000
+      }
     }
   },
   "kanban_pages": {
@@ -772,6 +783,83 @@
         "p99_audio_duration_s"
       ],
       "metric_groups": [
+        {
+          "id": "total_token_throughput",
+          "title": "Total Token Throughput",
+          "metrics": ["total_token_throughput"]
+        },
+        {
+          "id": "e2el",
+          "title": "E2EL",
+          "metrics": ["mean_e2el_ms"]
+        },
+        {
+          "id": "audio_rtf",
+          "title": "Audio RTF",
+          "metrics": ["mean_audio_rtf"]
+        },
+        {
+          "id": "audio_ttfp",
+          "title": "Audio TTFP",
+          "metrics": ["mean_audio_ttfp_ms"]
+        },
+        {
+          "id": "audio_duration",
+          "title": "Audio Duration",
+          "metrics": ["mean_audio_duration_s"]
+        }
+      ]
+    },
+    "higgs_audio_v3_history": {
+      "source_dir": "higgs_audio_v3",
+      "chart_point_per_day": true,
+      "dataset_names": ["seed-tts-text"],
+      "filters": [
+        "test_name",
+        "dataset_name",
+        "max_concurrency",
+        "num_prompts",
+        "qps",
+        "input_len",
+        "output_len"
+      ],
+      "table_columns": [
+        "date",
+        "test_name",
+        "dataset_name",
+        "max_concurrency",
+        "max_concurrent_requests",
+        "num_prompts",
+        "request_rate",
+        "random_input_len",
+        "random_output_len",
+        "completed_requests",
+        "failed_requests",
+        "endpoint_type",
+        "backend",
+        "model_id",
+        "request_throughput",
+        "total_token_throughput",
+        "audio_throughput",
+        "mean_e2el_ms",
+        "median_e2el_ms",
+        "p99_e2el_ms",
+        "mean_audio_rtf",
+        "median_audio_rtf",
+        "p99_audio_rtf",
+        "mean_audio_ttfp_ms",
+        "median_audio_ttfp_ms",
+        "p99_audio_ttfp_ms",
+        "mean_audio_duration_s",
+        "median_audio_duration_s",
+        "p99_audio_duration_s"
+      ],
+      "metric_groups": [
+        {
+          "id": "audio_throughput",
+          "title": "Audio Throughput",
+          "metrics": ["audio_throughput"]
+        },
         {
           "id": "total_token_throughput",
           "title": "Total Token Throughput",

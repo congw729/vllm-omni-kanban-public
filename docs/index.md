@@ -64,6 +64,11 @@ This dashboard tracks one daily snapshot per model and hardware combination for 
     <strong>VoxCPM2</strong>
     <span>RTF, TTFP, E2E latency, throughput</span>
   </a>
+  <a class="model-directory-card" href="models/higgs-audio-v3/">
+    <span class="model-directory-card__eyebrow">Audio Synthesis</span>
+    <strong>Higgs Audio V3</strong>
+    <span>Audio throughput, RTF, TTFP, E2E latency</span>
+  </a>
 </div>
 
 ## Recent Alerts

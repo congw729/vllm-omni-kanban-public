@@ -878,6 +878,7 @@ function abbreviateTestName(raw) {
     .replace(/^test_qwen_image_/, "")
     .replace(/^test_qwen3_omni_/, "")
     .replace(/^test_qwen3_tts_/, "")
+    .replace(/^test_higgs_audio_v3_/, "")
     .replace(/^test_/, "");
 }
 
