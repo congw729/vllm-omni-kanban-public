@@ -40,14 +40,6 @@
       "tag_matched": "BAGEL",
       "title": "[BAGEL] [Feature]: Add `thinking mode` in Bagel multi-stage serving (#2447)",
       "url": "https://github.com/vllm-project/vllm-omni/pull/2447"
-    },
-    {
-      "author": "\u6c6a\u5fd7\u9e4f",
-      "merged_at": "2026-03-23T21:52:50+08:00",
-      "number": 1903,
-      "tag_matched": "BAGEL",
-      "title": "[Bagel]: Support SP (#1903)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1903"
     }
   ],
   "model_id": "bagel",
@@ -3458,18 +3450,6 @@
       "url": "https://github.com/vllm-project/vllm-omni/pull/2105"
     },
     {
-      "author": "Didan Deng",
-      "merged_at": "2026-03-24T00:19:20+08:00",
-      "number": 1805,
-      "platform_paths": [
-        "vllm_omni/entrypoints/omni_base.py",
-        "vllm_omni/entrypoints/openai/serving_chat.py",
-        "vllm_omni/outputs.py"
-      ],
-      "title": "[Perf] Qwen-Image Performance Nightly CI test (#1805)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1805"
-    },
-    {
       "author": "Chendi.Xue",
       "merged_at": "2026-03-24T00:00:21-05:00",
       "number": 1826,
@@ -3478,44 +3458,6 @@
       ],
       "title": "[BugFIX] enable Hunyuan image3 with stage selection among text_to_image/image_to_text (#1826)",
       "url": "https://github.com/vllm-project/vllm-omni/pull/1826"
-    },
-    {
-      "author": "Megha Agarwal",
-      "merged_at": "2026-03-23T20:03:01+05:30",
-      "number": 1816,
-      "platform_paths": [
-        "vllm_omni/engine/arg_utils.py",
-        "vllm_omni/engine/mm_outputs.py",
-        "vllm_omni/engine/output_modality.py"
-      ],
-      "title": "[Feat] Phase 1 foundation types for multimodal output decoupling (#1816)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1816"
-    },
-    {
-      "author": "Juan Pablo Zuluaga",
-      "merged_at": "2026-03-23T18:09:04+01:00",
-      "number": 2102,
-      "platform_paths": [
-        "vllm_omni/distributed/omni_connectors/transfer_adapter/base.py",
-        "vllm_omni/distributed/omni_connectors/transfer_adapter/chunk_transfer_adapter.py"
-      ],
-      "title": "[Bugfix][Chunk Transfer Adapter] deque mutated fix  (#2102)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/2102"
-    },
-    {
-      "author": "knlnguyen1802",
-      "merged_at": "2026-03-23T17:08:24+07:00",
-      "number": 1593,
-      "platform_paths": [
-        "vllm_omni/engine/async_omni_engine.py",
-        "vllm_omni/engine/orchestrator.py",
-        "vllm_omni/engine/stage_init_utils.py",
-        "vllm_omni/entrypoints/async_omni.py",
-        "vllm_omni/entrypoints/async_omni_diffusion.py",
-        "vllm_omni/entrypoints/omni_base.py"
-      ],
-      "title": "[Feature][RL] Support batching for QwenImage in async mode (#1593)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1593"
     }
   ]
 }
