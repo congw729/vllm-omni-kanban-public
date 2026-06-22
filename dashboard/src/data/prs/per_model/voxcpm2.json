@@ -3498,18 +3498,6 @@
       "url": "https://github.com/vllm-project/vllm-omni/pull/1963"
     },
     {
-      "author": "rongfu.leng",
-      "merged_at": "2026-03-24T13:02:35+08:00",
-      "number": 1955,
-      "platform_paths": [
-        "vllm_omni/entrypoints/openai/api_server.py",
-        "vllm_omni/entrypoints/openai/protocol/videos.py",
-        "vllm_omni/entrypoints/openai/serving_video.py"
-      ],
-      "title": "[Feature] Add a extra body param in create video api (#1955)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1955"
-    },
-    {
       "author": "Nick Cao",
       "merged_at": "2026-03-24T10:29:38-04:00",
       "number": 2105,
@@ -3521,16 +3509,6 @@
       ],
       "title": "[Feat] Support scalar types in AdditionalInformationEntry (#2105)",
       "url": "https://github.com/vllm-project/vllm-omni/pull/2105"
-    },
-    {
-      "author": "Chendi.Xue",
-      "merged_at": "2026-03-24T00:00:21-05:00",
-      "number": 1826,
-      "platform_paths": [
-        "vllm_omni/entrypoints/utils.py"
-      ],
-      "title": "[BugFIX] enable Hunyuan image3 with stage selection among text_to_image/image_to_text (#1826)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1826"
     }
   ]
 }
