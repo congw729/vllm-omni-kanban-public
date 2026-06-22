@@ -261,6 +261,7 @@
         "backend",
         "model_id",
         "request_throughput",
+        "audio_throughput",
         "total_token_throughput",
         "mean_e2el_ms",
         "median_e2el_ms",
@@ -282,6 +283,11 @@
           "metrics": ["total_token_throughput"]
         },
         {
+          "id": "audio_throughput",
+          "title": "Audio Throughput",
+          "metrics": ["audio_throughput"]
+        },
+        {
           "id": "e2el",
           "title": "E2EL",
           "metrics": ["mean_e2el_ms"]
@@ -300,6 +306,18 @@
           "id": "audio_duration",
           "title": "Audio Duration",
           "metrics": ["mean_audio_duration_s"]
+        },
+        {
+          "id": "median_audio_rtf",
+          "title": "Median Audio RTF",
+          "metrics": ["median_audio_rtf"],
+          "collapsed": true
+        },
+        {
+          "id": "median_audio_ttfp",
+          "title": "Median Audio TTFP",
+          "metrics": ["median_audio_ttfp_ms"],
+          "collapsed": true
         }
       ]
     },
@@ -768,6 +786,7 @@
         "backend",
         "model_id",
         "request_throughput",
+        "audio_throughput",
         "total_token_throughput",
         "mean_e2el_ms",
         "median_e2el_ms",
@@ -789,6 +808,11 @@
           "metrics": ["total_token_throughput"]
         },
         {
+          "id": "audio_throughput",
+          "title": "Audio Throughput",
+          "metrics": ["audio_throughput"]
+        },
+        {
           "id": "e2el",
           "title": "E2EL",
           "metrics": ["mean_e2el_ms"]
@@ -807,6 +831,18 @@
           "id": "audio_duration",
           "title": "Audio Duration",
           "metrics": ["mean_audio_duration_s"]
+        },
+        {
+          "id": "median_audio_rtf",
+          "title": "Median Audio RTF",
+          "metrics": ["median_audio_rtf"],
+          "collapsed": true
+        },
+        {
+          "id": "median_audio_ttfp",
+          "title": "Median Audio TTFP",
+          "metrics": ["median_audio_ttfp_ms"],
+          "collapsed": true
         }
       ]
     },

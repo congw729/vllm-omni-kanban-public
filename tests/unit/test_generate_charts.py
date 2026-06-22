@@ -15,6 +15,23 @@ from scripts.generate_charts import (
 )
 
 
+def _run_generate_charts(repo_root: Path) -> subprocess.CompletedProcess[str]:
+    result = subprocess.run(
+        [sys.executable, "scripts/generate_charts.py"],
+        cwd=repo_root,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    if result.returncode != 0:
+        raise RuntimeError(
+            f"generate_charts.py failed with exit code {result.returncode}.\n"
+            f"STDOUT:\n{result.stdout}\n"
+            f"STDERR:\n{result.stderr}",
+        )
+    return result
+
+
 def test_parse_qwen3_omni_filename_supports_expected_layout() -> None:
     parsed = parse_qwen3_omni_filename(Path("result_test_qwen3_omni_chunk_random_4_40_20260310-182556.json"))
     assert parsed == {
@@ -291,14 +308,31 @@ def test_result_test_optional_baseline_object(tmp_path: Path, repo_root: Path) -
     assert rec["baseline_output_throughput"] == 9.9
 
 
+def test_history_baseline_metrics_are_rendered_as_chart_metrics(repo_root: Path) -> None:
+    result = _run_generate_charts(repo_root)
+    assert result.returncode == 0
+
+    charts_dir = repo_root / "docs" / "assets" / "charts"
+    for path in sorted(charts_dir.glob("*_history.json")):
+        payload = json.loads(path.read_text(encoding="utf-8"))
+        chart_metrics = {
+            metric
+            for group in payload.get("metric_groups", [])
+            for metric in group.get("metrics", [])
+            if isinstance(metric, str)
+        }
+        baseline_metrics = {
+            key[len("baseline_") :]
+            for record in payload.get("records", [])
+            for key in record
+            if key.startswith("baseline_")
+        }
+        missing = sorted(baseline_metrics - chart_metrics)
+        assert not missing, f"{path.name} has baseline metrics without charts: {missing}"
+
+
 def test_output_files_created(repo_root: Path) -> None:
-    result = subprocess.run(
-        [sys.executable, "scripts/generate_charts.py"],
-        cwd=repo_root,
-        capture_output=True,
-        text=True,
-        check=False,
-    )
+    result = _run_generate_charts(repo_root)
     assert result.returncode == 0
     assert (repo_root / "docs" / "assets" / "charts" / "qwen3_omni_throughput_tokens_per_sec_1d.json").exists()
     assert (repo_root / "docs" / "assets" / "charts" / "qwen3_omni_throughput_tokens_per_sec_7d.json").exists()
