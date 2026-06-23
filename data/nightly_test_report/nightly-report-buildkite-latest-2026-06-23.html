@@ -1,0 +1,1932 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>vLLM-Omni Nightly Test Report - 2026-06-23</title>
+<style>
+
+:root {
+  /* Dashboard palette (aligned with omni docs / slate home — cool gray, blue accent) */
+  --dashboard-bg: #f5f8fb;
+  --dashboard-panel-bg: #ffffff;
+  --dashboard-panel-strong: #f1f5f9;
+  --dashboard-border: #d9e2ec;
+  --dashboard-border-strong: #d6dde6;
+  --dashboard-text: #26323f;
+  --dashboard-muted: #607080;
+  --dashboard-soft-text: #52606d;
+  --dashboard-shadow: 0 18px 38px rgba(15, 23, 42, 0.08);
+  --dashboard-badge-bg: #edf3f8;
+  --dashboard-badge-text: #435466;
+  --dashboard-chart-text: #5b6775;
+  --dashboard-chart-grid: rgba(148, 163, 184, 0.2);
+  --omni-baseline-line: #64748b;
+  --omni-baseline-label-bg: rgba(241, 245, 249, 0.96);
+  --omni-baseline-label-fg: #0f172a;
+  --omni-baseline-label-border: rgba(100, 116, 139, 0.45);
+  --dashboard-tooltip-bg: rgba(15, 23, 42, 0.92);
+  --dashboard-tooltip-border: rgba(148, 163, 184, 0.28);
+  --dashboard-tooltip-text: #f8fafc;
+  --dashboard-healthy: #1f9d63;
+  --dashboard-alert: #d14343;
+  --dashboard-healthy-bg: rgba(31, 157, 99, 0.1);
+  --dashboard-alert-bg: rgba(209, 67, 67, 0.11);
+  --dashboard-warning: #d97706;
+  --dashboard-warning-bg: rgba(217, 119, 6, 0.12);
+  --dashboard-violet: #4f46e5;
+  --dashboard-violet-bg: rgba(79, 70, 229, 0.1);
+  /* Internal aliases (report markup) */
+  --bg: var(--dashboard-bg);
+  --surface: var(--dashboard-panel-bg);
+  --surface-muted: #edf3f8;
+  --text: var(--dashboard-text);
+  --muted: var(--dashboard-muted);
+  --border: var(--dashboard-border);
+  --shadow: var(--dashboard-shadow);
+  --accent: #3b82f6;
+  --accent-hover: #2563eb;
+  --accent-soft: rgba(59, 130, 246, 0.22);
+  --accent-tint: rgba(59, 130, 246, 0.08);
+  --ci: #2563eb;
+  --ci-soft: rgba(59, 130, 246, 0.16);
+  --danger: var(--dashboard-alert);
+  --danger-strong: #b91c1c;
+  --danger-bg: rgba(209, 67, 67, 0.08);
+  --danger-edge: var(--dashboard-alert);
+  --ok: var(--dashboard-healthy);
+  --ok-bg: var(--dashboard-healthy-bg);
+  --ok-edge: var(--dashboard-healthy);
+  --fail-bg: var(--dashboard-alert-bg);
+  --fail-edge: var(--dashboard-alert);
+  --unknown-bg: rgba(148, 163, 184, 0.08);
+  --unknown-edge: #64748b;
+  --code-bg-top: #334155;
+  --code-bg-bottom: #1e293b;
+  --code-fg: #e2e8f0;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow-bar: none;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --dashboard-bg: #111827;
+    --dashboard-panel-bg: #162130;
+    --dashboard-panel-strong: #131d2b;
+    --dashboard-border: rgba(148, 163, 184, 0.18);
+    --dashboard-border-strong: rgba(148, 163, 184, 0.22);
+    --dashboard-text: #edf3fb;
+    --dashboard-muted: #b6c4d5;
+    --dashboard-soft-text: #c6d3e1;
+    --dashboard-shadow: 0 20px 40px rgba(2, 6, 23, 0.35);
+    --dashboard-badge-bg: rgba(148, 163, 184, 0.12);
+    --dashboard-badge-text: #d5dfeb;
+    --dashboard-chart-text: #c8d4e3;
+    --dashboard-chart-grid: rgba(148, 163, 184, 0.16);
+    --omni-baseline-line: #94a3b8;
+    --omni-baseline-label-bg: rgba(30, 41, 55, 0.94);
+    --omni-baseline-label-fg: #f1f5f9;
+    --omni-baseline-label-border: rgba(148, 163, 184, 0.4);
+    --dashboard-tooltip-bg: rgba(15, 23, 42, 0.96);
+    --dashboard-tooltip-border: rgba(148, 163, 184, 0.24);
+    --dashboard-tooltip-text: #f8fafc;
+    --dashboard-healthy-bg: rgba(31, 157, 99, 0.16);
+    --dashboard-alert-bg: rgba(209, 67, 67, 0.18);
+    --dashboard-warning: #fbbf24;
+    --dashboard-warning-bg: rgba(251, 191, 36, 0.14);
+    --dashboard-violet: #818cf8;
+    --dashboard-violet-bg: rgba(129, 140, 248, 0.14);
+    --surface-muted: rgba(148, 163, 184, 0.1);
+    --accent: #60a5fa;
+    --accent-hover: #3b82f6;
+    --accent-soft: rgba(96, 165, 250, 0.28);
+    --accent-tint: rgba(96, 165, 250, 0.12);
+    --ci: #60a5fa;
+    --ci-soft: rgba(96, 165, 250, 0.2);
+    --danger-strong: #fecaca;
+    --danger-bg: rgba(209, 67, 67, 0.14);
+    --unknown-bg: rgba(148, 163, 184, 0.08);
+    --unknown-edge: #94a3b8;
+  }
+}
+* { box-sizing: border-box; }
+body {
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  font-size: 15px;
+}
+.top-bar {
+  background: var(--dashboard-panel-bg);
+  color: var(--dashboard-text);
+  padding: 0;
+  box-shadow: 0 1px 0 rgba(148, 163, 184, 0.18);
+  border-bottom: 3px solid var(--accent);
+}
+.top-bar-inner {
+  padding: 1.4rem 1.25rem 1.55rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+}
+.brand-mark {
+  width: 3.2rem;
+  height: 3.2rem;
+  border-radius: var(--radius-sm);
+  background: var(--dashboard-badge-bg);
+  border: 1px solid var(--dashboard-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05);
+}
+.brand-mark .ico { stroke: var(--accent); }
+.brand-copy h1 {
+  margin: 0;
+  font-size: 1.65rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  color: var(--dashboard-text);
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+.tagline {
+  margin: 0.35rem 0 0;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.top-bar .tagline {
+  color: var(--dashboard-muted);
+}
+.shell {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem 3rem;
+}
+.panel {
+  background: var(--dashboard-panel-bg);
+  border-radius: var(--radius);
+  border: 1px solid var(--dashboard-border);
+  box-shadow: var(--dashboard-shadow);
+  padding: 1.15rem 1.3rem;
+  margin-bottom: 1.35rem;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.panel:hover {
+  box-shadow: 0 16px 28px rgba(15, 23, 42, 0.1);
+  border-color: rgba(59, 130, 246, 0.28);
+}
+.panel h2 {
+  margin: 0 0 1rem;
+  font-size: 1.12rem;
+  font-weight: 800;
+  color: var(--dashboard-text);
+  letter-spacing: -0.02em;
+  border-bottom: 2px solid var(--dashboard-border);
+  padding-bottom: 0.55rem;
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+.panel-bk h2 {
+  border-bottom-color: var(--ci-soft);
+}
+.heading-row {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+}
+.heading-ico {
+  display: flex;
+  margin-top: 0.12rem;
+  color: var(--accent);
+}
+.panel-bk .heading-ico {
+  color: var(--ci);
+}
+.heading-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.12rem;
+  min-width: 0;
+}
+.heading-sub {
+  font-size: 0.78em;
+  font-weight: 500;
+  color: var(--muted);
+}
+h3.panel-sub {
+  margin: 1.2rem 0 0.65rem;
+  font-size: 1.04rem;
+  color: var(--dashboard-soft-text);
+  font-weight: 700;
+}
+h3.panel-sub:first-child {
+  margin-top: 0;
+}
+h3.panel-sub .heading-ico {
+  color: var(--dashboard-muted);
+}
+h3.section-failures {
+  margin: 0 0 0.85rem;
+  font-size: 1.02rem;
+  font-weight: 700;
+  color: var(--danger-strong);
+}
+h3.section-failures .heading-ico {
+  color: var(--danger);
+}
+section.job-fail-bk h3.section-failures .heading-ico {
+  color: var(--ci);
+}
+.panel-fail-analysis {
+  border-top: 3px solid var(--dashboard-warning);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--dashboard-warning-bg) 65%, var(--dashboard-panel-bg)) 0%, var(--dashboard-panel-bg) 42%);
+}
+.panel-fail-analysis > h2 {
+  border-bottom-color: color-mix(in srgb, var(--dashboard-warning) 35%, transparent);
+}
+.panel-fail-analysis .heading-ico {
+  color: var(--dashboard-warning);
+}
+.panel-perf-manual {
+  border-top: 3px solid var(--dashboard-violet);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--dashboard-violet-bg) 55%, var(--dashboard-panel-bg)) 0%, var(--dashboard-panel-bg) 45%);
+}
+.panel-perf-manual > h2 {
+  border-bottom-color: color-mix(in srgb, var(--dashboard-violet) 30%, transparent);
+}
+.panel-perf-manual .heading-ico {
+  color: var(--dashboard-violet);
+}
+h3.perf-sheet-title {
+  margin: 1.25rem 0 0.55rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--dashboard-violet);
+}
+h3.perf-sheet-title:first-of-type {
+  margin-top: 0.35rem;
+}
+.perf-truncate-hint {
+  margin: 0 0 0.5rem !important;
+}
+table.perf-manual {
+  font-size: 0.86rem;
+}
+table.perf-manual th {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--dashboard-violet-bg) 85%, var(--dashboard-panel-bg)) 0%, var(--dashboard-panel-strong));
+  color: var(--dashboard-text);
+}
+table.perf-manual td {
+  background: color-mix(in srgb, var(--dashboard-panel-bg) 96%, var(--dashboard-badge-bg));
+}
+.perf-delta {
+  font-size: 0.78em;
+  font-weight: 750;
+  margin-left: 0.35rem;
+  white-space: nowrap;
+}
+.perf-delta--up {
+  color: var(--dashboard-warning);
+}
+.perf-delta--down {
+  color: var(--dashboard-healthy);
+}
+details.job-fail-details {
+  margin-bottom: 1.25rem;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  border-left: 4px solid var(--danger-edge);
+  background: var(--surface);
+}
+details.job-fail-details:last-child {
+  margin-bottom: 0;
+}
+summary.job-fail-details-summary {
+  list-style: none;
+  cursor: pointer;
+  background: var(--danger-bg);
+  padding: 1.05rem 1.1rem 1.05rem 2.65rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--dashboard-warning) 38%, transparent);
+  position: relative;
+}
+summary.job-fail-details-summary::-webkit-details-marker {
+  display: none;
+}
+summary.job-fail-details-summary::before {
+  content: "▸";
+  position: absolute;
+  left: 0.95rem;
+  top: 1.2rem;
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--danger-strong);
+  line-height: 1;
+  pointer-events: none;
+}
+details.job-fail-details[open] > summary.job-fail-details-summary::before {
+  content: "▾";
+}
+summary.job-fail-details-summary h2 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 750;
+  color: var(--danger-strong);
+}
+summary.job-fail-details-summary .heading-ico {
+  color: var(--danger-strong);
+}
+summary.job-fail-details-summary .meta {
+  margin: 0.5rem 0 0;
+}
+.job-fail-details-body {
+  padding: 1.1rem 1.35rem 1.35rem;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--dashboard-alert-bg) 40%, var(--dashboard-panel-bg)) 0%, var(--dashboard-panel-bg) 48%);
+}
+.full-log-wrap {
+  margin: 0.55rem 0 0;
+  padding-top: 0.4rem;
+  border-top: 1px dashed color-mix(in srgb, var(--dashboard-warning) 42%, transparent);
+}
+.btn-view-full-log {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.42rem 0.88rem;
+  border-radius: 9px;
+  border: 1px solid color-mix(in srgb, var(--dashboard-warning) 45%, var(--dashboard-border));
+  background: linear-gradient(180deg, var(--dashboard-panel-bg) 0%, color-mix(in srgb, var(--dashboard-warning-bg) 55%, var(--dashboard-panel-bg)) 100%);
+  color: var(--danger-strong);
+  font-size: 0.86rem;
+  font-weight: 650;
+  cursor: pointer;
+  box-shadow: 0 1px 2px color-mix(in srgb, var(--dashboard-warning) 12%, transparent);
+}
+.btn-view-full-log:hover {
+  border-color: var(--dashboard-warning);
+  background: var(--dashboard-panel-bg);
+}
+.full-log-panel {
+  margin-top: 0.65rem;
+}
+pre.log-full {
+  margin: 0;
+  padding: 0.85rem 1rem;
+  background: linear-gradient(180deg, var(--code-bg-top) 0%, var(--code-bg-bottom) 100%);
+  color: var(--code-fg);
+  border-radius: var(--radius-sm);
+  border: 1px solid color-mix(in srgb, var(--dashboard-muted) 38%, transparent);
+  font-size: 0.78rem;
+  line-height: 1.48;
+  max-height: min(75vh, 42rem);
+  overflow: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+ul.full-log-paths {
+  margin: 0.35rem 0 0;
+  padding-left: 1.25rem;
+  font-size: 0.88rem;
+  color: var(--text);
+}
+.full-log-oversize {
+  margin: 0;
+}
+summary.job-fail-details-summary-bk {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--ci-soft) 65%, var(--dashboard-panel-bg)) 0%, var(--dashboard-panel-strong));
+  border-bottom-color: color-mix(in srgb, var(--ci) 42%, transparent);
+}
+summary.job-fail-details-summary-bk::before {
+  color: var(--ci);
+}
+details.job-fail-details-bk {
+  border-left-color: var(--ci);
+}
+summary.job-fail-details-summary-bk h2 {
+  color: var(--dashboard-chart-text);
+}
+summary.job-fail-details-summary-bk .heading-ico {
+  color: var(--ci);
+}
+.meta {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin: 0.4rem 0;
+}
+.meta strong {
+  color: var(--dashboard-badge-text);
+  font-weight: 650;
+}
+.meta a {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px solid var(--accent-soft);
+}
+.meta a:hover {
+  color: var(--accent-hover);
+  border-bottom-color: var(--accent);
+}
+.hint {
+  color: var(--muted);
+  font-size: 0.88rem;
+  margin: 0.55rem 0 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.45rem;
+}
+.hint::before {
+  content: "→";
+  color: var(--accent);
+  font-weight: 800;
+  flex-shrink: 0;
+  margin-top: 0.08rem;
+}
+p.summary-legend {
+  margin: 0.35rem 0 0;
+  font-size: 0.84rem;
+}
+.summary-legend strong.summary-legend--ok { color: var(--dashboard-healthy); }
+.summary-legend strong.summary-legend--fail { color: var(--dashboard-alert); }
+.summary-legend strong.summary-legend--unk { color: var(--omni-baseline-line); }
+.table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: var(--radius-sm);
+  margin: 0.65rem 0 0;
+  border: 1px solid var(--border);
+  background: var(--surface-muted);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--dashboard-panel-bg) 65%, transparent);
+}
+.table-scroll > table {
+  width: 100%;
+  min-width: 620px;
+}
+table.summary {
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+table.summary th, table.summary td {
+  border: 1px solid var(--border);
+  padding: 0.65rem 0.8rem;
+  text-align: left;
+  vertical-align: top;
+}
+table.summary th {
+  background: var(--dashboard-panel-strong);
+  font-weight: 650;
+  color: var(--dashboard-chart-text);
+  white-space: nowrap;
+}
+table.summary tbody tr.summary-row--ok td {
+  background: color-mix(in srgb, var(--dashboard-healthy-bg) 92%, var(--dashboard-panel-bg));
+}
+table.summary tbody tr.summary-row--ok td:first-child {
+  border-left: 4px solid var(--ok-edge);
+  padding-left: calc(0.8rem - 3px);
+  font-weight: 650;
+  color: var(--dashboard-healthy);
+}
+table.summary tbody tr.summary-row--fail td {
+  background: color-mix(in srgb, var(--dashboard-alert-bg) 88%, var(--dashboard-panel-bg));
+}
+table.summary tbody tr.summary-row--fail td:first-child {
+  border-left: 4px solid var(--fail-edge);
+  padding-left: calc(0.8rem - 3px);
+  font-weight: 650;
+  color: var(--danger-strong);
+}
+table.summary tbody tr.summary-row--unknown td {
+  background: var(--unknown-bg);
+}
+table.summary tbody tr.summary-row--unknown td:first-child {
+  border-left: 4px solid var(--unknown-edge);
+  padding-left: calc(0.8rem - 3px);
+  color: var(--dashboard-chart-text);
+}
+table.summary tbody tr.summary-row--ok:hover td {
+  background: color-mix(in srgb, var(--dashboard-healthy-bg) 98%, var(--dashboard-panel-bg));
+}
+table.summary tbody tr.summary-row--fail:hover td {
+  background: color-mix(in srgb, var(--dashboard-alert-bg) 95%, var(--dashboard-panel-bg));
+}
+table.summary tbody tr.summary-row--unknown:hover td {
+  background: var(--dashboard-badge-bg);
+}
+section.job-fail {
+  background: var(--surface);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+  border-left: 4px solid var(--danger-edge);
+}
+section.job-fail header {
+  background: var(--danger-bg);
+  padding: 1.05rem 1.35rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--dashboard-warning) 38%, transparent);
+}
+section.job-fail header .heading-ico {
+  color: var(--danger-strong);
+}
+section.job-fail h2 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 750;
+  color: var(--danger-strong);
+}
+section.job-fail .body {
+  padding: 1.1rem 1.35rem 1.35rem;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--dashboard-alert-bg) 35%, var(--dashboard-panel-bg)) 0%, var(--dashboard-panel-bg) 48%);
+}
+table.fail-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+table.fail-table th, table.fail-table td {
+  border: 1px solid var(--border);
+  padding: 0.72rem 0.8rem;
+  vertical-align: top;
+}
+table.fail-table th {
+  background: var(--dashboard-panel-strong);
+  font-weight: 650;
+  text-align: left;
+  color: var(--dashboard-text);
+}
+.th-lbl {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+.th-ico {
+  flex-shrink: 0;
+  opacity: 0.88;
+  color: var(--dashboard-chart-text);
+}
+table.fail-table tr.row-error {
+  background: linear-gradient(90deg, color-mix(in srgb, var(--dashboard-warning-bg) 70%, var(--dashboard-panel-bg)) 0%, var(--dashboard-panel-bg) 100%);
+}
+td.mono {
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 0.84rem;
+  word-break: break-all;
+}
+td.reason {
+  color: var(--dashboard-text);
+}
+td.analysis {
+  color: var(--dashboard-healthy);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--dashboard-healthy-bg) 55%, var(--dashboard-panel-bg)) 0%, color-mix(in srgb, var(--dashboard-healthy-bg) 88%, var(--dashboard-panel-bg)) 100%);
+  font-size: 0.86rem;
+  border-left: 3px solid var(--dashboard-healthy) !important;
+}
+td.excerpt-cell {
+  padding: 0.5rem !important;
+  background: var(--surface-muted);
+}
+pre.log-excerpt {
+  margin: 0;
+  padding: 0.85rem 1rem;
+  background: linear-gradient(180deg, var(--code-bg-top) 0%, var(--code-bg-bottom) 100%);
+  color: var(--code-fg);
+  border-radius: var(--radius-sm);
+  border: 1px solid color-mix(in srgb, var(--dashboard-muted) 38%, transparent);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--dashboard-panel-bg) 18%, transparent);
+  font-size: 0.78rem;
+  line-height: 1.48;
+  max-height: 28rem;
+  overflow: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.note {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-top: 0.35rem;
+}
+.panel-bk {
+  border-top: 4px solid var(--ci);
+  background: linear-gradient(180deg, var(--dashboard-panel-bg) 0%, color-mix(in srgb, var(--ci-soft) 35%, var(--dashboard-panel-bg)) 100%);
+}
+section.job-fail-bk {
+  border-left-color: var(--ci);
+}
+section.job-fail-bk header {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--ci-soft) 55%, var(--dashboard-panel-bg)) 0%, var(--dashboard-panel-strong));
+  border-bottom: 1px solid color-mix(in srgb, var(--ci) 38%, transparent);
+}
+section.job-fail-bk header .heading-ico {
+  color: var(--ci);
+}
+section.job-fail-bk h2 {
+  color: var(--dashboard-chart-text);
+  font-weight: 750;
+}
+.issue-action-cell {
+  width: 7.5rem;
+  text-align: center;
+  vertical-align: middle !important;
+  background: var(--surface-muted);
+}
+.btn-github-issue {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.65rem;
+  border-radius: 9px;
+  border: 1px solid var(--border);
+  background: var(--dashboard-panel-strong);
+  color: var(--dashboard-text);
+  font-size: 0.82rem;
+  font-weight: 650;
+  cursor: pointer;
+  box-shadow: 0 1px 2px color-mix(in srgb, var(--dashboard-shadow) 25%, transparent);
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+}
+.btn-github-issue:hover {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--accent-tint) 90%, var(--dashboard-panel-bg)) 0%, var(--dashboard-panel-strong));
+  border-color: color-mix(in srgb, var(--accent) 35%, var(--dashboard-border));
+  color: var(--accent-hover);
+}
+.btn-github-issue:active { transform: scale(0.98); }
+.btn-issue-ico { stroke: var(--accent); }
+.btn-issue-text { white-space: nowrap; }
+.gh-modal[hidden] { display: none !important; }
+.gh-modal:not([hidden]) {
+  position: fixed;
+  inset: 0;
+  z-index: 99990;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+.gh-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: color-mix(in srgb, var(--dashboard-tooltip-bg) 55%, transparent);
+  backdrop-filter: blur(3px);
+}
+.gh-modal-panel {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+  width: 100%;
+  max-height: min(92vh, 920px);
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: var(--dashboard-shadow);
+  overflow: hidden;
+}
+.gh-modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.15rem;
+  background: var(--dashboard-panel-strong);
+  border-bottom: 1px solid var(--border);
+}
+.gh-modal-head h2 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 750;
+  color: var(--dashboard-text);
+}
+.gh-modal-x {
+  border: none;
+  background: transparent;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--muted);
+  padding: 0 0.25rem;
+}
+.gh-modal-x:hover { color: var(--danger-strong); }
+.gh-modal-hint {
+  margin: 0;
+  padding: 0.85rem 1.15rem 0;
+  font-size: 0.88rem;
+  color: var(--muted);
+  line-height: 1.55;
+}
+.gh-modal-hint a { color: var(--accent); font-weight: 600; }
+.gh-issue-textarea {
+  margin: 0.75rem 1.15rem;
+  flex: 1;
+  min-height: 200px;
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  padding: 0.75rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  resize: vertical;
+  color: var(--dashboard-text);
+  background: color-mix(in srgb, var(--dashboard-badge-bg) 40%, var(--dashboard-panel-bg));
+}
+.gh-modal-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  padding: 0.85rem 1.15rem 1.1rem;
+  border-top: 1px solid var(--border);
+  background: var(--surface-muted);
+}
+.btn-gh-copy {
+  padding: 0.5rem 1rem;
+  border-radius: 9px;
+  border: 1px solid var(--border);
+  background: var(--dashboard-panel-bg);
+  font-weight: 650;
+  cursor: pointer;
+  color: var(--dashboard-soft-text);
+}
+.btn-gh-copy:hover { border-color: var(--dashboard-border-strong); }
+.btn-gh-open {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1.1rem;
+  border-radius: var(--radius-sm);
+  background: var(--accent);
+  color: var(--dashboard-tooltip-text) !important;
+  font-weight: 700;
+  text-decoration: none !important;
+  border: 1px solid var(--accent-hover);
+  box-shadow: none;
+}
+.btn-gh-open:hover { background: var(--accent-hover); filter: none; }
+/* Nightly report: Buildkite Test / Local Test outer cards + collapsible subcards */
+.nightly-root.panel {
+  margin-bottom: 1.35rem;
+}
+.nightly-root--buildkite {
+  border-top: 4px solid var(--ci);
+  background: linear-gradient(180deg, var(--dashboard-panel-bg) 0%, color-mix(in srgb, var(--ci-soft) 28%, var(--dashboard-panel-bg)) 100%);
+}
+.nightly-root--local {
+  border-top: 4px solid var(--accent);
+  background: linear-gradient(180deg, var(--dashboard-panel-bg) 0%, color-mix(in srgb, var(--accent-tint) 70%, var(--dashboard-panel-bg)) 100%);
+}
+details.report-subcard {
+  margin-bottom: 0.9rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--dashboard-border);
+  background: var(--dashboard-panel-bg);
+  box-shadow: var(--dashboard-shadow);
+  overflow: hidden;
+}
+details.report-subcard:last-child {
+  margin-bottom: 0;
+}
+summary.report-subcard-summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 0.78rem 1rem 0.78rem 2.45rem;
+  position: relative;
+  font-weight: 780;
+  font-size: 1.02rem;
+  color: var(--dashboard-text);
+  background: linear-gradient(180deg, var(--dashboard-panel-strong) 0%, var(--dashboard-panel-bg) 100%);
+  border-bottom: 1px solid var(--dashboard-border);
+}
+.report-subcard-summary-inner {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-width: 0;
+}
+.report-subcard-summary-inner .report-subcard-ico {
+  flex-shrink: 0;
+  opacity: 0.92;
+}
+.report-subcard-title {
+  font-weight: inherit;
+}
+.report-subcard-summary .report-subcard-ico {
+  color: var(--accent);
+}
+.report-subcard--bk .report-subcard-summary .report-subcard-ico {
+  color: var(--ci);
+}
+.report-subcard--bk-fail .report-subcard-summary .report-subcard-ico {
+  color: var(--dashboard-warning);
+}
+.report-subcard--perf .report-subcard-summary .report-subcard-ico {
+  color: var(--dashboard-violet);
+}
+.report-subcard--bk-perf .report-subcard-summary .report-subcard-ico,
+.report-subcard--bk-perf-model .report-subcard-summary .report-subcard-ico {
+  color: var(--ci);
+}
+.report-subcard--local-fail .report-subcard-summary .report-subcard-ico {
+  color: var(--danger-strong);
+}
+summary.report-subcard-summary::-webkit-details-marker {
+  display: none;
+}
+summary.report-subcard-summary::before {
+  content: "▸";
+  position: absolute;
+  left: 0.88rem;
+  top: 0.9rem;
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--accent);
+  line-height: 1;
+  pointer-events: none;
+}
+details.report-subcard[open] > summary.report-subcard-summary::before {
+  content: "▾";
+}
+.report-subcard--bk summary.report-subcard-summary::before {
+  color: var(--ci);
+}
+.report-subcard--bk-fail summary.report-subcard-summary::before {
+  color: var(--dashboard-warning);
+}
+.report-subcard--perf summary.report-subcard-summary::before {
+  color: var(--dashboard-violet);
+}
+.report-subcard--bk-perf summary.report-subcard-summary::before,
+.report-subcard--bk-perf-model summary.report-subcard-summary::before {
+  color: var(--ci);
+}
+.report-subcard--local-fail summary.report-subcard-summary::before {
+  color: var(--danger-strong);
+}
+.report-subcard-body {
+  padding: 1rem 1.2rem 1.2rem;
+  background: var(--dashboard-panel-bg);
+}
+.report-subcard-body > .table-scroll:first-child {
+  margin-top: 0;
+}
+.local-summary-pillar-body {
+  padding: 0.35rem 0.15rem 0.65rem;
+}
+details.local-summary-pillar {
+  margin-bottom: 0.75rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--dashboard-border);
+  background: color-mix(in srgb, var(--dashboard-panel-bg) 90%, var(--accent) 10%);
+}
+details.local-summary-pillar:last-child {
+  margin-bottom: 0;
+}
+summary.local-summary-pillar-summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 0.55rem 0.85rem 0.55rem 2rem;
+  position: relative;
+  font-weight: 750;
+  font-size: 0.98rem;
+  color: var(--dashboard-text);
+  background: var(--dashboard-panel-strong);
+  border-bottom: 1px solid var(--dashboard-border);
+}
+summary.local-summary-pillar-summary::-webkit-details-marker {
+  display: none;
+}
+summary.local-summary-pillar-summary::before {
+  content: "▸";
+  position: absolute;
+  left: 0.52rem;
+  top: 0.62rem;
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: var(--accent);
+  line-height: 1;
+  pointer-events: none;
+}
+details.local-summary-pillar[open] > summary.local-summary-pillar-summary::before {
+  content: "▾";
+}
+details.local-summary-dim {
+  margin: 0.5rem 0.35rem 0.45rem 0.65rem;
+  border-radius: var(--radius-sm);
+  border: 1px dashed color-mix(in srgb, var(--dashboard-border) 82%, var(--accent) 18%);
+  background: var(--dashboard-panel-bg);
+}
+summary.local-summary-dim-summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 0.42rem 0.75rem 0.42rem 1.85rem;
+  position: relative;
+  font-weight: 680;
+  font-size: 0.9rem;
+  color: var(--dashboard-muted);
+  background: color-mix(in srgb, var(--dashboard-panel-bg) 96%, var(--accent) 4%);
+  border-bottom: 1px solid var(--dashboard-border);
+}
+summary.local-summary-dim-summary::-webkit-details-marker {
+  display: none;
+}
+summary.local-summary-dim-summary::before {
+  content: "▸";
+  position: absolute;
+  left: 0.45rem;
+  top: 0.48rem;
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--accent);
+  line-height: 1;
+  pointer-events: none;
+}
+details.local-summary-dim[open] > summary.local-summary-dim-summary::before {
+  content: "▾";
+}
+.local-summary-dim-body {
+  padding: 0.55rem 0.45rem 0.65rem;
+}
+.local-summary-dim-body > .table-scroll:first-child {
+  margin-top: 0;
+}
+.report-subcard--bk-perf-model {
+  background: color-mix(in srgb, var(--dashboard-panel-bg) 94%, var(--ci-soft) 6%);
+}
+.perf-filter-scope {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.perf-filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 0.65rem;
+  padding: 0.75rem;
+  border: 1px solid color-mix(in srgb, var(--dashboard-border) 82%, var(--ci) 18%);
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--dashboard-panel-strong) 88%, var(--ci-soft) 12%);
+}
+.perf-filter-label {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 10rem;
+  font-size: 0.78rem;
+  font-weight: 720;
+  color: var(--dashboard-muted);
+}
+.perf-filter-select {
+  min-height: 2rem;
+  max-width: min(22rem, 70vw);
+  padding: 0.35rem 2rem 0.35rem 0.55rem;
+  border: 1px solid var(--dashboard-border);
+  border-radius: 0.55rem;
+  background: var(--dashboard-panel-bg);
+  color: var(--dashboard-text);
+  font: inherit;
+}
+.perf-filter-select:focus {
+  outline: 2px solid color-mix(in srgb, var(--ci) 45%, transparent);
+  outline-offset: 2px;
+}
+.perf-filter-table td,
+.perf-filter-table th {
+  white-space: nowrap;
+}
+.perf-filter-empty {
+  margin: 0;
+}
+.ico {
+  display: block;
+}
+
+</style>
+</head>
+<body>
+<div class="top-bar"><div class="shell top-bar-inner"><div class="brand"><div class="brand-mark"><svg class="ico brand-ico" width="30" height="30" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg></div><div class="brand-copy"><h1>vLLM-Omni Nightly Test Report - 2026-06-23</h1><p class="tagline">Nightly test report</p></div></div></div></div>
+<div class="shell">
+<section class="panel nightly-root nightly-root--buildkite">
+<h2><span class="heading-row"><span class="heading-ico"><svg class="ico" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 22h9a5 5 0 1 0 0-12z"/></svg></span><span class="heading-text"><span class="heading-label">Buildkite Test</span><span class="heading-sub">Latest scheduled nightly (main)</span></span></span></h2>
+<details class="report-subcard report-subcard--bk"><summary class="report-subcard-summary"><span class="report-subcard-summary-inner"><svg class="ico report-subcard-ico" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg><span class="report-subcard-title">Summary（各 Job 执行情况）</span></span></summary><div class="report-subcard-body"><div class="meta"><div><strong>Build:</strong> <a href="https://buildkite.com/vllm/vllm-omni/builds/11684">#11684</a></div><div><strong>State:</strong> failed</div><div><strong>Message:</strong> Scheduled nightly build</div><div><strong>Commit:</strong> f4d922d8f60b</div></div>
+<div class="table-scroll"><table class="summary">
+<thead><tr>
+<th>Job</th>
+<th>Total</th>
+<th>Passed</th>
+<th>Failed</th>
+<th>Skipped</th>
+<th>Errors</th>
+<th>执行时间</th>
+</tr></thead><tbody>
+<tr class="summary-row summary-row--unknown">
+<td>:bar_chart: Testcase Statistics</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>—</td>
+</tr>
+<tr class="summary-row summary-row--ok">
+<td>:full_moon: Diffusion X2I(&amp;A&amp;T) · Accuracy Test</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>303.25s</td>
+</tr>
+<tr class="summary-row summary-row--ok">
+<td>:full_moon: Diffusion X2I(&amp;A&amp;T) · Doc Test</td>
+<td>17</td>
+<td>14</td>
+<td>0</td>
+<td>3</td>
+<td>0</td>
+<td>1992.66s</td>
+</tr>
+<tr class="summary-row summary-row--ok">
+<td>:full_moon: Diffusion X2I(&amp;A&amp;T) · Function Test with H100 · Multi-GPU Bagel</td>
+<td>5</td>
+<td>5</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1307.81s</td>
+</tr>
+<tr class="summary-row summary-row--ok">
+<td>:full_moon: Diffusion X2I(&amp;A&amp;T) · Function Test with H100 · Multi-GPU DreamZero</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>145.81s</td>
+</tr>
+<tr class="summary-row summary-row--ok">
+<td>:full_moon: Diffusion X2I(&amp;A&amp;T) · Function Test with H100 · Multi-GPU Layered/LongCat/FLUX</td>
+<td>10</td>
+<td>10</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>2169.75s</td>
+</tr>
+<tr class="summary-row summary-row--ok">
+<td>:full_moon: Diffusion X2I(&amp;A&amp;T) · Function Test with H100 · Multi-GPU Qwen-Image</td>
+<td>25</td>
+<td>25</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>3165.78s</td>
+</tr>
+<tr class="summary-row summary-row--ok">
+<td>:full_moon: Diffusion X2I(&amp;A&amp;T) · Function Test with H100 · Single-GPU</td>
+<td>25</td>
+<td>25</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>4700.84s</td>
+</tr>
+<tr class="summary-row summary-row--fail">
+<td>:full_moon: Diffusion X2I(&amp;A&amp;T) · Function Test with L4</td>
+<td>22</td>
+<td>17</td>
+<td>0</td>
+<td>4</td>
+<td>1</td>
+<td>3040.13s</td>
+</tr>
+<tr class="summary-row summary-row--ok">
+<td>:full_moon: Diffusion X2I(&amp;A&amp;T) · GLM-Image Function Test with H100</td>
+<td>10</td>
+<td>10</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1208.24s</td>
+</tr>
+<tr class="summary-row summary-row--ok">
+<td>:full_moon: Diffusion X2I(&amp;A&amp;T) · Perf Test · BAGEL</td>
+<td>4</td>
+<td>4</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>979.07s</td>
+</tr>
+<tr class="summary-row summary-row--ok">
+<td>:full_moon: Diffusion X2I(&amp;A&amp;T) · Perf Test · Qwen-Image</td>
+<td>10</td>
+<td>8</td>
+<td>0</td>
+<td>2</td>
+<td>0</td>
+<td>1864.63s</td>
+</tr>
+<tr class="summary-row summary-row--ok">
+<td>:full_moon: Diffusion X2I(&amp;A&amp;T) · Perf Test · Qwen-Image-Edit</td>
+<td>6</td>
+<td>5</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1204.39s</td>
+</tr>
+<tr class="summary-row summary-row--ok">
+<td>:full_moon: Diffusion X2I(&amp;A&amp;T) · Perf Test · Qwen-Image-Edit-2511</td>
+<td>6</td>
+<td>5</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1423.00s</td>
+</tr>
+<tr class="summary-row summary-row--ok">
+<td>:full_moon: Diffusion X2I(&amp;A&amp;T) · Perf Test · Qwen-Image-Layered</td>
+<td>2</td>
+<td>2</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>582.98s</td>
+</tr>
+<tr class="summary-row summary-row--fail">
+<td>:full_moon: Diffusion X2V · Accuracy Test</td>
+<td>16</td>
+<td>14</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>866.31s</td>
+</tr>
+<tr class="summary-row summary-row--unknown">
+<td>:full_moon: Diffusion X2V · Function Test</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>—</td>
+</tr>
+<tr class="summary-row summary-row--fail">
+<td>:full_moon: Diffusion X2V · Perf Test</td>
+<td>4</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>2</td>
+<td>674.95s</td>
+</tr>
+<tr class="summary-row summary-row--ok">
+<td>:full_moon: HunyuanImage3-DIT · Accuracy Test</td>
+<td>2</td>
+<td>2</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>384.68s</td>
+</tr>
+<tr class="summary-row summary-row--ok">
+<td>:full_moon: Omni · Accuracy Test</td>
+<td>2</td>
+<td>2</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1903.88s</td>
+</tr>
+<tr class="summary-row summary-row--ok">
+<td>:full_moon: Omni · Doc Test with H100</td>
+<td>7</td>
+<td>7</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>615.36s</td>
+</tr>
+<tr class="summary-row summary-row--ok">
+<td>:full_moon: Omni · Doc Test with L4</td>
+<td>7</td>
+<td>7</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>651.99s</td>
+</tr>
+<tr class="summary-row summary-row--fail">
+<td>:full_moon: Omni · Function Test with H100</td>
+<td>60</td>
+<td>41</td>
+<td>3</td>
+<td>16</td>
+<td>0</td>
+<td>3538.67s</td>
+</tr>
+<tr class="summary-row summary-row--ok">
+<td>:full_moon: Omni · Function Test with L4</td>
+<td>4</td>
+<td>4</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>652.60s</td>
+</tr>
+<tr class="summary-row summary-row--ok">
+<td>:full_moon: Omni · Multi-Replica Startup Test with 4x H100</td>
+<td>3</td>
+<td>3</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>289.59s</td>
+</tr>
+<tr class="summary-row summary-row--ok">
+<td>:full_moon: Omni · Perf Test · Async Chunk</td>
+<td>8</td>
+<td>8</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>2860.03s</td>
+</tr>
+<tr class="summary-row summary-row--ok">
+<td>:full_moon: Omni · Perf Test · Multi-Replica</td>
+<td>4</td>
+<td>4</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>2234.74s</td>
+</tr>
+<tr class="summary-row summary-row--ok">
+<td>:full_moon: Omni · Perf Test · No Async Chunk</td>
+<td>4</td>
+<td>4</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>2006.85s</td>
+</tr>
+<tr class="summary-row summary-row--ok">
+<td>:full_moon: Omni · Perf Test · vLLM Text</td>
+<td>4</td>
+<td>4</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>924.67s</td>
+</tr>
+<tr class="summary-row summary-row--ok">
+<td>:full_moon: Quantization Test with H100</td>
+<td>9</td>
+<td>6</td>
+<td>0</td>
+<td>3</td>
+<td>0</td>
+<td>1951.50s</td>
+</tr>
+<tr class="summary-row summary-row--ok">
+<td>:full_moon: Quantization Test with L4</td>
+<td>6</td>
+<td>6</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>2011.96s</td>
+</tr>
+<tr class="summary-row summary-row--ok">
+<td>:full_moon: TTS · Accuracy Test · VoxCPM2</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>286.38s</td>
+</tr>
+<tr class="summary-row summary-row--ok">
+<td>:full_moon: TTS · Function Test with L4</td>
+<td>34</td>
+<td>33</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>4975.37s</td>
+</tr>
+<tr class="summary-row summary-row--ok">
+<td>:full_moon: TTS · Higgs-Audio-V3 · Perf Test</td>
+<td>2</td>
+<td>2</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>357.79s</td>
+</tr>
+<tr class="summary-row summary-row--ok">
+<td>:full_moon: TTS · Perf Test</td>
+<td>33</td>
+<td>11</td>
+<td>0</td>
+<td>22</td>
+<td>0</td>
+<td>1118.88s</td>
+</tr>
+<tr class="summary-row summary-row--ok">
+<td>:full_moon: TTS · VoxCPM2 · Perf Test</td>
+<td>5</td>
+<td>5</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>385.21s</td>
+</tr>
+<tr class="summary-row summary-row--unknown">
+<td>:github: Resolve skip-ci (docs / skip marks) &amp; upload pipeline</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>—</td>
+</tr>
+</tbody></table></div></div></details>
+<details class="report-subcard report-subcard--bk-perf"><summary class="report-subcard-summary"><span class="report-subcard-summary-inner"><svg class="ico report-subcard-ico" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg><span class="report-subcard-title">性能基线对比</span></span></summary><div class="report-subcard-body"><p class="meta"><strong>数据源:</strong> <code></code></p>
+<p class="note">assets dir is missing: provide --assets-dir or --kanban-repo-root</p>
+<div class="note"><strong>Raw data fallback 诊断:</strong><ul><li>本地 nightly_jobs 只用于用例通过情况分析，nightly_perf_manual.xlsx 只用于详细 perf benchmark 表格；二者不参与 baseline 对比。</li><li>raw perf JSON root is missing or not a directory.</li><li>history files: 0</li></ul></div></div></details>
+<details class="report-subcard report-subcard--bk-fail"><summary class="report-subcard-summary"><span class="report-subcard-summary-inner"><svg class="ico report-subcard-ico" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><span class="report-subcard-title">失败分析</span></span></summary><div class="report-subcard-body"><p class="hint">点击各步骤标题可展开或折叠失败详情与日志摘录。</p>
+<details class="job-fail-details job-fail-details-bk">
+<summary class="job-fail-details-summary job-fail-details-summary-bk">
+<h2><span class="heading-row"><span class="heading-ico"><svg class="ico" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span><span class="heading-text"><span class="heading-label">Buildkite step: :full_moon: Diffusion X2I(&amp;A&amp;T) · Function Test with L4</span></span></span></h2>
+<p class="meta"><strong>Step link:</strong> <a href="https://buildkite.com/vllm/vllm-omni/builds/11684#019ef088-51c5-40cb-a717-42e3558ad24e">open</a></p>
+</summary>
+<div class="job-fail-details-body">
+<h3 class="section-failures"><span class="heading-row"><span class="heading-ico"><svg class="ico" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg></span><span class="heading-text"><span class="heading-label">Failures &amp; errors</span></span></span></h3>
+<div class="table-scroll"><table class="fail-table">
+<thead><tr>
+<th scope="col"><span class="th-lbl"><svg class="ico th-ico" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg><span>Test node</span></span></th>
+<th scope="col"><span class="th-lbl"><svg class="ico th-ico" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>Log reason</span></span></th>
+<th scope="col"><span class="th-lbl"><svg class="ico th-ico" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.9 5.8L4 10l5.8 1.9L12 18l1.9-5.8L20 10l-6.2-1.9L12 3z"/></svg><span>Analysis</span></span></th>
+<th scope="col"><span class="th-lbl"><svg class="ico th-ico" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg><span>Log excerpt</span></span></th>
+<th scope="col"><span class="th-lbl"><svg class="ico th-ico" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg><span>GitHub Issue</span></span></th>
+</tr></thead>
+<tbody>
+<tr class="row-error" data-issue-env="ci" data-vllm-version="" data-vllm-omni-version="" data-build-commit="f4d922d8f60b" data-report-context="Buildkite scheduled nightly (main) · build #11684 · step: :full_moon: Diffusion X2I(&amp;A&amp;T) · Function Test with L4">
+<td class="mono">tests/e2e/online_serving/test_flux2_expansion.py::test_flux2_klein[layerwise_hsdp] (ERROR)</td>
+<td class="reason">RuntimeError: Server processes exited with code 1 before becoming ready.</td>
+<td class="analysis">未能自动归入常见类型；请结合「原因」与日志片段中的异常类型、栈顶文件与行号做进一步判断。</td>
+<td class="excerpt-cell"><pre class="log-excerpt">[2026-06-22T19:16:36Z] = 17 passed, 4 skipped, 397 deselected, 23 warnings, 1 error in 3040.13s (0:50:40) =
+[2026-06-22T19:16:39Z] sys:1: DeprecationWarning: builtin type swigvarlink has no __module__ attribute
+^^^ +++
+[2026-06-22T19:16:44Z] 🚨 Error: The command exited with status 1
+^^^ +++
+[2026-06-22T19:16:44Z] user command error: The plugin docker command hook exited with status 1
+~~~ Running global pre-exit hook
+[2026-06-22T19:16:44Z] $ /etc/buildkite-agent/hooks/pre-exit
+~~~ Running plugin docker pre-exit hook
+[2026-06-22T19:16:44Z] $ /var/lib/buildkite-agent/plugins/bk-gpu-4-queue-ci-i-0521a28ede172cefd-1/github-com-buildkite-plugins-docker-buildkite-plugin-v5-2-0/hooks/pre-exit</pre></td>
+<td class="issue-action-cell"><button type="button" class="btn-github-issue"><svg class="ico btn-issue-ico" width="17" height="17" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg><span class="btn-issue-text">File issue</span></button></td>
+</tr>
+</tbody></table></div>
+</div></details>
+<details class="job-fail-details job-fail-details-bk">
+<summary class="job-fail-details-summary job-fail-details-summary-bk">
+<h2><span class="heading-row"><span class="heading-ico"><svg class="ico" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span><span class="heading-text"><span class="heading-label">Buildkite step: :full_moon: Diffusion X2V · Accuracy Test</span></span></span></h2>
+<p class="meta"><strong>Step link:</strong> <a href="https://buildkite.com/vllm/vllm-omni/builds/11684#019ef088-51d4-4dd2-bc02-351999a0edba">open</a></p>
+</summary>
+<div class="job-fail-details-body">
+<h3 class="section-failures"><span class="heading-row"><span class="heading-ico"><svg class="ico" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg></span><span class="heading-text"><span class="heading-label">Failures &amp; errors</span></span></span></h3>
+<div class="table-scroll"><table class="fail-table">
+<thead><tr>
+<th scope="col"><span class="th-lbl"><svg class="ico th-ico" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg><span>Test node</span></span></th>
+<th scope="col"><span class="th-lbl"><svg class="ico th-ico" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>Log reason</span></span></th>
+<th scope="col"><span class="th-lbl"><svg class="ico th-ico" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.9 5.8L4 10l5.8 1.9L12 18l1.9-5.8L20 10l-6.2-1.9L12 3z"/></svg><span>Analysis</span></span></th>
+<th scope="col"><span class="th-lbl"><svg class="ico th-ico" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg><span>Log excerpt</span></span></th>
+<th scope="col"><span class="th-lbl"><svg class="ico th-ico" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg><span>GitHub Issue</span></span></th>
+</tr></thead>
+<tbody>
+<tr class="row-error" data-issue-env="ci" data-vllm-version="" data-vllm-omni-version="" data-build-commit="f4d922d8f60b" data-report-context="Buildkite scheduled nightly (main) · build #11684 · step: :full_moon: Diffusion X2V · Accuracy Test">
+<td class="mono">tests/e2e/accuracy/wan22_i2v/test_wan22_i2v_video_similarity.py::test_wan22_i2v_online_serving_generates_video[wan22_i2v_usp2_hsdp2] (ERROR)</td>
+<td class="reason">RuntimeError: Server processes exited with code 1 before becoming ready.</td>
+<td class="analysis">未能自动归入常见类型；请结合「原因」与日志片段中的异常类型、栈顶文件与行号做进一步判断。</td>
+<td class="excerpt-cell"><pre class="log-excerpt">_bk;t=1782153196499=============================================== 14 passed, 1 skipped, 21 warnings, 1 error in 866.31s (0:14:26) ================================================
+_bk;t=1782153203899^^^ +++
+_bk;t=1782153203899🚨 Error: The command exited with status 1
+_bk;t=1782153203899^^^ +++
+_bk;t=1782153203899user command error: exit status 1</pre></td>
+<td class="issue-action-cell"><button type="button" class="btn-github-issue"><svg class="ico btn-issue-ico" width="17" height="17" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg><span class="btn-issue-text">File issue</span></button></td>
+</tr>
+</tbody></table></div>
+</div></details>
+<details class="job-fail-details job-fail-details-bk">
+<summary class="job-fail-details-summary job-fail-details-summary-bk">
+<h2><span class="heading-row"><span class="heading-ico"><svg class="ico" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span><span class="heading-text"><span class="heading-label">Buildkite step: :full_moon: Diffusion X2V · Perf Test</span></span></span></h2>
+<p class="meta"><strong>Step link:</strong> <a href="https://buildkite.com/vllm/vllm-omni/builds/11684#019ef088-51d5-484b-9817-8d5b9700b108">open</a></p>
+</summary>
+<div class="job-fail-details-body">
+<h3 class="section-failures"><span class="heading-row"><span class="heading-ico"><svg class="ico" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg></span><span class="heading-text"><span class="heading-label">Failures &amp; errors</span></span></span></h3>
+<div class="table-scroll"><table class="fail-table">
+<thead><tr>
+<th scope="col"><span class="th-lbl"><svg class="ico th-ico" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg><span>Test node</span></span></th>
+<th scope="col"><span class="th-lbl"><svg class="ico th-ico" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>Log reason</span></span></th>
+<th scope="col"><span class="th-lbl"><svg class="ico th-ico" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.9 5.8L4 10l5.8 1.9L12 18l1.9-5.8L20 10l-6.2-1.9L12 3z"/></svg><span>Analysis</span></span></th>
+<th scope="col"><span class="th-lbl"><svg class="ico th-ico" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg><span>Log excerpt</span></span></th>
+<th scope="col"><span class="th-lbl"><svg class="ico th-ico" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg><span>GitHub Issue</span></span></th>
+</tr></thead>
+<tbody>
+<tr class="row-error" data-issue-env="ci" data-vllm-version="" data-vllm-omni-version="" data-build-commit="f4d922d8f60b" data-report-context="Buildkite scheduled nightly (main) · build #11684 · step: :full_moon: Diffusion X2V · Perf Test">
+<td class="mono">_bk;t=1782153530270tests/dfx/perf/scripts/run_diffusion_benchmark.py::test_diffusion_performance_benchmark[1-test_wan22_i2v_usp2_vae_patch2_hsdp_slicing] (ERROR)</td>
+<td class="reason">_bk;t=1782153530312tests/dfx/perf/scripts/run_diffusion_benchmark.py:244: RuntimeError</td>
+<td class="analysis">归类：超时。可能是用例或环境过慢、死锁或等待外部资源过久，可检查超时设置与依赖服务状态。</td>
+<td class="excerpt-cell"><pre class="log-excerpt">_bk;t=1782153530292
+_bk;t=1782153530292============================================================================ ERRORS ============================================================================
+_bk;t=1782153530292____________________________ ERROR at setup of test_diffusion_performance_benchmark[0-test_wan22_i2v_usp2_vae_patch2_hsdp_slicing] _____________________________
+_bk;t=1782153530292
+_bk;t=1782153530292request = &lt;SubRequest &#x27;diffusion_server&#x27; for &lt;Function test_diffusion_performance_benchmark[0-test_wan22_i2v_usp2_vae_patch2_hsdp_slicing]&gt;&gt;
+_bk;t=1782153530292
+_bk;t=1782153530310    @pytest.fixture(scope=&quot;module&quot;)
+_bk;t=1782153530310    def diffusion_server(request):
+_bk;t=1782153530310        &quot;&quot;&quot;Start one vLLM-Omni server per unique test configuration.&quot;&quot;&quot;
+_bk;t=1782153530310        with _server_lock:
+_bk;t=1782153530310            server_cfg: dict[str, Any] = request.param
+_bk;t=1782153530310            test_name = server_cfg[&quot;test_name&quot;]
+_bk;t=1782153530310            server_type = server_cfg[&quot;server_type&quot;]
+_bk;t=1782153530310
+_bk;t=1782153530310            print(f&quot;\nStarting {server_type} server for test: {test_name}&quot;)
+_bk;t=1782153530310&gt;           with _make_server(server_cfg) as server:
+_bk;t=1782153530310                 ^^^^^^^^^^^^^^^^^^^^^^^^
+_bk;t=1782153530310
+_bk;t=1782153530310tests/dfx/perf/scripts/run_diffusion_benchmark.py:527:
+_bk;t=1782153530310_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+_bk;t=1782153530310tests/dfx/perf/scripts/run_diffusion_benchmark.py:346: in __enter__
+_bk;t=1782153530311    self._start_server()
+_bk;t=1782153530311tests/dfx/perf/scripts/run_diffusion_benchmark.py:342: in _start_server
+_bk;t=1782153530311    _wait_for_port(self.host, self.port, proc=self.proc)
+_bk;t=1782153530311_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+_bk;t=1782153530311
+_bk;t=1782153530311host = &#x27;127.0.0.1&#x27;, port = 55581, timeout = 1200, proc = &lt;Popen: returncode: 1 args: [&#x27;/usr/bin/python3&#x27;, &#x27;-m&#x27;, &#x27;vllm_omni.entrypoint...&gt;
+_bk;t=1782153530311
+_bk;t=1782153530312    def _wait_for_port(host: str, port: int, timeout: int = 1200, proc: subprocess.Popen | None = None) -&gt; None:
+_bk;t=1782153530312        &quot;&quot;&quot;Block until the given host:port accepts connections or timeout expires.
+_bk;t=1782153530312
+_bk;t=1782153530312        If *proc* is provided, also monitors the process; raises RuntimeError
+_bk;t=1782153530312        immediately if the server process exits before the port becomes available.
+_bk;t=1782153530312        &quot;&quot;&quot;
+_bk;t=1782153530312        start = time.time()
+_bk;t=1782153530312        while time.time() - start &lt; timeout:
+_bk;t=1782153530312            try:
+_bk;t=1782153530312                with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+_bk;t=1782153530312                    s.settimeout(1)
+_bk;t=1782153530312                    if s.connect_ex((host, port)) == 0:
+_bk;t=1782153530312                        return
+_bk;t=1782153530312            except Exception:
+_bk;t=1782153530312                pass
+_bk;t=1782153530312            if proc is not None:
+_bk;t=1782153530312                ret = proc.poll()
+_bk;t=1782153530312                if ret is not None:
+_bk;t=1782153530312&gt;                   raise RuntimeError(f&quot;Server process exited with code {ret} before port {host}:{port} became ready&quot;)
+_bk;t=1782153530312E                   RuntimeError: Server process exited with code 1 before port 127.0.0.1:55581 became ready
+_bk;t=1782153530312
+_bk;t=1782153530312tests/dfx/perf/scripts/run_diffusion_benchmark.py:244: RuntimeError</pre></td>
+<td class="issue-action-cell"><button type="button" class="btn-github-issue"><svg class="ico btn-issue-ico" width="17" height="17" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg><span class="btn-issue-text">File issue</span></button></td>
+</tr>
+<tr class="row-error" data-issue-env="ci" data-vllm-version="" data-vllm-omni-version="" data-build-commit="f4d922d8f60b" data-report-context="Buildkite scheduled nightly (main) · build #11684 · step: :full_moon: Diffusion X2V · Perf Test">
+<td class="mono">tests/dfx/perf/scripts/run_diffusion_benchmark.py::test_diffusion_performance_benchmark[0-test_wan22_i2v_usp2_vae_patch2_hsdp_slicing] (ERROR)</td>
+<td class="reason">RuntimeError: Server process exited with code 1 before port 127.0.0.1:55581 became ready</td>
+<td class="analysis">未能自动归入常见类型；请结合「原因」与日志片段中的异常类型、栈顶文件与行号做进一步判断。</td>
+<td class="excerpt-cell"><pre class="log-excerpt">_bk;t=1782153530316ERROR tests/dfx/perf/scripts/run_diffusion_benchmark.py::test_diffusion_performance_benchmark[1-test_wan22_i2v_usp2_vae_patch2_hsdp_slicing] - RuntimeError: Server process exited with code 1 before port 127.0.0.1:55581 became ready
+_bk;t=1782153530317=============================================== 1 passed, 1 skipped, 21 warnings, 2 errors in 674.95s (0:11:14) ================================================
+_bk;t=1782153532339sys:1: DeprecationWarning: builtin type swigvarlink has no __module__ attribute
+_bk;t=17821535338842026-06-22 18:38:53 INFO   Found 1 files that match &quot;tests/dfx/perf/results/diffusion_result_*.json&quot;
+_bk;t=17821535338842026-06-22 18:38:53 INFO   Uploading to default Buildkite artifact storage
+_bk;t=17821535338842026-06-22 18:38:53 INFO   Creating (0-1)/1 artifacts
+_bk;t=17821535392362026-06-22 18:38:59 INFO   Uploading 019ef0a0-ee14-46d2-b6ae-7fd6b4c25414 tests/dfx/perf/results/diffusion_result_test_wan22_i2v_vllm_omni_20260622-182735.json (4.9 KiB)
+_bk;t=17821535506612026-06-22 18:39:10 INFO   Artifact uploads completed successfully
+_bk;t=17821535506842026-06-22 18:39:10 INFO   Found 1 files that match &quot;tests/dfx/perf/results/logs/*.log&quot;
+_bk;t=17821535506842026-06-22 18:39:10 INFO   Uploading to default Buildkite artifact storage
+_bk;t=17821535506842026-06-22 18:39:10 INFO   Creating (0-1)/1 artifacts
+_bk;t=17821535519352026-06-22 18:39:11 INFO   Uploading 019ef0a1-200e-43b0-a282-34b526f563a7 tests/dfx/perf/results/logs/test_wan22_i2v_single_device_v1_videos_20260622-183047.log (2.9 KiB)
+_bk;t=17821535572472026-06-22 18:39:17 INFO   Artifact uploads completed successfully
+_bk;t=1782153557250^^^ +++
+_bk;t=1782153557250🚨 Error: The command exited with status 1
+_bk;t=1782153557250^^^ +++
+_bk;t=1782153557250user command error: exit status 1</pre></td>
+<td class="issue-action-cell"><button type="button" class="btn-github-issue"><svg class="ico btn-issue-ico" width="17" height="17" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg><span class="btn-issue-text">File issue</span></button></td>
+</tr>
+<tr class="row-error" data-issue-env="ci" data-vllm-version="" data-vllm-omni-version="" data-build-commit="f4d922d8f60b" data-report-context="Buildkite scheduled nightly (main) · build #11684 · step: :full_moon: Diffusion X2V · Perf Test">
+<td class="mono">tests/dfx/perf/scripts/run_diffusion_benchmark.py::test_diffusion_performance_benchmark[1-test_wan22_i2v_usp2_vae_patch2_hsdp_slicing] (ERROR)</td>
+<td class="reason">RuntimeError: Server process exited with code 1 before port 127.0.0.1:55581 became ready</td>
+<td class="analysis">未能自动归入常见类型；请结合「原因」与日志片段中的异常类型、栈顶文件与行号做进一步判断。</td>
+<td class="excerpt-cell"><pre class="log-excerpt">_bk;t=1782153530317=============================================== 1 passed, 1 skipped, 21 warnings, 2 errors in 674.95s (0:11:14) ================================================
+_bk;t=1782153532339sys:1: DeprecationWarning: builtin type swigvarlink has no __module__ attribute
+_bk;t=17821535338842026-06-22 18:38:53 INFO   Found 1 files that match &quot;tests/dfx/perf/results/diffusion_result_*.json&quot;
+_bk;t=17821535338842026-06-22 18:38:53 INFO   Uploading to default Buildkite artifact storage
+_bk;t=17821535338842026-06-22 18:38:53 INFO   Creating (0-1)/1 artifacts
+_bk;t=17821535392362026-06-22 18:38:59 INFO   Uploading 019ef0a0-ee14-46d2-b6ae-7fd6b4c25414 tests/dfx/perf/results/diffusion_result_test_wan22_i2v_vllm_omni_20260622-182735.json (4.9 KiB)
+_bk;t=17821535506612026-06-22 18:39:10 INFO   Artifact uploads completed successfully
+_bk;t=17821535506842026-06-22 18:39:10 INFO   Found 1 files that match &quot;tests/dfx/perf/results/logs/*.log&quot;
+_bk;t=17821535506842026-06-22 18:39:10 INFO   Uploading to default Buildkite artifact storage
+_bk;t=17821535506842026-06-22 18:39:10 INFO   Creating (0-1)/1 artifacts
+_bk;t=17821535519352026-06-22 18:39:11 INFO   Uploading 019ef0a1-200e-43b0-a282-34b526f563a7 tests/dfx/perf/results/logs/test_wan22_i2v_single_device_v1_videos_20260622-183047.log (2.9 KiB)
+_bk;t=17821535572472026-06-22 18:39:17 INFO   Artifact uploads completed successfully
+_bk;t=1782153557250^^^ +++
+_bk;t=1782153557250🚨 Error: The command exited with status 1
+_bk;t=1782153557250^^^ +++
+_bk;t=1782153557250user command error: exit status 1</pre></td>
+<td class="issue-action-cell"><button type="button" class="btn-github-issue"><svg class="ico btn-issue-ico" width="17" height="17" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg><span class="btn-issue-text">File issue</span></button></td>
+</tr>
+</tbody></table></div>
+</div></details>
+<details class="job-fail-details job-fail-details-bk">
+<summary class="job-fail-details-summary job-fail-details-summary-bk">
+<h2><span class="heading-row"><span class="heading-ico"><svg class="ico" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span><span class="heading-text"><span class="heading-label">Buildkite step: :full_moon: Omni · Function Test with H100</span></span></span></h2>
+<p class="meta"><strong>Step link:</strong> <a href="https://buildkite.com/vllm/vllm-omni/builds/11684#019ef088-5197-40e8-b611-960d2b652def">open</a></p>
+</summary>
+<div class="job-fail-details-body">
+<h3 class="section-failures"><span class="heading-row"><span class="heading-ico"><svg class="ico" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg></span><span class="heading-text"><span class="heading-label">Failures &amp; errors</span></span></span></h3>
+<div class="table-scroll"><table class="fail-table">
+<thead><tr>
+<th scope="col"><span class="th-lbl"><svg class="ico th-ico" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg><span>Test node</span></span></th>
+<th scope="col"><span class="th-lbl"><svg class="ico th-ico" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>Log reason</span></span></th>
+<th scope="col"><span class="th-lbl"><svg class="ico th-ico" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.9 5.8L4 10l5.8 1.9L12 18l1.9-5.8L20 10l-6.2-1.9L12 3z"/></svg><span>Analysis</span></span></th>
+<th scope="col"><span class="th-lbl"><svg class="ico th-ico" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg><span>Log excerpt</span></span></th>
+<th scope="col"><span class="th-lbl"><svg class="ico th-ico" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg><span>GitHub Issue</span></span></th>
+</tr></thead>
+<tbody>
+<tr data-issue-env="ci" data-vllm-version="" data-vllm-omni-version="" data-build-commit="f4d922d8f60b" data-report-context="Buildkite scheduled nightly (main) · build #11684 · step: :full_moon: Omni · Function Test with H100">
+<td class="mono">tests/e2e/online_serving/test_qwen3_omni_expansion.py::test_large_image_to_text_audio_001[default]</td>
+<td class="reason">AssertionError: The audio content is not same as the text</td>
+<td class="analysis">归类：断言失败。通常是期望值与实际运行结果不一致，请核对测试逻辑、边界条件与数据准备是否正确。</td>
+<td class="excerpt-cell"><pre class="log-excerpt">_bk;t=1782155504067FAILED tests/e2e/online_serving/test_qwen3_omni_expansion.py::test_text_to_audio_long_output_001[default] - AssertionError: The audio content is not same as the text
+_bk;t=1782155504067FAILED tests/e2e/online_serving/test_qwen3_omni_expansion.py::test_large_image_to_text_audio_001[async_chunk] - AssertionError: The audio content is not same as the text
+_bk;t=1782155504067====================================== 3 failed, 41 passed, 16 skipped, 356 deselected, 23 warnings in 3538.67s (0:58:58) ======================================
+_bk;t=1782155508450sys:1: DeprecationWarning: builtin type swigvarlink has no __module__ attribute
+_bk;t=1782155511845^^^ +++
+_bk;t=1782155511845🚨 Error: The command exited with status 1
+_bk;t=1782155511845^^^ +++
+_bk;t=1782155511845user command error: exit status 1</pre></td>
+<td class="issue-action-cell"><button type="button" class="btn-github-issue"><svg class="ico btn-issue-ico" width="17" height="17" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg><span class="btn-issue-text">File issue</span></button></td>
+</tr>
+<tr data-issue-env="ci" data-vllm-version="" data-vllm-omni-version="" data-build-commit="f4d922d8f60b" data-report-context="Buildkite scheduled nightly (main) · build #11684 · step: :full_moon: Omni · Function Test with H100">
+<td class="mono">tests/e2e/online_serving/test_qwen3_omni_expansion.py::test_text_to_audio_long_output_001[default]</td>
+<td class="reason">AssertionError: The audio content is not same as the text</td>
+<td class="analysis">归类：断言失败。通常是期望值与实际运行结果不一致，请核对测试逻辑、边界条件与数据准备是否正确。</td>
+<td class="excerpt-cell"><pre class="log-excerpt">_bk;t=1782155504067FAILED tests/e2e/online_serving/test_qwen3_omni_expansion.py::test_large_image_to_text_audio_001[async_chunk] - AssertionError: The audio content is not same as the text
+_bk;t=1782155504067====================================== 3 failed, 41 passed, 16 skipped, 356 deselected, 23 warnings in 3538.67s (0:58:58) ======================================
+_bk;t=1782155508450sys:1: DeprecationWarning: builtin type swigvarlink has no __module__ attribute
+_bk;t=1782155511845^^^ +++
+_bk;t=1782155511845🚨 Error: The command exited with status 1
+_bk;t=1782155511845^^^ +++
+_bk;t=1782155511845user command error: exit status 1</pre></td>
+<td class="issue-action-cell"><button type="button" class="btn-github-issue"><svg class="ico btn-issue-ico" width="17" height="17" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg><span class="btn-issue-text">File issue</span></button></td>
+</tr>
+<tr data-issue-env="ci" data-vllm-version="" data-vllm-omni-version="" data-build-commit="f4d922d8f60b" data-report-context="Buildkite scheduled nightly (main) · build #11684 · step: :full_moon: Omni · Function Test with H100">
+<td class="mono">tests/e2e/online_serving/test_qwen3_omni_expansion.py::test_large_image_to_text_audio_001[async_chunk]</td>
+<td class="reason">AssertionError: The audio content is not same as the text</td>
+<td class="analysis">归类：断言失败。通常是期望值与实际运行结果不一致，请核对测试逻辑、边界条件与数据准备是否正确。</td>
+<td class="excerpt-cell"><pre class="log-excerpt">_bk;t=1782155504067====================================== 3 failed, 41 passed, 16 skipped, 356 deselected, 23 warnings in 3538.67s (0:58:58) ======================================
+_bk;t=1782155508450sys:1: DeprecationWarning: builtin type swigvarlink has no __module__ attribute
+_bk;t=1782155511845^^^ +++
+_bk;t=1782155511845🚨 Error: The command exited with status 1
+_bk;t=1782155511845^^^ +++
+_bk;t=1782155511845user command error: exit status 1</pre></td>
+<td class="issue-action-cell"><button type="button" class="btn-github-issue"><svg class="ico btn-issue-ico" width="17" height="17" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg><span class="btn-issue-text">File issue</span></button></td>
+</tr>
+</tbody></table></div>
+</div></details></div></details>
+</section>
+<section class="panel nightly-root nightly-root--local">
+<h2><span class="heading-row"><span class="heading-ico"><svg class="ico" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"/><rect x="2" y="14" width="20" height="8" rx="2" ry="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg></span><span class="heading-text"><span class="heading-label">Local Test</span></span></span></h2>
+<details class="report-subcard"><summary class="report-subcard-summary"><span class="report-subcard-summary-inner"><svg class="ico report-subcard-ico" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg><span class="report-subcard-title">Summary</span></span></summary><div class="report-subcard-body"><p class="note">No job logs found under this directory. Confirm nightly jobs ran, copy logs (see vllm-omni-nightly-local references/nightly-local-log-fetch.md), and match references/nightly-local-log-layout.md.</p></div></details>
+<details class="report-subcard report-subcard--perf"><summary class="report-subcard-summary"><span class="report-subcard-summary-inner"><svg class="ico report-subcard-ico" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg><span class="report-subcard-title">性能分析</span></span></summary><div class="report-subcard-body"><p class="meta"><strong>文件:</strong> <code>/mnt/d/Code/vllm-omni-skills/vllm-omni-skills/skills/vllm-omni-test-report/scripts/logs/nightly_perf_manual.xlsx</code></p>
+<p class="note">未找到该文件。同步集群日志时请一并复制 <code>nightly_perf_manual.xlsx</code> （见 vllm-omni-nightly-local <code>nightly-local-log-fetch</code>）。</p></div></details>
+<details class="report-subcard report-subcard--local-perf-baseline"><summary class="report-subcard-summary"><span class="report-subcard-summary-inner"><svg class="ico report-subcard-ico" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg><span class="report-subcard-title">性能基线对比</span></span></summary><div class="report-subcard-body"><p class="meta"><strong>数据源:</strong> <code></code></p>
+<p class="note">local perf result root is not configured. Pass --local-perf-result-root.</p></div></details>
+<details class="report-subcard report-subcard--local-fail"><summary class="report-subcard-summary"><span class="report-subcard-summary-inner"><svg class="ico report-subcard-ico" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><span class="report-subcard-title">失败分析</span></span></summary><div class="report-subcard-body"><p class="note">当前无失败或错误需逐项分析。</p></div></details>
+</section>
+</div>
+
+<div id="gh-issue-modal" class="gh-modal" hidden aria-hidden="true">
+  <div class="gh-modal-backdrop" tabindex="-1"></div>
+  <div class="gh-modal-panel" role="dialog" aria-modal="true" aria-labelledby="gh-issue-dialog-title">
+    <header class="gh-modal-head">
+      <h2 id="gh-issue-dialog-title">File a vllm-omni bug report</h2>
+      <button type="button" class="gh-modal-x" id="gh-issue-close" aria-label="Close">×</button>
+    </header>
+    <p class="gh-modal-hint">Body sections follow the upstream
+      <a href="https://github.com/vllm-project/vllm-omni/blob/main/.github/ISSUE_TEMPLATE/400-bug-report.yml" target="_blank" rel="noopener noreferrer">bug report template</a>
+      (<code>400-bug-report.yml</code>).
+      For <strong>Buildkite</strong> rows, the body uses <code>ci env</code> and tries to fill <strong>vllm / vllm-omni</strong>
+      versions by scanning the step log; paste anything missing from the build log if needed.
+      Click <strong>Open GitHub</strong> (template, title, and labels are pre-filled via URL; labels must already exist on the target repo).
+      <strong>Buildkite</strong> rows use labels <code>bug</code>, <code>ci-failure</code>, <code>high priority</code>.
+      Environment / code-version fields need upstream template field ids (<code>current-environment</code> / <code>code-version</code>).
+      Paste the Markdown below into <strong>Describe the bug</strong>. Redact secrets before submitting.</p>
+    <textarea id="gh-issue-body-text" class="gh-issue-textarea" rows="20" spellcheck="false"></textarea>
+    <footer class="gh-modal-actions">
+      <button type="button" class="btn-gh-copy" id="gh-issue-copy">Copy body</button>
+      <a class="btn-gh-open" id="gh-issue-open" href="https://github.com/vllm-project/vllm-omni/issues/new" target="_blank" rel="noopener noreferrer">Open GitHub</a>
+    </footer>
+  </div>
+</div>
+<script>
+(function () {
+  var modal = document.getElementById("gh-issue-modal");
+  var ta = document.getElementById("gh-issue-body-text");
+  var openA = document.getElementById("gh-issue-open");
+  var copyBtn = document.getElementById("gh-issue-copy");
+  var closeBtn = document.getElementById("gh-issue-close");
+  var backdrop = modal ? modal.querySelector(".gh-modal-backdrop") : null;
+  if (!modal || !ta || !openA || !copyBtn || !closeBtn || !backdrop) return;
+  var issueBase = "https://github.com/vllm-project/vllm-omni/issues/new";
+  var bugTemplate = "400-bug-report.yml";
+  var issueEnvFieldId = "current-environment";
+  var issueEnvCiValue = "<details>\n<summary>The output of <code>python collect_env.py</code></summary>\n\n```text\nci env\n```\n\n</details>";
+  var issueCodeVersionFieldId = "code-version";
+  var issueLabelsCi = "bug,ci-failure,high priority";
+  var issueLabelsLocal = "bug";
+
+  function issueLabelsQuery(d) {
+    return d.env === "ci" ? issueLabelsCi : issueLabelsLocal;
+  }
+
+  function applyIssueLabels(u, labelsCsv) {
+    labelsCsv.split(",").forEach(function (lab) {
+      var t = lab.trim();
+      if (t) u.searchParams.append("labels", t);
+    });
+  }
+
+  function finalizeIssueUrl(u) {
+    // URLSearchParams uses '+' for spaces; GitHub label names (e.g. "high priority") need %20.
+    return u.toString().replace(/labels=([^&]*)/g, function (_m, val) {
+      return "labels=" + val.replace(/\+/g, "%20");
+    });
+  }
+
+  function resolveVersionLines(d) {
+    if (d.env === "ci") {
+      var vllmLine = (d.vllmVer && d.vllmVer.trim()) ? d.vllmVer.trim() : "(not found in Buildkite step log)";
+      var omniLine;
+      if (d.omniVer && d.omniVer.trim()) {
+        omniLine = d.omniVer.trim();
+      } else if (d.buildCommit && d.buildCommit.trim()) {
+        omniLine = d.buildCommit.trim();
+      } else {
+        omniLine = "(not found in Buildkite step log)";
+      }
+      return { vllmLine: vllmLine, omniLine: omniLine };
+    }
+    return { vllmLine: "(pending)", omniLine: "(pending)" };
+  }
+
+  function issueCodeVersionPrefill(d) {
+    if (d.env !== "ci") return null;
+    var ver = resolveVersionLines(d);
+    return [
+      "<details>",
+      "<summary>The commit id or version of vllm</summary>",
+      "",
+      "```text",
+      ver.vllmLine,
+      "```",
+      "</details>",
+      "<details>",
+      "<summary>The commit id or version of vllm-omni</summary>",
+      "",
+      "```text",
+      ver.omniLine,
+      "```",
+      "</details>",
+    ].join("\n");
+  }
+
+  function gatherRow(btn) {
+    var tr = btn.closest("tr");
+    if (!tr || !tr.cells || tr.cells.length < 5) return null;
+    var ctx = tr.getAttribute("data-report-context") || "";
+    var node = tr.cells[0].innerText.trim();
+    var reason = tr.cells[1].innerText.trim();
+    var analysis = tr.cells[2].innerText.trim();
+    var pre = tr.cells[3].querySelector(".log-excerpt");
+    var excerpt = pre ? pre.innerText : "";
+    var isErr = node.indexOf("(ERROR)") !== -1;
+    var env = tr.getAttribute("data-issue-env") || "local";
+    var vllmVer = tr.getAttribute("data-vllm-version") || "";
+    var omniVer = tr.getAttribute("data-vllm-omni-version") || "";
+    var buildCommit = tr.getAttribute("data-build-commit") || "";
+    return {
+      ctx: ctx, node: node, reason: reason, analysis: analysis, excerpt: excerpt, isErr: isErr,
+      env: env, vllmVer: vllmVer, omniVer: omniVer, buildCommit: buildCommit,
+    };
+  }
+
+  function buildMarkdown(d) {
+    var kind = d.isErr ? "pytest ERROR" : "pytest FAILED";
+    var analysisNote;
+    if (d.analysis && d.analysis.trim()) {
+      analysisNote = [
+        "**Automated analysis (from report, not copied):**",
+        "The HTML report may include a short heuristic summary in another language in the Analysis column.",
+        "Please restate the failure in English for maintainers if you rely on that text.",
+        "",
+      ].join("\n");
+    } else {
+      analysisNote = [
+        "**Automated analysis:**",
+        "None in report.",
+        "",
+      ].join("\n");
+    }
+
+    var envSection;
+    if (d.env === "ci") {
+      envSection = [
+        "### Your current environment",
+        "",
+        "```text",
+        "ci env",
+        "```",
+        "",
+      ].join("\n");
+    } else {
+      envSection = [
+        "### Your current environment",
+        "",
+        "*(Local nightly logs — add `python collect_env.py` output here if useful.)*",
+        "",
+        "```text",
+        "(pending -- paste collect_env.py output here)",
+        "```",
+        "",
+      ].join("\n");
+    }
+
+    var vllmLine, omniLine;
+    var ver = resolveVersionLines(d);
+    vllmLine = ver.vllmLine;
+    omniLine = ver.omniLine;
+
+    return [
+      envSection,
+      "### Your code version",
+      "",
+      "The commit id or version of vllm",
+      "",
+      "```text",
+      vllmLine,
+      "```",
+      "",
+      "The commit id or version of vllm-omni",
+      "",
+      "```text",
+      omniLine,
+      "```",
+      "",
+      "### 🐛 Describe the bug",
+      "",
+      "**Report source:** " + d.ctx,
+      "**Failure kind:** " + kind,
+      "**Test node:** `" + d.node + "`",
+      "",
+      "**Log reason:**",
+      d.reason,
+      "",
+      analysisNote,
+      "**Pytest / CI log excerpt:**",
+      "",
+      "```text",
+      d.excerpt,
+      "```",
+      "",
+      "---",
+      "*Generated from a nightly HTML report. Redact secrets before submitting; complete the checkboxes on GitHub.*",
+    ].join("\n");
+  }
+
+  function issueTitle(d) {
+    var n = d.node.replace(/\s*\(ERROR\)\s*$/i, "");
+    var t = "[Bug]: Nightly / CI failed - " + n;
+    return t.length > 220 ? t.slice(0, 217) + "..." : t;
+  }
+
+  function openModal(d) {
+    ta.value = buildMarkdown(d);
+    var u = new URL(issueBase);
+    u.searchParams.set("template", bugTemplate);
+    u.searchParams.set("title", issueTitle(d));
+    applyIssueLabels(u, issueLabelsQuery(d));
+    if (d.env === "ci") {
+      u.searchParams.set(issueEnvFieldId, issueEnvCiValue);
+      var codeVer = issueCodeVersionPrefill(d);
+      if (codeVer) {
+        u.searchParams.set(issueCodeVersionFieldId, codeVer);
+      }
+    }
+    openA.href = finalizeIssueUrl(u);
+    modal.hidden = false;
+    modal.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+    ta.focus();
+  }
+
+  function closeModal() {
+    modal.hidden = true;
+    modal.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+  }
+
+  document.addEventListener("click", function (ev) {
+    var b = ev.target.closest && ev.target.closest(".btn-github-issue");
+    if (b) {
+      ev.preventDefault();
+      var d = gatherRow(b);
+      if (d) openModal(d);
+    }
+  });
+  closeBtn.addEventListener("click", closeModal);
+  backdrop.addEventListener("click", closeModal);
+  document.addEventListener("keydown", function (ev) {
+    if (ev.key === "Escape" && !modal.hidden) closeModal();
+  });
+  copyBtn.addEventListener("click", function () {
+    var v = ta.value;
+    var reset = function () { copyBtn.textContent = "Copy body"; };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(v).then(function () {
+        copyBtn.textContent = "Copied";
+        setTimeout(reset, 1400);
+      }).catch(function () { ta.select(); document.execCommand("copy"); reset(); });
+    } else {
+      ta.select();
+      try { document.execCommand("copy"); } catch (e) {}
+      copyBtn.textContent = "Copied";
+      setTimeout(reset, 1400);
+    }
+  });
+
+  document.querySelectorAll(".btn-view-full-log").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var id = btn.getAttribute("aria-controls");
+      var panel = id ? document.getElementById(id) : null;
+      if (!panel) return;
+      var nowHidden = !panel.hidden;
+      panel.hidden = nowHidden;
+      btn.setAttribute("aria-expanded", nowHidden ? "false" : "true");
+      btn.textContent = nowHidden ? "查看完整日志" : "收起完整日志";
+    });
+  });
+
+  function applyPerfFilters(scope) {
+    var testSel = scope.querySelector('select[data-filter-key="test"]');
+    var metricSel = scope.querySelector('select[data-filter-key="metric"]');
+    var statusSel = scope.querySelector('select[data-filter-key="status"]');
+    var rows = scope.querySelectorAll('tr[data-perf-row="1"]');
+    var empty = scope.querySelector("[data-perf-empty]");
+    if (!testSel || !metricSel || !statusSel || !rows.length) return;
+
+    var testVal = testSel.value || "";
+    var metricVal = metricSel.value || "";
+    var statusVal = statusSel.value || "";
+    var visibleCount = 0;
+    rows.forEach(function (row) {
+      var ok = true;
+      if (testVal && row.getAttribute("data-test") !== testVal) ok = false;
+      if (metricVal && row.getAttribute("data-metric") !== metricVal) ok = false;
+      if (statusVal && row.getAttribute("data-status") !== statusVal) ok = false;
+      row.hidden = !ok;
+      if (ok) visibleCount += 1;
+    });
+    if (empty) {
+      empty.hidden = visibleCount !== 0;
+    }
+  }
+
+  document.querySelectorAll("[data-perf-filter-scope]").forEach(function (scope) {
+    scope.querySelectorAll("select[data-filter-key]").forEach(function (sel) {
+      sel.addEventListener("change", function () {
+        applyPerfFilters(scope);
+      });
+    });
+    applyPerfFilters(scope);
+  });
+})();
+</script>
+
+</body>
+</html>
+
