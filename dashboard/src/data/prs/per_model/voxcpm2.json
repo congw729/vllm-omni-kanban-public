@@ -3405,16 +3405,6 @@
       "url": "https://github.com/vllm-project/vllm-omni/pull/2161"
     },
     {
-      "author": "Sy03",
-      "merged_at": "2026-03-25T04:02:52+08:00",
-      "number": 2104,
-      "platform_paths": [
-        "vllm_omni/entrypoints/openai/serving_speech.py"
-      ],
-      "title": "[Fix] Qwen3 TTS audio handling for long ref_audio (#2104)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/2104"
-    },
-    {
       "author": "Alex Brooks",
       "merged_at": "2026-03-25T03:56:13-06:00",
       "number": 2025,
@@ -3425,90 +3415,6 @@
       ],
       "title": "[BugFix] Make Stage Device Initialization Respect Visible GPUs (#2025)",
       "url": "https://github.com/vllm-project/vllm-omni/pull/2025"
-    },
-    {
-      "author": "Du Bin",
-      "merged_at": "2026-03-24T22:52:31+08:00",
-      "number": 2028,
-      "platform_paths": [
-        "vllm_omni/core/sched/omni_ar_scheduler.py",
-        "vllm_omni/distributed/omni_connectors/transfer_adapter/chunk_transfer_adapter.py"
-      ],
-      "title": "[Bugfix] Fix memory leak: missing chunk_transfer_adapter.cleanup() in OmniARScheduler (#2028)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/2028"
-    },
-    {
-      "author": "Canlin Guo",
-      "merged_at": "2026-03-24T15:47:41+08:00",
-      "number": 2053,
-      "platform_paths": [
-        "vllm_omni/entrypoints/openai/api_server.py"
-      ],
-      "title": "[API] Add layers and resolution parameters to /v1/images/edits endpoint (#2053)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/2053"
-    },
-    {
-      "author": "Canlin Guo",
-      "merged_at": "2026-03-24T15:25:52+08:00",
-      "number": 2099,
-      "platform_paths": [
-        "vllm_omni/engine/async_omni_engine.py",
-        "vllm_omni/entrypoints/async_omni.py",
-        "vllm_omni/entrypoints/async_omni_diffusion.py",
-        "vllm_omni/entrypoints/omni_base.py",
-        "vllm_omni/entrypoints/openai/api_server.py"
-      ],
-      "title": "[Refactor] Unify torch profiler for omni and diffusion models (#2099)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/2099"
-    },
-    {
-      "author": "dongbo910220",
-      "merged_at": "2026-03-24T14:55:54+08:00",
-      "number": 1379,
-      "platform_paths": [
-        "vllm_omni/engine/async_omni_engine.py",
-        "vllm_omni/entrypoints/cli/serve.py"
-      ],
-      "title": "[Feature]: add Ulysses advanced_uaa mode (#1379)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1379"
-    },
-    {
-      "author": "dsinghvi",
-      "merged_at": "2026-03-24T14:52:01Z",
-      "number": 1701,
-      "platform_paths": [
-        "vllm_omni/entrypoints/omni_base.py",
-        "vllm_omni/entrypoints/openai/api_server.py",
-        "vllm_omni/entrypoints/openai/protocol/audio.py",
-        "vllm_omni/entrypoints/openai/serving_speech.py"
-      ],
-      "title": "[Feature] Speech batch entrypoint (#1701)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1701"
-    },
-    {
-      "author": "rein yang",
-      "merged_at": "2026-03-24T13:53:24+08:00",
-      "number": 1963,
-      "platform_paths": [
-        "vllm_omni/entrypoints/openai/protocol/audio.py",
-        "vllm_omni/entrypoints/openai/serving_chat.py",
-        "vllm_omni/entrypoints/openai/serving_speech.py"
-      ],
-      "title": "[Feature] support to change the speaker of qwen3-omni (#1963)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1963"
-    },
-    {
-      "author": "Nick Cao",
-      "merged_at": "2026-03-24T10:29:38-04:00",
-      "number": 2105,
-      "platform_paths": [
-        "vllm_omni/core/sched/omni_ar_scheduler.py",
-        "vllm_omni/engine/__init__.py",
-        "vllm_omni/engine/serialization.py",
-        "vllm_omni/engine/test_serialization.py"
-      ],
-      "title": "[Feat] Support scalar types in AdditionalInformationEntry (#2105)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/2105"
     }
   ]
 }
