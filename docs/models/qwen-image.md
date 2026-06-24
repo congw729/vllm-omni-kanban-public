@@ -38,6 +38,19 @@ This page tracks Qwen Image nightly benchmark runs: configurations, latency, thr
 
 </div>
 
+<div data-omni-tab="Compare" markdown="1">
+
+## Framework Comparison
+
+<div class="omni-section">
+  <div class="omni-section__header">
+    <p>Framework comparison is centralized on the Comparisons page, where Qwen Image workloads can be selected and compared as charts.</p>
+  </div>
+  <p><a href="../../comparisons/">Open Qwen Image comparison charts</a></p>
+</div>
+
+</div>
+
 <div data-omni-tab="History" markdown="1">
 
 ## History Table

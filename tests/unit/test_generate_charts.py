@@ -6,10 +6,14 @@ import sys
 from pathlib import Path
 
 from scripts.generate_charts import (
+    build_framework_comparison_payload,
     build_hunyuan_image3_history_payload,
     build_qwen3_omni_history_payload,
+    load_formal_framework_comparison_records,
     load_qwen_image_benchmark_history,
+    load_sglang_diffusion_json_records,
     load_wan22_benchmark_history,
+    parse_cli_args,
     parse_qwen3_omni_filename,
     parse_result_test_filename,
 )
@@ -306,6 +310,101 @@ def test_result_test_optional_baseline_object(tmp_path: Path, repo_root: Path) -
     rec = payload["records"][0]
     assert rec["baseline_mean_ttft_ms"] == 42.5
     assert rec["baseline_output_throughput"] == 9.9
+
+
+def test_sglang_diffusion_json_records_feed_framework_comparison_payload(tmp_path: Path) -> None:
+    source_dir = tmp_path / "sglang_diffusion_results"
+    source_dir.mkdir()
+    row = {
+        "test_name": "test_sglang_qwen_image_single_device",
+        "endpoint": "/v1/images/generations",
+        "request_backend": "sglang",
+        "timestamp": "20260617-063517",
+        "server_params": {"model": "Qwen/Qwen-Image"},
+        "benchmark_params": {
+            "name": "512x512_steps20",
+            "dataset": "random",
+            "task": "t2i",
+            "width": 512,
+            "height": 512,
+            "num-inference-steps": 20,
+            "num-prompts": 10,
+            "max-concurrency": 1,
+        },
+        "result": {
+            "throughput_qps": 0.2,
+            "latency_mean": 4.9,
+            "latency_p50": 5.0,
+            "latency_p99": 5.2,
+            "peak_memory_mb_max": 0,
+            "stage_durations_mean": {"DenoisingStage": 3.5},
+        },
+        "Hardware": "",
+        "Parallelism": "num-gpus=1",
+        "Framework": "sglang",
+    }
+    (source_dir / "diffusion_result_test_qwen_image_sglang_diffusion.json").write_text(
+        json.dumps([row]),
+        encoding="utf-8",
+    )
+
+    adapter_records = load_sglang_diffusion_json_records(source_dir)
+    assert len(adapter_records) == 1
+    assert adapter_records[0]["model_family"] == "Qwen Image"
+    assert adapter_records[0]["hardware"] == "Not specified"
+    assert adapter_records[0]["stage_mean_DenoisingStage"] == 3.5
+
+    vllm_record = {
+        "date": "2026-06-18",
+        "sort_timestamp": "2026-06-18T00:00:00",
+        "framework": "vllm-omni",
+        "backend": "vllm-omni",
+        "model_id": "Qwen/Qwen-Image",
+        "test_name": "test_qwen_image_single_device",
+        "task": "t2i",
+        "dataset_name": "random",
+        "benchmark_name": "512x512_steps20",
+        "width": 512,
+        "height": 512,
+        "num_inference_steps": 20,
+        "num_input_images": 0,
+        "max_concurrency": 1,
+        "num_prompts": 10,
+        "latency_mean_s": 4.2,
+        "throughput_qps": 0.25,
+    }
+    payload = build_framework_comparison_payload(
+        [{"title": "Qwen Image", "records": [vllm_record]}],
+        adapter_records,
+    )
+
+    comparable = [item for item in payload["workload_options"] if item["comparable"]]
+    assert len(comparable) == 1
+    assert comparable[0]["model_family"] == "Qwen Image"
+    assert {record["framework"] for record in payload["records"]} == {"vllm-omni", "sglang"}
+    assert {record["hardware"] for record in payload["records"]} == {"Not specified"}
+    assert {"latency_mean_s", "throughput_qps"} <= {item["value"] for item in payload["metric_options"]}
+
+
+def test_framework_comparison_loaders_ignore_unexpected_json_payloads(tmp_path: Path) -> None:
+    diffusion_dir = tmp_path / "sglang"
+    formal_dir = tmp_path / "formal"
+    diffusion_dir.mkdir()
+    formal_dir.mkdir()
+    (diffusion_dir / "bad.json").write_text(json.dumps("not records"), encoding="utf-8")
+    (formal_dir / "bad.json").write_text(json.dumps("not records"), encoding="utf-8")
+    (formal_dir / "bad.jsonl").write_text(json.dumps(["not", "objects"]) + "\n", encoding="utf-8")
+
+    assert load_sglang_diffusion_json_records(diffusion_dir) == []
+    assert load_formal_framework_comparison_records(formal_dir) == []
+
+
+def test_parse_cli_args_falls_back_for_unbalanced_quotes() -> None:
+    parsed = parse_cli_args('--model "broken --endpoint /v1/images/generations --max-concurrency 1')
+
+    assert parsed["model"] == '"broken'
+    assert parsed["endpoint"] == "/v1/images/generations"
+    assert parsed["max_concurrency"] == "1"
 
 
 def test_history_baseline_metrics_are_rendered_as_chart_metrics(repo_root: Path) -> None:

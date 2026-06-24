@@ -43,6 +43,7 @@ nav:
       - BAGEL: models/bagel.md
       - VoxCPM2: models/voxcpm2.md
       - Higgs Audio V3: models/higgs-audio-v3.md
+  - Comparisons: comparisons.md
   - Alerts: alerts.md
   - Reports: reports.md
 extra_javascript:

@@ -2276,6 +2276,569 @@ async function loadQwen3OmniHistory() {
   );
 }
 
+function frameworkComparisonScopedRecords(payload, root) {
+  const modelFamily = root.dataset.frameworkComparisonModelFamily;
+  const records = payload.records || [];
+  if (!modelFamily) {
+    return records;
+  }
+  return records.filter((record) => String(record.model_family || "") === modelFamily);
+}
+
+function comparisonMetricFields(payload) {
+  return (payload.metric_groups || []).flatMap((group) => group.metrics || []);
+}
+
+function comparableWorkloadCount(records) {
+  const byWorkload = new Map();
+  records.forEach((record) => {
+    const key = String(record.comparison_key || "");
+    if (!byWorkload.has(key)) {
+      byWorkload.set(key, new Set());
+    }
+    byWorkload.get(key).add(String(record.framework || ""));
+  });
+  return [...byWorkload.values()].filter((items) => items.size > 1).length;
+}
+
+function lowerIsBetterMetric(metric) {
+  return /(latency|ttft|tpot|ttfp|e2e|e2el|itl|rtf|memory|duration|ms|gb)$/i.test(metric)
+    && !/(throughput|score|mos|similarity)$/i.test(metric);
+}
+
+function frameworkBaselineCandidates(payload) {
+  const candidates = Array.isArray(payload.baseline_candidates) ? payload.baseline_candidates : [];
+  return [payload.baseline_framework, ...candidates].filter(Boolean).map((item) => String(item));
+}
+
+function formatComparisonDelta(value, baseline, metric) {
+  if (!isNumeric(value) || !isNumeric(baseline) || Number(baseline) === 0) {
+    return { html: "--", className: "" };
+  }
+  const pct = ((Number(value) - Number(baseline)) / Number(baseline)) * 100;
+  const better = lowerIsBetterMetric(metric) ? pct < 0 : pct > 0;
+  const sign = pct > 0 ? "+" : "";
+  return {
+    html: `${sign}${pct.toFixed(1)}%`,
+    className: better ? "comparison-delta comparison-delta--good" : "comparison-delta comparison-delta--bad",
+  };
+}
+
+function renderFrameworkComparisonSummary(payload, records, root) {
+  const container = root.querySelector("[data-framework-comparison-summary]");
+  if (!container) {
+    return;
+  }
+  const comparable = comparableWorkloadCount(records);
+  container.innerHTML = `
+    <div class="omni-summary-card">
+      <span class="omni-summary-card__eyebrow">Visible Records</span>
+      <strong class="omni-summary-card__value">${records.length}</strong>
+    </div>
+    <div class="omni-summary-card">
+      <span class="omni-summary-card__eyebrow">Comparable Workloads</span>
+      <strong class="omni-summary-card__value">${comparable}</strong>
+    </div>
+    <div class="omni-summary-card">
+      <span class="omni-summary-card__eyebrow">Baseline</span>
+      <strong class="omni-summary-card__value">${escapeHtml(payload.baseline_framework || "--")}</strong>
+    </div>
+  `;
+}
+
+function comparisonDay(record) {
+  const ts = record.sort_timestamp || record.date || "";
+  return typeof ts === "string" && ts.length >= 10 ? ts.slice(0, 10) : "";
+}
+
+function comparisonFrameworkIsVllm(record, payload) {
+  const candidates = new Set(frameworkBaselineCandidates(payload));
+  return candidates.has(String(record.framework || ""));
+}
+
+function uniqueSorted(values) {
+  return [...new Set(values.filter(Boolean).map((value) => String(value)))].sort();
+}
+
+function recordsForWorkload(records, workloadKey) {
+  return records.filter((record) => String(record.workload_key || "") === String(workloadKey || ""));
+}
+
+function metricHasBothFrameworks(payload, records, metric) {
+  const hasVllm = records.some((record) => comparisonFrameworkIsVllm(record, payload) && isNumeric(record[metric]));
+  const hasSglang = records.some((record) => record.framework === "sglang" && isNumeric(record[metric]));
+  return hasVllm && hasSglang;
+}
+
+function metricOptionsForRecords(payload, records) {
+  const fields = comparisonMetricFields(payload);
+  return (payload.metric_options || fields.map((field) => ({ value: field, label: humanizeField(field) })))
+    .filter((item) => metricHasBothFrameworks(payload, records, item.value));
+}
+
+function comparisonMetricButtonsHtml(metricOptions, selectedMetric) {
+  return metricOptions.map((item) => {
+    const active = item.value === selectedMetric ? " comparison-metric-button--active" : "";
+    return `
+      <button
+        type="button"
+        class="comparison-metric-button${active}"
+        data-comparison-metric="${escapeHtml(item.value)}"
+      >${escapeHtml(item.label || humanizeField(item.value))}</button>
+    `;
+  }).join("");
+}
+
+function comparisonMetricToolbarHtml(metricOptions, selectedMetric) {
+  const primaryMetrics = metricOptions.slice(0, 3);
+  const overflowMetrics = metricOptions.slice(3);
+  const moreMetricsOpen = overflowMetrics.some((item) => item.value === selectedMetric) ? " open" : "";
+  return `
+    <div class="comparison-metric-buttons">
+      ${comparisonMetricButtonsHtml(primaryMetrics, selectedMetric)}
+      ${overflowMetrics.length ? `
+        <details class="comparison-metric-more"${moreMetricsOpen}>
+          <summary>More metrics</summary>
+          <div class="comparison-metric-more__items">
+            ${comparisonMetricButtonsHtml(overflowMetrics, selectedMetric)}
+          </div>
+        </details>
+      ` : ""}
+    </div>
+  `;
+}
+
+function latestRecordPerDay(records) {
+  const byDay = new Map();
+  records.forEach((record) => {
+    const day = comparisonDay(record);
+    if (!day) {
+      return;
+    }
+    const previous = byDay.get(day);
+    if (!previous || String(record.sort_timestamp || "") > String(previous.sort_timestamp || "")) {
+      byDay.set(day, record);
+    }
+  });
+  return [...byDay.values()].sort((a, b) => String(a.sort_timestamp || "").localeCompare(String(b.sort_timestamp || "")));
+}
+
+function comparableModelFamilies(payload, records) {
+  const visibleModels = new Set(records.map((record) => record.model_family).filter(Boolean));
+  return uniqueSorted((payload.workload_options || [])
+    .filter((item) => item.comparable && visibleModels.has(item.model_family))
+    .map((item) => item.model_family));
+}
+
+function comparisonDefaultState(payload, records, root) {
+  const modelFamilies = comparableModelFamilies(payload, records);
+  const selectedModel = root.dataset.comparisonModelFamily && modelFamilies.includes(root.dataset.comparisonModelFamily)
+    ? root.dataset.comparisonModelFamily
+    : modelFamilies[0] || "";
+  root.dataset.comparisonModelFamily = selectedModel;
+
+  const modelWorkloads = (payload.workload_options || []).filter((item) => item.model_family === selectedModel);
+  const currentWorkload = modelWorkloads.find((item) => item.key === root.dataset.comparisonWorkloadKey);
+  const selectedWorkload = currentWorkload || modelWorkloads.find((item) => item.comparable) || modelWorkloads[0] || null;
+  root.dataset.comparisonWorkloadKey = selectedWorkload?.key || "";
+
+  const workloadRecords = recordsForWorkload(records, root.dataset.comparisonWorkloadKey);
+  const metricOptions = metricOptionsForRecords(payload, workloadRecords);
+  const currentMetric = metricOptions.find((item) => item.value === root.dataset.comparisonMetric);
+  const selectedMetric = currentMetric?.value || metricOptions[0]?.value || "";
+  root.dataset.comparisonMetric = selectedMetric;
+
+  const vllmDays = uniqueSorted(workloadRecords.filter((record) => comparisonFrameworkIsVllm(record, payload)).map(comparisonDay));
+  const sglangDays = uniqueSorted(workloadRecords.filter((record) => record.framework === "sglang").map(comparisonDay));
+  if (!root.dataset.comparisonVllmFrom && vllmDays.length) {
+    root.dataset.comparisonVllmFrom = vllmDays[0];
+  }
+  if (!root.dataset.comparisonVllmTo && vllmDays.length) {
+    root.dataset.comparisonVllmTo = vllmDays[vllmDays.length - 1];
+  }
+  if (!root.dataset.comparisonSglangDate || !sglangDays.includes(root.dataset.comparisonSglangDate)) {
+    root.dataset.comparisonSglangDate = sglangDays[sglangDays.length - 1] || "";
+  }
+
+  return {
+    modelFamily: root.dataset.comparisonModelFamily,
+    workloadKey: root.dataset.comparisonWorkloadKey,
+    metric: root.dataset.comparisonMetric,
+    vllmFrom: root.dataset.comparisonVllmFrom || "",
+    vllmTo: root.dataset.comparisonVllmTo || "",
+    sglangDate: root.dataset.comparisonSglangDate || "",
+  };
+}
+
+function renderComparisonControls(payload, records, root, state) {
+  const container = root.querySelector("[data-framework-comparison-controls]");
+  if (!container) {
+    return;
+  }
+  const modelFamilies = comparableModelFamilies(payload, records);
+  const workloadOptions = (payload.workload_options || []).filter((item) => item.model_family === state.modelFamily);
+  const workloadRecords = recordsForWorkload(records, state.workloadKey);
+  const vllmDays = uniqueSorted(workloadRecords.filter((record) => comparisonFrameworkIsVllm(record, payload)).map(comparisonDay));
+  const sglangDays = uniqueSorted(workloadRecords.filter((record) => record.framework === "sglang").map(comparisonDay));
+  const optionHtml = (items, selected, labelFn = (item) => item) => items.map((item) => {
+    const value = typeof item === "string" ? item : item.value || item.key;
+    const label = labelFn(item);
+    const isSelected = String(value) === String(selected) ? " selected" : "";
+    return `<option value="${escapeHtml(String(value))}"${isSelected}>${escapeHtml(String(label))}</option>`;
+  }).join("");
+  container.innerHTML = `
+    <label class="omni-filter comparison-control--wide">
+      <span class="omni-filter__label">Model</span>
+      <select class="omni-filter__input" data-comparison-control="modelFamily">
+        ${optionHtml(modelFamilies, state.modelFamily)}
+      </select>
+    </label>
+    <label class="omni-filter comparison-control--xwide">
+      <span class="omni-filter__label">Test Config</span>
+      <select class="omni-filter__input" data-comparison-control="workloadKey">
+        ${optionHtml(workloadOptions, state.workloadKey, (item) => `${item.comparable ? "" : "[not comparable] "}${item.label}`)}
+      </select>
+    </label>
+    <label class="omni-filter">
+      <span class="omni-filter__label">vLLM From</span>
+      <input class="omni-filter__input" type="date" value="${escapeHtml(state.vllmFrom)}" data-comparison-control="vllmFrom">
+    </label>
+    <label class="omni-filter">
+      <span class="omni-filter__label">vLLM To</span>
+      <input class="omni-filter__input" type="date" value="${escapeHtml(state.vllmTo)}" data-comparison-control="vllmTo">
+    </label>
+    <label class="omni-filter">
+      <span class="omni-filter__label">SGLang Date</span>
+      <select class="omni-filter__input" data-comparison-control="sglangDate">
+        <option value="">No SGLang date</option>
+        ${optionHtml(sglangDays, state.sglangDate)}
+      </select>
+    </label>
+  `;
+  container.querySelectorAll("[data-comparison-control]").forEach((input) => {
+    input.addEventListener("change", () => {
+      const key = input.dataset.comparisonControl;
+      const datasetKey = `comparison${key.charAt(0).toUpperCase()}${key.slice(1)}`;
+      root.dataset[datasetKey] = input.value;
+      if (key === "modelFamily") {
+        root.dataset.comparisonWorkloadKey = "";
+        root.dataset.comparisonMetric = "";
+        root.dataset.comparisonVllmFrom = "";
+        root.dataset.comparisonVllmTo = "";
+        root.dataset.comparisonSglangDate = "";
+      }
+      if (key === "workloadKey") {
+        root.dataset.comparisonMetric = "";
+        root.dataset.comparisonVllmFrom = "";
+        root.dataset.comparisonVllmTo = "";
+        root.dataset.comparisonSglangDate = "";
+      }
+      renderFrameworkComparison(payload, root);
+    });
+  });
+}
+
+function filterVllmByDateRange(records, state) {
+  return records.filter((record) => {
+    const day = comparisonDay(record);
+    if (!day) {
+      return false;
+    }
+    if (state.vllmFrom && day < state.vllmFrom) {
+      return false;
+    }
+    if (state.vllmTo && day > state.vllmTo) {
+      return false;
+    }
+    return true;
+  });
+}
+
+function selectedComparisonRecords(payload, records, state) {
+  const workloadRecords = recordsForWorkload(records, state.workloadKey);
+  const vllm = filterVllmByDateRange(
+    workloadRecords.filter((record) => comparisonFrameworkIsVllm(record, payload) && isNumeric(record[state.metric])),
+    state,
+  );
+  const sglang = workloadRecords.filter((record) =>
+    record.framework === "sglang"
+    && isNumeric(record[state.metric])
+    && (!state.sglangDate || comparisonDay(record) === state.sglangDate),
+  );
+  return { workloadRecords, vllm: latestRecordPerDay(vllm), sglang: latestRecordPerDay(sglang) };
+}
+
+function renderSelectedConfigSummary(records, state, root) {
+  const container = root.querySelector("[data-framework-comparison-config]");
+  if (!container) {
+    return;
+  }
+  const sample = recordsForWorkload(records, state.workloadKey)[0];
+  if (!sample) {
+    container.innerHTML = '<div class="omni-empty-state">Select a comparable workload to inspect its dimensions.</div>';
+    return;
+  }
+  const fields = [
+    "model_family", "workload_profile", "task", "dataset_name", "endpoint", "hardware",
+    "parallelism", "width", "height", "num_inference_steps", "num_input_images",
+    "max_concurrency", "num_prompts",
+  ];
+  const resolution = sample.width && sample.height ? `${sample.width}x${sample.height}` : "";
+  const summaryItems = [
+    sample.model_family,
+    sample.workload_profile,
+    sample.task,
+    resolution,
+    sample.num_inference_steps ? `${sample.num_inference_steps} steps` : "",
+    sample.num_input_images !== undefined && sample.num_input_images !== null ? `${sample.num_input_images} images` : "",
+    sample.parallelism,
+    sample.hardware,
+  ].filter((value) => value !== undefined && value !== null && value !== "");
+  container.innerHTML = `
+    <div class="comparison-config-compact">
+      <div class="comparison-config-compact__summary">
+        ${summaryItems.map((item) => `<span class="comparison-config-chip">${escapeHtml(String(item))}</span>`).join("")}
+      </div>
+      <details class="comparison-config-details">
+        <summary>Show config details</summary>
+        <div class="comparison-config-detail-grid">
+          ${fields.map((field) => `
+            <div class="comparison-config-detail">
+              <span>${escapeHtml(humanizeField(field))}</span>
+              <strong>${formatTableValue(field, sample[field])}</strong>
+            </div>
+          `).join("")}
+        </div>
+      </details>
+    </div>
+  `;
+}
+
+function renderComparisonMetricToolbar(payload, records, state, root) {
+  const container = root.querySelector("[data-framework-comparison-metrics]");
+  if (!container) {
+    return;
+  }
+  const workloadRecords = recordsForWorkload(records, state.workloadKey);
+  const metricOptions = metricOptionsForRecords(payload, workloadRecords);
+  if (!metricOptions.length) {
+    container.innerHTML = '<div class="omni-empty-state">No shared metrics are available for this workload.</div>';
+    return;
+  }
+  container.innerHTML = `
+    <div class="comparison-metric-toolbar">
+      <span class="comparison-metric-toolbar__label">Metric</span>
+      ${comparisonMetricToolbarHtml(metricOptions, state.metric)}
+    </div>
+  `;
+  container.querySelectorAll("[data-comparison-metric]").forEach((button) => {
+    button.addEventListener("click", () => {
+      root.dataset.comparisonMetric = button.dataset.comparisonMetric || "";
+      renderFrameworkComparison(payload, root);
+    });
+  });
+}
+
+function buildMetricComparisonOption(payload, state, selected) {
+  const chartDays = uniqueSorted([...(selected.vllm || []), ...(selected.sglang || [])].map(comparisonDay));
+  let referenceStart = chartDays[0] || "";
+  let referenceEnd = chartDays[chartDays.length - 1] || referenceStart;
+  if (referenceStart && referenceStart === referenceEnd) {
+    const center = new Date(`${referenceStart}T00:00:00`);
+    if (Number.isNaN(center.getTime())) {
+      referenceStart = "";
+      referenceEnd = "";
+    } else {
+      const halfDayMs = 12 * 60 * 60 * 1000;
+      referenceStart = new Date(center.getTime() - halfDayMs).toISOString();
+      referenceEnd = new Date(center.getTime() + halfDayMs).toISOString();
+    }
+  }
+  const vllmSeries = {
+    name: "vLLM-Omni",
+    type: "line",
+    z: 2,
+    color: OMNI_LINE_SERIES_PALETTE[0],
+    lineStyle: { width: 2.5, color: OMNI_LINE_SERIES_PALETTE[0] },
+    itemStyle: { color: OMNI_LINE_SERIES_PALETTE[0] },
+    showSymbol: true,
+    symbolSize: 6,
+    smooth: false,
+    data: selected.vllm.map((record) => ({
+      value: [comparisonDay(record), Number(record[state.metric])],
+      meta: record,
+    })),
+  };
+  const sglangSeries = {
+    name: "SGLang",
+    type: "scatter",
+    z: 4,
+    color: OMNI_LINE_SERIES_PALETTE[3],
+    itemStyle: { color: OMNI_LINE_SERIES_PALETTE[3] },
+    symbolSize: 12,
+    data: selected.sglang.map((record) => ({
+      value: [comparisonDay(record), Number(record[state.metric])],
+      meta: record,
+    })),
+  };
+  const sglangReferenceSeries = (selected.sglang || [])
+    .filter((record) => referenceStart && referenceEnd && isNumeric(record[state.metric]))
+    .map((record) => {
+      const value = Number(record[state.metric]);
+      return {
+        name: `SGLang ${formatMetricValue(value)}`,
+        type: "line",
+        z: 1,
+        showSymbol: false,
+        silent: true,
+        showInLegend: false,
+        lineStyle: { type: "dashed", width: 2, color: OMNI_LINE_SERIES_PALETTE[3] },
+        data: [
+          [referenceStart, value],
+          [referenceEnd, value],
+        ],
+        endLabel: {
+          show: true,
+          formatter: `SGLang ${formatMetricValue(value)}`,
+          color: OMNI_LINE_SERIES_PALETTE[3],
+        },
+        emphasis: {
+          disabled: true,
+        },
+      };
+    });
+  return {
+    color: OMNI_LINE_SERIES_PALETTE,
+    tooltip: {
+      trigger: "item",
+      formatter(params) {
+        const record = params.data?.meta || {};
+        return [
+          `<strong>${escapeHtml(params.seriesName || "")}</strong>`,
+          `Date: ${escapeHtml(comparisonDay(record) || "--")}`,
+          `${escapeHtml(humanizeField(state.metric))}: ${formatMetricValue(params.data?.value?.[1])}`,
+          `Config: ${escapeHtml(record.workload_label || "--")}`,
+          `Test: ${escapeHtml(record.test_name || "--")}`,
+          `Parallelism: ${escapeHtml(record.parallelism || "--")}`,
+          `Source: ${escapeHtml(record.source_format || "--")}`,
+        ].join("<br>");
+      },
+    },
+    legend: { top: 0, left: 0, data: ["vLLM-Omni", "SGLang"] },
+    grid: { left: 72, right: 48, top: 56, bottom: 64, containLabel: true },
+    xAxis: {
+      type: "time",
+      axisLabel: {
+        rotate: 35,
+        formatter: createOmniXAxisDateLabelFormatter(),
+      },
+    },
+    yAxis: {
+      type: "value",
+      name: humanizeField(state.metric),
+      axisLabel: {
+        formatter(value) {
+          return Number(value).toFixed(2);
+        },
+      },
+    },
+    series: [vllmSeries, ...sglangReferenceSeries, sglangSeries],
+  };
+}
+
+function renderMetricComparisonChart(payload, records, state, root) {
+  const container = root.querySelector("[data-framework-comparison-chart]");
+  if (!container) {
+    return null;
+  }
+  disposeChartsWithin(container);
+  container.innerHTML = "";
+  const selected = selectedComparisonRecords(payload, records, state);
+  if (!state.metric || (selected.vllm.length === 0 && selected.sglang.length === 0)) {
+    container.innerHTML = '<div class="omni-empty-state">No chartable values for the selected workload and metric.</div>';
+    return selected;
+  }
+  const chart = document.createElement("div");
+  chart.className = "chart-frame chart-frame-tall";
+  container.append(chart);
+  setChart(chart, buildMetricComparisonOption(payload, state, selected));
+  return selected;
+}
+
+function renderSelectedRawValues(payload, selected, state, root) {
+  const container = root.querySelector("[data-framework-comparison-values]");
+  if (!container) {
+    return;
+  }
+  const rows = [...(selected?.vllm || []), ...(selected?.sglang || [])]
+    .sort((a, b) => String(a.framework || "").localeCompare(String(b.framework || "")) || comparisonDay(a).localeCompare(comparisonDay(b)));
+  if (!rows.length) {
+    container.innerHTML = '<div class="omni-empty-state">No values are selected for the current chart.</div>';
+    return;
+  }
+  const sglangValue = selected?.sglang?.[0]?.[state.metric];
+  const header = [
+    "framework", "date", state.metric, "vs_sglang", "test_name", "parallelism",
+    "peak_memory_status", "source_format", "source_run_id", "source_file",
+  ]
+    .map((field) => `<th scope="col">${escapeHtml(humanizeField(field))}</th>`)
+    .join("");
+  const body = rows.map((record) => {
+    const delta = record.framework === "sglang" ? { html: "baseline", className: "" } : formatComparisonDelta(record[state.metric], sglangValue, state.metric);
+    const cells = [
+      record.framework,
+      comparisonDay(record),
+      formatMetricValue(record[state.metric]),
+      `<span class="${delta.className}">${delta.html}</span>`,
+      record.test_name,
+      record.parallelism,
+      record.peak_memory_status,
+      record.source_format,
+      record.source_run_id,
+      record.source_file,
+    ].map((value) => `<td class="omni-history-table__cell">${typeof value === "string" && value.startsWith("<span") ? value : escapeHtml(String(value ?? "--"))}</td>`).join("");
+    return `<tr>${cells}</tr>`;
+  }).join("");
+  container.innerHTML = `
+    <div class="omni-history-table__wrap">
+      <table class="omni-history-table">
+        <thead><tr>${header}</tr></thead>
+        <tbody>${body}</tbody>
+      </table>
+    </div>
+  `;
+}
+
+function renderFrameworkComparison(payload, root) {
+  const scopedRecords = frameworkComparisonScopedRecords(payload, root);
+  const records = sortRecordsByTimeDesc(scopedRecords);
+  const state = comparisonDefaultState(payload, records, root);
+  renderComparisonControls(payload, records, root, state);
+  renderFrameworkComparisonSummary(payload, records, root);
+  renderSelectedConfigSummary(records, state, root);
+  renderComparisonMetricToolbar(payload, records, state, root);
+  const selected = renderMetricComparisonChart(payload, records, state, root);
+  renderSelectedRawValues(payload, selected, state, root);
+}
+
+async function loadFrameworkComparison() {
+  const roots = document.querySelectorAll("[data-framework-comparison-src]");
+  if (!roots.length) {
+    return;
+  }
+  await Promise.all([...roots].map(async (root) => {
+    try {
+      const payload = await fetchJson(root.dataset.frameworkComparisonSrc);
+      renderFrameworkComparison(payload, root);
+    } catch (error) {
+      const msg = document.createElement("div");
+      msg.className = "omni-empty-state";
+      msg.textContent = `Failed to load framework comparison: ${error.message}`;
+      root.prepend(msg);
+    }
+  }));
+}
+
 function bindRangePicker() {
   const picker = document.querySelector("[data-time-range]");
   if (!picker) {
@@ -2348,7 +2911,11 @@ function initOmniPageTabs() {
 if (typeof module !== "undefined" && module.exports) {
   module.exports = {
     buildOmniChartOption,
+    buildMetricComparisonOption,
     compareNullableNumber,
+    comparableModelFamilies,
+    comparisonMetricToolbarHtml,
+    metricOptionsForRecords,
     selectDefaultVisibleSeriesKeys,
   };
 }
@@ -2361,6 +2928,6 @@ if (typeof document !== "undefined") {
     bindRailSpy();
     observeColorScheme();
     initOmniPageTabs();
-    await Promise.all([loadHealth(), loadHardwareStatus(), reloadCharts(), loadQwen3OmniHistory()]);
+    await Promise.all([loadHealth(), loadHardwareStatus(), reloadCharts(), loadQwen3OmniHistory(), loadFrameworkComparison()]);
   });
 }

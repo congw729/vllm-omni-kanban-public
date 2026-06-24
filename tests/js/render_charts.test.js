@@ -1,12 +1,25 @@
 const assert = require("node:assert/strict");
 const test = require("node:test");
 
-global.document = { body: {}, addEventListener: () => {} };
+global.document = {
+  body: {},
+  addEventListener: () => {},
+  createElement: () => ({
+    innerHTML: "",
+    set textContent(value) {
+      this.innerHTML = String(value);
+    },
+  }),
+};
 global.getComputedStyle = () => ({ getPropertyValue: () => "" });
 
 const {
   buildOmniChartOption,
+  buildMetricComparisonOption,
   compareNullableNumber,
+  comparableModelFamilies,
+  comparisonMetricToolbarHtml,
+  metricOptionsForRecords,
   selectDefaultVisibleSeriesKeys,
 } = require("../../docs/assets/js/render_charts.js");
 
@@ -86,4 +99,69 @@ test("series colors stay stable between key scenarios and all series views", () 
   visibleKeys.forEach((key) => {
     assert.equal(keyColors[key], allColors[key]);
   });
+});
+
+test("framework comparison models only include comparable workloads", () => {
+  const payload = {
+    workload_options: [
+      { model_family: "Qwen Image", comparable: true },
+      { model_family: "WAN 2.2", comparable: false },
+    ],
+  };
+  const records = [
+    { model_family: "Qwen Image" },
+    { model_family: "WAN 2.2" },
+  ];
+
+  assert.deepEqual(comparableModelFamilies(payload, records), ["Qwen Image"]);
+});
+
+test("framework comparison metric options require vLLM and SGLang values", () => {
+  const payload = {
+    baseline_framework: "vllm-omni",
+    metric_options: [
+      { value: "latency_mean_s", label: "Latency Mean" },
+      { value: "mean_ttft_ms", label: "TTFT" },
+    ],
+  };
+  const records = [
+    { framework: "vllm-omni", latency_mean_s: 4.2, mean_ttft_ms: 10 },
+    { framework: "sglang", latency_mean_s: 5.1 },
+  ];
+
+  assert.deepEqual(
+    metricOptionsForRecords(payload, records).map((item) => item.value),
+    ["latency_mean_s"],
+  );
+});
+
+test("framework comparison metric toolbar keeps overflow collapsed", () => {
+  const html = comparisonMetricToolbarHtml(
+    [
+      { value: "latency_mean_s", label: "Latency Mean" },
+      { value: "latency_p50_s", label: "Latency P50" },
+      { value: "latency_p99_s", label: "Latency P99" },
+      { value: "throughput_qps", label: "Throughput" },
+    ],
+    "throughput_qps",
+  );
+
+  assert.match(html, /Latency Mean/);
+  assert.match(html, /More metrics/);
+  assert.match(html, /comparison-metric-more" open/);
+  assert.equal((html.match(/data-comparison-metric=/g) || []).length, 4);
+});
+
+test("framework comparison chart ignores malformed single-day reference dates", () => {
+  const option = buildMetricComparisonOption(
+    { baseline_framework: "vllm-omni" },
+    { metric: "latency_mean_s" },
+    {
+      vllm: [{ framework: "vllm-omni", sort_timestamp: "not-a-date", latency_mean_s: 4 }],
+      sglang: [{ framework: "sglang", sort_timestamp: "not-a-date", latency_mean_s: 5 }],
+    },
+  );
+
+  assert.equal(option.series.length, 2);
+  assert.deepEqual(option.legend.data, ["vLLM-Omni", "SGLang"]);
 });
