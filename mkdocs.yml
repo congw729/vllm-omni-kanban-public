@@ -1,9 +1,9 @@
 site_name: vLLM-Omni Kanban
 site_description: Daily multimodal CI health dashboard for vLLM-omni
 # site_url is required for correct canonical URLs, sitemap entries, and to
-# ensure Material generates project-prefixed links (e.g. /vllm-omni-kanban/...)
+# ensure Material generates project-prefixed links (e.g. /vllm-omni-kanban/pages/...)
 # rather than host-absolute ones (/...).
-site_url: https://jiusiserve.github.io/vllm-omni-kanban/
+site_url: https://hsliuustc0106.github.io/vllm-omni-kanban/pages/
 theme:
   name: material
   custom_dir: docs/overrides

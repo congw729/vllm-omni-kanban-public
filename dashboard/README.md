@@ -13,9 +13,9 @@ and aggregates metrics client-side, staying fresh as long as raw data lands.
 
 ## Live URL (after merge + deploy)
 
-`https://jiusiserve.github.io/vllm-omni-kanban/dashboard/`
+`https://hsliuustc0106.github.io/vllm-omni-kanban/dashboard/`
 
-The MkDocs site at `https://jiusiserve.github.io/vllm-omni-kanban/` is
+The MkDocs site at `https://hsliuustc0106.github.io/vllm-omni-kanban/pages/` is
 unaffected — the deploy workflow uses `keep_files: true` so neither site wipes
 the other.
 
