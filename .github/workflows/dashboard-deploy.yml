@@ -89,7 +89,7 @@ jobs:
           message: |
             🔍 **Dashboard preview deployed**
 
-            URL: https://hsliuustc0106.github.io/vllm-omni-kanban/${{ steps.dest.outputs.path }}/
+            URL: https://jiusiserve.github.io/vllm-omni-kanban/${{ steps.dest.outputs.path }}/
 
             Updated by commit ${{ github.event.pull_request.head.sha }}.
             (Build artifacts are under `gh-pages` branch at `${{ steps.dest.outputs.path }}/`.)

@@ -61,6 +61,6 @@ title_tags:
 # (#NNNN) suffixes refer to upstream PR numbers regardless of which fork we
 # read commits from.
 sources:
-  kanban_repo: "hsliuustc0106/vllm-omni-kanban"
+  kanban_repo: "JiusiServe/vllm-omni-kanban"
   code_repo:   "hsliuustc0106/vllm-omni"
   pr_url_base: "https://github.com/vllm-project/vllm-omni/pull"
