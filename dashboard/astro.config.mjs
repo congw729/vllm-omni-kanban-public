@@ -2,7 +2,7 @@ import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
-  site: 'https://hsliuustc0106.github.io',
+  site: 'https://jiusiserve.github.io',
   base: '/vllm-omni-kanban/dashboard/',
   trailingSlash: 'always',
   output: 'static',
