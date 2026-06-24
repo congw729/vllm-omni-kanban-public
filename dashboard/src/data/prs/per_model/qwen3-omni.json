@@ -335,16 +335,6 @@
       "number": 2213,
       "title": "[BugFix]Fix keyError: num_processed_tokens_delta (#2213)",
       "url": "https://github.com/vllm-project/vllm-omni/pull/2213"
-    },
-    {
-      "author": "Sy03",
-      "files_matched": [
-        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni.py"
-      ],
-      "merged_at": "2026-03-26T11:07:11+08:00",
-      "number": 2019,
-      "title": "[Bugfix] Fix qwen3-omni async thinker to talker decode alignment for #1758 (#2019)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/2019"
     }
   ],
   "inferred": [
@@ -3324,16 +3314,6 @@
       ],
       "title": "[Qwen3TTS][ServingSpeech] Bugfix/voice upload and add optional ref_text (#2046)",
       "url": "https://github.com/vllm-project/vllm-omni/pull/2046"
-    },
-    {
-      "author": "Lancer",
-      "merged_at": "2026-03-26T09:47:01+08:00",
-      "number": 1894,
-      "platform_paths": [
-        "vllm_omni/entrypoints/utils.py"
-      ],
-      "title": "[Bugfix] resolve stage config for GLM-Image with diffusers format (#1894)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1894"
     },
     {
       "author": "Yueqian Lin",
