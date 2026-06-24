@@ -3342,16 +3342,6 @@
       "url": "https://github.com/vllm-project/vllm-omni/pull/2156"
     },
     {
-      "author": "rongfu.leng",
-      "merged_at": "2026-03-26T03:05:28+08:00",
-      "number": 2178,
-      "platform_paths": [
-        "vllm_omni/engine/arg_utils.py"
-      ],
-      "title": "[Bugfix] add inject model_arch to hf_overrides (#2178)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/2178"
-    },
-    {
       "author": "Daniel Huang",
       "merged_at": "2026-03-26T01:52:01-07:00",
       "number": 2153,
@@ -3360,61 +3350,6 @@
       ],
       "title": "[Enhancement] Patch AsyncOmniEngine try_get_output[_async] hanging issues (#2153)",
       "url": "https://github.com/vllm-project/vllm-omni/pull/2153"
-    },
-    {
-      "author": "Sy03",
-      "merged_at": "2026-03-25T23:41:10+08:00",
-      "number": 2145,
-      "platform_paths": [
-        "vllm_omni/entrypoints/openai/serving_speech.py"
-      ],
-      "title": "[Perf] [TTS] Improve Fish Speech S2 Pro voice cloning TTFP (#2145)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/2145"
-    },
-    {
-      "author": "Markus / Mark",
-      "merged_at": "2026-03-25T20:02:48+01:00",
-      "number": 1227,
-      "platform_paths": [
-        "vllm_omni/entrypoints/openai/api_server.py",
-        "vllm_omni/entrypoints/openai/protocol/audio.py",
-        "vllm_omni/entrypoints/openai/serving_speech.py",
-        "vllm_omni/entrypoints/openai/serving_speech_stream.py"
-      ],
-      "title": "[Frontend] Speaker embedding support for speech and voices APIs (#1227)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/1227"
-    },
-    {
-      "author": "Hui.",
-      "merged_at": "2026-03-25T16:42:04+08:00",
-      "number": 2041,
-      "platform_paths": [
-        "vllm_omni/entrypoints/openai/serving_chat.py"
-      ],
-      "title": "[Bug-Fix]fix bug of empty prompt input (#2041)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/2041"
-    },
-    {
-      "author": "Yueqian Lin",
-      "merged_at": "2026-03-25T04:26:38-04:00",
-      "number": 2161,
-      "platform_paths": [
-        "vllm_omni/engine/test_serialization.py"
-      ],
-      "title": "[Cleanup] Remove stray test file from engine directory (#2161)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/2161"
-    },
-    {
-      "author": "Alex Brooks",
-      "merged_at": "2026-03-25T03:56:13-06:00",
-      "number": 2025,
-      "platform_paths": [
-        "vllm_omni/engine/async_omni_engine.py",
-        "vllm_omni/engine/stage_init_utils.py",
-        "vllm_omni/entrypoints/stage_utils.py"
-      ],
-      "title": "[BugFix] Make Stage Device Initialization Respect Visible GPUs (#2025)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/2025"
     }
   ]
 }
