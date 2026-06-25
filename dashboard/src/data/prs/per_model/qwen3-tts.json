@@ -542,16 +542,6 @@
       "number": 2277,
       "title": "[Qwen3TTS][Bugfix] Replace vLLM fused layers with HF-compatible numerics in code predictor (#2277)",
       "url": "https://github.com/vllm-project/vllm-omni/pull/2277"
-    },
-    {
-      "author": "Juan Pablo Zuluaga",
-      "files_matched": [
-        "vllm_omni/model_executor/models/qwen3_tts/qwen3_tts_code2wav.py"
-      ],
-      "merged_at": "2026-03-26T15:26:52+01:00",
-      "number": 2046,
-      "title": "[Qwen3TTS][ServingSpeech] Bugfix/voice upload and add optional ref_text (#2046)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/2046"
     }
   ],
   "inferred": [
@@ -3524,36 +3514,6 @@
       ],
       "title": "[Bugfix] Fix Fish Speech S2 Pro prompt handling for truncated audio & emotion tag (#2268)",
       "url": "https://github.com/vllm-project/vllm-omni/pull/2268"
-    },
-    {
-      "author": "Jared Wen",
-      "merged_at": "2026-03-26T18:50:54+08:00",
-      "number": 2137,
-      "platform_paths": [
-        "vllm_omni/engine/async_omni_engine.py"
-      ],
-      "title": "[Bug Fix] GLM-Image stage device isolation and t2i prompt preprocessing in Omni runtime (#2137)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/2137"
-    },
-    {
-      "author": "Yueqian Lin",
-      "merged_at": "2026-03-26T09:34:31-04:00",
-      "number": 2156,
-      "platform_paths": [
-        "vllm_omni/engine/arg_utils.py"
-      ],
-      "title": "[Bugfix] Fix Voxtral TTS voice embeddings not loading (#2156)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/2156"
-    },
-    {
-      "author": "Daniel Huang",
-      "merged_at": "2026-03-26T01:52:01-07:00",
-      "number": 2153,
-      "platform_paths": [
-        "vllm_omni/engine/async_omni_engine.py"
-      ],
-      "title": "[Enhancement] Patch AsyncOmniEngine try_get_output[_async] hanging issues (#2153)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/2153"
     }
   ]
 }
