@@ -532,16 +532,6 @@
       "number": 2306,
       "title": "[Bugfix] Fix Qwen3TTSConfig init order to be compatible with newer Tansformers(5.x) (#2306)",
       "url": "https://github.com/vllm-project/vllm-omni/pull/2306"
-    },
-    {
-      "author": "Yueqian Lin",
-      "files_matched": [
-        "vllm_omni/model_executor/models/qwen3_tts/qwen3_tts_code_predictor_vllm.py"
-      ],
-      "merged_at": "2026-03-27T22:47:17-04:00",
-      "number": 2277,
-      "title": "[Qwen3TTS][Bugfix] Replace vLLM fused layers with HF-compatible numerics in code predictor (#2277)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/2277"
     }
   ],
   "inferred": [
