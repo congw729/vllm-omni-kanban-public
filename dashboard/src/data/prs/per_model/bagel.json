@@ -3216,16 +3216,6 @@
       ],
       "title": "Fix: Enable /v1/models endpoint for pure diffusion mode (#805)",
       "url": "https://github.com/vllm-project/vllm-omni/pull/805"
-    },
-    {
-      "author": "Sy03",
-      "merged_at": "2026-03-28T07:00:00+08:00",
-      "number": 2268,
-      "platform_paths": [
-        "vllm_omni/entrypoints/openai/serving_speech.py"
-      ],
-      "title": "[Bugfix] Fix Fish Speech S2 Pro prompt handling for truncated audio & emotion tag (#2268)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/2268"
     }
   ]
 }
