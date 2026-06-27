@@ -3184,16 +3184,6 @@
       ],
       "title": "[Bugfix] fix: handle Qwen-Image-Layered layered RGBA output for jpeg edits (#2297)",
       "url": "https://github.com/vllm-project/vllm-omni/pull/2297"
-    },
-    {
-      "author": "lif",
-      "merged_at": "2026-03-28T22:17:38+08:00",
-      "number": 805,
-      "platform_paths": [
-        "vllm_omni/entrypoints/openai/api_server.py"
-      ],
-      "title": "Fix: Enable /v1/models endpoint for pure diffusion mode (#805)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/805"
     }
   ]
 }

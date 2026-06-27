@@ -305,16 +305,6 @@
       "number": 2450,
       "title": "[skip ci][Bugfix] clean useless log (#2450)",
       "url": "https://github.com/vllm-project/vllm-omni/pull/2450"
-    },
-    {
-      "author": "Junhong Liu",
-      "files_matched": [
-        "vllm_omni/model_executor/models/qwen3_omni/qwen3_omni_moe_code_predictor_mtp.py"
-      ],
-      "merged_at": "2026-03-28T23:02:44+08:00",
-      "number": 2291,
-      "title": "Qwen3-Omni][Bugfix] Replace vLLM fused layers with HF-compatible numerics in code predictor (#2291)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/2291"
     }
   ],
   "inferred": [
@@ -357,14 +347,6 @@
       "tag_matched": "Qwen3-Omni",
       "title": "[Tests][Qwen3-Omni]Modify Qwen3-Omni performance test cases (#2600)",
       "url": "https://github.com/vllm-project/vllm-omni/pull/2600"
-    },
-    {
-      "author": "amy-why-3459",
-      "merged_at": "2026-03-28T19:01:44+08:00",
-      "number": 2011,
-      "tag_matched": "Qwen3-Omni",
-      "title": "[Tests][Qwen3-Omni] Add performance test cases (#2011)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/2011"
     }
   ],
   "model_id": "qwen3-omni",
@@ -3253,16 +3235,6 @@
       ],
       "title": "[Bugfix] fix: handle Qwen-Image-Layered layered RGBA output for jpeg edits (#2297)",
       "url": "https://github.com/vllm-project/vllm-omni/pull/2297"
-    },
-    {
-      "author": "lif",
-      "merged_at": "2026-03-28T22:17:38+08:00",
-      "number": 805,
-      "platform_paths": [
-        "vllm_omni/entrypoints/openai/api_server.py"
-      ],
-      "title": "Fix: Enable /v1/models endpoint for pure diffusion mode (#805)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/805"
     }
   ]
 }
