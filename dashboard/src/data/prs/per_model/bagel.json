@@ -3196,16 +3196,6 @@
       ],
       "title": "[Bugfix] fix: return 400 for unsupported multi-image edits such as Qwen-Image-Layered (#2298)",
       "url": "https://github.com/vllm-project/vllm-omni/pull/2298"
-    },
-    {
-      "author": "WeiQing Chen",
-      "merged_at": "2026-03-29T19:33:37+08:00",
-      "number": 2297,
-      "platform_paths": [
-        "vllm_omni/entrypoints/openai/api_server.py"
-      ],
-      "title": "[Bugfix] fix: handle Qwen-Image-Layered layered RGBA output for jpeg edits (#2297)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/2297"
     }
   ]
 }
