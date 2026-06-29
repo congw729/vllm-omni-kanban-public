@@ -502,16 +502,6 @@
       "number": 2358,
       "title": "[Bugfix] Fix case-sensitivity in Qwen3 TTS speaker name lookup (#2358)",
       "url": "https://github.com/vllm-project/vllm-omni/pull/2358"
-    },
-    {
-      "author": "LL",
-      "files_matched": [
-        "vllm_omni/model_executor/models/qwen3_tts/qwen3_tts_talker.py"
-      ],
-      "merged_at": "2026-03-31T12:42:21+08:00",
-      "number": 2353,
-      "title": "Fix Qwen3-TTS Base on NPU running failed (#2353)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/2353"
     }
   ],
   "inferred": [
