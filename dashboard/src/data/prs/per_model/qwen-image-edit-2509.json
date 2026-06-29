@@ -3140,31 +3140,6 @@
       ],
       "title": "[Feat][Benchmark] Add synchronous video generation endpoint POST /v1/videos/sync for benchmark test (#2049)",
       "url": "https://github.com/vllm-project/vllm-omni/pull/2049"
-    },
-    {
-      "author": "WeiQing Chen",
-      "merged_at": "2026-03-30T21:27:09+08:00",
-      "number": 2334,
-      "platform_paths": [
-        "vllm_omni/entrypoints/openai/api_server.py",
-        "vllm_omni/entrypoints/openai/image_api_utils.py",
-        "vllm_omni/entrypoints/openai/protocol/images.py",
-        "vllm_omni/entrypoints/openai/serving_chat.py"
-      ],
-      "title": "[Bugfix] fix: validate layered image layers range (#2334)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/2334"
-    },
-    {
-      "author": "WeiQing Chen",
-      "merged_at": "2026-03-30T20:24:57+08:00",
-      "number": 2298,
-      "platform_paths": [
-        "vllm_omni/entrypoints/async_omni.py",
-        "vllm_omni/entrypoints/async_omni_diffusion.py",
-        "vllm_omni/entrypoints/openai/api_server.py"
-      ],
-      "title": "[Bugfix] fix: return 400 for unsupported multi-image edits such as Qwen-Image-Layered (#2298)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/2298"
     }
   ]
 }
