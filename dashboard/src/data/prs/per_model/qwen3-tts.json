@@ -492,16 +492,6 @@
       "number": 2108,
       "title": "[Qwen3TTS] [TTS] [Feat] Refactor voice cache manager (#2108)",
       "url": "https://github.com/vllm-project/vllm-omni/pull/2108"
-    },
-    {
-      "author": "Reid",
-      "files_matched": [
-        "vllm_omni/model_executor/models/qwen3_tts/qwen3_tts_talker.py"
-      ],
-      "merged_at": "2026-03-31T17:51:35+08:00",
-      "number": 2358,
-      "title": "[Bugfix] Fix case-sensitivity in Qwen3 TTS speaker name lookup (#2358)",
-      "url": "https://github.com/vllm-project/vllm-omni/pull/2358"
     }
   ],
   "inferred": [
