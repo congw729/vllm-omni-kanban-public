@@ -10,10 +10,6 @@ This page tracks speech-generation responsiveness for Qwen3 TTS, with emphasis o
   markdown="1"
 >
 
-## Nightly run history
-
-## Filters
-
 <div class="omni-section">
   <div class="omni-section__header">
     <p>Search by model first, then narrow by test profile and runtime settings.</p>
@@ -22,6 +18,8 @@ This page tracks speech-generation responsiveness for Qwen3 TTS, with emphasis o
 </div>
 
 <div class="omni-summary-grid" data-omni-history-summary></div>
+
+<nav class="omni-metric-jump-nav" data-omni-metric-jump-nav></nav>
 
 <nav class="omni-page-tabs" data-omni-page-tabs></nav>
 

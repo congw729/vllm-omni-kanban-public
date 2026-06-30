@@ -10,8 +10,6 @@ This page focuses on historical Qwen3 Omni nightly performance by full test conf
   markdown="1"
 >
 
-## Filters
-
 <div class="omni-section">
   <div class="omni-section__header">
     <p>Search by model first, then narrow by test profile and runtime settings.</p>
@@ -20,6 +18,8 @@ This page focuses on historical Qwen3 Omni nightly performance by full test conf
 </div>
 
 <div class="omni-summary-grid" data-omni-history-summary></div>
+
+<nav class="omni-metric-jump-nav" data-omni-metric-jump-nav></nav>
 
 <nav class="omni-page-tabs" data-omni-page-tabs></nav>
 

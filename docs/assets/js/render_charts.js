@@ -464,6 +464,63 @@ function bindRailSpy() {
   refreshActive();
 }
 
+function homeModelCardHtml(card) {
+  return `
+    <a class="model-directory-card home-model-card" href="${escapeHtml(card.href || "#")}">
+      <span class="home-model-card__heading">
+        <strong>${escapeHtml(card.title || "Untitled model")}</strong>
+      </span>
+      <span class="home-model-card__date">Latest ${escapeHtml(card.latest_date || "--")}</span>
+      <span class="home-model-card__metrics">${escapeHtml(card.metrics_label || "")}</span>
+    </a>
+  `;
+}
+
+function renderHomeOverview(data) {
+  const root = document.querySelector("[data-home-overview-src]");
+  if (!root) {
+    return;
+  }
+  const groups = Array.isArray(data.groups) ? data.groups : [];
+  const archivedGroups = Array.isArray(data.archived_groups) ? data.archived_groups : [];
+  root.innerHTML = `
+    ${groups.map((group) => `
+      <section class="home-model-group" id="home-model-group-${escapeHtml(group.id || "models")}">
+        <div class="home-model-group__header">
+          <h3>${escapeHtml(group.title || "Models")}</h3>
+          <p>${escapeHtml(group.description || "")}</p>
+        </div>
+        <div class="model-directory-grid model-directory-grid--overview">
+          ${(Array.isArray(group.cards) ? group.cards : []).map(homeModelCardHtml).join("")}
+        </div>
+      </section>
+    `).join("")}
+    ${archivedGroups.map((group) => `
+      <details class="home-model-group home-model-group--archived" id="home-model-group-${escapeHtml(group.id || "archived")}">
+        <summary>
+          <span>${escapeHtml(group.title || "Archived Models")}</span>
+          <small>${escapeHtml(group.description || "")}</small>
+        </summary>
+        <div class="model-directory-grid model-directory-grid--overview">
+          ${(Array.isArray(group.cards) ? group.cards : []).map(homeModelCardHtml).join("")}
+        </div>
+      </details>
+    `).join("")}
+  `;
+}
+
+async function loadHomeOverview() {
+  const root = document.querySelector("[data-home-overview-src]");
+  if (!root) {
+    return;
+  }
+  try {
+    renderHomeOverview(await fetchJson(root.dataset.homeOverviewSrc));
+  } catch (error) {
+    root.innerHTML = `<div class="omni-empty-state">Failed to load model overview: ${escapeHtml(error.message)}</div>`;
+  }
+}
+
 function renderHealth(summary) {
   const banner = document.querySelector("[data-summary-src]");
   if (!banner) {
@@ -1923,6 +1980,32 @@ function renderOmniTable(payload, records, root) {
   container.innerHTML = `<div class="omni-history-by-date">${blocks}</div>`;
 }
 
+function omniMetricAnchorId(metricGroup) {
+  return `omni-metric-${String(metricGroup.id || metricGroup.title || "metric")
+    .toLowerCase()
+    .replace(/[^a-z0-9_-]+/g, "-")
+    .replace(/^-|-$/g, "")}`;
+}
+
+function ensureOmniMetricJumpNav(root, primaryGroups, extraGroups) {
+  const container = root.querySelector("[data-omni-metric-jump-nav]");
+  if (!container) {
+    return;
+  }
+  if (primaryGroups.length === 0 && extraGroups.length === 0) {
+    container.hidden = true;
+    return;
+  }
+  container.hidden = false;
+  const primaryLinks = primaryGroups.map((group) => (
+    `<a href="#${escapeHtml(omniMetricAnchorId(group))}">${escapeHtml(group.title || humanizeField(group.id || ""))}</a>`
+  ));
+  const moreLink = extraGroups.length > 0
+    ? ['<a href="#omni-more-charts">More charts <span class="omni-metric-jump-nav__muted">More</span></a>']
+    : [];
+  container.innerHTML = [...primaryLinks, ...moreLink].join("");
+}
+
 /** Series values pivoted to a day-by-series table (InferenceX-style "Table" view). */
 function buildOmniSeriesTableHtml(lineSeries, visibleKeySet) {
   const visible = lineSeries.filter((s) => visibleKeySet.has(s.__omniSeriesKey));
@@ -1943,7 +2026,14 @@ function buildOmniSeriesTableHtml(lineSeries, visibleKeySet) {
       const value = byDay.get(day);
       return `<td class="omni-history-table__cell omni-history-table__cell--numeric">${isNumeric(value) ? formatMetricValue(value) : "--"}</td>`;
     }).join("");
-    return `<tr><td class="omni-history-table__cell omni-series-table__name"><span class="omni-series-dot" style="background:${escapeHtml(s.color || "#888")}"></span>${escapeHtml(s.name)}</td>${cells}</tr>`;
+    return `
+      <tr>
+        <td class="omni-history-table__cell omni-series-table__name">
+          <span class="omni-series-dot" style="background:${escapeHtml(s.color || "#888")}"></span>${escapeHtml(s.name)}
+        </td>
+        ${cells}
+      </tr>
+    `;
   }).join("");
   return `
     <div class="omni-history-table__wrap">
@@ -1959,6 +2049,7 @@ function renderOmniChartSection(section, metricGroup, records, groupFields, char
   const opts = { pointPerDay: chartPointPerDay !== false };
   const chartRoot = document.createElement("section");
   chartRoot.className = "omni-chart-card";
+  chartRoot.id = omniMetricAnchorId(metricGroup);
   // Colors assigned on the full list so they stay stable across visibility changes.
   const allSeries = applyOmniLineSeriesColors(
     metricGroup.metrics.flatMap((metric) => buildOmniMetricSeries(records, metric, groupFields, opts)),
@@ -2207,6 +2298,7 @@ function renderOmniCharts(payload, records, root, renderFn) {
   container.innerHTML = "";
 
   const { primary: primaryGroups, extra: extraGroups } = splitOmniMetricGroups(payload.metric_groups);
+  ensureOmniMetricJumpNav(root, primaryGroups, extraGroups);
 
   const primary = document.createElement("div");
   primary.className = "omni-chart-grid";
@@ -2218,6 +2310,7 @@ function renderOmniCharts(payload, records, root, renderFn) {
   if (extraGroups.length > 0) {
     const details = document.createElement("details");
     details.className = "omni-more-charts";
+    details.id = "omni-more-charts";
     details.innerHTML = '<summary>More charts</summary>';
     const extra = document.createElement("div");
     extra.className = "omni-chart-grid omni-chart-grid--stacked";
@@ -2928,6 +3021,6 @@ if (typeof document !== "undefined") {
     bindRailSpy();
     observeColorScheme();
     initOmniPageTabs();
-    await Promise.all([loadHealth(), loadHardwareStatus(), reloadCharts(), loadQwen3OmniHistory(), loadFrameworkComparison()]);
+    await Promise.all([loadHomeOverview(), loadHealth(), loadHardwareStatus(), reloadCharts(), loadQwen3OmniHistory(), loadFrameworkComparison()]);
   });
 }

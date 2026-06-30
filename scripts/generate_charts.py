@@ -24,6 +24,7 @@ SGLANG_DIFFUSION_RESULTS_DIR = DATA_DIR / "sglang_diffusion_results"
 SGLANG_DIFFUSION_RESULTS_ENV = "SGLANG_DIFFUSION_RESULTS_DIR"
 SGLANG_LOG_DIR = Path(os.environ.get("SGLANG_LOG_DIR", str(DATA_DIR / "sglang-log")))
 CHARTS_DIR = ROOT / "docs" / "assets" / "charts"
+HOME_OVERVIEW_PATH = CHARTS_DIR / "home_overview.json"
 QWEN3_OMNI_HISTORY_PATH = CHARTS_DIR / "qwen3_omni_history.json"
 QWEN3_TTS_HISTORY_PATH = CHARTS_DIR / "qwen3_tts_history.json"
 QWEN_IMAGE_HISTORY_PATH = CHARTS_DIR / "qwen_image_history.json"
@@ -1456,7 +1457,22 @@ def build_framework_comparison_payload(history_payloads: list[dict[str, Any]], a
             records.append(comparison_record)
 
     records.sort(key=lambda item: str(item.get("sort_timestamp") or ""), reverse=True)
-    filters = ["model_family", "model_id", "framework", "backend", "hardware", "task", "test_name", "dataset_name", "width", "height", "num_inference_steps", "num_input_images", "max_concurrency", "num_prompts"]
+    filters = [
+        "model_family",
+        "model_id",
+        "framework",
+        "backend",
+        "hardware",
+        "task",
+        "test_name",
+        "dataset_name",
+        "width",
+        "height",
+        "num_inference_steps",
+        "num_input_images",
+        "max_concurrency",
+        "num_prompts",
+    ]
     filter_options = {
         field: sorted({str(value) for item in records if (value := item.get(field)) not in (None, "")})
         for field in filters
@@ -1576,6 +1592,73 @@ def build_hardware_status(config: dict[str, Any], latest_results: list[dict[str,
     return {"hardware": hardware_status}
 
 
+def _record_day(record: dict[str, Any]) -> str:
+    raw = str(record.get("sort_timestamp") or record.get("date") or "")
+    return raw[:10] if len(raw) >= 10 else ""
+
+
+def _build_home_model_card(payload: dict[str, Any], href: str, category: str, metrics_label: str) -> dict[str, Any]:
+    latest_date = max((_record_day(record) for record in payload.get("records", [])), default="")
+    return {
+        "title": payload.get("title", ""),
+        "href": href,
+        "category": category,
+        "metrics_label": metrics_label,
+        "latest_date": latest_date,
+        "record_count": payload.get("record_count", 0),
+        "group_count": payload.get("group_count", 0),
+    }
+
+
+def build_home_overview_payload(model_payloads: list[tuple[dict[str, Any], str, str, str]]) -> dict[str, Any]:
+    cards = [_build_home_model_card(payload, href, category, metrics_label) for payload, href, category, metrics_label in model_payloads]
+    group_specs = [
+        {
+            "id": "omni",
+            "title": "Omni Models",
+            "description": "Multimodal workloads with text, vision, and audio performance metrics.",
+            "categories": {"Multimodal"},
+        },
+        {
+            "id": "speech",
+            "title": "Speech Models",
+            "description": "Speech and audio generation workloads covering latency, RTF, TTFP, and throughput.",
+            "categories": {"Audio Synthesis"},
+        },
+        {
+            "id": "diffusion",
+            "title": "Diffusion Models",
+            "description": "Image and video generation workloads covering E2E latency, throughput, and peak memory.",
+            "categories": {"Image Generation", "Image Editing", "Video Generation"},
+        },
+    ]
+    groups = [
+        {
+            "id": spec["id"],
+            "title": spec["title"],
+            "description": spec["description"],
+            "cards": [card for card in cards if card.get("category") in spec["categories"]],
+        }
+        for spec in group_specs
+    ]
+    archived_groups = [
+        {
+            "id": "archived",
+            "title": "Archived / Historical Models",
+            "description": "Historical model pages are still available but are not part of active homepage groups.",
+            "cards": [card for card in cards if card.get("category") == "Archived"],
+        }
+    ]
+    return {
+        "generated_at": datetime.now().isoformat(),
+        "model_count": len(cards),
+        "latest_date": max((card.get("latest_date") or "" for card in cards), default=""),
+        "cards": cards,
+        "groups": groups,
+        "archived_groups": archived_groups,
+    }
+
+
 def main() -> int:
     config = load_json(CONFIG_PATH, {})
     index = load_json(INDEX_PATH, {"dates": []})
@@ -1623,6 +1706,25 @@ def main() -> int:
     higgs_audio_v3_source_dir = RESULTS_DIR / config.get("kanban_pages", {}).get("higgs_audio_v3_history", {}).get("source_dir", "higgs_audio_v3")
     higgs_audio_v3_payload = build_higgs_audio_v3_history_payload(config, higgs_audio_v3_source_dir)
     save_json(HIGGS_AUDIO_V3_HISTORY_PATH, higgs_audio_v3_payload)
+    save_json(
+        HOME_OVERVIEW_PATH,
+        build_home_overview_payload(
+            [
+                (qwen3_omni_payload, "models/qwen3-omni/", "Multimodal", "TTFT, TPOT, TTFP, RTF, throughput"),
+                (qwen3_tts_payload, "models/qwen3-tts/", "Audio Synthesis", "TTFT, TPOT, TTFP, RTF, throughput"),
+                (qwen_image_payload, "models/qwen-image/", "Image Generation", "E2E latency, throughput, peak memory"),
+                (qwen_image_layered_payload, "models/qwen-image-layered/", "Image Generation", "E2E latency, throughput, peak memory"),
+                (qwen_image_edit_payload, "models/qwen-image-edit/", "Image Editing", "E2E latency, throughput, peak memory"),
+                (qwen_image_edit_2509_payload, "models/qwen-image-edit-2509/", "Archived", "E2E latency, throughput, peak memory"),
+                (qwen_image_edit_2511_payload, "models/qwen-image-edit-2511/", "Image Editing", "E2E latency, throughput, peak memory"),
+                (wan22_payload, "models/wan22/", "Video Generation", "E2E latency, throughput, peak memory"),
+                (hunyuan_image3_payload, "models/hunyuan-image3/", "Image Editing", "E2E latency, throughput, peak memory"),
+                (bagel_payload, "models/bagel/", "Image Generation", "Single-stage and multi-stage image workloads"),
+                (voxcpm2_payload, "models/voxcpm2/", "Audio Synthesis", "RTF, TTFP, E2E latency, throughput"),
+                (higgs_audio_v3_payload, "models/higgs-audio-v3/", "Audio Synthesis", "Audio throughput, RTF, TTFP, E2E latency"),
+            ]
+        ),
+    )
     sglang_diffusion_records = load_sglang_diffusion_json_records()
     comparison_adapter_records = [
         *load_formal_framework_comparison_records(),

@@ -10,10 +10,6 @@ This page tracks Qwen Image Edit 2511 nightly benchmark runs: configurations, la
   markdown="1"
 >
 
-## Nightly run history
-
-## Filters
-
 <div class="omni-section">
   <div class="omni-section__header">
     <p>Filter by model, test, benchmark profile, and runtime settings.</p>
@@ -22,6 +18,8 @@ This page tracks Qwen Image Edit 2511 nightly benchmark runs: configurations, la
 </div>
 
 <div class="omni-summary-grid" data-omni-history-summary></div>
+
+<nav class="omni-metric-jump-nav" data-omni-metric-jump-nav></nav>
 
 <nav class="omni-page-tabs" data-omni-page-tabs></nav>
 

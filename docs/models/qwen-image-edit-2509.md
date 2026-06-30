@@ -1,12 +1,12 @@
-# Qwen Image Layered
+# Qwen Image Edit 2509
 
 <p class="dashboard-intro">
-This page tracks Qwen Image Layered nightly benchmark runs: configurations, latency, throughput, and peak memory over time.
+This page keeps historical Qwen Image Edit 2509 benchmark runs available for latency, throughput, and peak memory analysis.
 </p>
 
 <section
   class="omni-history-page"
-  data-omni-history-src="../../assets/charts/qwen_image_layered_history.json"
+  data-omni-history-src="../../assets/charts/qwen_image_edit_2509_history.json"
   markdown="1"
 >
 
@@ -32,6 +32,19 @@ This page tracks Qwen Image Layered nightly benchmark runs: configurations, late
     <p>Each line represents one benchmark configuration over time.</p>
   </div>
   <div data-omni-history-charts></div>
+</div>
+
+</div>
+
+<div data-omni-tab="Compare" markdown="1">
+
+## Framework Comparison
+
+<div class="omni-section">
+  <div class="omni-section__header">
+    <p>Framework comparison is centralized on the Comparisons page, where Qwen Image Edit 2509 workloads can be selected and compared as charts.</p>
+  </div>
+  <p><a href="../../comparisons/">Open Qwen Image Edit 2509 comparison charts</a></p>
 </div>
 
 </div>
