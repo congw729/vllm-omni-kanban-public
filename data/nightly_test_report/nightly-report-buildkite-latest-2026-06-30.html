@@ -1,0 +1,2032 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nightly Buildkite report - 2026-06-30</title>
+<style>
+
+:root {
+  /* Dashboard palette (aligned with omni docs / slate home — cool gray, blue accent) */
+  --dashboard-bg: #f5f8fb;
+  --dashboard-panel-bg: #ffffff;
+  --dashboard-panel-strong: #f1f5f9;
+  --dashboard-border: #d9e2ec;
+  --dashboard-border-strong: #d6dde6;
+  --dashboard-text: #26323f;
+  --dashboard-muted: #607080;
+  --dashboard-soft-text: #52606d;
+  --dashboard-shadow: 0 18px 38px rgba(15, 23, 42, 0.08);
+  --dashboard-badge-bg: #edf3f8;
+  --dashboard-badge-text: #435466;
+  --dashboard-chart-text: #5b6775;
+  --dashboard-chart-grid: rgba(148, 163, 184, 0.2);
+  --omni-baseline-line: #64748b;
+  --omni-baseline-label-bg: rgba(241, 245, 249, 0.96);
+  --omni-baseline-label-fg: #0f172a;
+  --omni-baseline-label-border: rgba(100, 116, 139, 0.45);
+  --dashboard-tooltip-bg: rgba(15, 23, 42, 0.92);
+  --dashboard-tooltip-border: rgba(148, 163, 184, 0.28);
+  --dashboard-tooltip-text: #f8fafc;
+  --dashboard-healthy: #1f9d63;
+  --dashboard-alert: #d14343;
+  --dashboard-healthy-bg: rgba(31, 157, 99, 0.1);
+  --dashboard-alert-bg: rgba(209, 67, 67, 0.11);
+  --dashboard-warning: #d97706;
+  --dashboard-warning-bg: rgba(217, 119, 6, 0.12);
+  --dashboard-violet: #4f46e5;
+  --dashboard-violet-bg: rgba(79, 70, 229, 0.1);
+  /* Internal aliases (report markup) */
+  --bg: var(--dashboard-bg);
+  --surface: var(--dashboard-panel-bg);
+  --surface-muted: #edf3f8;
+  --text: var(--dashboard-text);
+  --muted: var(--dashboard-muted);
+  --border: var(--dashboard-border);
+  --shadow: var(--dashboard-shadow);
+  --accent: #3b82f6;
+  --accent-hover: #2563eb;
+  --accent-soft: rgba(59, 130, 246, 0.22);
+  --accent-tint: rgba(59, 130, 246, 0.08);
+  --ci: #2563eb;
+  --ci-soft: rgba(59, 130, 246, 0.16);
+  --danger: var(--dashboard-alert);
+  --danger-strong: #b91c1c;
+  --danger-bg: rgba(209, 67, 67, 0.08);
+  --danger-edge: var(--dashboard-alert);
+  --ok: var(--dashboard-healthy);
+  --ok-bg: var(--dashboard-healthy-bg);
+  --ok-edge: var(--dashboard-healthy);
+  --fail-bg: var(--dashboard-alert-bg);
+  --fail-edge: var(--dashboard-alert);
+  --unknown-bg: rgba(148, 163, 184, 0.08);
+  --unknown-edge: #64748b;
+  --code-bg-top: #334155;
+  --code-bg-bottom: #1e293b;
+  --code-fg: #e2e8f0;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow-bar: none;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --dashboard-bg: #111827;
+    --dashboard-panel-bg: #162130;
+    --dashboard-panel-strong: #131d2b;
+    --dashboard-border: rgba(148, 163, 184, 0.18);
+    --dashboard-border-strong: rgba(148, 163, 184, 0.22);
+    --dashboard-text: #edf3fb;
+    --dashboard-muted: #b6c4d5;
+    --dashboard-soft-text: #c6d3e1;
+    --dashboard-shadow: 0 20px 40px rgba(2, 6, 23, 0.35);
+    --dashboard-badge-bg: rgba(148, 163, 184, 0.12);
+    --dashboard-badge-text: #d5dfeb;
+    --dashboard-chart-text: #c8d4e3;
+    --dashboard-chart-grid: rgba(148, 163, 184, 0.16);
+    --omni-baseline-line: #94a3b8;
+    --omni-baseline-label-bg: rgba(30, 41, 55, 0.94);
+    --omni-baseline-label-fg: #f1f5f9;
+    --omni-baseline-label-border: rgba(148, 163, 184, 0.4);
+    --dashboard-tooltip-bg: rgba(15, 23, 42, 0.96);
+    --dashboard-tooltip-border: rgba(148, 163, 184, 0.24);
+    --dashboard-tooltip-text: #f8fafc;
+    --dashboard-healthy-bg: rgba(31, 157, 99, 0.16);
+    --dashboard-alert-bg: rgba(209, 67, 67, 0.18);
+    --dashboard-warning: #fbbf24;
+    --dashboard-warning-bg: rgba(251, 191, 36, 0.14);
+    --dashboard-violet: #818cf8;
+    --dashboard-violet-bg: rgba(129, 140, 248, 0.14);
+    --surface-muted: rgba(148, 163, 184, 0.1);
+    --accent: #60a5fa;
+    --accent-hover: #3b82f6;
+    --accent-soft: rgba(96, 165, 250, 0.28);
+    --accent-tint: rgba(96, 165, 250, 0.12);
+    --ci: #60a5fa;
+    --ci-soft: rgba(96, 165, 250, 0.2);
+    --danger-strong: #fecaca;
+    --danger-bg: rgba(209, 67, 67, 0.14);
+    --unknown-bg: rgba(148, 163, 184, 0.08);
+    --unknown-edge: #94a3b8;
+  }
+}
+* { box-sizing: border-box; }
+body {
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  font-size: 15px;
+}
+.top-bar {
+  background: var(--dashboard-panel-bg);
+  color: var(--dashboard-text);
+  padding: 0;
+  box-shadow: 0 1px 0 rgba(148, 163, 184, 0.18);
+  border-bottom: 3px solid var(--accent);
+}
+.top-bar-inner {
+  padding: 1.4rem 1.25rem 1.55rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+}
+.brand-mark {
+  width: 3.2rem;
+  height: 3.2rem;
+  border-radius: var(--radius-sm);
+  background: var(--dashboard-badge-bg);
+  border: 1px solid var(--dashboard-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05);
+}
+.brand-mark .ico { stroke: var(--accent); }
+.brand-copy h1 {
+  margin: 0;
+  font-size: 1.65rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  color: var(--dashboard-text);
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+.tagline {
+  margin: 0.35rem 0 0;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.top-bar .tagline {
+  color: var(--dashboard-muted);
+}
+.shell {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem 3rem;
+}
+.panel {
+  background: var(--dashboard-panel-bg);
+  border-radius: var(--radius);
+  border: 1px solid var(--dashboard-border);
+  box-shadow: var(--dashboard-shadow);
+  padding: 1.15rem 1.3rem;
+  margin-bottom: 1.35rem;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.panel:hover {
+  box-shadow: 0 16px 28px rgba(15, 23, 42, 0.1);
+  border-color: rgba(59, 130, 246, 0.28);
+}
+.panel h2 {
+  margin: 0 0 1rem;
+  font-size: 1.12rem;
+  font-weight: 800;
+  color: var(--dashboard-text);
+  letter-spacing: -0.02em;
+  border-bottom: 2px solid var(--dashboard-border);
+  padding-bottom: 0.55rem;
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+.panel-bk h2 {
+  border-bottom-color: var(--ci-soft);
+}
+.heading-row {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+}
+.heading-ico {
+  display: flex;
+  margin-top: 0.12rem;
+  color: var(--accent);
+}
+.panel-bk .heading-ico {
+  color: var(--ci);
+}
+.heading-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.12rem;
+  min-width: 0;
+}
+.heading-sub {
+  font-size: 0.78em;
+  font-weight: 500;
+  color: var(--muted);
+}
+h3.panel-sub {
+  margin: 1.2rem 0 0.65rem;
+  font-size: 1.04rem;
+  color: var(--dashboard-soft-text);
+  font-weight: 700;
+}
+h3.panel-sub:first-child {
+  margin-top: 0;
+}
+h3.panel-sub .heading-ico {
+  color: var(--dashboard-muted);
+}
+h3.section-failures {
+  margin: 0 0 0.85rem;
+  font-size: 1.02rem;
+  font-weight: 700;
+  color: var(--danger-strong);
+}
+h3.section-failures .heading-ico {
+  color: var(--danger);
+}
+section.job-fail-bk h3.section-failures .heading-ico {
+  color: var(--ci);
+}
+.panel-fail-analysis {
+  border-top: 3px solid var(--dashboard-warning);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--dashboard-warning-bg) 65%, var(--dashboard-panel-bg)) 0%,
+    var(--dashboard-panel-bg) 42%
+  );
+}
+.panel-fail-analysis > h2 {
+  border-bottom-color: color-mix(in srgb, var(--dashboard-warning) 35%, transparent);
+}
+.panel-fail-analysis .heading-ico {
+  color: var(--dashboard-warning);
+}
+.perf-delta {
+  font-size: 0.78em;
+  font-weight: 750;
+  margin-left: 0.35rem;
+  white-space: nowrap;
+}
+.perf-delta--up {
+  color: var(--dashboard-warning);
+}
+.perf-delta--down {
+  color: var(--dashboard-healthy);
+}
+details.job-fail-details {
+  margin-bottom: 1.25rem;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  border-left: 4px solid var(--danger-edge);
+  background: var(--surface);
+}
+details.job-fail-details:last-child {
+  margin-bottom: 0;
+}
+summary.job-fail-details-summary {
+  list-style: none;
+  cursor: pointer;
+  background: var(--danger-bg);
+  padding: 1.05rem 1.1rem 1.05rem 2.65rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--dashboard-warning) 38%, transparent);
+  position: relative;
+}
+summary.job-fail-details-summary::-webkit-details-marker {
+  display: none;
+}
+summary.job-fail-details-summary::before {
+  content: "▸";
+  position: absolute;
+  left: 0.95rem;
+  top: 1.2rem;
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--danger-strong);
+  line-height: 1;
+  pointer-events: none;
+}
+details.job-fail-details[open] > summary.job-fail-details-summary::before {
+  content: "▾";
+}
+summary.job-fail-details-summary h2 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 750;
+  color: var(--danger-strong);
+}
+summary.job-fail-details-summary .heading-ico {
+  color: var(--danger-strong);
+}
+summary.job-fail-details-summary .meta {
+  margin: 0.5rem 0 0;
+}
+.job-fail-details-body {
+  padding: 1.1rem 1.35rem 1.35rem;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--dashboard-alert-bg) 40%, var(--dashboard-panel-bg)) 0%,
+    var(--dashboard-panel-bg) 48%
+  );
+}
+.full-log-wrap {
+  margin: 0.55rem 0 0;
+  padding-top: 0.4rem;
+  border-top: 1px dashed color-mix(in srgb, var(--dashboard-warning) 42%, transparent);
+}
+.btn-view-full-log {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.42rem 0.88rem;
+  border-radius: 9px;
+  border: 1px solid color-mix(in srgb, var(--dashboard-warning) 45%, var(--dashboard-border));
+  background: linear-gradient(
+    180deg,
+    var(--dashboard-panel-bg) 0%,
+    color-mix(in srgb, var(--dashboard-warning-bg) 55%, var(--dashboard-panel-bg)) 100%
+  );
+  color: var(--danger-strong);
+  font-size: 0.86rem;
+  font-weight: 650;
+  cursor: pointer;
+  box-shadow: 0 1px 2px color-mix(in srgb, var(--dashboard-warning) 12%, transparent);
+}
+.btn-view-full-log:hover {
+  border-color: var(--dashboard-warning);
+  background: var(--dashboard-panel-bg);
+}
+.full-log-panel {
+  margin-top: 0.65rem;
+}
+pre.log-full {
+  margin: 0;
+  padding: 0.85rem 1rem;
+  background: linear-gradient(180deg, var(--code-bg-top) 0%, var(--code-bg-bottom) 100%);
+  color: var(--code-fg);
+  border-radius: var(--radius-sm);
+  border: 1px solid color-mix(in srgb, var(--dashboard-muted) 38%, transparent);
+  font-size: 0.78rem;
+  line-height: 1.48;
+  max-height: min(75vh, 42rem);
+  overflow: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+ul.full-log-paths {
+  margin: 0.35rem 0 0;
+  padding-left: 1.25rem;
+  font-size: 0.88rem;
+  color: var(--text);
+}
+.full-log-oversize {
+  margin: 0;
+}
+summary.job-fail-details-summary-bk {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--ci-soft) 65%, var(--dashboard-panel-bg)) 0%,
+    var(--dashboard-panel-strong)
+  );
+  border-bottom-color: color-mix(in srgb, var(--ci) 42%, transparent);
+}
+summary.job-fail-details-summary-bk::before {
+  color: var(--ci);
+}
+details.job-fail-details-bk {
+  border-left-color: var(--ci);
+}
+summary.job-fail-details-summary-bk h2 {
+  color: var(--dashboard-chart-text);
+}
+summary.job-fail-details-summary-bk .heading-ico {
+  color: var(--ci);
+}
+.meta {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin: 0.4rem 0;
+}
+.meta strong {
+  color: var(--dashboard-badge-text);
+  font-weight: 650;
+}
+.meta a {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px solid var(--accent-soft);
+}
+.meta a:hover {
+  color: var(--accent-hover);
+  border-bottom-color: var(--accent);
+}
+.hint {
+  color: var(--muted);
+  font-size: 0.88rem;
+  margin: 0.55rem 0 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.45rem;
+}
+.hint::before {
+  content: "→";
+  color: var(--accent);
+  font-weight: 800;
+  flex-shrink: 0;
+  margin-top: 0.08rem;
+}
+p.summary-legend {
+  margin: 0.35rem 0 0;
+  font-size: 0.84rem;
+}
+.summary-legend strong.summary-legend--ok { color: var(--dashboard-healthy); }
+.summary-legend strong.summary-legend--fail { color: var(--dashboard-alert); }
+.summary-legend strong.summary-legend--unk { color: var(--omni-baseline-line); }
+.table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: var(--radius-sm);
+  margin: 0.65rem 0 0;
+  border: 1px solid var(--border);
+  background: var(--surface-muted);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--dashboard-panel-bg) 65%, transparent);
+}
+.table-scroll > table {
+  width: 100%;
+  min-width: 620px;
+}
+table.summary {
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+table.summary th, table.summary td {
+  border: 1px solid var(--border);
+  padding: 0.65rem 0.8rem;
+  text-align: left;
+  vertical-align: top;
+}
+table.summary th {
+  background: var(--dashboard-panel-strong);
+  font-weight: 650;
+  color: var(--dashboard-chart-text);
+  white-space: nowrap;
+}
+table.summary tbody tr.summary-row--ok td {
+  background: color-mix(in srgb, var(--dashboard-healthy-bg) 92%, var(--dashboard-panel-bg));
+}
+table.summary tbody tr.summary-row--ok td:first-child {
+  border-left: 4px solid var(--ok-edge);
+  padding-left: calc(0.8rem - 3px);
+  font-weight: 650;
+  color: var(--dashboard-healthy);
+}
+table.summary tbody tr.summary-row--fail td {
+  background: color-mix(in srgb, var(--dashboard-alert-bg) 88%, var(--dashboard-panel-bg));
+}
+table.summary tbody tr.summary-row--fail td:first-child {
+  border-left: 4px solid var(--fail-edge);
+  padding-left: calc(0.8rem - 3px);
+  font-weight: 650;
+  color: var(--danger-strong);
+}
+table.summary tbody tr.summary-row--unknown td {
+  background: var(--unknown-bg);
+}
+table.summary tbody tr.summary-row--unknown td:first-child {
+  border-left: 4px solid var(--unknown-edge);
+  padding-left: calc(0.8rem - 3px);
+  color: var(--dashboard-chart-text);
+}
+table.summary tbody tr.summary-row--ok:hover td {
+  background: color-mix(in srgb, var(--dashboard-healthy-bg) 98%, var(--dashboard-panel-bg));
+}
+table.summary tbody tr.summary-row--fail:hover td {
+  background: color-mix(in srgb, var(--dashboard-alert-bg) 95%, var(--dashboard-panel-bg));
+}
+table.summary tbody tr.summary-row--unknown:hover td {
+  background: var(--dashboard-badge-bg);
+}
+section.job-fail {
+  background: var(--surface);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+  border-left: 4px solid var(--danger-edge);
+}
+section.job-fail header {
+  background: var(--danger-bg);
+  padding: 1.05rem 1.35rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--dashboard-warning) 38%, transparent);
+}
+section.job-fail header .heading-ico {
+  color: var(--danger-strong);
+}
+section.job-fail h2 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 750;
+  color: var(--danger-strong);
+}
+section.job-fail .body {
+  padding: 1.1rem 1.35rem 1.35rem;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--dashboard-alert-bg) 35%, var(--dashboard-panel-bg)) 0%,
+    var(--dashboard-panel-bg) 48%
+  );
+}
+table.fail-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+table.fail-table th, table.fail-table td {
+  border: 1px solid var(--border);
+  padding: 0.72rem 0.8rem;
+  vertical-align: top;
+}
+table.fail-table th {
+  background: var(--dashboard-panel-strong);
+  font-weight: 650;
+  text-align: left;
+  color: var(--dashboard-text);
+}
+.th-lbl {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+.th-ico {
+  flex-shrink: 0;
+  opacity: 0.88;
+  color: var(--dashboard-chart-text);
+}
+table.fail-table tr.row-error {
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--dashboard-warning-bg) 70%, var(--dashboard-panel-bg)) 0%,
+    var(--dashboard-panel-bg) 100%
+  );
+}
+td.mono {
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 0.84rem;
+  word-break: break-all;
+}
+td.reason {
+  color: var(--dashboard-text);
+}
+td.analysis {
+  color: var(--dashboard-healthy);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--dashboard-healthy-bg) 55%, var(--dashboard-panel-bg)) 0%,
+    color-mix(in srgb, var(--dashboard-healthy-bg) 88%, var(--dashboard-panel-bg)) 100%
+  );
+  font-size: 0.86rem;
+  border-left: 3px solid var(--dashboard-healthy) !important;
+}
+table.fail-table th.excerpt-col {
+  text-align: center;
+}
+table.fail-table th.excerpt-col .th-lbl {
+  justify-content: center;
+}
+td.excerpt-cell {
+  padding: 0.55rem 0.65rem !important;
+  background: var(--surface-muted);
+  width: 9.5rem;
+  vertical-align: middle !important;
+}
+.excerpt-cell-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+.btn-view-log-excerpt {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.42rem 0.75rem;
+  border-radius: 9px;
+  border: 1px solid color-mix(in srgb, var(--dashboard-warning) 45%, var(--dashboard-border));
+  background: linear-gradient(
+    180deg,
+    var(--dashboard-panel-bg) 0%,
+    color-mix(in srgb, var(--dashboard-warning-bg) 55%, var(--dashboard-panel-bg)) 100%
+  );
+  color: var(--danger-strong);
+  font-size: 0.82rem;
+  font-weight: 650;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: 0 1px 2px color-mix(in srgb, var(--dashboard-warning) 12%, transparent);
+}
+.btn-view-log-excerpt:hover {
+  border-color: var(--dashboard-warning);
+  background: var(--dashboard-panel-bg);
+}
+pre.log-excerpt--stored {
+  display: none !important;
+}
+body.log-modal-open {
+  overflow: hidden;
+}
+.log-excerpt-modal[hidden] {
+  display: none !important;
+}
+.log-excerpt-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+}
+.log-excerpt-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: color-mix(in srgb, var(--dashboard-text) 42%, transparent);
+  backdrop-filter: blur(2px);
+}
+.log-excerpt-modal-panel {
+  position: relative;
+  z-index: 1;
+  width: min(92vw, 56rem);
+  max-height: min(92vh, 48rem);
+  display: flex;
+  flex-direction: column;
+  background: var(--dashboard-panel-bg);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--dashboard-border);
+  box-shadow: 0 20px 50px color-mix(in srgb, var(--dashboard-text) 22%, transparent);
+}
+.log-excerpt-modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.85rem 1.1rem;
+  border-bottom: 1px solid var(--dashboard-border);
+  background: linear-gradient(180deg, var(--dashboard-panel-strong) 0%, var(--dashboard-panel-bg) 100%);
+}
+.log-excerpt-modal-header h2 {
+  margin: 0;
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: var(--dashboard-text);
+  word-break: break-word;
+  line-height: 1.35;
+}
+.log-excerpt-modal-close {
+  flex-shrink: 0;
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid var(--dashboard-border);
+  border-radius: 8px;
+  background: var(--dashboard-panel-bg);
+  color: var(--dashboard-text);
+  font-size: 1.35rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.log-excerpt-modal-close:hover {
+  border-color: var(--dashboard-warning);
+  color: var(--danger-strong);
+}
+.log-excerpt-modal-body {
+  overflow: hidden;
+  flex: 1;
+  min-height: 0;
+}
+.log-excerpt-modal-body pre {
+  margin: 0;
+  padding: 1rem 1.1rem;
+  background: linear-gradient(180deg, var(--code-bg-top) 0%, var(--code-bg-bottom) 100%);
+  color: var(--code-fg);
+  font-size: 0.78rem;
+  line-height: 1.48;
+  max-height: min(78vh, 40rem);
+  overflow: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+pre.log-excerpt {
+  margin: 0;
+  padding: 0.85rem 1rem;
+  background: linear-gradient(180deg, var(--code-bg-top) 0%, var(--code-bg-bottom) 100%);
+  color: var(--code-fg);
+  border-radius: var(--radius-sm);
+  border: 1px solid color-mix(in srgb, var(--dashboard-muted) 38%, transparent);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--dashboard-panel-bg) 18%, transparent);
+  font-size: 0.78rem;
+  line-height: 1.48;
+  max-height: 28rem;
+  overflow: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.note {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-top: 0.35rem;
+}
+.panel-bk {
+  border-top: 4px solid var(--ci);
+  background: linear-gradient(
+    180deg,
+    var(--dashboard-panel-bg) 0%,
+    color-mix(in srgb, var(--ci-soft) 35%, var(--dashboard-panel-bg)) 100%
+  );
+}
+section.job-fail-bk {
+  border-left-color: var(--ci);
+}
+section.job-fail-bk header {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--ci-soft) 55%, var(--dashboard-panel-bg)) 0%,
+    var(--dashboard-panel-strong)
+  );
+  border-bottom: 1px solid color-mix(in srgb, var(--ci) 38%, transparent);
+}
+section.job-fail-bk header .heading-ico {
+  color: var(--ci);
+}
+section.job-fail-bk h2 {
+  color: var(--dashboard-chart-text);
+  font-weight: 750;
+}
+.issue-action-cell {
+  width: 8.5rem;
+  text-align: center;
+  vertical-align: middle !important;
+  background: var(--surface-muted);
+}
+.btn-github-issue {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.65rem;
+  border-radius: 9px;
+  border: 1px solid var(--border);
+  background: var(--dashboard-panel-strong);
+  color: var(--dashboard-text);
+  font-size: 0.82rem;
+  font-weight: 650;
+  cursor: pointer;
+  box-shadow: 0 1px 2px color-mix(in srgb, var(--dashboard-shadow) 25%, transparent);
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+}
+.btn-github-issue:hover {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--accent-tint) 90%, var(--dashboard-panel-bg)) 0%,
+    var(--dashboard-panel-strong)
+  );
+  border-color: color-mix(in srgb, var(--accent) 35%, var(--dashboard-border));
+  color: var(--accent-hover);
+}
+.btn-github-issue:active { transform: scale(0.98); }
+.btn-issue-ico { stroke: var(--accent); }
+.btn-issue-text { white-space: nowrap; }
+.gh-modal[hidden] { display: none !important; }
+.gh-modal:not([hidden]) {
+  position: fixed;
+  inset: 0;
+  z-index: 99990;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+.gh-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: color-mix(in srgb, var(--dashboard-tooltip-bg) 55%, transparent);
+  backdrop-filter: blur(3px);
+}
+.gh-modal-panel {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+  width: 100%;
+  max-height: min(92vh, 920px);
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: var(--dashboard-shadow);
+  overflow: hidden;
+}
+.gh-modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.15rem;
+  background: var(--dashboard-panel-strong);
+  border-bottom: 1px solid var(--border);
+}
+.gh-modal-head h2 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 750;
+  color: var(--dashboard-text);
+}
+.gh-modal-x {
+  border: none;
+  background: transparent;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--muted);
+  padding: 0 0.25rem;
+}
+.gh-modal-x:hover { color: var(--danger-strong); }
+.gh-modal-hint {
+  margin: 0;
+  padding: 0.85rem 1.15rem 0;
+  font-size: 0.88rem;
+  color: var(--muted);
+  line-height: 1.55;
+}
+.gh-modal-hint a { color: var(--accent); font-weight: 600; }
+.gh-issue-textarea {
+  margin: 0.75rem 1.15rem;
+  flex: 1;
+  min-height: 200px;
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  padding: 0.75rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  resize: vertical;
+  color: var(--dashboard-text);
+  background: color-mix(in srgb, var(--dashboard-badge-bg) 40%, var(--dashboard-panel-bg));
+}
+.gh-modal-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  padding: 0.85rem 1.15rem 1.1rem;
+  border-top: 1px solid var(--border);
+  background: var(--surface-muted);
+}
+.btn-gh-copy {
+  padding: 0.5rem 1rem;
+  border-radius: 9px;
+  border: 1px solid var(--border);
+  background: var(--dashboard-panel-bg);
+  font-weight: 650;
+  cursor: pointer;
+  color: var(--dashboard-soft-text);
+}
+.btn-gh-copy:hover { border-color: var(--dashboard-border-strong); }
+.btn-gh-open {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1.1rem;
+  border-radius: var(--radius-sm);
+  background: var(--accent);
+  color: var(--dashboard-tooltip-text) !important;
+  font-weight: 700;
+  text-decoration: none !important;
+  border: 1px solid var(--accent-hover);
+  box-shadow: none;
+}
+.btn-gh-open:hover { background: var(--accent-hover); filter: none; }
+/* Nightly report: Buildkite Test / Local Test outer cards + collapsible subcards */
+.nightly-focus {
+  border-top: 4px solid var(--accent);
+  background: linear-gradient(
+    180deg,
+    var(--dashboard-panel-bg) 0%,
+    color-mix(in srgb, var(--accent-tint) 65%, var(--dashboard-panel-bg)) 100%
+  );
+}
+.nightly-focus--fail {
+  border-top-color: var(--dashboard-alert);
+  background: linear-gradient(
+    180deg,
+    var(--dashboard-panel-bg) 0%,
+    color-mix(in srgb, var(--dashboard-alert-bg) 62%, var(--dashboard-panel-bg)) 100%
+  );
+}
+.nightly-focus--normal {
+  border-top-color: var(--dashboard-warning);
+  background: linear-gradient(
+    180deg,
+    var(--dashboard-panel-bg) 0%,
+    color-mix(in srgb, var(--dashboard-warning-bg) 58%, var(--dashboard-panel-bg)) 100%
+  );
+}
+.nightly-focus--ok {
+  border-top-color: var(--dashboard-healthy);
+  background: linear-gradient(
+    180deg,
+    var(--dashboard-panel-bg) 0%,
+    color-mix(in srgb, var(--dashboard-healthy-bg) 62%, var(--dashboard-panel-bg)) 100%
+  );
+}
+.nightly-focus--unknown {
+  border-top-color: var(--unknown-edge);
+}
+.nightly-focus .heading-ico {
+  color: var(--accent);
+}
+.nightly-focus--fail .heading-ico {
+  color: var(--dashboard-alert);
+}
+.nightly-focus--normal .heading-ico {
+  color: var(--dashboard-warning);
+}
+.nightly-focus--ok .heading-ico {
+  color: var(--dashboard-healthy);
+}
+.focus-conclusion {
+  margin: 0 0 0.9rem;
+  font-size: 1rem;
+  font-weight: 720;
+  color: var(--dashboard-text);
+}
+.focus-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  gap: 0.85rem;
+  margin: 0.85rem 0 1rem;
+}
+.focus-card {
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--dashboard-border);
+  background: var(--dashboard-panel-bg);
+  padding: 0.85rem 0.95rem;
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--dashboard-panel-bg) 65%, transparent);
+}
+.focus-card--fail {
+  border-left: 4px solid var(--dashboard-alert);
+  background: color-mix(in srgb, var(--dashboard-alert-bg) 76%, var(--dashboard-panel-bg));
+}
+.focus-card--ok {
+  border-left: 4px solid var(--dashboard-healthy);
+  background: color-mix(in srgb, var(--dashboard-healthy-bg) 72%, var(--dashboard-panel-bg));
+}
+.focus-card-title {
+  color: var(--dashboard-muted);
+  font-size: 0.78rem;
+  font-weight: 760;
+  text-transform: uppercase;
+  letter-spacing: 0.035em;
+}
+.focus-card-value {
+  margin-top: 0.2rem;
+  font-size: 1.18rem;
+  font-weight: 820;
+  color: var(--dashboard-text);
+}
+.focus-card-detail {
+  margin-top: 0.15rem;
+  color: var(--dashboard-muted);
+  font-size: 0.84rem;
+}
+.focus-table-title {
+  margin: 1rem 0 0.45rem;
+  color: var(--dashboard-soft-text);
+  font-size: 1rem;
+}
+table.focus-table {
+  table-layout: fixed;
+  font-size: 0.86rem;
+  min-width: 980px;
+}
+table.focus-table th,
+table.focus-table td {
+  padding: 0.48rem 0.55rem;
+  overflow-wrap: anywhere;
+  white-space: normal;
+  line-height: 1.35;
+}
+table.focus-table th:nth-child(1),
+table.focus-table td:nth-child(1) {
+  width: 5.8rem;
+}
+table.focus-table th:nth-child(2),
+table.focus-table td:nth-child(2) {
+  width: 13rem;
+}
+table.focus-table th:nth-child(3),
+table.focus-table td:nth-child(3) {
+  width: 6.8rem;
+}
+table.focus-table th:nth-child(4),
+table.focus-table td:nth-child(4) {
+  width: 12rem;
+}
+table.focus-table th:nth-child(5),
+table.focus-table td:nth-child(5) {
+  width: 12rem;
+}
+table.focus-table th:nth-child(6),
+table.focus-table td:nth-child(6) {
+  width: 8rem;
+}
+table.focus-table th:nth-child(7),
+table.focus-table td:nth-child(7),
+table.focus-table th:nth-child(8),
+table.focus-table td:nth-child(8),
+table.focus-table th:nth-child(9),
+table.focus-table td:nth-child(9) {
+  width: 6.4rem;
+  text-align: right;
+  white-space: nowrap;
+}
+table.focus-table th:nth-child(10),
+table.focus-table td:nth-child(10) {
+  width: 5rem;
+  white-space: nowrap;
+}
+.focus-filter-scope .table-scroll {
+  max-height: 13rem;
+  overflow: auto;
+}
+.focus-filter-scope--expanded .table-scroll {
+  max-height: none;
+}
+.focus-filter-scope table.focus-table th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+.focus-model-filter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem 0.7rem;
+  max-width: min(58rem, 100%);
+  margin: 0;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid color-mix(in srgb, var(--dashboard-border) 82%, var(--ci) 18%);
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--dashboard-panel-bg) 86%, var(--ci-soft) 14%);
+}
+.focus-model-filter legend {
+  padding: 0 0.25rem;
+  color: var(--dashboard-muted);
+  font-size: 0.78rem;
+  font-weight: 760;
+}
+.focus-model-filter legend span {
+  font-weight: 520;
+}
+.focus-model-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  max-width: 18rem;
+  color: var(--dashboard-text);
+  font-size: 0.82rem;
+  font-weight: 640;
+}
+.focus-model-check input {
+  margin: 0;
+  flex-shrink: 0;
+}
+.focus-model-check span {
+  overflow-wrap: anywhere;
+}
+.nightly-root.panel {
+  margin-bottom: 1.35rem;
+}
+.nightly-root--buildkite {
+  border-top: 4px solid var(--ci);
+  background: linear-gradient(
+    180deg,
+    var(--dashboard-panel-bg) 0%,
+    color-mix(in srgb, var(--ci-soft) 28%, var(--dashboard-panel-bg)) 100%
+  );
+}
+.nightly-root--local {
+  border-top: 4px solid var(--accent);
+  background: linear-gradient(
+    180deg,
+    var(--dashboard-panel-bg) 0%,
+    color-mix(in srgb, var(--accent-tint) 70%, var(--dashboard-panel-bg)) 100%
+  );
+}
+details.report-subcard {
+  margin-bottom: 0.9rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--dashboard-border);
+  background: var(--dashboard-panel-bg);
+  box-shadow: var(--dashboard-shadow);
+  overflow: hidden;
+}
+details.report-subcard:last-child {
+  margin-bottom: 0;
+}
+summary.report-subcard-summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 0.78rem 1rem 0.78rem 2.45rem;
+  position: relative;
+  font-weight: 780;
+  font-size: 1.02rem;
+  color: var(--dashboard-text);
+  background: linear-gradient(180deg, var(--dashboard-panel-strong) 0%, var(--dashboard-panel-bg) 100%);
+  border-bottom: 1px solid var(--dashboard-border);
+}
+.report-subcard-summary-inner {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-width: 0;
+}
+.report-subcard-summary-inner .report-subcard-ico {
+  flex-shrink: 0;
+  opacity: 0.92;
+}
+.report-subcard-title {
+  font-weight: inherit;
+}
+.report-subcard-summary .report-subcard-ico {
+  color: var(--accent);
+}
+.report-subcard--bk .report-subcard-summary .report-subcard-ico {
+  color: var(--ci);
+}
+.report-subcard--bk-fail .report-subcard-summary .report-subcard-ico {
+  color: var(--dashboard-warning);
+}
+.report-subcard--bk-perf .report-subcard-summary .report-subcard-ico,
+.report-subcard--bk-perf-model .report-subcard-summary .report-subcard-ico {
+  color: var(--ci);
+}
+.report-subcard--local-fail .report-subcard-summary .report-subcard-ico {
+  color: var(--danger-strong);
+}
+summary.report-subcard-summary::-webkit-details-marker {
+  display: none;
+}
+summary.report-subcard-summary::before {
+  content: "▸";
+  position: absolute;
+  left: 0.88rem;
+  top: 0.9rem;
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--accent);
+  line-height: 1;
+  pointer-events: none;
+}
+details.report-subcard[open] > summary.report-subcard-summary::before {
+  content: "▾";
+}
+.report-subcard--bk summary.report-subcard-summary::before {
+  color: var(--ci);
+}
+.report-subcard--bk-fail summary.report-subcard-summary::before {
+  color: var(--dashboard-warning);
+}
+.report-subcard--bk-perf summary.report-subcard-summary::before,
+.report-subcard--bk-perf-model summary.report-subcard-summary::before {
+  color: var(--ci);
+}
+.report-subcard--local-fail summary.report-subcard-summary::before {
+  color: var(--danger-strong);
+}
+.report-subcard-body {
+  padding: 1rem 1.2rem 1.2rem;
+  background: var(--dashboard-panel-bg);
+}
+.report-subcard-body > .table-scroll:first-child {
+  margin-top: 0;
+}
+.local-summary-pillar-body {
+  padding: 0.35rem 0.15rem 0.65rem;
+}
+details.local-summary-pillar {
+  margin-bottom: 0.75rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--dashboard-border);
+  background: color-mix(in srgb, var(--dashboard-panel-bg) 90%, var(--accent) 10%);
+}
+details.local-summary-pillar:last-child {
+  margin-bottom: 0;
+}
+summary.local-summary-pillar-summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 0.55rem 0.85rem 0.55rem 2rem;
+  position: relative;
+  font-weight: 750;
+  font-size: 0.98rem;
+  color: var(--dashboard-text);
+  background: var(--dashboard-panel-strong);
+  border-bottom: 1px solid var(--dashboard-border);
+}
+summary.local-summary-pillar-summary::-webkit-details-marker {
+  display: none;
+}
+summary.local-summary-pillar-summary::before {
+  content: "▸";
+  position: absolute;
+  left: 0.52rem;
+  top: 0.62rem;
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: var(--accent);
+  line-height: 1;
+  pointer-events: none;
+}
+details.local-summary-pillar[open] > summary.local-summary-pillar-summary::before {
+  content: "▾";
+}
+details.local-summary-dim {
+  margin: 0.5rem 0.35rem 0.45rem 0.65rem;
+  border-radius: var(--radius-sm);
+  border: 1px dashed color-mix(in srgb, var(--dashboard-border) 82%, var(--accent) 18%);
+  background: var(--dashboard-panel-bg);
+}
+summary.local-summary-dim-summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 0.42rem 0.75rem 0.42rem 1.85rem;
+  position: relative;
+  font-weight: 680;
+  font-size: 0.9rem;
+  color: var(--dashboard-muted);
+  background: color-mix(in srgb, var(--dashboard-panel-bg) 96%, var(--accent) 4%);
+  border-bottom: 1px solid var(--dashboard-border);
+}
+summary.local-summary-dim-summary::-webkit-details-marker {
+  display: none;
+}
+summary.local-summary-dim-summary::before {
+  content: "▸";
+  position: absolute;
+  left: 0.45rem;
+  top: 0.48rem;
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--accent);
+  line-height: 1;
+  pointer-events: none;
+}
+details.local-summary-dim[open] > summary.local-summary-dim-summary::before {
+  content: "▾";
+}
+.local-summary-dim-body {
+  padding: 0.55rem 0.45rem 0.65rem;
+}
+.local-summary-dim-body > .table-scroll:first-child {
+  margin-top: 0;
+}
+.report-subcard--bk-perf-model {
+  background: color-mix(in srgb, var(--dashboard-panel-bg) 94%, var(--ci-soft) 6%);
+}
+.perf-filter-scope {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.perf-filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 0.65rem;
+  padding: 0.75rem;
+  border: 1px solid color-mix(in srgb, var(--dashboard-border) 82%, var(--ci) 18%);
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--dashboard-panel-strong) 88%, var(--ci-soft) 12%);
+}
+.perf-filter-label {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 10rem;
+  font-size: 0.78rem;
+  font-weight: 720;
+  color: var(--dashboard-muted);
+}
+.perf-filter-select,
+.perf-filter-input {
+  min-height: 2rem;
+  max-width: min(22rem, 70vw);
+  padding: 0.35rem 2rem 0.35rem 0.55rem;
+  border: 1px solid var(--dashboard-border);
+  border-radius: 0.55rem;
+  background: var(--dashboard-panel-bg);
+  color: var(--dashboard-text);
+  font: inherit;
+}
+.perf-filter-select:focus,
+.perf-filter-input:focus {
+  outline: 2px solid color-mix(in srgb, var(--ci) 45%, transparent);
+  outline-offset: 2px;
+}
+.focus-expand-btn {
+  min-height: 2rem;
+  padding: 0.35rem 0.85rem;
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, var(--dashboard-border));
+  border-radius: 0.55rem;
+  background: color-mix(in srgb, var(--accent-tint) 72%, var(--dashboard-panel-bg));
+  color: var(--accent-hover);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 720;
+}
+.focus-expand-btn:hover {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent-tint) 45%, var(--dashboard-panel-bg));
+}
+.perf-filter-table td,
+.perf-filter-table th {
+  white-space: nowrap;
+}
+.perf-filter-empty {
+  margin: 0;
+}
+.ico {
+  display: block;
+}
+
+</style>
+</head>
+<body>
+<div class="top-bar"><div class="shell top-bar-inner"><div class="brand"><div class="brand-mark"><svg class="ico brand-ico" width="30" height="30" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg></div><div class="brand-copy"><h1>Nightly Buildkite report - 2026-06-30</h1><p class="tagline">Nightly test report</p></div></div></div></div>
+<div class="shell">
+<section class="panel nightly-focus nightly-focus--fail">
+<h2><span class="heading-row"><span class="heading-ico"><svg class="ico" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.9 5.8L4 10l5.8 1.9L12 18l1.9-5.8L20 10l-6.2-1.9L12 3z"/></svg></span><span class="heading-text"><span class="heading-label">今日重点</span><span class="heading-sub">Performance regressions and test failures</span></span></span></h2>
+<p class="focus-conclusion">需要关注：发现 0 个测试失败/异常，6 条大型性能下降。</p>
+<div class="focus-card-grid">
+<div class="focus-card focus-card--ok"><div class="focus-card-title">Buildkite jobs</div><div class="focus-card-value">0/0 failed</div><div class="focus-card-detail">ok=0, unknown=0</div></div>
+<div class="focus-card focus-card--ok"><div class="focus-card-title">Local jobs</div><div class="focus-card-value">0/2 failed</div><div class="focus-card-detail">ok=2, unknown=0</div></div>
+<div class="focus-card focus-card--fail"><div class="focus-card-title">Buildkite perf</div><div class="focus-card-value">3 fail</div><div class="focus-card-detail">pass=7, normal=0, n/a=0</div></div>
+<div class="focus-card focus-card--fail"><div class="focus-card-title">Local perf</div><div class="focus-card-value">3 fail</div><div class="focus-card-detail">pass=4, normal=0, n/a=0</div></div>
+</div>
+<h3 class="focus-table-title">全部重点性能下降</h3>
+<div class="perf-filter-scope focus-filter-scope" data-perf-filter-scope="daily-focus-regressions">
+<div class="perf-filter-bar focus-filter-bar">
+<fieldset class="focus-model-filter"><legend>Model <span>不勾选 = All</span></legend>
+<label class="focus-model-check"><input type="checkbox" data-filter-key="model" value="tencent/HunyuanImage-3.0-Instruct"><span>tencent/HunyuanImage-3.0-Instruct</span></label>
+</fieldset>
+<button type="button" class="focus-expand-btn" data-focus-expand="0" aria-expanded="false">展开表格</button>
+</div>
+<div class="table-scroll">
+<table class="summary focus-table">
+<thead><tr>
+<th>Source</th>
+<th>Model</th>
+<th>Type</th>
+<th>Config</th>
+<th>Test</th>
+<th>Metric</th>
+<th>latest</th>
+<th>baseline</th>
+<th>vs baseline</th>
+<th>Status</th>
+</tr></thead><tbody>
+<tr class="summary-row--fail" data-perf-row="1" data-model="tencent/HunyuanImage-3.0-Instruct">
+<td>Buildkite</td>
+<td>tencent/HunyuanImage-3.0-Instruct</td>
+<td>other</td>
+<td>c=1, n=10</td>
+<td>test_hunyuan_image_tp4</td>
+<td>peak_memory_gb</td>
+<td>64.8535</td>
+<td>55.5781</td>
+<td>-16.69%</td>
+<td>fail</td>
+</tr>
+<tr class="summary-row--fail" data-perf-row="1" data-model="tencent/HunyuanImage-3.0-Instruct">
+<td>Local</td>
+<td>tencent/HunyuanImage-3.0-Instruct</td>
+<td>other</td>
+<td>c=1, n=10</td>
+<td>test_hunyuan_image_tp4</td>
+<td>peak_memory_gb</td>
+<td>64.8535</td>
+<td>55.5781</td>
+<td>-16.69%</td>
+<td>fail</td>
+</tr>
+<tr class="summary-row--fail" data-perf-row="1" data-model="tencent/HunyuanImage-3.0-Instruct">
+<td>Buildkite</td>
+<td>tencent/HunyuanImage-3.0-Instruct</td>
+<td>other</td>
+<td>c=1, n=10</td>
+<td>test_hunyuan_image_tp2_sp2</td>
+<td>peak_memory_gb</td>
+<td>104.6641</td>
+<td>95.1191</td>
+<td>-10.03%</td>
+<td>fail</td>
+</tr>
+<tr class="summary-row--fail" data-perf-row="1" data-model="tencent/HunyuanImage-3.0-Instruct">
+<td>Local</td>
+<td>tencent/HunyuanImage-3.0-Instruct</td>
+<td>other</td>
+<td>c=1, n=10</td>
+<td>test_hunyuan_image_tp2_sp2</td>
+<td>peak_memory_gb</td>
+<td>104.6641</td>
+<td>95.1191</td>
+<td>-10.03%</td>
+<td>fail</td>
+</tr>
+<tr class="summary-row--fail" data-perf-row="1" data-model="tencent/HunyuanImage-3.0-Instruct">
+<td>Buildkite</td>
+<td>tencent/HunyuanImage-3.0-Instruct</td>
+<td>other</td>
+<td>c=1, n=10</td>
+<td>test_hunyuan_image_tp2_cfgp2</td>
+<td>peak_memory_gb</td>
+<td>104.6641</td>
+<td>98.7305</td>
+<td>-6.01%</td>
+<td>fail</td>
+</tr>
+<tr class="summary-row--fail" data-perf-row="1" data-model="tencent/HunyuanImage-3.0-Instruct">
+<td>Local</td>
+<td>tencent/HunyuanImage-3.0-Instruct</td>
+<td>other</td>
+<td>c=1, n=10</td>
+<td>test_hunyuan_image_tp2_cfgp2</td>
+<td>peak_memory_gb</td>
+<td>104.6641</td>
+<td>98.7305</td>
+<td>-6.01%</td>
+<td>fail</td>
+</tr>
+</tbody></table></div>
+<p class="note perf-filter-empty" data-perf-empty hidden>No rows match filters.</p>
+</div>
+</section>
+<section class="panel nightly-root nightly-root--buildkite">
+<h2><span class="heading-row"><span class="heading-ico"><svg class="ico" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 22h9a5 5 0 1 0 0-12z"/></svg></span><span class="heading-text"><span class="heading-label">Buildkite Test</span><span class="heading-sub">Latest scheduled nightly (main)</span></span></span></h2>
+<details class="report-subcard report-subcard--bk"><summary class="report-subcard-summary"><span class="report-subcard-summary-inner"><svg class="ico report-subcard-ico" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg><span class="report-subcard-title">Summary (per-job execution)</span></span></summary><div class="report-subcard-body"><p class="note">Buildkite section failed: &lt;urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1000)&gt;</p></div></details>
+<details class="report-subcard report-subcard--bk-perf"><summary class="report-subcard-summary"><span class="report-subcard-summary-inner"><svg class="ico report-subcard-ico" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg><span class="report-subcard-title">Performance baseline comparison</span></span></summary><div class="report-subcard-body"><p class="meta"><strong>Data source:</strong> <code>/home/yenuo26/vllm-omni-kanban/docs/assets/charts</code></p>
+<p class="meta"><strong>History:</strong> 12 files, 145 groups, selection=groups, generated_at=<code>2026-06-30T09:38:19.375490</code></p>
+<p class="hint">Showing latest day (2026-06-29) model records that include a baseline.</p>
+<p class="meta"><strong>Stats:</strong> pass=7, normal=0, fail=3, n/a=0</p>
+<details class="report-subcard report-subcard--bk-perf-model"><summary class="report-subcard-summary"><span class="report-subcard-summary-inner"><svg class="ico report-subcard-ico" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg><span class="report-subcard-title">tencent/HunyuanImage-3.0-Instruct (10 rows)</span></span></summary><div class="report-subcard-body"><div class="perf-filter-scope" data-perf-filter-scope="perf-model-0">
+<div class="perf-filter-bar">
+<label class="perf-filter-label"><span>Test</span><select class="perf-filter-select" data-filter-key="test"><option value="">All</option><option value="test_hunyuan_image3_ti2i_inline">test_hunyuan_image3_ti2i_inline</option><option value="test_hunyuan_image_tp2_cfgp2">test_hunyuan_image_tp2_cfgp2</option><option value="test_hunyuan_image_tp2_sp2">test_hunyuan_image_tp2_sp2</option><option value="test_hunyuan_image_tp4">test_hunyuan_image_tp4</option></select></label>
+<label class="perf-filter-label"><span>Metric</span><select class="perf-filter-select" data-filter-key="metric"><option value="">All</option><option value="e2e_latency_ms">e2e_latency_ms</option><option value="peak_memory_gb">peak_memory_gb</option><option value="throughput_qps">throughput_qps</option></select></label>
+<label class="perf-filter-label"><span>Status</span><select class="perf-filter-select" data-filter-key="status"><option value="">All</option><option value="fail">fail</option><option value="pass">pass</option></select></label>
+</div>
+<div class="table-scroll">
+<table class="summary perf-filter-table">
+<thead><tr>
+<th>Type</th>
+<th>Config</th>
+<th>Test</th>
+<th>Metric</th>
+<th>latest</th>
+<th>baseline</th>
+<th>vs baseline</th>
+<th>Status</th>
+</tr></thead><tbody>
+<tr data-perf-row="1" data-test="test_hunyuan_image3_ti2i_inline" data-metric="e2e_latency_ms" data-status="pass">
+<td>other</td>
+<td>c=16, n=96</td>
+<td>test_hunyuan_image3_ti2i_inline</td>
+<td>e2e_latency_ms</td>
+<td>41252.0559</td>
+<td>79038.5</td>
+<td>+47.81%</td>
+<td>pass</td>
+</tr>
+<tr data-perf-row="1" data-test="test_hunyuan_image3_ti2i_inline" data-metric="peak_memory_gb" data-status="pass">
+<td>other</td>
+<td>c=16, n=96</td>
+<td>test_hunyuan_image3_ti2i_inline</td>
+<td>peak_memory_gb</td>
+<td>0</td>
+<td>68.3594</td>
+<td>+100.00%</td>
+<td>pass</td>
+</tr>
+<tr data-perf-row="1" data-test="test_hunyuan_image3_ti2i_inline" data-metric="throughput_qps" data-status="pass">
+<td>other</td>
+<td>c=16, n=96</td>
+<td>test_hunyuan_image3_ti2i_inline</td>
+<td>throughput_qps</td>
+<td>0.3613</td>
+<td>0.1874</td>
+<td>+92.79%</td>
+<td>pass</td>
+</tr>
+<tr data-perf-row="1" data-test="test_hunyuan_image_tp2_cfgp2" data-metric="peak_memory_gb" data-status="fail">
+<td>other</td>
+<td>c=1, n=10</td>
+<td>test_hunyuan_image_tp2_cfgp2</td>
+<td>peak_memory_gb</td>
+<td>104.6641</td>
+<td>98.7305</td>
+<td>-6.01%</td>
+<td>fail</td>
+</tr>
+<tr data-perf-row="1" data-test="test_hunyuan_image_tp2_cfgp2" data-metric="throughput_qps" data-status="pass">
+<td>other</td>
+<td>c=1, n=10</td>
+<td>test_hunyuan_image_tp2_cfgp2</td>
+<td>throughput_qps</td>
+<td>0.3027</td>
+<td>0.21</td>
+<td>+44.16%</td>
+<td>pass</td>
+</tr>
+<tr data-perf-row="1" data-test="test_hunyuan_image_tp2_sp2" data-metric="peak_memory_gb" data-status="fail">
+<td>other</td>
+<td>c=1, n=10</td>
+<td>test_hunyuan_image_tp2_sp2</td>
+<td>peak_memory_gb</td>
+<td>104.6641</td>
+<td>95.1191</td>
+<td>-10.03%</td>
+<td>fail</td>
+</tr>
+<tr data-perf-row="1" data-test="test_hunyuan_image_tp2_sp2" data-metric="throughput_qps" data-status="pass">
+<td>other</td>
+<td>c=1, n=10</td>
+<td>test_hunyuan_image_tp2_sp2</td>
+<td>throughput_qps</td>
+<td>0.303</td>
+<td>0.2</td>
+<td>+51.48%</td>
+<td>pass</td>
+</tr>
+<tr data-perf-row="1" data-test="test_hunyuan_image_tp4" data-metric="e2e_latency_ms" data-status="pass">
+<td>other</td>
+<td>c=1, n=10</td>
+<td>test_hunyuan_image_tp4</td>
+<td>e2e_latency_ms</td>
+<td>2480.791</td>
+<td>4695.3</td>
+<td>+47.16%</td>
+<td>pass</td>
+</tr>
+<tr data-perf-row="1" data-test="test_hunyuan_image_tp4" data-metric="peak_memory_gb" data-status="fail">
+<td>other</td>
+<td>c=1, n=10</td>
+<td>test_hunyuan_image_tp4</td>
+<td>peak_memory_gb</td>
+<td>64.8535</td>
+<td>55.5781</td>
+<td>-16.69%</td>
+<td>fail</td>
+</tr>
+<tr data-perf-row="1" data-test="test_hunyuan_image_tp4" data-metric="throughput_qps" data-status="pass">
+<td>other</td>
+<td>c=1, n=10</td>
+<td>test_hunyuan_image_tp4</td>
+<td>throughput_qps</td>
+<td>0.4031</td>
+<td>0.213</td>
+<td>+89.23%</td>
+<td>pass</td>
+</tr>
+</tbody></table></div>
+<p class="note perf-filter-empty" data-perf-empty hidden>No rows match filters.</p>
+</div></div></details></div></details>
+<details class="report-subcard report-subcard--bk-fail"><summary class="report-subcard-summary"><span class="report-subcard-summary-inner"><svg class="ico report-subcard-ico" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><span class="report-subcard-title">Failure analysis</span></span></summary><div class="report-subcard-body"><p class="note">No data: Buildkite step logs were not loaded.</p></div></details>
+</section>
+<section class="panel nightly-root nightly-root--local">
+<h2><span class="heading-row"><span class="heading-ico"><svg class="ico" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"/><rect x="2" y="14" width="20" height="8" rx="2" ry="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg></span><span class="heading-text"><span class="heading-label">Local Test</span></span></span></h2>
+<details class="report-subcard"><summary class="report-subcard-summary"><span class="report-subcard-summary-inner"><svg class="ico report-subcard-ico" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg><span class="report-subcard-title">Summary</span></span></summary><div class="report-subcard-body"><p class="hint">If there are failures, click <strong>View error log</strong> in the table to open logs in a dialog.</p>
+<p class="hint summary-legend">Row background: <strong class="summary-legend--ok">green</strong> = no failures/errors for this job; <strong class="summary-legend--fail">red</strong> = failures, errors, or log fetch failure; <strong class="summary-legend--unk">gray</strong> = no pytest result summary detected.</p></div></details>
+<details class="report-subcard report-subcard--local-perf-baseline"><summary class="report-subcard-summary"><span class="report-subcard-summary-inner"><svg class="ico report-subcard-ico" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg><span class="report-subcard-title">Performance baseline comparison</span></span></summary><div class="report-subcard-body"><p class="meta"><strong>Data source:</strong> <code>/home/yenuo26/vllm-omni-kanban/docs/assets/charts</code></p>
+<p class="meta"><strong>Local filter:</strong> Synced 4 perf JSON file(s) → showing 7 baseline row(s) (4 test key(s)).</p>
+<p class="meta"><strong>Perf JSON:</strong> <code>/home/yenuo26/vllm-omni/logs/nightly_jobs</code></p>
+<p class="meta"><strong>History:</strong> 12 files, 145 groups, selection=groups, generated_at=<code>2026-06-30T09:38:19.375490</code></p>
+<p class="hint">Showing baseline comparison in kanban history only for cases with perf JSON under logs/nightly_jobs.</p>
+<p class="meta"><strong>Stats:</strong> pass=4, normal=0, fail=3, n/a=0</p>
+<details class="report-subcard report-subcard--local-perf-model"><summary class="report-subcard-summary"><span class="report-subcard-summary-inner"><svg class="ico report-subcard-ico" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg><span class="report-subcard-title">tencent/HunyuanImage-3.0-Instruct (7 rows)</span></span></summary><div class="report-subcard-body"><div class="perf-filter-scope" data-perf-filter-scope="perf-model-0">
+<div class="perf-filter-bar">
+<label class="perf-filter-label"><span>Test</span><select class="perf-filter-select" data-filter-key="test"><option value="">All</option><option value="test_hunyuan_image_tp2_cfgp2">test_hunyuan_image_tp2_cfgp2</option><option value="test_hunyuan_image_tp2_sp2">test_hunyuan_image_tp2_sp2</option><option value="test_hunyuan_image_tp4">test_hunyuan_image_tp4</option></select></label>
+<label class="perf-filter-label"><span>Metric</span><select class="perf-filter-select" data-filter-key="metric"><option value="">All</option><option value="e2e_latency_ms">e2e_latency_ms</option><option value="peak_memory_gb">peak_memory_gb</option><option value="throughput_qps">throughput_qps</option></select></label>
+<label class="perf-filter-label"><span>Status</span><select class="perf-filter-select" data-filter-key="status"><option value="">All</option><option value="fail">fail</option><option value="pass">pass</option></select></label>
+</div>
+<div class="table-scroll">
+<table class="summary perf-filter-table">
+<thead><tr>
+<th>Type</th>
+<th>Config</th>
+<th>Test</th>
+<th>Metric</th>
+<th>latest</th>
+<th>baseline</th>
+<th>vs baseline</th>
+<th>Status</th>
+</tr></thead><tbody>
+<tr data-perf-row="1" data-test="test_hunyuan_image_tp2_cfgp2" data-metric="peak_memory_gb" data-status="fail">
+<td>other</td>
+<td>c=1, n=10</td>
+<td>test_hunyuan_image_tp2_cfgp2</td>
+<td>peak_memory_gb</td>
+<td>104.6641</td>
+<td>98.7305</td>
+<td>-6.01%</td>
+<td>fail</td>
+</tr>
+<tr data-perf-row="1" data-test="test_hunyuan_image_tp2_cfgp2" data-metric="throughput_qps" data-status="pass">
+<td>other</td>
+<td>c=1, n=10</td>
+<td>test_hunyuan_image_tp2_cfgp2</td>
+<td>throughput_qps</td>
+<td>0.3027</td>
+<td>0.21</td>
+<td>+44.16%</td>
+<td>pass</td>
+</tr>
+<tr data-perf-row="1" data-test="test_hunyuan_image_tp2_sp2" data-metric="peak_memory_gb" data-status="fail">
+<td>other</td>
+<td>c=1, n=10</td>
+<td>test_hunyuan_image_tp2_sp2</td>
+<td>peak_memory_gb</td>
+<td>104.6641</td>
+<td>95.1191</td>
+<td>-10.03%</td>
+<td>fail</td>
+</tr>
+<tr data-perf-row="1" data-test="test_hunyuan_image_tp2_sp2" data-metric="throughput_qps" data-status="pass">
+<td>other</td>
+<td>c=1, n=10</td>
+<td>test_hunyuan_image_tp2_sp2</td>
+<td>throughput_qps</td>
+<td>0.303</td>
+<td>0.2</td>
+<td>+51.48%</td>
+<td>pass</td>
+</tr>
+<tr data-perf-row="1" data-test="test_hunyuan_image_tp4" data-metric="e2e_latency_ms" data-status="pass">
+<td>other</td>
+<td>c=1, n=10</td>
+<td>test_hunyuan_image_tp4</td>
+<td>e2e_latency_ms</td>
+<td>2480.791</td>
+<td>4695.3</td>
+<td>+47.16%</td>
+<td>pass</td>
+</tr>
+<tr data-perf-row="1" data-test="test_hunyuan_image_tp4" data-metric="peak_memory_gb" data-status="fail">
+<td>other</td>
+<td>c=1, n=10</td>
+<td>test_hunyuan_image_tp4</td>
+<td>peak_memory_gb</td>
+<td>64.8535</td>
+<td>55.5781</td>
+<td>-16.69%</td>
+<td>fail</td>
+</tr>
+<tr data-perf-row="1" data-test="test_hunyuan_image_tp4" data-metric="throughput_qps" data-status="pass">
+<td>other</td>
+<td>c=1, n=10</td>
+<td>test_hunyuan_image_tp4</td>
+<td>throughput_qps</td>
+<td>0.4031</td>
+<td>0.213</td>
+<td>+89.23%</td>
+<td>pass</td>
+</tr>
+</tbody></table></div>
+<p class="note perf-filter-empty" data-perf-empty hidden>No rows match filters.</p>
+</div></div></details></div></details>
+<details class="report-subcard report-subcard--local-fail"><summary class="report-subcard-summary"><span class="report-subcard-summary-inner"><svg class="ico report-subcard-ico" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><span class="report-subcard-title">Failure analysis</span></span></summary><div class="report-subcard-body"><p class="note">No failures or errors require itemized analysis.</p></div></details>
+</section>
+</div>
+
+<div id="log-excerpt-modal" class="log-excerpt-modal" hidden role="dialog" aria-modal="true"
+  aria-labelledby="log-excerpt-modal-title">
+  <div class="log-excerpt-modal-backdrop" data-log-modal-close aria-hidden="true"></div>
+  <div class="log-excerpt-modal-panel">
+    <header class="log-excerpt-modal-header">
+      <h2 id="log-excerpt-modal-title" data-log-modal-title>Log excerpt</h2>
+      <button type="button" class="log-excerpt-modal-close" data-log-modal-close aria-label="Close">&times;</button>
+    </header>
+    <div class="log-excerpt-modal-body">
+      <pre data-log-modal-pre></pre>
+    </div>
+  </div>
+</div>
+
+
+<script>
+(function () {
+  var issueBase = "https://github.com/vllm-project/vllm-omni/issues/new";
+  var bugTemplate = "400-bug-report.yml";
+  var issueEnvFieldId = "current-environment";
+  var issueEnvCiValue = "<details>\n<summary>The output of <code>python collect_env.py</code></summary>\n\n```text\nci env\n```\n\n</details>";
+  var issueEnvLocalValue = "<details>\n<summary>The output of <code>python collect_env.py</code></summary>\n\n```text\nYour output of `python collect_env.py` here\n```\n\n</details>";
+  var issueCodeVersionFieldId = "code-version";
+  var issueDescribeFieldId = "bug-description";
+  var issueLabelsCi = ["bug", "ci-failure", "high priority"];
+  var issueLabelsLocal = ["bug"];
+  var maxIssueUrlLen = 7800;
+
+  function issueLabelsFor(d) {
+    return d.env === "ci" ? issueLabelsCi : issueLabelsLocal;
+  }
+
+  function applyIssueLabels(u, labels) {
+    if (!labels || !labels.length) return;
+    u.searchParams.set("labels", labels.join(","));
+  }
+
+  function finalizeIssueUrl(u) {
+    // URLSearchParams encodes spaces as '+'; GitHub expects '%20' in issue URLs.
+    return u.toString().replace(/\+/g, "%20");
+  }
+
+  function resolveVersionLines(d) {
+    if (d.env === "ci") {
+      var vllmLine = (d.vllmVer && d.vllmVer.trim()) ? d.vllmVer.trim() : "(not found in Buildkite step log)";
+      var omniLine;
+      if (d.omniVer && d.omniVer.trim()) {
+        omniLine = d.omniVer.trim();
+      } else if (d.buildCommit && d.buildCommit.trim()) {
+        omniLine = d.buildCommit.trim();
+      } else {
+        omniLine = "(not found in Buildkite step log)";
+      }
+      return { vllmLine: vllmLine, omniLine: omniLine };
+    }
+    return { vllmLine: "(pending)", omniLine: "(pending)" };
+  }
+
+  function buildCodeVersionFieldValue(d) {
+    var ver = resolveVersionLines(d);
+    return [
+      "<details>",
+      "<summary>The commit id or version of vllm</summary>",
+      "",
+      "```text",
+      ver.vllmLine,
+      "```",
+      "</details>",
+      "<details>",
+      "<summary>The commit id or version of vllm-omni</summary>",
+      "",
+      "```text",
+      ver.omniLine,
+      "```",
+      "</details>",
+    ].join("\n");
+  }
+
+  function buildEnvFieldValue(d) {
+    return d.env === "ci" ? issueEnvCiValue : issueEnvLocalValue;
+  }
+
+  function buildDescribeFieldValue(d, excerptOverride) {
+    var kind = d.isErr ? "pytest ERROR" : "pytest FAILED";
+    var excerpt = excerptOverride !== undefined ? excerptOverride : d.excerpt;
+    var lines = [];
+    if (d.bkBuildUrl && d.bkBuildUrl.trim()) {
+      lines.push("**Buildkite build:** " + d.bkBuildUrl.trim());
+    }
+    if (d.bkStepUrl && d.bkStepUrl.trim()) {
+      var stepUrl = d.bkStepUrl.trim();
+      var stepName = (d.bkStepName && d.bkStepName.trim()) ? d.bkStepName.trim() : "";
+      if (stepName) {
+        lines.push("**Buildkite step:** [" + stepName + "](" + stepUrl + ")");
+      } else {
+        lines.push("**Buildkite step:** " + stepUrl);
+      }
+    }
+    if (lines.length) lines.push("");
+    lines.push("**Failure kind:** " + kind);
+    lines.push("**Test node:** `" + d.node + "`");
+    lines.push("");
+    lines.push("**Log reason:**");
+    lines.push((d.reason && d.reason.trim()) ? d.reason.trim() : "(none in report)");
+    lines.push("");
+    lines.push("**Analysis:**");
+    lines.push((d.analysis && d.analysis.trim()) ? d.analysis.trim() : "(none in report)");
+    lines.push("");
+    lines.push("**Error log excerpt:**");
+    lines.push("");
+    lines.push("```text");
+    lines.push(excerpt || "(empty)");
+    lines.push("```");
+    lines.push("");
+    lines.push("---");
+    lines.push(
+      "*Generated from a nightly HTML report. Redact secrets before submitting; "
+      + "complete the checkboxes on GitHub.*"
+    );
+    return lines.join("\n");
+  }
+
+  function issueTitle(d) {
+    var n = d.node.replace(/\s*\(ERROR\)\s*$/i, "");
+    var t = "[Bug]: Nightly / CI failed - " + n;
+    return t.length > 220 ? t.slice(0, 217) + "..." : t;
+  }
+
+  function buildIssueUrl(d, opts) {
+    opts = opts || {};
+    var u = new URL(issueBase);
+    u.searchParams.set("template", bugTemplate);
+    u.searchParams.set("title", issueTitle(d));
+    applyIssueLabels(u, issueLabelsFor(d));
+    u.searchParams.set(issueEnvFieldId, buildEnvFieldValue(d));
+    u.searchParams.set(issueCodeVersionFieldId, buildCodeVersionFieldValue(d));
+    u.searchParams.set(
+      issueDescribeFieldId,
+      buildDescribeFieldValue(d, opts.excerpt)
+    );
+    return u;
+  }
+
+  function submitIssue(d) {
+    var url = finalizeIssueUrl(buildIssueUrl(d));
+    if (url.length > maxIssueUrlLen) {
+      var over = url.length - maxIssueUrlLen + 220;
+      var raw = d.excerpt || "";
+      var maxExcerpt = Math.max(400, raw.length - over);
+      var truncated =
+        raw.slice(0, maxExcerpt) +
+        "\n\n...(truncated for GitHub URL length; see HTML report for full log)";
+      url = finalizeIssueUrl(buildIssueUrl(d, { excerpt: truncated }));
+    }
+    if (url.length > maxIssueUrlLen && d.analysis) {
+      var over2 = url.length - maxIssueUrlLen + 120;
+      var aRaw = d.analysis || "";
+      var maxAnalysis = Math.max(200, aRaw.length - over2);
+      d = Object.assign({}, d, {
+        analysis: aRaw.slice(0, maxAnalysis) + "\n\n...(analysis truncated; see HTML report)",
+      });
+      url = finalizeIssueUrl(buildIssueUrl(d));
+    }
+    window.open(url, "_blank", "noopener,noreferrer");
+  }
+
+  function gatherRow(btn) {
+    var tr = btn.closest("tr");
+    if (!tr || !tr.cells || tr.cells.length < 5) return null;
+    var ctx = tr.getAttribute("data-report-context") || "";
+    var node = tr.cells[0].innerText.trim();
+    var reason = tr.cells[1].innerText.trim();
+    var analysis = tr.cells[2].innerText.trim();
+    var pre = tr.cells[3].querySelector(".log-excerpt--stored, .log-excerpt");
+    var excerpt = pre ? pre.innerText : "";
+    var isErr = node.indexOf("(ERROR)") !== -1;
+    var env = tr.getAttribute("data-issue-env") || "local";
+    var vllmVer = tr.getAttribute("data-vllm-version") || "";
+    var omniVer = tr.getAttribute("data-vllm-omni-version") || "";
+    var buildCommit = tr.getAttribute("data-build-commit") || "";
+    var bkBuildUrl = tr.getAttribute("data-buildkite-build-url") || "";
+    var bkStepUrl = tr.getAttribute("data-buildkite-step-url") || "";
+    var bkStepName = tr.getAttribute("data-buildkite-step-name") || "";
+    return {
+      ctx: ctx, node: node, reason: reason, analysis: analysis, excerpt: excerpt, isErr: isErr,
+      env: env, vllmVer: vllmVer, omniVer: omniVer, buildCommit: buildCommit,
+      bkBuildUrl: bkBuildUrl, bkStepUrl: bkStepUrl, bkStepName: bkStepName,
+    };
+  }
+
+  document.addEventListener("click", function (ev) {
+    var b = ev.target.closest && ev.target.closest(".btn-github-issue");
+    if (b) {
+      ev.preventDefault();
+      var d = gatherRow(b);
+      if (d) submitIssue(d);
+    }
+  });
+
+  document.querySelectorAll(".btn-view-full-log").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var id = btn.getAttribute("aria-controls");
+      var panel = id ? document.getElementById(id) : null;
+      if (!panel) return;
+      var nowHidden = !panel.hidden;
+      panel.hidden = nowHidden;
+      btn.setAttribute("aria-expanded", nowHidden ? "false" : "true");
+      btn.textContent = nowHidden ? "View full log" : "Collapse full log";
+    });
+  });
+
+  var logExcerptModal = document.getElementById("log-excerpt-modal");
+  function openLogExcerptModal(btn) {
+    if (!logExcerptModal) return;
+    var id = btn.getAttribute("data-modal-target");
+    var stored = id ? document.getElementById(id) : null;
+    if (!stored) return;
+    var titleEl = logExcerptModal.querySelector("[data-log-modal-title]");
+    var bodyPre = logExcerptModal.querySelector("[data-log-modal-pre]");
+    if (titleEl) {
+      titleEl.textContent = btn.getAttribute("data-log-title") || "Log excerpt";
+    }
+    if (bodyPre) {
+      bodyPre.textContent = stored.textContent;
+    }
+    logExcerptModal.hidden = false;
+    document.body.classList.add("log-modal-open");
+  }
+  function closeLogExcerptModal() {
+    if (!logExcerptModal) return;
+    logExcerptModal.hidden = true;
+    document.body.classList.remove("log-modal-open");
+  }
+  document.addEventListener("click", function (ev) {
+    var openBtn = ev.target.closest && ev.target.closest(".btn-view-log-excerpt");
+    if (openBtn) {
+      ev.preventDefault();
+      openLogExcerptModal(openBtn);
+      return;
+    }
+    if (ev.target.closest && ev.target.closest("[data-log-modal-close]")) {
+      ev.preventDefault();
+      closeLogExcerptModal();
+      return;
+    }
+  });
+  document.addEventListener("keydown", function (ev) {
+    if (ev.key === "Escape" && logExcerptModal && !logExcerptModal.hidden) {
+      closeLogExcerptModal();
+    }
+  });
+
+  function applyPerfFilters(scope) {
+    var controls = Array.prototype.slice.call(
+      scope.querySelectorAll("select[data-filter-key], input[data-filter-key]")
+    );
+    var rows = scope.querySelectorAll('tr[data-perf-row="1"]');
+    var empty = scope.querySelector("[data-perf-empty]");
+    if (!controls.length || !rows.length) return;
+
+    var scalarControls = [];
+    var checkboxGroups = {};
+    controls.forEach(function (control) {
+      var key = control.getAttribute("data-filter-key") || "";
+      if (!key) return;
+      if (control.type === "checkbox") {
+        if (!checkboxGroups[key]) checkboxGroups[key] = [];
+        if (control.checked) checkboxGroups[key].push(control.value || "");
+      } else {
+        scalarControls.push(control);
+      }
+    });
+
+    var visibleCount = 0;
+    rows.forEach(function (row) {
+      var ok = true;
+      scalarControls.forEach(function (control) {
+        var key = control.getAttribute("data-filter-key") || "";
+        var val = (control.value || "").trim();
+        var rowVal = row.getAttribute("data-" + key) || "";
+        if (!val) return;
+        if (control.tagName.toLowerCase() === "input") {
+          if (rowVal.toLowerCase().indexOf(val.toLowerCase()) === -1) ok = false;
+        } else if (rowVal !== val) {
+          ok = false;
+        }
+      });
+      Object.keys(checkboxGroups).forEach(function (key) {
+        var vals = checkboxGroups[key] || [];
+        if (vals.length && vals.indexOf(row.getAttribute("data-" + key) || "") === -1) {
+          ok = false;
+        }
+      });
+      row.hidden = !ok;
+      if (ok) visibleCount += 1;
+    });
+    if (empty) {
+      empty.hidden = visibleCount !== 0;
+    }
+  }
+
+  document.querySelectorAll("[data-perf-filter-scope]").forEach(function (scope) {
+    scope.querySelectorAll("select[data-filter-key], input[data-filter-key]").forEach(function (control) {
+      var eventName = control.tagName.toLowerCase() === "input" && control.type !== "checkbox" ? "input" : "change";
+      control.addEventListener(eventName, function () {
+        applyPerfFilters(scope);
+      });
+    });
+    scope.querySelectorAll("[data-focus-expand]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var expanded = scope.classList.toggle("focus-filter-scope--expanded");
+        btn.setAttribute("aria-expanded", expanded ? "true" : "false");
+        btn.textContent = expanded ? "收起表格" : "展开表格";
+      });
+    });
+    applyPerfFilters(scope);
+  });
+})();
+</script>
+
+</body>
+</html>
+
